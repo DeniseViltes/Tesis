@@ -1,0 +1,71 @@
+LTspice 24.1.10 for Windows
+Circuit: D:\Users\denis\OneDrive\Escritorio\-\Estudios\Facultad\Actuales\Tesis\Simulador\Esquematicos\Matriz3x2_prototipo.net
+Start Time: Thu Nov 13 18:41:49 2025
+solver = Alternate
+Maximum thread count: 4
+tnom = 27
+temp = 27
+method = modified trap
+trtol = 1
+Instance "s1:M2": Length shorter than recommended for a level 3 MOSFET.
+Instance "s2:M2": Length shorter than recommended for a level 3 MOSFET.
+Instance "s3:M2": Length shorter than recommended for a level 3 MOSFET.
+Direct Newton iteration failed to find .op point.  (Use ".option noopiter" to skip.)
+Starting Gmin stepping
+Gmin = 10
+Gmin = 1.07374
+Gmin = 0.115292
+Gmin = 0.0123794
+Gmin = 0.00132923
+Gmin = 0.000142725
+Gmin = 1.5325e-05
+Gmin = 1.6455e-06
+vernier = 0.5
+vernier = 0.25
+vernier = 0.125
+Gmin = 9.07742e-07
+vernier = 0.0625
+vernier = 0.03125
+vernier = 0.0416667
+Gmin = 8.64099e-07
+vernier = 0.0555555
+Gmin = 7.65789e-07
+vernier = 0.074074
+vernier = 0.0987653
+Gmin = 6.28819e-07
+vernier = 0.131687
+vernier = 0.175583
+Gmin = 4.60983e-07
+vernier = 0.23411
+Gmin = 2.79826e-07
+vernier = 0.312147
+vernier = 0.416196
+Gmin = 1.25147e-07
+vernier = 0.208098
+vernier = 0.277464
+Gmin = 8.19925e-08
+vernier = 0.369952
+vernier = 0.493269
+Gmin = 3.34208e-08
+vernier = 0.657691
+Gmin = 8.42059e-09
+vernier = 0.876922
+vernier = 1
+Gmin = 1.05e-09
+Gmin = 1.12743e-10
+Gmin = 1.21056e-11
+Gmin = 1.29983e-12
+Gmin = 1.39568e-13
+Gmin = 0
+Gmin stepping succeeded in finding the operating point.
+
+Total elapsed time: 2.414 seconds.
+
+Files loaded:
+D:\Users\denis\OneDrive\Escritorio\-\Estudios\Facultad\Actuales\Tesis\Simulador\Esquematicos\Matriz3x2_prototipo.net
+C:\Users\---\AppData\Local\LTspice\lib\cmp\standard.bjt
+C:\Users\---\AppData\Local\LTspice\lib\cmp\standard.jft
+D:\Users\denis\OneDrive\Escritorio\-\Estudios\Facultad\Actuales\Tesis\Simulador\Esquematicos\AO3401A.sub
+D:\Users\denis\OneDrive\Escritorio\-\Estudios\Facultad\Actuales\Tesis\Simulador\Esquematicos\IRLB8721.sub
+D:\Users\denis\OneDrive\Escritorio\-\Estudios\Facultad\Actuales\Tesis\Simulador\Esquematicos\1N4736A.sub
+
