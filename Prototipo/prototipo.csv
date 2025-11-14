@@ -1,22 +1,22 @@
-Reference,,,DNP,Exclude from BOM,Value,Qty,Elemento,Footprint,Datasheet
-,,,,,,1,Inversor schmitt trigger Cd40106 o 74hc14 (DIP 14),,
-A1,,,,,Inversor,1,Zocalo dip 14,Package_DIP:DIP-14_W7.62mm_LongPads,http://www.ti.com/lit/gpn/sn74HC14
-"D1,D2,D3,D4,D5,D6,D_B1,D_B2,D_B3",,,,,1N4736A,9,Diodo 1N4736A,Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal,
-J1,,,,,Conn_01x02_Socket,1,Bornera de 2 pines,TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm,~
-J4,,,,,Conn_01x12_Pin,1,Tira de pines macho,Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical,~
-"J_B1,J_B2",,,,,Conn_01x02_Pin,2,Tira de pines macho,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,~
-"Q1,Q2,Q4,Q6,Q8,Q9,Q10,Q12,Q13,Q15,Q16,Q18,QB_1,QB_3,QB_5",,,,,MMBT2222A,15,tbj smd MMBT2222A,Package_TO_SOT_SMD:SOT-23-3,
-"Q3,Q5,Q7,Q11,Q14,Q17",,,,,MMBT2907A,6,tbj smd MMBT2907A,Package_TO_SOT_SMD:SOT-23-3,
-"QB_2,QB_4,QB_6",,,,,MMBFJ201,3,jfet smd MMBFJ201,Package_TO_SOT_SMD:SOT-23-3,
-"R1,R6,R17,R23,R29,R35",,,,,4.7k,6,resistencia 1/4W tht 4k7 ,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
-"R2,R5,R7,R10,R13,R16,R19,R22,R25,R28,R31,R34,RB_1,RB_4,RB_7",,,,,20k,15,resistencia 1/4W tht 20k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
-"R3,R8,R14,R20,R26,R32",,,,,10Meg,6,resistencia 1/4W tht 10Meg,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
-"R4,R9,R15,R21,R27,R33",,,,,1Meg,6,resistencia 1/4W tht 1Meg,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
-"R11,R12,R18,R24,R30,R36",,,,,33k,6,resistencia 1/4W tht 33k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
-"RB_2,RB_5,RB_8",,,,,570K,3,resistencia 1/4W tht 570k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
-"RB_3,RB_6,RB_9",,,,,300K,3,resistencia 1/4W tht 300k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
-"ROUT1,ROUT2,ROUT3,ROUT4,ROUT5,ROUT6",,,,,1m,6,resistencia 1/4W tht 1,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
-"S1,S2,S3,S4,S5,S6,SGND1,SGND11",,,,,IRLB8721,8,mosfet IRLB8721,Package_TO_SOT_THT:TO-220-3_Vertical,
-"SB_1,SB_2,SB_3",,,,,AO3401A,3,mosfet AO3401A,Package_TO_SOT_SMD:SOT-23-3,
-"TP1,TP2,TP3,TP4,TP5,TP6,TP7,TP8,TP9,TP10,TP11,TP12,TP13,TP14,TP_tierra1,TP_tierra2,TP_tierra3,TP_tierra4",,,,,TestPoint,18,cablecitos,TestPoint:TestPoint_Bridge_Pitch2.54mm_Drill1.0mm,~
-"VCELL1,VCELL2,VCELL3,VCELL4,VCELL5,VCELL6",,,,,3.3,6,"Porta Pila 18650 X1 Acrilico Pcb (sin cables, con pines para pcb)",Battery:BatteryHolder_MPD_BK-18650-PC2,
+Reference,,,DNP,Exclude from BOM,Value,Cantidad mínima,Cantidad,Elemento,Footprint,Datasheet
+,,,,,,1,2,Inversor schmitt trigger Cd40106 o 74hc14 (DIP 14),,
+A1,,,,,Inversor,1,2,Zocalo dip 14,Package_DIP:DIP-14_W7.62mm_LongPads,http://www.ti.com/lit/gpn/sn74HC14
+"D1,D2,D3,D4,D5,D6,D_B1,D_B2,D_B3",,,,,1N4736A,9,10,Diodo 1N4736A,Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal,
+J1,,,,,Conn_01x02_Socket,1,2,Bornera de 2 pines,TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm,~
+"Q1,Q2,Q4,Q6,Q8,Q9,Q10,Q12,Q13,Q15,Q16,Q18,QB_1,QB_3,QB_5",,,,,MMBT2222A,15,20,tbj smd MMBT2222A,Package_TO_SOT_SMD:SOT-23-3,
+"Q3,Q5,Q7,Q11,Q14,Q17",,,,,MMBT2907A,6,10,tbj smd MMBT2907A,Package_TO_SOT_SMD:SOT-23-3,
+"QB_2,QB_4,QB_6",,,,,MMBFJ201,3,5,jfet smd MMBFJ201,Package_TO_SOT_SMD:SOT-23-3,
+"R1,R6,R17,R23,R29,R35",,,,,4.7k,6,10,resistencia 1/4W tht 4k7 ,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+"R2,R5,R7,R10,R13,R16,R19,R22,R25,R28,R31,R34,RB_1,RB_4,RB_7",,,,,20k,15,20,resistencia 1/4W tht 20k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+"R3,R8,R14,R20,R26,R32",,,,,10Meg,6,10,resistencia 1/4W tht 10Meg,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+"R4,R9,R15,R21,R27,R33",,,,,1Meg,6,10,resistencia 1/4W tht 1Meg,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+"R11,R12,R18,R24,R30,R36",,,,,33k,6,10,resistencia 1/4W tht 33k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+"RB_2,RB_5,RB_8",,,,,570K,3,10,resistencia 1/4W tht 570k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+"RB_3,RB_6,RB_9",,,,,300K,3,10,resistencia 1/4W tht 300k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+"ROUT1,ROUT2,ROUT3,ROUT4,ROUT5,ROUT6",,,,,1m,6,10,resistencia 1/4W tht 1,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+"S1,S2,S3,S4,S5,S6,SGND1,SGND11",,,,,IRLB8721,8,10,mosfet IRLB8721,Package_TO_SOT_THT:TO-220-3_Vertical,
+"SB_1,SB_2,SB_3",,,,,AO3401A,3,5,mosfet AO3401A,Package_TO_SOT_SMD:SOT-23-3,
+"VCELL1,VCELL2,VCELL3,VCELL4,VCELL5,VCELL6",,,,,3.3,6,6,"Porta Pila 18650 X1 Acrilico Pcb (sin cables, con pines para pcb)",Battery:BatteryHolder_MPD_BK-18650-PC2,
+"TP1,TP2,TP3,TP4,TP5,TP6,TP7,TP8,TP9,TP10,TP11,TP12,TP13,TP14,TP_tierra1,TP_tierra2,TP_tierra3,TP_tierra4",,,,,TestPoint,18,,cablecitos,TestPoint:TestPoint_Bridge_Pitch2.54mm_Drill1.0mm,~
+J4,,,,,Conn_01x12_Pin,1,0,Tira de pines macho,Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical,~
+"J_B1,J_B2",,,,,Conn_01x02_Pin,2,0,Tira de pines macho,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,~
