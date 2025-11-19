@@ -1612,6 +1612,12 @@
 		(uuid "91d03d65-8424-404c-84d8-5f25ad3201b4")
 	)
 	(junction
+		(at 168.91 74.93)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bb869973-09b8-4ac2-9e8d-0524e563565e")
+	)
+	(junction
 		(at 168.91 77.47)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1629,7 +1635,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 77.47) (xy 168.91 69.85)
+			(xy 168.91 77.47) (xy 168.91 74.93)
 		)
 		(stroke
 			(width 0.1524)
@@ -1646,6 +1652,16 @@
 			(type solid)
 		)
 		(uuid "17af2fc8-8dec-4128-aa8d-0d38c76ee90e")
+	)
+	(wire
+		(pts
+			(xy 168.91 74.93) (xy 168.91 69.85)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "196e47bd-2575-47b2-9f20-e424c3aa2a97")
 	)
 	(wire
 		(pts
@@ -2941,6 +2957,90 @@
 				)
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/9ecd509f-c28f-4327-a2e2-935fccd51d54"
 					(reference "ROUT5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 168.91 74.93 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b7362376-1890-434d-967b-2028b489f831")
+		(property "Reference" "TP18"
+			(at 162.814 70.104 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 163.322 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch2.54mm_Drill1.0mm"
+			(at 168.91 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 168.91 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 168.91 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7bd902e9-84a3-41e2-8fa7-8807f1af98c6")
+		)
+		(instances
+			(project "prototipo"
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/03228313-f124-4812-b57c-f34d519eb313"
+					(reference "TP23")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/0b5b073f-7c77-4f5b-9d0c-04c95b3a5273"
+					(reference "TP20")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/4139afdb-b33a-4b58-a58b-6904e64f0f54"
+					(reference "TP19")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/5ccf80ef-8373-465f-9987-9fe1b9c88503"
+					(reference "TP21")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/6883bdf6-06e3-408b-a2b6-79a0e0cc9199"
+					(reference "TP18")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/9ecd509f-c28f-4327-a2e2-935fccd51d54"
+					(reference "TP22")
 					(unit 1)
 				)
 			)

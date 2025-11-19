@@ -5,6 +5,113 @@
 	(uuid "0fd10cd0-d995-44a8-a5b1-fe75af1603d3")
 	(paper "A4")
 	(lib_symbols
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "ltspice:GND"
 			(power)
 			(exclude_from_sim no)
@@ -1200,6 +1307,12 @@
 		(uuid "a856b97a-080a-4a95-ab6a-b2f6abd692eb")
 	)
 	(junction
+		(at 101.6 90.17)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "de50c695-a53f-4855-bdbe-ef79c573cf46")
+	)
+	(junction
 		(at 125.73 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1337,6 +1450,16 @@
 	)
 	(wire
 		(pts
+			(xy 101.6 90.17) (xy 100.33 90.17)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "7a10b9fe-afce-4780-b206-a1b0ff0fabd8")
+	)
+	(wire
+		(pts
 			(xy 142.24 66.04) (xy 142.24 53.34)
 		)
 		(stroke
@@ -1427,7 +1550,7 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 90.17) (xy 100.33 90.17)
+			(xy 113.03 90.17) (xy 101.6 90.17)
 		)
 		(stroke
 			(width 0.1524)
@@ -2240,6 +2363,81 @@
 				)
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/aa26f19e-f2c7-49c1-961b-509062eddf74"
 					(reference "#GND07")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 101.6 90.17 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bd5c601a-ff0c-4685-a26a-88af5bc82e5d")
+		(property "Reference" "TP15"
+			(at 104.14 85.5979 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 104.14 88.1379 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch2.54mm_Drill1.0mm"
+			(at 106.68 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 106.68 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 101.6 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8724f46f-1547-4c79-a76d-3bd34b8188b8")
+		)
+		(instances
+			(project "prototipo"
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
+					(reference "TP17")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/7c9a14ee-10ad-4ddf-af17-6bfeb468e011"
+					(reference "TP15")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/aa26f19e-f2c7-49c1-961b-509062eddf74"
+					(reference "TP16")
 					(unit 1)
 				)
 			)
