@@ -112,6 +112,284 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "FDMS6681Z:FDMS6681Z"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "Q"
+				(at 21.59 7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Value" "FDMS6681Z"
+				(at 21.59 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "FDMS6681Z"
+				(at 21.59 -94.92 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.onsemi.com/pub/Collateral/FDMS6681Z-D.PDF"
+				(at 21.59 -194.92 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Description" "Max rDS(on) = 5.0 m at VGS = -4.5 V, ID = -15.7 A ; HBM ESD protection level of 8kV typical (Note 3); RoHS Compliant ; Advanced Package and Silicon combination for low rDS(on) and high efficiency ; Max rDS(on) = 3.2 m at VGS = -10 V, ID = -21.1 A ; MSL1 robust package design"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Height" "1.1"
+				(at 21.59 -394.92 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Mouser Part Number" "512-FDMS6681Z"
+				(at 21.59 -494.92 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/ON-Semiconductor-Fairchild/FDMS6681Z?qs=eQsPqqG3NqYIemB4oC6BVw%3D%3D"
+				(at 21.59 -594.92 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer_Name" "onsemi"
+				(at 21.59 -694.92 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer_Part_Number" "FDMS6681Z"
+				(at 21.59 -794.92 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(symbol "FDMS6681Z_1_1"
+				(rectangle
+					(start 5.08 2.54)
+					(end 20.32 -12.7)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin passive line
+					(at 0 0 0)
+					(length 5.08)
+					(name "S_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "S_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "S_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 5.08)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 5.08)
+					(name "D_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 0 180)
+					(length 5.08)
+					(name "D_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 -2.54 180)
+					(length 5.08)
+					(name "D_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 -5.08 180)
+					(length 5.08)
+					(name "D_4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 -7.62 180)
+					(length 5.08)
+					(name "D_5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "ltspice:GND"
 			(power)
 			(exclude_from_sim no)
@@ -982,299 +1260,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "pmos_1"
-			(pin_numbers
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "S3"
-				(at 4.445 -2.54 0)
-				(effects
-					(font
-						(size 1.0668 1.0668)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "AO3401A"
-				(at 4.445 -5.715 0)
-				(effects
-					(font
-						(size 1.0668 1.0668)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-3"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Sim.Library" "C:\\Users\\---\\AppData\\Local\\LTspice\\lib\\sub\\AO3401A.sub"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Sim.Device" "SUBCKT"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Sim.Params" "model=\"AO3401A\""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "pmos_1_0_0"
-				(polyline
-					(pts
-						(xy 0.635 -6.35) (xy 0 -6.35)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.635 -6.35) (xy 0.635 -1.27)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -1.27) (xy 3.81 -1.27)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -1.905) (xy 1.27 -0.635)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -4.445) (xy 1.27 -3.175)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -6.985) (xy 1.27 -5.715)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.905 -3.5052) (xy 3.81 -3.81)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.905 -3.81) (xy 1.27 -3.81)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.905 -4.1402) (xy 1.905 -3.5052)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.905 -4.1402) (xy 3.81 -3.81)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 -1.27) (xy 3.81 0)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 -6.35) (xy 1.27 -6.35)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 -7.62) (xy 3.81 -3.81)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at 0 -6.35 0)
-					(length 0.0005)
-					(name "G"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 3.81 0 0)
-					(length 0.0005)
-					(name "D"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 3.81 -7.62 0)
-					(length 0.0005)
-					(name "S"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 	)
 	(junction
 		(at 113.03 53.34)
@@ -1295,16 +1280,52 @@
 		(uuid "42e0330b-cbec-42f1-bf3d-eea97ac03447")
 	)
 	(junction
+		(at 63.5 97.79)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4ece63e0-efc7-4be0-9c96-212ac7da6dec")
+	)
+	(junction
+		(at 96.52 95.25)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "840457e2-544a-4c02-88a4-c3518a695d24")
+	)
+	(junction
 		(at 142.24 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9ecca339-da6a-4b19-9d31-3235673352ea")
 	)
 	(junction
+		(at 63.5 95.25)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9ff47612-9380-4478-8361-3bef81138775")
+	)
+	(junction
+		(at 63.5 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a17cb50c-339a-4bd8-83af-d10376470cae")
+	)
+	(junction
 		(at 125.73 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a856b97a-080a-4a95-ab6a-b2f6abd692eb")
+	)
+	(junction
+		(at 63.5 90.17)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a9a7576d-cd05-42d7-8f03-5e5337808676")
+	)
+	(junction
+		(at 96.52 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bb089ae4-b42f-4e35-89d4-3462cd4c2aea")
 	)
 	(junction
 		(at 101.6 90.17)
@@ -1380,7 +1401,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 100.33) (xy 96.52 96.52)
+			(xy 63.5 101.6) (xy 63.5 97.79)
 		)
 		(stroke
 			(width 0.1524)
@@ -1430,6 +1451,46 @@
 	)
 	(wire
 		(pts
+			(xy 96.52 95.25) (xy 96.52 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4e863f88-7ead-4a31-8192-12e332b6c683")
+	)
+	(wire
+		(pts
+			(xy 88.9 77.47) (xy 63.5 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5399e9ff-3261-46d8-a45d-30b5e853103d")
+	)
+	(wire
+		(pts
+			(xy 63.5 77.47) (xy 63.5 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5842252f-ff94-4efb-b304-7b598eaa080e")
+	)
+	(wire
+		(pts
+			(xy 96.52 92.71) (xy 96.52 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "59fc6b1d-c89d-468d-a69d-c012b48e0fc0")
+	)
+	(wire
+		(pts
 			(xy 113.03 90.17) (xy 113.03 74.93)
 		)
 		(stroke
@@ -1437,6 +1498,16 @@
 			(type solid)
 		)
 		(uuid "5c8916af-0b0c-4972-873e-79289e797d24")
+	)
+	(wire
+		(pts
+			(xy 96.52 97.79) (xy 88.9 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "616396d2-89be-48b5-b71a-7c253d1e5091")
 	)
 	(wire
 		(pts
@@ -1470,13 +1541,53 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 88.9) (xy 96.52 53.34)
+			(xy 96.52 53.34) (xy 96.52 92.71)
 		)
 		(stroke
-			(width 0.1524)
-			(type solid)
+			(width 0)
+			(type default)
 		)
-		(uuid "95aede2a-b683-422a-97f8-246e761ff194")
+		(uuid "9955c241-ca72-414c-bc5f-f7c9b461da30")
+	)
+	(wire
+		(pts
+			(xy 96.52 92.71) (xy 88.9 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a5179b13-85fe-4366-9b07-4896a266ba86")
+	)
+	(wire
+		(pts
+			(xy 88.9 90.17) (xy 100.33 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b0005367-dcc6-45b0-9813-d45c5b1ec6ac")
+	)
+	(wire
+		(pts
+			(xy 63.5 90.17) (xy 63.5 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b350f1fe-7028-4ef5-9050-bc507582433c")
+	)
+	(wire
+		(pts
+			(xy 63.5 92.71) (xy 63.5 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb559342-dd2c-48d3-bf07-41181c42570b")
 	)
 	(wire
 		(pts
@@ -1510,6 +1621,16 @@
 	)
 	(wire
 		(pts
+			(xy 88.9 87.63) (xy 88.9 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cf3b8624-e314-4db8-88a5-e2d6efdbffa8")
+	)
+	(wire
+		(pts
 			(xy 125.73 101.6) (xy 125.73 99.06)
 		)
 		(stroke
@@ -1527,6 +1648,26 @@
 			(type solid)
 		)
 		(uuid "d7520207-cada-47a5-9e33-7472f46734e2")
+	)
+	(wire
+		(pts
+			(xy 96.52 95.25) (xy 88.9 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d754eb08-739b-4dc6-aaae-483459887628")
+	)
+	(wire
+		(pts
+			(xy 63.5 95.25) (xy 63.5 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db5fc4d0-f323-41c0-8fb6-78af982d261d")
 	)
 	(wire
 		(pts
@@ -1592,7 +1733,7 @@
 	)
 	(hierarchical_label "bus_neg"
 		(shape input)
-		(at 96.52 100.33 180)
+		(at 63.5 101.6 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1600,114 +1741,6 @@
 			(justify right)
 		)
 		(uuid "b10b5569-1802-48cf-b558-da6440d2c9ef")
-	)
-	(symbol
-		(lib_name "pmos_1")
-		(lib_id "ltspice:pmos")
-		(at 100.33 96.52 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "095cc792-05ba-464c-9a32-39503ea2c54f")
-		(property "Reference" "SB_1"
-			(at 95.885 93.98 0)
-			(effects
-				(font
-					(size 1.0668 1.0668)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "FDMS6681Z"
-			(at 95.885 90.805 0)
-			(effects
-				(font
-					(size 1.0668 1.0668)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:PQFN_8x8"
-			(at 100.33 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 100.33 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 100.33 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Library" "C:\\Users\\---\\AppData\\Local\\LTspice\\lib\\sub\\AO3401A.sub"
-			(at 100.33 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Device" "SUBCKT"
-			(at 100.33 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Params" "model=\"AO3401A\""
-			(at 100.33 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "3"
-			(uuid "08ca9ad0-1428-4172-b8ec-86f2799c96d6")
-		)
-		(pin "2"
-			(uuid "d5205d4d-a287-4c41-8dd3-ae80ad6d2b35")
-		)
-		(pin "1"
-			(uuid "bef18d72-a0aa-4ec3-aa1e-43a79001e048")
-		)
-		(instances
-			(project "prototipo"
-				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
-					(reference "SB_3")
-					(unit 1)
-				)
-				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/7c9a14ee-10ad-4ddf-af17-6bfeb468e011"
-					(reference "SB_1")
-					(unit 1)
-				)
-				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/aa26f19e-f2c7-49c1-961b-509062eddf74"
-					(reference "SB_2")
-					(unit 1)
-				)
-			)
-		)
 	)
 	(symbol
 		(lib_id "ltspice:res")
@@ -2438,6 +2471,155 @@
 				)
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/aa26f19e-f2c7-49c1-961b-509062eddf74"
 					(reference "TP16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "FDMS6681Z:FDMS6681Z")
+		(at 88.9 97.79 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d7c0596f-28bb-427a-95dc-70ae771919d1")
+		(property "Reference" "SB_1"
+			(at 76.2 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "FDMS6681Z"
+			(at 76.2 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "FDMS6681Z"
+			(at 67.31 2.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/FDMS6681Z-D.PDF"
+			(at 67.31 -97.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" "Max rDS(on) = 5.0 m at VGS = -4.5 V, ID = -15.7 A ; HBM ESD protection level of 8kV typical (Note 3); RoHS Compliant ; Advanced Package and Silicon combination for low rDS(on) and high efficiency ; Max rDS(on) = 3.2 m at VGS = -10 V, ID = -21.1 A ; MSL1 robust package design"
+			(at 88.9 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" "1.1"
+			(at 67.31 -297.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "512-FDMS6681Z"
+			(at 67.31 -397.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/ON-Semiconductor-Fairchild/FDMS6681Z?qs=eQsPqqG3NqYIemB4oC6BVw%3D%3D"
+			(at 67.31 -497.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" "onsemi"
+			(at 67.31 -597.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" "FDMS6681Z"
+			(at 67.31 -697.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "5cd896c0-974e-4fcb-97a4-e01021a26ad9")
+		)
+		(pin "6"
+			(uuid "e49c67f5-0f7e-4558-a74f-855bf5453dfa")
+		)
+		(pin "1"
+			(uuid "1b1339e3-3fa4-4208-b763-d1c5c2bea14d")
+		)
+		(pin "3"
+			(uuid "e367ad0c-7347-4a9f-8439-5099b1ad2a58")
+		)
+		(pin "8"
+			(uuid "6a6190f1-4b52-4ba4-b159-abc7aa2f3be8")
+		)
+		(pin "2"
+			(uuid "eb6132ba-d728-4b2a-bb38-e3897906bc40")
+		)
+		(pin "4"
+			(uuid "02d46be5-ac67-49bd-99c7-89b525c5e488")
+		)
+		(pin "7"
+			(uuid "37626137-70ae-479a-b86e-ebe349c724e4")
+		)
+		(pin "9"
+			(uuid "feb674b7-0cd0-4d0a-a068-3e604d67fe35")
+		)
+		(instances
+			(project ""
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
+					(reference "Q21")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/7c9a14ee-10ad-4ddf-af17-6bfeb468e011"
+					(reference "SB_1")
+					(unit 1)
+				)
+				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/aa26f19e-f2c7-49c1-961b-509062eddf74"
+					(reference "Q20")
 					(unit 1)
 				)
 			)
