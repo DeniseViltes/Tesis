@@ -2774,7 +2774,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Battery:BatteryHolder_MPD_BK-18650-PC2"
+		(property "Footprint" "Huellas:BatteryHolder_MPD_BK-18650-PC2"
 			(at 168.91 62.23 0)
 			(effects
 				(font
