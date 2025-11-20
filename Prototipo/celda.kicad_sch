@@ -2092,7 +2092,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=20k"
 			(at 104.14 76.2 0)
 			(effects
 				(font
@@ -2199,7 +2199,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=1Meg"
 			(at 109.22 62.23 0)
 			(effects
 				(font
@@ -2270,7 +2270,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Fuse:Fuseholder_Cylinder-5x20mm_Schurter_0031_8201_Horizontal_Open"
+		(property "Footprint" "Huellas:Fuseholder_Cylinder-5x20mm_Schurter_0031_8201_Horizontal_Open"
 			(at 167.132 93.98 90)
 			(effects
 				(font
@@ -2703,7 +2703,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=4.7k"
 			(at 135.89 69.85 0)
 			(effects
 				(font
@@ -2810,7 +2810,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "type=\"V\" model=\"${VALUE}\" "
+		(property "Sim.Params" "type=\"V\" model=\"3.3\" "
 			(at 168.91 62.23 0)
 			(effects
 				(font
@@ -2918,7 +2918,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=1m"
 			(at 167.64 49.53 0)
 			(effects
 				(font
@@ -3196,7 +3196,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=20k"
 			(at 129.54 97.79 0)
 			(effects
 				(font
@@ -3303,7 +3303,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=33k"
 			(at 135.89 82.55 0)
 			(effects
 				(font
@@ -3722,7 +3722,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=10Meg"
 			(at 109.22 50.8 0)
 			(effects
 				(font

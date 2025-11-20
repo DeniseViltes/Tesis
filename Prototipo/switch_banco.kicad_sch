@@ -1805,7 +1805,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=300K"
 			(at 124.46 91.44 0)
 			(effects
 				(font
@@ -2096,7 +2096,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=20k"
 			(at 115.57 106.68 0)
 			(effects
 				(font
@@ -2191,7 +2191,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Params" "R=${VALUE}"
+		(property "Sim.Params" "R=570K"
 			(at 124.46 64.77 0)
 			(effects
 				(font
