@@ -128,9 +128,9 @@
         "min_copper_edge_clearance": 0.5,
         "min_groove_width": 0.0,
         "min_hole_clearance": 0.25,
-        "min_hole_to_hole": 0.25,
-        "min_microvia_diameter": 0.2,
-        "min_microvia_drill": 0.1,
+        "min_hole_to_hole": 0.3,
+        "min_microvia_diameter": 1.5,
+        "min_microvia_drill": 0.7,
         "min_resolved_spokes": 2,
         "min_silk_clearance": 0.0,
         "min_text_height": 0.8,
@@ -189,7 +189,9 @@
       "track_widths": [
         0.0,
         0.4,
-        0.6
+        0.6,
+        0.8,
+        1.0
       ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
@@ -691,7 +693,7 @@
     ],
     [
       "6883bdf6-06e3-408b-a2b6-79a0e0cc9199",
-      "celda_1"
+      "celda_11"
     ],
     [
       "7c9a14ee-10ad-4ddf-af17-6bfeb468e011",
@@ -699,15 +701,15 @@
     ],
     [
       "4139afdb-b33a-4b58-a58b-6904e64f0f54",
-      "celda_3"
+      "celda_21"
     ],
     [
       "0b5b073f-7c77-4f5b-9d0c-04c95b3a5273",
-      "celda_2"
+      "celda_12"
     ],
     [
       "5ccf80ef-8373-465f-9987-9fe1b9c88503",
-      "celda_4"
+      "celda_22"
     ],
     [
       "aa26f19e-f2c7-49c1-961b-509062eddf74",
@@ -715,11 +717,11 @@
     ],
     [
       "9ecd509f-c28f-4327-a2e2-935fccd51d54",
-      "celda_5"
+      "celda_31"
     ],
     [
       "03228313-f124-4812-b57c-f34d519eb313",
-      "celda_6"
+      "celda_32"
     ],
     [
       "69120eb2-13db-48bd-9e77-f62722c18bbc",

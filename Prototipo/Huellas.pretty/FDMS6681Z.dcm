@@ -1,9 +1,0 @@
-EESchema-DOCLIB  Version 2.0
-#
-$CMP FDMS6681Z
-D Max rDS(on) = 5.0 m at VGS = -4.5 V, ID = -15.7 A ; HBM ESD protection level of 8kV typical (Note 3); RoHS Compliant ; Advanced Package and Silicon combination for low rDS(on) and high efficiency ; Max rDS(on) = 3.2 m at VGS = -10 V, ID = -21.1 A ; MSL1 robust package design
-K
-F https://www.onsemi.com/pub/Collateral/FDMS6681Z-D.PDF
-$ENDCMP
-#
-#End Doc Library

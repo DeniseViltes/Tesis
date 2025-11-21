@@ -4340,7 +4340,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1ec39cb8-048a-4ac1-ae04-24b347188944")
-		(property "Reference" "J1"
+		(property "Reference" "OUT1"
 			(at 254 80.0099 0)
 			(effects
 				(font
@@ -4394,7 +4394,7 @@
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
-					(reference "J1")
+					(reference "OUT1")
 					(unit 1)
 				)
 			)
@@ -4534,8 +4534,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3da4d41b-cd4d-441e-bb0c-6990f68f8da7")
-		(property "Reference" "TP2"
-			(at 231.287 56.3879 0)
+		(property "Reference" "TPbanco2"
+			(at 231.14 56.3879 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4544,7 +4544,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 231.287 58.9279 0)
+			(at 231.14 58.9279 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4585,7 +4585,7 @@
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
-					(reference "TP2")
+					(reference "TPbanco2")
 					(unit 1)
 				)
 			)
@@ -4600,7 +4600,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "47d7b49f-c9b2-4357-9692-86f26ac1f6d1")
-		(property "Reference" "SGND11"
+		(property "Reference" "Sgnd11"
 			(at 86.36 135.255 0)
 			(effects
 				(font
@@ -4684,7 +4684,7 @@
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
-					(reference "SGND11")
+					(reference "Sgnd11")
 					(unit 1)
 				)
 			)
@@ -4699,7 +4699,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4b2556fa-c2b6-43b1-a739-5b68434f3499")
-		(property "Reference" "SGND1"
+		(property "Reference" "Sgnd21"
 			(at 163.83 135.255 0)
 			(effects
 				(font
@@ -4783,7 +4783,7 @@
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
-					(reference "SGND1")
+					(reference "Sgnd21")
 					(unit 1)
 				)
 			)
@@ -5001,7 +5001,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "60190635-dd19-418a-a2c2-307a4c5733ce")
-		(property "Reference" "J4"
+		(property "Reference" "IN1"
 			(at 96.52 166.3699 0)
 			(effects
 				(font
@@ -5085,7 +5085,7 @@
 		(instances
 			(project ""
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
-					(reference "J4")
+					(reference "IN1")
 					(unit 1)
 				)
 			)
@@ -5871,7 +5871,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cd4d101f-7e53-4fbc-b4d9-6bf39aae45bb")
-		(property "Reference" "TP1"
+		(property "Reference" "TPbanco1"
 			(at 224.79 91.9479 0)
 			(effects
 				(font
@@ -5922,7 +5922,7 @@
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
-					(reference "TP1")
+					(reference "TPbanco1")
 					(unit 1)
 				)
 			)
@@ -6520,7 +6520,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "03228313-f124-4812-b57c-f34d519eb313")
-		(property "Sheetname" "celda_6"
+		(property "Sheetname" "celda_32"
 			(at 135.89 33.5784 0)
 			(show_name yes)
 			(effects
@@ -6603,7 +6603,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "0b5b073f-7c77-4f5b-9d0c-04c95b3a5273")
-		(property "Sheetname" "celda_2"
+		(property "Sheetname" "celda_12"
 			(at 135.89 99.6184 0)
 			(show_name yes)
 			(effects
@@ -6706,7 +6706,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "4139afdb-b33a-4b58-a58b-6904e64f0f54")
-		(property "Sheetname" "celda_3"
+		(property "Sheetname" "celda_21"
 			(at 59.69 64.0584 0)
 			(show_name yes)
 			(effects
@@ -6789,7 +6789,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "5ccf80ef-8373-465f-9987-9fe1b9c88503")
-		(property "Sheetname" "celda_4"
+		(property "Sheetname" "celda_22"
 			(at 135.89 64.0584 0)
 			(show_name yes)
 			(effects
@@ -6872,7 +6872,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "6883bdf6-06e3-408b-a2b6-79a0e0cc9199")
-		(property "Sheetname" "celda_1"
+		(property "Sheetname" "celda_11"
 			(at 59.69 99.6184 0)
 			(show_name yes)
 			(effects
@@ -7119,7 +7119,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "9ecd509f-c28f-4327-a2e2-935fccd51d54")
-		(property "Sheetname" "celda_5"
+		(property "Sheetname" "celda_31"
 			(at 59.69 33.5784 0)
 			(show_name yes)
 			(effects
