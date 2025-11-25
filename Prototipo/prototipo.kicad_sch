@@ -2223,88 +2223,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "ltspice:GND"
-			(power)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "GND_0_0"
-				(polyline
-					(pts
-						(xy 1.27 0) (xy -1.27 0) (xy 0 -1.1938) (xy 1.27 0) (xy -1.27 0) (xy 0 -1.1938)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin power_in line
-					(at 0 0 0)
-					(length 0.0005)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "modificados:nmos"
 			(pin_numbers
 				(hide yes)
@@ -2588,6 +2506,107 @@
 						)
 					)
 					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:GND"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3771,6 +3790,26 @@
 			)
 		)
 	)
+	(global_label "Vc_22"
+		(shape bidirectional)
+		(at 90.17 166.37 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "1c398447-3d0d-4623-a1de-c4ad10ce9d6c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 90.17 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "Vc3"
 		(shape bidirectional)
 		(at 90.17 156.21 180)
@@ -3851,6 +3890,26 @@
 			)
 		)
 	)
+	(global_label "Vc_32"
+		(shape bidirectional)
+		(at 90.17 168.91 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "3fea44db-2a4b-403b-9df5-49a625ea4798")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 90.17 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "Vc2"
 		(shape bidirectional)
 		(at 195.58 69.85 180)
@@ -3911,18 +3970,18 @@
 			)
 		)
 	)
-	(global_label "Vc_22"
+	(global_label "Vc_12"
 		(shape bidirectional)
-		(at 90.17 166.37 180)
+		(at 90.17 163.83 180)
 		(effects
 			(font
 				(size 1.0668 1.0668)
 			)
 			(justify right)
 		)
-		(uuid "5fd6d0af-8699-49d8-a76f-86e4e365659f")
+		(uuid "7955aaaa-d6bd-4b45-a409-d193e2572c8c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 90.17 166.37 0)
+			(at 90.17 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4071,26 +4130,6 @@
 			)
 		)
 	)
-	(global_label "Vc_12"
-		(shape bidirectional)
-		(at 90.17 168.91 180)
-		(effects
-			(font
-				(size 1.0668 1.0668)
-			)
-			(justify right)
-		)
-		(uuid "dd683d9e-19a5-49ab-901a-25a70ab3ec7c")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 90.17 168.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "Vc_11"
 		(shape bidirectional)
 		(at 90.17 176.53 180)
@@ -4111,28 +4150,8 @@
 			)
 		)
 	)
-	(global_label "Vc_32"
-		(shape bidirectional)
-		(at 90.17 163.83 180)
-		(effects
-			(font
-				(size 1.0668 1.0668)
-			)
-			(justify right)
-		)
-		(uuid "fc0d9bb4-7271-4165-8e06-6748ecd05924")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 90.17 163.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 62.23 163.83 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -4176,7 +4195,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 62.23 163.83 0)
 			(effects
 				(font
@@ -4185,7 +4204,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "5f2ff99d-50ce-462d-bd76-ecd2475a9d00")
 		)
 		(instances
@@ -4265,7 +4284,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 171.45 140.97 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -4309,7 +4328,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 171.45 140.97 0)
 			(effects
 				(font
@@ -4318,7 +4337,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "6ad74d38-8eac-4de0-a19d-5270e15a107c")
 		)
 		(instances
@@ -4860,7 +4879,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 48.26 163.83 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -4904,7 +4923,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 48.26 163.83 0)
 			(effects
 				(font
@@ -4913,7 +4932,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "5aa221ee-a1d7-4e37-8f87-861aac0441b6")
 		)
 		(instances
@@ -4926,7 +4945,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 81.28 156.21 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -4970,7 +4989,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 81.28 156.21 0)
 			(effects
 				(font
@@ -4979,7 +4998,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "f7098edb-7f7c-4b8c-ba5d-faf9581ec1ff")
 		)
 		(instances
@@ -5092,7 +5111,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 19.05 163.83 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5136,7 +5155,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 19.05 163.83 0)
 			(effects
 				(font
@@ -5145,7 +5164,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "06caa3aa-ea1e-4276-8ea6-3e256773ddca")
 		)
 		(instances
@@ -5282,7 +5301,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 95.25 139.7 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5326,7 +5345,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 95.25 139.7 0)
 			(effects
 				(font
@@ -5335,7 +5354,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "6a9a665d-ee3c-40b8-a62d-cfb236285f5b")
 		)
 		(instances
@@ -5730,7 +5749,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 88.9 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5774,7 +5793,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 88.9 182.88 0)
 			(effects
 				(font
@@ -5783,7 +5802,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "944776dc-488e-44ee-b329-5903acad31c2")
 		)
 		(instances
@@ -5796,7 +5815,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 147.32 180.34 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5840,7 +5859,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 147.32 180.34 0)
 			(effects
 				(font
@@ -5849,7 +5868,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "21800f98-ce11-4493-a82d-adb5db530e75")
 		)
 		(instances
@@ -6369,7 +6388,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:GND")
+		(lib_id "power:GND")
 		(at 34.29 163.83 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -6413,7 +6432,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 34.29 163.83 0)
 			(effects
 				(font
@@ -6422,7 +6441,7 @@
 				(hide yes)
 			)
 		)
-		(pin ""
+		(pin "1"
 			(uuid "c578d4c1-1665-4e99-85ab-1d8bf53e5d28")
 		)
 		(instances
