@@ -1,0 +1,46 @@
+Informe de estadísticas de la placa
+=============================
+- Fecha: 28/11/2025 01:24:31 a. m.
+- Proyecto: prototipo
+- Nombre de placa: prototipo
+
+Placa
+-----
+- Ancho: 184.9000 mm
+- Alto: 180.4000 mm
+- Área: 33000.1365 mm²
+
+Pads
+----
+- Agujero pasante: 272
+- SMD: 99
+- Conector: 0
+- NPTH: 15
+
+Vías
+----
+- Vías pasantes: 16
+- Ciega/Enterrada: 0
+- Microvías: 0
+
+Componentes
+----------
+
+|                  | Lado frontal | Lado trasero | Total |
+|------------------|--------------|--------------|-------|
+|THT:              |          121 |            0 |   121 |
+|SMD:              |           27 |            0 |    27 |
+|No especificado:  |            0 |            0 |     0 |
+|Total:            |          148 |            0 |   148 |
+
+Agujeros de taladros
+-----------
+
+| Cantidad |   Forma |  Tamaño X |  Tamaño Y | Revestido | Vía/Pad | Capa inicial | Capa final |
+|----------|---------|-----------|-----------|-----------|---------|--------------|------------|
+|      124 | Redondo | 1.1000 mm | 1.1000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
+|      116 | Redondo | 0.8000 mm | 0.8000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
+|       18 | Redondo | 1.3000 mm | 1.3000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
+|       16 | Redondo | 0.8000 mm | 0.8000 mm |       PTH |     Vía |         F.Cu |       B.Cu |
+|       15 | Redondo | 3.2000 mm | 3.2000 mm |      NPTH |     Pad |         F.Cu |       B.Cu |
+|       14 | Redondo | 1.5700 mm | 1.5700 mm |       PTH |     Pad |         F.Cu |       B.Cu |
