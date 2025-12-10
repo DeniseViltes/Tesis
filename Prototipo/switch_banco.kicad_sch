@@ -2744,7 +2744,7 @@
 				)
 			)
 		)
-		(property "Footprint" "FDMS6681Z"
+		(property "Footprint" "Huellas:FDMS6681Z"
 			(at 67.31 2.87 0)
 			(effects
 				(font
