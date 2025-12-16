@@ -1808,12 +1808,6 @@
 		(uuid "6f3a0439-464b-4c1a-8d80-8ef3065eb108")
 	)
 	(junction
-		(at 110.49 48.26)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "79ab1ffb-6284-4ab8-a3f7-2677179844f0")
-	)
-	(junction
 		(at 143.51 81.28)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1906,16 +1900,6 @@
 			(type default)
 		)
 		(uuid "1a438767-3a5e-488d-a415-e9f4e973bbe4")
-	)
-	(wire
-		(pts
-			(xy 110.49 48.26) (xy 69.85 48.26)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "1a69fb18-eb0b-4103-9870-1ed54d04b0a4")
 	)
 	(wire
 		(pts
@@ -2311,6 +2295,17 @@
 			(justify left)
 		)
 		(uuid "b048c55e-4c85-46d4-9a29-dcb07a3f1831")
+	)
+	(hierarchical_label "vcc"
+		(shape input)
+		(at 69.85 48.26 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c152c29e-a642-4fe3-8e3b-9a24abf08a75")
 	)
 	(hierarchical_label "Vcontrol_neg"
 		(shape input)
@@ -4061,7 +4056,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "de8d936b-da8e-44c2-ba78-6811451a6cd4")
-		(property "Reference" "QLED_11"
+		(property "Reference" "QLED11"
 			(at 69.215 72.39 0)
 			(effects
 				(font
@@ -4152,7 +4147,7 @@
 					(unit 1)
 				)
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/6883bdf6-06e3-408b-a2b6-79a0e0cc9199"
-					(reference "QLED_11")
+					(reference "QLED11")
 					(unit 1)
 				)
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/9ecd509f-c28f-4327-a2e2-935fccd51d54"

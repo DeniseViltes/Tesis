@@ -5,10 +5,10 @@
 	(layer "F.Cu")
 	(descr "Battery holder, MPD BK-18650, battery type 1x18650, https://www.batteryholders.com/uploads/parts/BK-18650-PC2/datasheets/BK-18650-PC2-datasheet.pdf, generated with kicad-footprint-generator StandardBox_generator.py")
 	(tags "horizontal single")
-	(property "Reference" "VCELL1"
-		(at 20.9 -12 0)
+	(property "Reference" "VCELL11"
+		(at 36.25 -11.94 180)
 		(layer "F.SilkS")
-		(uuid "282976b7-319a-4d2c-8d4c-f53ef430af31")
+		(uuid "002fc061-2626-4f5c-a336-a57bc49d82f6")
 		(effects
 			(font
 				(size 1 1)
@@ -17,9 +17,9 @@
 		)
 	)
 	(property "Value" "3.3"
-		(at 36.25 11.94 0)
+		(at 36.25 11.94 180)
 		(layer "F.Fab")
-		(uuid "3f0d1c17-6c05-4094-bd27-dc7489518628")
+		(uuid "f8a2341f-6ca6-42a6-8c2c-25c27c8c75d0")
 		(effects
 			(font
 				(size 1 1)
@@ -28,10 +28,10 @@
 		)
 	)
 	(property "Datasheet" ""
-		(at 0 0 0)
+		(at 0 0 180)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "2a661bf6-a0a6-4fae-9879-9ebd1887d37a")
+		(uuid "e77a1f9d-44ad-42b4-8407-edc8b27e46fd")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -40,10 +40,10 @@
 		)
 	)
 	(property "Description" ""
-		(at 0 0 0)
+		(at 0 0 180)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "29f8f9ae-2271-42fe-90a9-79b56277f4ab")
+		(uuid "8f9bf491-b014-4e0b-9e28-2e2ee59538a0")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -56,7 +56,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "4adab946-3eb1-4fc3-8d8a-f860a8f84ee8")
+		(uuid "2bcefd20-e62f-4f79-8d0c-5530a7ac9315")
 		(effects
 			(font
 				(size 1 1)
@@ -69,7 +69,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "40a1777c-4741-43c0-8485-f389de82686b")
+		(uuid "1fe08a3e-bacc-4373-84e9-3a6275ff95f2")
 		(effects
 			(font
 				(size 1 1)
@@ -86,7 +86,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "fd40cdda-1a25-4f3b-bdc1-e34ef9f26f40")
+		(uuid "a9cabc78-20d4-48d8-9ef8-d4e832f86548")
 	)
 	(fp_line
 		(start -2.84 11.1)
@@ -96,7 +96,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "8aeb23ab-4b0b-4af4-a09c-51dde535f0ae")
+		(uuid "8ac44c6a-3cd2-420e-a4dd-0030e390060a")
 	)
 	(fp_line
 		(start 75.34 -11.1)
@@ -106,7 +106,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "11be7acd-4813-413d-8d05-e1647f218af8")
+		(uuid "27361c64-2dde-45e7-95c7-81c30b7de52d")
 	)
 	(fp_line
 		(start 75.34 11.1)
@@ -116,7 +116,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "8072ba30-19c7-4f9e-831d-ff5ff8620eeb")
+		(uuid "cbe9950c-b9d6-4f73-bd0f-719ca9cc3642")
 	)
 	(fp_rect
 		(start -2.98 -11.24)
@@ -127,7 +127,7 @@
 		)
 		(fill no)
 		(layer "F.CrtYd")
-		(uuid "10447781-94ad-43c9-9f4c-b8478b48bb77")
+		(uuid "5b2226f0-4fa7-460c-b034-4d3c968f9e9f")
 	)
 	(fp_rect
 		(start -2.23 -10.49)
@@ -138,12 +138,12 @@
 		)
 		(fill no)
 		(layer "F.Fab")
-		(uuid "3e5bc245-6456-4253-ae91-02b7f138a0b8")
+		(uuid "e5a385be-1b71-4c40-b102-f123a6dbad85")
 	)
 	(fp_text user "+"
-		(at -4.5 0.049999 0)
+		(at -4.5 0.05 180)
 		(layer "F.SilkS")
-		(uuid "c885d526-706b-4ca9-8b09-d4b75171947e")
+		(uuid "238889ea-6c24-40a1-82c8-1d4da92cd8bc")
 		(effects
 			(font
 				(size 3 3)
@@ -152,9 +152,9 @@
 		)
 	)
 	(fp_text user "+"
-		(at 4 -0.199999 0)
+		(at 4 -0.2 180)
 		(layer "F.Fab")
-		(uuid "74220e0e-32ee-4f1c-a9b9-cb3ffdb96f3a")
+		(uuid "6a0fe34f-cafc-48f8-abec-4b07025ca946")
 		(effects
 			(font
 				(size 3 3)
@@ -163,9 +163,9 @@
 		)
 	)
 	(fp_text user "${REFERENCE}"
-		(at 36.25 0 0)
+		(at 36.25 0 180)
 		(layer "F.Fab")
-		(uuid "b1ac498a-9344-4ff7-b4d1-0bf7039f5029")
+		(uuid "706d1c89-9ca8-4d25-a98b-cc3aa421a96c")
 		(effects
 			(font
 				(size 1 1)
@@ -174,11 +174,18 @@
 		)
 	)
 	(pad "" np_thru_hole circle
-		(at 36.75 0)
+		(at 8.445 0)
 		(size 3.2 3.2)
 		(drill 3.2)
 		(layers "*.Cu" "*.Mask")
-		(uuid "964a09df-40ef-456d-a523-a47c2037c199")
+		(uuid "9b3eaea7-08fa-4520-ac2a-46e5eafd4553")
+	)
+	(pad "" np_thru_hole circle
+		(at 64.055 0)
+		(size 3.2 3.2)
+		(drill 3.2)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d992a707-58e0-48f1-a1c8-199f6c53f202")
 	)
 	(pad "1" thru_hole roundrect
 		(at 0 0)
@@ -187,18 +194,7 @@
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(roundrect_rratio 0.083333)
-		(teardrops
-			(best_length_ratio 0.5)
-			(max_length 1)
-			(best_width_ratio 1)
-			(max_width 2)
-			(curved_edges yes)
-			(filter_ratio 0.9)
-			(enabled yes)
-			(allow_two_segments yes)
-			(prefer_zone_connections yes)
-		)
-		(uuid "b818a11c-2a00-48f6-bf4b-edb0a73df02b")
+		(uuid "ef94145f-c517-48ae-978f-5726679574cf")
 	)
 	(pad "2" thru_hole circle
 		(at 72.9 0)
@@ -206,23 +202,12 @@
 		(drill 1.57)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(teardrops
-			(best_length_ratio 0.5)
-			(max_length 1.5)
-			(best_width_ratio 1)
-			(max_width 2)
-			(curved_edges yes)
-			(filter_ratio 0.9)
-			(enabled yes)
-			(allow_two_segments yes)
-			(prefer_zone_connections yes)
-		)
-		(uuid "81a44a5d-c827-426d-b83f-2cf0ad00485a")
+		(uuid "6b44277c-596f-45cb-9c49-1111e321caac")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/Modelos 3D/Portapilas 18650.STEP"
+	(model "${MODELOS}/Portapilas 18650.STEP"
 		(offset
-			(xyz 36.5 0 0)
+			(xyz 37.5 0 0)
 		)
 		(scale
 			(xyz 1 1 1)
