@@ -4408,6 +4408,26 @@
 		)
 		(uuid "fc204d27-3c86-4513-a74e-9520c2c1d1a3")
 	)
+	(global_label "VCC"
+		(shape bidirectional)
+		(at 201.93 45.72 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "079424d9-374e-43cd-ab30-96b25274484d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 201.93 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "Vc_11"
 		(shape bidirectional)
 		(at 90.17 172.72 0)
@@ -4420,6 +4440,46 @@
 		(uuid "0a765c02-de07-44af-be15-37ce03598361")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 90.17 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Vc_22"
+		(shape bidirectional)
+		(at 77.47 182.88 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "0d89ef7c-f016-45cb-91f8-fe6e92a5df26")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 77.47 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "VCC"
+		(shape bidirectional)
+		(at 135.89 102.87 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "0e0b6e66-c5d3-4cfc-8174-c9c312e5312f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 135.89 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4448,18 +4508,38 @@
 			)
 		)
 	)
-	(global_label "Vc_32"
+	(global_label "VCC"
 		(shape bidirectional)
-		(at 90.17 185.42 0)
+		(at 201.93 74.93 180)
 		(effects
 			(font
 				(size 1.0668 1.0668)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "1bad6088-5058-492b-b756-df8d169ae12f")
+		(uuid "18a4f4d9-7c44-4d19-afe0-0004025b1881")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 90.17 185.42 0)
+			(at 201.93 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Vc_12"
+		(shape bidirectional)
+		(at 77.47 185.42 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "2a040737-2290-451b-a9d2-717a28891ba1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 77.47 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4480,6 +4560,26 @@
 		(uuid "352ec1fe-ec85-4242-8389-546825c6982e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 115.57 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "VCC"
+		(shape bidirectional)
+		(at 201.93 113.03 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "4887d1ab-55b4-4e91-a312-41b35111ea06")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 201.93 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4608,6 +4708,26 @@
 			)
 		)
 	)
+	(global_label "Vc_12"
+		(shape bidirectional)
+		(at 90.17 185.42 0)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify left)
+		)
+		(uuid "79949d4f-eb97-45ba-8fc9-71317a71ce82")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 90.17 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "Vc3"
 		(shape bidirectional)
 		(at 195.58 39.37 180)
@@ -4648,18 +4768,18 @@
 			)
 		)
 	)
-	(global_label "Vc_22"
+	(global_label "VCC"
 		(shape bidirectional)
-		(at 77.47 180.34 180)
+		(at 59.69 67.31 180)
 		(effects
 			(font
 				(size 1.0668 1.0668)
 			)
 			(justify right)
 		)
-		(uuid "88a70d33-1ee6-4db4-a915-b6347d50835f")
+		(uuid "87393d15-0a8f-41d7-8dd7-6b2eeea35455")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 77.47 180.34 0)
+			(at 59.69 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4730,16 +4850,36 @@
 	)
 	(global_label "Vc_22"
 		(shape bidirectional)
-		(at 90.17 180.34 0)
+		(at 90.17 182.88 0)
 		(effects
 			(font
 				(size 1.0668 1.0668)
 			)
 			(justify left)
 		)
-		(uuid "97b53d4e-38cf-44f2-913b-6c16880c828f")
+		(uuid "986f9d77-d972-4534-9000-3a984f91f1a3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 90.17 180.34 0)
+			(at 90.17 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Vc_32"
+		(shape bidirectional)
+		(at 77.47 180.34 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "9cfa8a5d-3b5d-4ed4-8d79-8fa8c567729e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 77.47 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4828,18 +4968,18 @@
 			)
 		)
 	)
-	(global_label "Vc_12"
+	(global_label "VCC"
 		(shape bidirectional)
-		(at 77.47 182.88 180)
+		(at 59.69 102.87 180)
 		(effects
 			(font
 				(size 1.0668 1.0668)
 			)
 			(justify right)
 		)
-		(uuid "b5e1a9dc-bfdc-4965-bceb-6eebccf4310f")
+		(uuid "bb4cfbd2-df3c-4639-92ef-f52db0fe2190")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 77.47 182.88 0)
+			(at 59.69 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4860,6 +5000,26 @@
 		(uuid "bba36e87-5e50-40c3-a152-35fe02003d5f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 77.47 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "VCC"
+		(shape bidirectional)
+		(at 135.89 36.83 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "cb1c5ffd-3cc5-4cdd-8d82-ff66a914332a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 135.89 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4928,6 +5088,26 @@
 			)
 		)
 	)
+	(global_label "VCC"
+		(shape bidirectional)
+		(at 59.69 35.56 180)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify right)
+		)
+		(uuid "dec0ba08-9fa1-4e5d-bb08-a7f16ea4f19e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 59.69 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "Vc_31"
 		(shape bidirectional)
 		(at 90.17 177.8 0)
@@ -4940,6 +5120,26 @@
 		(uuid "dff1ce13-3536-4849-9796-967afd77a4d6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 90.17 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Vc_32"
+		(shape bidirectional)
+		(at 90.17 180.34 0)
+		(effects
+			(font
+				(size 1.0668 1.0668)
+			)
+			(justify left)
+		)
+		(uuid "e46ff661-63db-44fa-bb6e-88e1d01a4659")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 90.17 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4968,38 +5168,18 @@
 			)
 		)
 	)
-	(global_label "Vc_12"
+	(global_label "VCC"
 		(shape bidirectional)
-		(at 90.17 182.88 0)
-		(effects
-			(font
-				(size 1.0668 1.0668)
-			)
-			(justify left)
-		)
-		(uuid "f00535f3-5ef9-4c92-b507-a648f34d61d8")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 90.17 182.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "Vc_32"
-		(shape bidirectional)
-		(at 77.47 185.42 180)
+		(at 135.89 67.31 180)
 		(effects
 			(font
 				(size 1.0668 1.0668)
 			)
 			(justify right)
 		)
-		(uuid "f5d3af6f-c9ae-4faf-a153-a94e9dd29a26")
+		(uuid "ff78eb8c-5e97-4c88-a9ec-18992d48b6ff")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 77.47 185.42 0)
+			(at 135.89 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7718,6 +7898,16 @@
 				(justify right)
 			)
 		)
+		(pin "vcc" input
+			(at 135.89 36.83 180)
+			(uuid "fdf1513a-5c06-4498-84f5-c4a04b54ab39")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
@@ -7814,6 +8004,16 @@
 		(pin "cell_neg" input
 			(at 157.48 119.38 270)
 			(uuid "cb1f04a3-ff70-4fb1-85a8-76bec220b5d3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "vcc" input
+			(at 135.89 102.87 180)
+			(uuid "23b44a7b-f8bf-4374-af47-e34413bb1edc")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7924,6 +8124,16 @@
 				(justify right)
 			)
 		)
+		(pin "vcc" input
+			(at 59.69 67.31 180)
+			(uuid "08c16567-6b92-4116-a96b-6b76cc9e070a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
@@ -8025,6 +8235,16 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+		(pin "vcc" input
+			(at 135.89 67.31 180)
+			(uuid "357c3b57-900b-4387-8198-a13bcb33565a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 		(instances
@@ -8130,6 +8350,16 @@
 				(justify left)
 			)
 		)
+		(pin "vcc" input
+			(at 59.69 102.87 180)
+			(uuid "d02bbc4a-7c69-4ee1-a5f6-d57746ce350d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
@@ -8202,6 +8432,16 @@
 				(justify right)
 			)
 		)
+		(pin "vcc" input
+			(at 201.93 45.72 180)
+			(uuid "1d2afd6b-afcb-42dc-8652-9c026633a01a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
@@ -8272,6 +8512,16 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+		(pin "vcc" input
+			(at 201.93 113.03 180)
+			(uuid "508d0e27-e20f-4316-9429-31a149191850")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 		(instances
@@ -8377,6 +8627,16 @@
 				(justify right)
 			)
 		)
+		(pin "vcc" input
+			(at 59.69 35.56 180)
+			(uuid "71e5fad6-6466-4e3f-9c1d-e1bf2093c70f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(instances
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79"
@@ -8447,6 +8707,16 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+		(pin "vcc" input
+			(at 201.93 74.93 180)
+			(uuid "472943aa-4fcf-4048-8090-b7dc581e14a6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 		(instances
