@@ -1,25 +1,25 @@
 Informe de estadísticas de la placa
 =============================
-- Fecha: 09/12/2025 03:58:38 p. m.
+- Fecha: 17/12/2025 12:45:56 a. m.
 - Proyecto: prototipo
 - Nombre de placa: prototipo
 
 Placa
 -----
-- Ancho: 186.0000 mm
+- Ancho: 188.4250 mm
 - Alto: 184.9500 mm
-- Área: 34400.7000 mm²
+- Área: 34849.2038 mm²
 
 Pads
 ----
-- Agujero pasante: 288
-- SMD: 99
+- Agujero pasante: 342
+- SMD: 126
 - Conector: 0
-- NPTH: 19
+- NPTH: 25
 
 Vías
 ----
-- Vías pasantes: 20
+- Vías pasantes: 24
 - Ciega/Enterrada: 0
 - Microvías: 0
 
@@ -28,21 +28,19 @@ Componentes
 
 |                  | Lado frontal | Lado trasero | Total |
 |------------------|--------------|--------------|-------|
-|THT:              |          122 |            0 |   122 |
-|SMD:              |           27 |            0 |    27 |
+|THT:              |          149 |            0 |   149 |
+|SMD:              |           36 |            0 |    36 |
 |No especificado:  |            4 |            0 |     4 |
-|Total:            |          153 |            0 |   153 |
+|Total:            |          189 |            0 |   189 |
 
 Agujeros de taladros
 -----------
 
 | Cantidad |   Forma |  Tamaño X |  Tamaño Y | Revestido | Vía/Pad | Capa inicial | Capa final |
 |----------|---------|-----------|-----------|-----------|---------|--------------|------------|
-|      174 | Redondo | 0.8000 mm | 0.8000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
-|       46 | Redondo | 1.1000 mm | 1.1000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
-|       36 | Redondo | 1.0000 mm | 1.0000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
-|       20 | Redondo | 0.8000 mm | 0.8000 mm |       PTH |     Vía |         F.Cu |       B.Cu |
-|       19 | Redondo | 3.2000 mm | 3.2000 mm |      NPTH |     Pad |         F.Cu |       B.Cu |
-|       18 | Redondo | 1.3000 mm | 1.3000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
-|       12 | Redondo | 1.5700 mm | 1.5700 mm |       PTH |     Pad |         F.Cu |       B.Cu |
-|        2 | Redondo | 1.6000 mm | 1.6000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
+|      210 | Redondo | 0.8000 mm | 0.8000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
+|      102 | Redondo | 1.1000 mm | 1.1000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
+|       30 | Redondo | 1.6000 mm | 1.6000 mm |       PTH |     Pad |         F.Cu |       B.Cu |
+|       24 | Redondo | 0.8000 mm | 0.8000 mm |       PTH |     Vía |         F.Cu |       B.Cu |
+|       21 | Redondo | 3.0000 mm | 3.0000 mm |      NPTH |     Pad |         F.Cu |       B.Cu |
+|        4 | Redondo | 4.0000 mm | 4.0000 mm |      NPTH |     Pad |         F.Cu |       B.Cu |
