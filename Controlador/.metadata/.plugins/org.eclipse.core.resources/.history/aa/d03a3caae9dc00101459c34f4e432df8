@@ -15,7 +15,7 @@ typedef struct {
   GPIO_TypeDef* port;
   uint16_t pin;
   uint8_t active_high;
-} pin_switch_t;
+} gpio_out_t;
 
 void Controller_Init(void);
 void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st);

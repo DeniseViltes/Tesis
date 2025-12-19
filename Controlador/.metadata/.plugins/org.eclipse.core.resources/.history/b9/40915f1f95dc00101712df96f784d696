@@ -92,8 +92,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  HAL_UART_Receive_IT();
   /* USER CODE BEGIN 2 */
-  CLI_Init(&huart2);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

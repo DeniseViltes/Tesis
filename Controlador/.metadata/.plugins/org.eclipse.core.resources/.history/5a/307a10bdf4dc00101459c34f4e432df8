@@ -3,10 +3,10 @@
 
 static cell_state_t cell_state[NUM_BANKS][CELLS_PER_BANK];
 
-/* ======================= MAPEOS SWITCHES ======================= */
+/* ======================= MAPEOS GPIO ======================= */
 
 // Celdas
-static pin_switch_t cell_sw[NUM_BANKS][CELLS_PER_BANK] = {
+static gpio_out_t cell_sw[NUM_BANKS][CELLS_PER_BANK] = {
   // Banco 1
   {
     { Vc_11_GPIO_Port, Vc_11_Pin, 1 },
@@ -25,7 +25,7 @@ static pin_switch_t cell_sw[NUM_BANKS][CELLS_PER_BANK] = {
 };
 
 // Bancos
-static pin_switch_t bank_sw[NUM_BANKS] = {
+static gpio_out_t bank_sw[NUM_BANKS] = {
   { Vc_1_GPIO_Port, Vc_1_Pin, 1 },
   { Vc_2_GPIO_Port, Vc_2_Pin, 1 },
   { Vc_3_GPIO_Port, Vc_3_Pin, 1 }
@@ -33,7 +33,7 @@ static pin_switch_t bank_sw[NUM_BANKS] = {
 
 /* ======================= FUNCIONES ======================= */
 
-static void gpio_write(const pin_switch_t* g, uint8_t on)
+static void gpio_write(const gpio_out_t* g, uint8_t on)
 {
   GPIO_PinState ps;
 
@@ -55,10 +55,6 @@ static void Controller_UpdateBank(uint8_t bank)
   gpio_write(&bank_sw[bank], both_off);
 }
 
-/**
- * Me setea todas las celdas en OFF
- * y todos los bancos encendidos
- */
 void Controller_Init(void)
 {
   for (uint8_t b = 0; b < NUM_BANKS; b++) {
@@ -69,10 +65,7 @@ void Controller_Init(void)
     Controller_UpdateBank(b);
   }
 }
-/**
- * Enciende o apaga una celda,
- *actualiza el switch del banco de forma acorde
- */
+
 void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st)
 {
   if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return;
@@ -82,9 +75,6 @@ void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st)
   Controller_UpdateBank(bank);
 }
 
-/**
- * Permite obtener el estado de una celda
- */
 cell_state_t Controller_GetCell(uint8_t bank, uint8_t cell)
 {
   if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK)
@@ -92,9 +82,7 @@ cell_state_t Controller_GetCell(uint8_t bank, uint8_t cell)
 
   return cell_state[bank][cell];
 }
-/**
- * Permite obtener el estado de un switch de un banco
- */
+
 uint8_t Controller_GetBankSwitch(uint8_t bank)
 {
   if (bank >= NUM_BANKS) return 0;
