@@ -1,0 +1,4 @@
+../Core/Src/cli.c:16:13:cli_print	1
+../Core/Src/cli.c:22:13:cli_handle_line	10
+../Core/Src/cli.c:69:6:CLI_Init	1
+../Core/Src/cli.c:78:6:CLI_RxCallback	6

@@ -18,9 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "controller.h"
-#include "cli.h"
-
+#include "controler.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -93,8 +91,6 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   Controller_Init();
-  CLI_Init(&huart2);
-
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -231,10 +227,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-  CLI_RxCallback(huart);
-}
+
 /* USER CODE END 4 */
 
 /**

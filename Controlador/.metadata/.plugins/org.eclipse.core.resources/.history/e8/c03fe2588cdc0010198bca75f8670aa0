@@ -1,0 +1,70 @@
+#include "main.h"
+#include "controller.h"
+#include <string.h>
+#include <stdio.h>
+
+extern UART_HandleTypeDef huart2; // típico en Nucleo: USART2 por ST-LINK
+
+static uint8_t rx_ch;
+static char line_buf[64];
+static uint8_t line_len = 0;
+
+static void cli_handle_line(const char* line)
+{
+  // comandos:
+  // cell <b> <c> on/off
+  // status
+  // help
+
+  if (strncmp(line, "status", 6) == 0) {
+    Controller_PrintStatus(&huart2);
+    return;
+  }
+  if (strncmp(line, "help", 4) == 0) {
+    const char* h =
+      "Commands:\r\n"
+      "  cell <bank 0-2> <cell 0-1> on|off\r\n"
+      "  status\r\n"
+      "  help\r\n";
+    HAL_UART_Transmit(&huart2, (uint8_t*)h, strlen(h), HAL_MAX_DELAY);
+    return;
+  }
+
+  uint8_t b, c;
+  char st[8];
+  if (sscanf(line, "cell %hhu %hhu %7s", &b, &c, st) == 3) {
+    if (strcmp(st, "on") == 0) {
+      Controller_SetCell(b, c, CELL_ON);
+      HAL_UART_Transmit(&huart2, (uint8_t*)"OK\r\n", 4, HAL_MAX_DELAY);
+      return;
+    }
+    if (strcmp(st, "off") == 0) {
+      Controller_SetCell(b, c, CELL_OFF);
+      HAL_UART_Transmit(&huart2, (uint8_t*)"OK\r\n", 4, HAL_MAX_DELAY);
+      return;
+    }
+  }
+
+  HAL_UART_Transmit(&huart2, (uint8_t*)"ERR\r\n", 5, HAL_MAX_DELAY);
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART2) {
+    if (rx_ch == '\r' || rx_ch == '\n') {
+      if (line_len > 0) {
+        line_buf[line_len] = '\0';
+        cli_handle_line(line_buf);
+        line_len = 0;
+      }
+      // prompt opcional
+      const char* p = "> ";
+      HAL_UART_Transmit(&huart2, (uint8_t*)p, strlen(p), HAL_MAX_DELAY);
+    } else {
+      if (line_len < sizeof(line_buf) - 1) {
+        line_buf[line_len++] = (char)rx_ch;
+      }
+    }
+    HAL_UART_Receive_IT(&huart2, &rx_ch, 1);
+  }
+}
