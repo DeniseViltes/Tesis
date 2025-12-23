@@ -80,18 +80,20 @@ void Controller_Init(void)
 }
 
 
-void Controller_SetCell_ON(uint8_t bank, uint8_t cell)
-{
-  Controller_UpdateBank(bank);
-  cell_state[bank][cell] = CELL_ON;
-  gpio_write(&cell_sw[bank][cell], CELL_ON);
-
-}
 
 void Controller_SetCell_OFF(uint8_t bank, uint8_t cell)
 {
+  Controller_UpdateBank(bank);
   cell_state[bank][cell] = CELL_OFF;
   gpio_write(&cell_sw[bank][cell], CELL_OFF);
+
+}
+
+void Controller_SetCell_ON(uint8_t bank, uint8_t cell)
+{
+
+  cell_state[bank][cell] = CELL_ON;
+  gpio_write(&cell_sw[bank][cell], CELL_ON);
   Controller_UpdateBank(bank);
 }
 

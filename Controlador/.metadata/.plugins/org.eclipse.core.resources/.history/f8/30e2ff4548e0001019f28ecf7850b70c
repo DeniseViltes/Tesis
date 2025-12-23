@@ -1,12 +1,6 @@
 #include "controller.h"
 #include "main.h"
 
-
-
-
-
-
-
 static cell_state_t cell_state[NUM_BANKS][CELLS_PER_BANK];
 
 /* ======================= MAPEOS SWITCHES ======================= */
@@ -38,6 +32,7 @@ static pin_switch_t bank_sw[NUM_BANKS] = {
 };
 
 /* ======================= FUNCIONES ======================= */
+
 static void gpio_write(const pin_switch_t* g, uint8_t on)
 {
   GPIO_PinState ps;
@@ -50,19 +45,15 @@ static void gpio_write(const pin_switch_t* g, uint8_t on)
   HAL_GPIO_WritePin(g->port, g->pin, ps);
 }
 
-
 static void Controller_UpdateBank(uint8_t bank)
 {
   // Banco ON solo si ambas celdas están OFF
   uint8_t both_off =
-    (cell_state[bank][0] == CELL_ON) ||
-    (cell_state[bank][1] == CELL_ON);
+    (cell_state[bank][0] == CELL_OFF) &&
+    (cell_state[bank][1] == CELL_OFF);
 
-  both_off = !both_off;
-
-  gpio_write(&bank_sw[bank], both_off);
+  gpio_write(&bank_sw[bank], !both_off);
 }
-
 
 /**
  * Me setea todas las celdas en OFF
@@ -78,24 +69,6 @@ void Controller_Init(void)
     Controller_UpdateBank(b);
   }
 }
-
-
-void Controller_SetCell_ON(uint8_t bank, uint8_t cell)
-{
-  Controller_UpdateBank(bank);
-  cell_state[bank][cell] = CELL_ON;
-  gpio_write(&cell_sw[bank][cell], CELL_ON);
-
-}
-
-void Controller_SetCell_OFF(uint8_t bank, uint8_t cell)
-{
-  cell_state[bank][cell] = CELL_OFF;
-  gpio_write(&cell_sw[bank][cell], CELL_OFF);
-  Controller_UpdateBank(bank);
-}
-
-
 /**
  * Enciende o apaga una celda,
  *actualiza el switch del banco de forma acorde
@@ -104,10 +77,9 @@ void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st)
 {
   if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return;
 
-  if (st == CELL_ON)
-	  Controller_SetCell_ON(bank, cell);
-  if (st == CELL_OFF)
-	  Controller_SetCell_OFF(bank, cell);
+  cell_state[bank][cell] = st;
+  gpio_write(&cell_sw[bank][cell], (st == CELL_ON));
+  Controller_UpdateBank(bank);
 }
 
 /**
