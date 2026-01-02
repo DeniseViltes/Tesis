@@ -82,6 +82,101 @@ void HAL_MspInit(void)
 }
 
 /**
+  * @brief ADC MSP Initialization
+  * This function configures the hardware resources used in this example
+  * @param hadc: ADC handle pointer
+  * @retval None
+  */
+void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  if(hadc->Instance==ADC1)
+  {
+    /* USER CODE BEGIN ADC1_MspInit 0 */
+
+    /* USER CODE END ADC1_MspInit 0 */
+    /* Peripheral clock enable */
+    __HAL_RCC_ADC1_CLK_ENABLE();
+
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    /**ADC1 GPIO Configuration
+    PC0     ------> ADC1_IN10
+    PC1     ------> ADC1_IN11
+    PA0-WKUP     ------> ADC1_IN0
+    PA1     ------> ADC1_IN1
+    PA4     ------> ADC1_IN4
+    PA5     ------> ADC1_IN5
+    PA6     ------> ADC1_IN6
+    PA7     ------> ADC1_IN7
+    PC4     ------> ADC1_IN14
+    PB0     ------> ADC1_IN8
+    */
+    GPIO_InitStruct.Pin = cell_31_Pin|cell_32_Pin|bus_2_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = cell_11_Pin|cell_12_Pin|cell_21_Pin|bus_1_Pin
+                          |out_neg_Pin|out_pos_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = cell_22_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    HAL_GPIO_Init(cell_22_GPIO_Port, &GPIO_InitStruct);
+
+    /* USER CODE BEGIN ADC1_MspInit 1 */
+
+    /* USER CODE END ADC1_MspInit 1 */
+
+  }
+
+}
+
+/**
+  * @brief ADC MSP De-Initialization
+  * This function freeze the hardware resources used in this example
+  * @param hadc: ADC handle pointer
+  * @retval None
+  */
+void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
+{
+  if(hadc->Instance==ADC1)
+  {
+    /* USER CODE BEGIN ADC1_MspDeInit 0 */
+
+    /* USER CODE END ADC1_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_ADC1_CLK_DISABLE();
+
+    /**ADC1 GPIO Configuration
+    PC0     ------> ADC1_IN10
+    PC1     ------> ADC1_IN11
+    PA0-WKUP     ------> ADC1_IN0
+    PA1     ------> ADC1_IN1
+    PA4     ------> ADC1_IN4
+    PA5     ------> ADC1_IN5
+    PA6     ------> ADC1_IN6
+    PA7     ------> ADC1_IN7
+    PC4     ------> ADC1_IN14
+    PB0     ------> ADC1_IN8
+    */
+    HAL_GPIO_DeInit(GPIOC, cell_31_Pin|cell_32_Pin|bus_2_Pin);
+
+    HAL_GPIO_DeInit(GPIOA, cell_11_Pin|cell_12_Pin|cell_21_Pin|bus_1_Pin
+                          |out_neg_Pin|out_pos_Pin);
+
+    HAL_GPIO_DeInit(cell_22_GPIO_Port, cell_22_Pin);
+
+    /* USER CODE BEGIN ADC1_MspDeInit 1 */
+
+    /* USER CODE END ADC1_MspDeInit 1 */
+  }
+
+}
+
+/**
   * @brief UART MSP Initialization
   * This function configures the hardware resources used in this example
   * @param huart: UART handle pointer

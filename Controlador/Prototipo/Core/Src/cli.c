@@ -100,6 +100,15 @@ static void cli_handle_line(const char *line)
   cli_print("ERR: unknown command (try 'help')\r\n");
 }
 
+
+/*
+ * Funcion que seleccione la tensión que requiere el usuario
+ * Funcion que seleccione el funcionamiento, por cli o por controlador de tensiones
+ * ver si puede hacer que se cambien en cualquier momento ambas formas sin problemas de funcionamiento
+ */
+
+
+
 /* ===================== API ===================== */
 void CLI_Init(UART_HandleTypeDef *huart)
 {

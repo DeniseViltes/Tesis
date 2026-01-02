@@ -1,0 +1,24 @@
+#pragma once   //para que solo se incluya una vez el .h
+
+#include "stm32f1xx_hal.h"
+#include <stdint.h>
+
+#define NUM_BANKS 3
+#define CELLS_PER_BANK 2
+
+typedef enum {
+  CELL_OFF = 0,
+  CELL_ON  = 1
+} cell_state_t;
+
+typedef struct {
+  GPIO_TypeDef* port;
+  uint16_t pin;
+  uint8_t active_high;
+} pin_switch_t;
+
+
+void Controller_Init(void);
+void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st);
+cell_state_t Controller_GetCell(uint8_t bank, uint8_t cell);
+uint8_t Controller_GetBankSwitch(uint8_t bank);
