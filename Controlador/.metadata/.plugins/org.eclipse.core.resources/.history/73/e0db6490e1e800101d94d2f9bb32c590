@@ -1,0 +1,64 @@
+/* Project includes. */
+#include "main.h"
+
+
+/* App includes. */
+#include "medicion.h"
+
+
+/* Application includes. */
+
+
+/********************** macros and definitions *******************************/
+
+
+#define SAMPLES_COUNTER (100)
+#define AVERAGER_SIZE (16)
+
+/********************** external data declaration *****************************/
+
+extern ADC_HandleTypeDef hadc1;
+
+/********************** external functions definition ************************/
+
+
+
+/********************** internal data declaration ****************************/
+uint32_t tickstart;
+uint16_t sample_idx;
+
+
+uint16_t sample_array[SAMPLES_COUNTER];
+bool b_trig_new_conversion;
+
+
+/********************** internal data definition *****************************/
+
+/********************** internal functions definitions ***********************/
+
+bool tomar_medicion();
+
+/********************** internal functions declaration ***********************/
+
+void adc_init(void)
+{
+
+	HAL_NVIC_SetPriority(ADC1_2_IRQn, 2, 0);
+	HAL_NVIC_EnableIRQ(ADC1_2_IRQn);
+
+	sample_idx = 0;
+	tickstart = HAL_GetTick();
+}
+
+
+
+
+void adc_update(void)
+{
+	static bool b_test_done = false;
+
+	b_test_done = test3_tick();
+
+}
+
+
