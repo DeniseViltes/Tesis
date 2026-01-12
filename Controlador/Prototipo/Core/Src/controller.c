@@ -175,7 +175,8 @@ static uint8_t Controller_get_top2_banks_(uint8_t *b1, uint8_t *b2)
 }
 
 
-static
+
+
 /*
  * Actualiza los valores de tension de cada banco
  */
