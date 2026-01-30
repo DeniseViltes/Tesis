@@ -144,6 +144,12 @@ class MainWindow(QMainWindow):
         self.y1lab = QLineEdit("Y1")
         self.y2lab = QLineEdit("Y2")
 
+        # Nombres de curvas (independientes de los labels de ejes)
+        self.c1name = QLineEdit("Curva 1")
+        self.c2name = QLineEdit("Curva 2")
+        self.c1name.editingFinished.connect(self.apply_curve_names_now)
+        self.c2name.editingFinished.connect(self.apply_curve_names_now)
+
         form.addRow("Tema:", self.cmb_theme)
         form.addRow("Modo:", self.cmb_mode)
         form.addRow("X:", self.cmb_x)
@@ -156,6 +162,8 @@ class MainWindow(QMainWindow):
         form.addRow("X label:", self.xlab)
         form.addRow("Y1 label:", self.y1lab)
         form.addRow("Y2 label:", self.y2lab)
+        form.addRow("Nombre curva 1:", self.c1name)
+        form.addRow("Nombre curva 2:", self.c2name)
         controls.addWidget(grp_opts)
         grp_style = QGroupBox("Estilo de curvas")
         form_s = QFormLayout(grp_style)
@@ -317,6 +325,34 @@ class MainWindow(QMainWindow):
 
         self._style_cache = cache
 
+    def _apply_style_dict_to_line(self, line, st: dict):
+        if line is None or not st:
+            return
+
+        if st.get("color") is not None:
+            line.set_color(st["color"])
+        if st.get("linestyle") is not None:
+            line.set_linestyle(st["linestyle"])
+        if st.get("linewidth") is not None:
+            line.set_linewidth(st["linewidth"])
+
+        # marker: "None" (string) lo quita siempre
+        mk = st.get("marker", "None")
+        if mk is None:
+            mk = "None"
+        line.set_marker(mk)
+
+        if st.get("markersize") is not None:
+            line.set_markersize(st["markersize"])
+        if st.get("markerfacecolor") is not None:
+            line.set_markerfacecolor(st["markerfacecolor"])
+        if st.get("markeredgecolor") is not None:
+            line.set_markeredgecolor(st["markeredgecolor"])
+        if st.get("alpha") is not None:
+            line.set_alpha(st["alpha"])
+        if st.get("visible") is not None:
+            line.set_visible(st["visible"])
+
     def _apply_line_styles(self):
         """
         Reaplica estilos a las curvas recién creadas.
@@ -379,6 +415,8 @@ class MainWindow(QMainWindow):
             if len(cols) >= 2:
                 self.xlab.setText(cols[0])
                 self.y1lab.setText(cols[1])
+                if self.c1name.text().strip() in ("", "Curva 1"):
+                    self.c1name.setText(cols[1])
             self.l1.setText(f"Archivo 1: {os.path.basename(p)}")
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
@@ -392,6 +430,8 @@ class MainWindow(QMainWindow):
             self.x2, self.y2 = x, y
             if len(cols) >= 2:
                 self.y2lab.setText(cols[1])
+                if self.c2name.text().strip() in ("", "Curva 2"):
+                    self.c2name.setText(cols[1])
             self.l2.setText(f"Archivo 2: {os.path.basename(p)}")
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
@@ -571,6 +611,20 @@ class MainWindow(QMainWindow):
     # -------------------------
     # Plot
     # -------------------------
+
+    def apply_curve_names_now(self):
+        """Aplica los nombres de Curva 1/2 a las líneas actuales sin re-graficar."""
+        if not getattr(self, "lines", None):
+            return
+        if len(self.lines) >= 1:
+            self.lines[0].set_label(self.c1name.text().strip() or "Curva 1")
+        if len(self.lines) >= 2:
+            self.lines[1].set_label(self.c2name.text().strip() or "Curva 2")
+        # refrescar leyenda para reflejar los nuevos nombres
+        self.refresh_legend()
+        self.canvas.draw_idle()
+
+
     def plot(self):
         if self.x1 is None:
             QMessageBox.warning(self, "Falta", "Cargá archivo 1")
@@ -594,7 +648,7 @@ class MainWindow(QMainWindow):
         # IMPORTANTE: el usuario pidió sin notación/escala en el label => SOLO el texto del usuario
         ax1.set_ylabel(self.y1lab.text())
 
-        p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=self.y1lab.text())
+        p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
 
         mode = self.cmb_mode.currentIndex()
         self.lines = [p1[0]]
@@ -606,7 +660,7 @@ class MainWindow(QMainWindow):
             if self.x2 is None:
                 QMessageBox.warning(self, "Falta", "Cargá archivo 2")
                 return
-            p2 = ax1.plot(self.x2 * xsc, self.y2 * y2sc, label=self.y2lab.text())
+            p2 = ax1.plot(self.x2 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
             self.lines.append(p2[0])
 
         else:  # mode == 2
@@ -616,7 +670,7 @@ class MainWindow(QMainWindow):
             ax2 = ax1.twinx()
             self.ax2 = ax2
             ax2.set_ylabel(self.y2lab.text())  # solo texto del usuario
-            p2 = ax2.plot(self.x2 * xsc, self.y2 * y2sc, label=self.y2lab.text())
+            p2 = ax2.plot(self.x2 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
             self.lines.append(p2[0])
 
         # Reaplicar estilos (color/ls/lw/marker/visible) ANTES de recrear la leyenda
@@ -763,10 +817,16 @@ class MainWindow(QMainWindow):
         st["color"] = c.name()
         self._slot_styles[slot] = st
 
+        # aplicar directo al Line2D del slot (si existe)
+        if self.lines and slot < len(self.lines):
+            self._apply_style_dict_to_line(self.lines[slot], st)
+
+        # limpiar cache para que no pise luego
         self._style_cache = {}
-        self._apply_line_styles()
         self.refresh_legend()
         self.canvas.draw_idle()
+
+        # sincronizar caches/slots con lo aplicado
         self._capture_line_styles()
 
     def edit_style(self):
@@ -776,7 +836,6 @@ class MainWindow(QMainWindow):
         st["linestyle"] = self.cmb_ls.currentText()
 
         mk = self.cmb_marker.currentText()
-        # Usar "None" (string) para quitar marcador en Matplotlib
         st["marker"] = "None" if mk == "None" else mk
 
         try:
@@ -786,14 +845,13 @@ class MainWindow(QMainWindow):
 
         self._slot_styles[slot] = st
 
-        # IMPORTANTE: que el cambio del panel gane al cache del plot anterior
-        self._style_cache = {}
+        # aplicar directo al Line2D del slot (si existe)
+        if self.lines and slot < len(self.lines):
+            self._apply_style_dict_to_line(self.lines[slot], st)
 
-        self._apply_line_styles()
+        self._style_cache = {}
         self.refresh_legend()
         self.canvas.draw_idle()
-
-        # sincroniza cache/slots con lo aplicado (para no perderlo al re-graficar)
         self._capture_line_styles()
 
     def save_preset(self):
