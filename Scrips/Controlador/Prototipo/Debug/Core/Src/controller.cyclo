@@ -1,0 +1,8 @@
+../Core/Src/controller.c:41:13:gpio_write	2
+../Core/Src/controller.c:54:13:Controller_UpdateBank	3
+../Core/Src/controller.c:71:6:Controller_Init	3
+../Core/Src/controller.c:83:6:Controller_SetCell_ON	1
+../Core/Src/controller.c:91:6:Controller_SetCell_OFF	1
+../Core/Src/controller.c:103:6:Controller_SetCell	5
+../Core/Src/controller.c:116:14:Controller_GetCell	3
+../Core/Src/controller.c:126:9:Controller_GetBankSwitch	4

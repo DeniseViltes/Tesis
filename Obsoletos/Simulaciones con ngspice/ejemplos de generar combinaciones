@@ -1,0 +1,32 @@
+
+def generar_combinaciones():
+    c1 = {f"R{i}{j}_1": "VcON" for i in range(1, 6) for j in range(1, 6)}  # todas encendidas
+    c2 = {f"R{i}{j}_1": "VcOFF" for i in range(1, 6) for j in range(1, 6)} # todas apagadas
+    c3 = {"R11_1": "VcMAS", "R22_1": "VcMENOS", "R33_1": "VcON"}           # solo algunas activas
+    return [c1, c2, c3]
+
+
+
+Podés encender una fila entera, una columna, o diagonales:
+
+def generar_combinaciones():
+    combos = []
+    # Filas
+    for fila in range(1, 6):
+        combos.append({f"R{fila}{j}_1": "VcON" for j in range(1, 6)})
+    # Columnas
+    for col in range(1, 6):
+        combos.append({f"R{i}{col}_1": "VcON" for i in range(1, 6)})
+    return combos
+
+
+Por eje, todas las combinaciones de 2 celdas encendidas
+
+
+def generar_combinaciones():
+    base = [f"R{i}{j}_1" for i in range(1, 6) for j in range(1, 6)]
+    combinaciones = []
+    for celdas_on in itertools.combinations(base, 2):  # 2 encendidas
+        mapping = {c: "VcON" for c in celdas_on}
+        combinaciones.append(mapping)
+    return combinaciones
