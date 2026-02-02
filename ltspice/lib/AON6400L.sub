@@ -1,0 +1,1 @@
+.model AON6400L VDMOS(Vto=1.7 Kp=280 Lambda=0.01 Rd=1m Rs=0.5m Rg=1.2 Rb=2m Cgdmax=1n Cgdmin=200p Cgs=6.9n Cjo=1n M=0.5 Is=1e-12 Vds=30 Ron=1.4m Qg=140n Qgs=20n Qgd=32n mtriode=2 Ksubthres=100m mfg=AOS)

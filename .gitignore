@@ -1,109 +1,66 @@
-# Created by https://gitignore.org
-# KiCad.gitignore
-
-# For PCBs designed using KiCad: https://www.kicad.org/
-# Format documentation: https://kicad.org/help/file-formats/
-
-# Temporary files
-*.000
-*.bak
-*.bck
-*.kicad_pcb-bak
-*.kicad_sch-bak
-*-backups
-*-cache*
-*-bak
-*-bak*
-*~
-~*
-_autosave-*
-\#auto_saved_files\#
-*.tmp
-*-save.pro
-*-save.kicad_pcb
-fp-info-cache
-~*.lck
-\#auto_saved_files#
-
-# Netlist files (exported from Eeschema)
-*.net
-
-# Autorouter files (exported from Pcbnew)
-*.dsn
-*.ses
-
-# Exported BOM files
-*.xml
-*.csv
-
-# Archived Backups (KiCad 6.0)
-**/*-backups/*.zip
-
-# Local project settings
-*.kicad_prl
-
-
-
-# For ltspice
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
 *.log
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# =========================
+# STM32CubeIDE / Eclipse
+# =========================
+.metadata/
+.recommenders/
+.settings/
+.project
+.cproject
+.classpath
+
+# Build outputs
+Debug/
+Release/
+**/Debug/
+**/Release/
+
+# =========================
+# LTspice
+# (ajustable según tu flujo)
+# =========================
 *.raw
+*.op.raw
+*.log
 *.net
 *.fft
+*.plt
+*.asy.bak
+*.asc.bak
 
-
-#For controler
-# Prerequisites
-*.d
-
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
-/Debug/
-/*.launch
+# =========================
+# KiCad
+# =========================
+**/*-backups/
+**/*.bak
+**/*.kicad_prl
+**/*.kicad_pro-bak
+**/*_autosave-*
+**/*.tmp
+**/.cache/

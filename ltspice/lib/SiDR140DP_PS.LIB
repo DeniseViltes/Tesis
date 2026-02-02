@@ -1,0 +1,38 @@
+********************************
+* Copyright:                   *
+* Vishay Intertechnology, Inc. *
+********************************
+*25-Jun-2018
+*ECN S18-0632, Rev. A
+*File Name: SiDR140DP_PS.txt and SiDR140DP_PS.lib
+*This document is intended as a SPICE modeling guideline and does not
+*constitute a commercial product datasheet. Designers should refer to the
+*appropriate datasheet of the same number for guaranteed specification
+*limits.
+.SUBCKT SiDR140DP D G S 
+M1 3 GX S S NMOS W= 23850000u L= 0.30u 
+M2 S GX S D PMOS W= 23850000u L= 0.13u 
+R1 D 3 4.408e-04 TC=5.235e-03,4.306e-06
+CGS GX S 3.488e-09 
+CGD GX D 1.008e-13 
+RG G GY 0.38 
+RTCV 100 S 1e6 TC=1.056e-04,-5.959e-06
+ETCV GX GY 100 200 1 
+ITCV S 100 1u 
+VTCV 200 S 1 
+DBD S D DBD 23850000u 
+**************************************************  
+.MODEL NMOS NMOS ( LEVEL = 3 TOX = 5e-8 
++ RS = 0 KP = 1.741e-05 NSUB = 8.906e+16 
++ KAPPA = 1.333e-03 NFS = 1.082e+11 
++ LD = 0 IS = 0 TPG = 1    )
+************************************************** 
+.MODEL PMOS PMOS ( LEVEL = 3 TOX = 5e-8 
++NSUB = 3.324e+16 IS = 0 TPG = -1    )
+************************************************** 
+.MODEL DBD D ( 
++FC = 0.1 TT = 8.240e-08 T_measured = 25 BV = 26
++RS = 9.093e-03 N = 9.060e-01 IS = 1.000e-13 
++EG = 7.299e-01 XTI = 1.000e+01 TRS1 = 1.000e-05
++CJO = 4.017e-10 VJ = 5.002e+00 M = 8.344e-01 ) 
+.ENDS 

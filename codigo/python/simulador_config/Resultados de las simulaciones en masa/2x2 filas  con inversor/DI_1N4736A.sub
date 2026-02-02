@@ -1,0 +1,11 @@
+*SRC=1N4736A;DI_1N4736A;Diodes;Zener <=10V; 6.80V  1.00W   Diodes Inc. Zener
+*SYM=HZEN
+.SUBCKT DI_1N4736A  1 2
+*        Terminals    A   K
+D1 1 2 DF
+DZ 3 1 DR
+VZ 2 3 6.05
+.MODEL DF D ( IS=60.6p RS=0.620 N=1.10
++ CJO=123p VJ=0.750 M=0.330 TT=50.1n )
+.MODEL DR D ( IS=12.1f RS=0.209 N=1.00 )
+.ENDS
