@@ -1,15 +1,15 @@
 * ------------------------------------------------------------------------------
-*
+* 
 * DISCLAIMER
-*
+* 
 * INFINEON'S MODEL TERMS OF USE
-*
+* 
 * BY DOWNLOADING AND/OR USING THIS INFINEON MODEL ("MODEL"), THE USER
 * (INCLUDING YOU) AGREES TO BE BOUND BY THE TERMS OF USE HERE STATED. IF USER
 * DOES NOT AGREE TO ALL TERMS OF USE HERE STATED, USER SHALL NOT DOWNLOAD,
 * USE OR COPY THE MODEL BUT IMMEDIATELY DELETE IT (TO THE EXTENT THAT IT
 * WAS DOWNLOADED ALREADY).
-*
+* 
 * 1. SCOPE OF USE
 * 1.1 Any use of this Model provided by Infineon Technologies AG is subject
 *     to these Terms of Use.
@@ -23,7 +23,7 @@
 *     the product performance, it cannot simulate the exact product performance
 *     under all conditions and it is also not intended to replace
 *     bread-boarding for final verification.
-*
+* 
 * 2. IMPORTANT NOTICE
 * 2.1 Infineon Technologies AG ("Infineon") is not and cannot be aware of the
 *     specific application of the Infineon's Model by User. However, Model may
@@ -37,7 +37,7 @@
 *     errors and bugs and that User is required to qualify the Model for
 *     Critical Applications pursuant to the applicable local quality, safety
 *     and legal requirements before permitting or giving access to any such use.
-*
+* 
 * 3. CONFIDENTIAL INFORMATION
 *     User shall treat ideas, concepts and information incorporated in the
 *     Model, the documentation and the content of this Terms of Use (together
@@ -45,7 +45,7 @@
 *     any third party unless otherwise agreed in writing between User and
 *     Infineon, not use it for any other purposes than using the Model for
 *     simulation and testing purposes only.
-*
+* 
 * 4. WARRANTY
 * 4.1 User acknowledges that the Model is provided by Infineon under this Terms
 *     of Use is provided free of charge and "AS IS" without any warranty or
@@ -57,7 +57,7 @@
 * 4.2 Infineon reserves the right to make corrections, deletions, modifications,
 *     enhancements, improvements and other changes to the Model at any time
 *     or to move or discontinue any Model without notice.
-*
+* 
 * 5. LIABILITY
 * 5.1 Nothing in this Terms of Use shall limit or exclude Infineon's liability
 *     under mandatory liability laws, for injuries to life, body or health,
@@ -73,7 +73,7 @@
 *     foreseeable damage.
 * 5.3 Without prejudice to Sections 8.1 and 8.2, Infineon's liability under
 *     this Agreement shall be excluded in all other cases.
-*
+* 
 * 6. EXPORT REGULATIONS
 *     The User shall comply with all applicable national and international
 *     laws and regulations, in particular the applicable export control
@@ -86,7 +86,7 @@
 *     connection with nuclear technology or weapons of mass destruction
 *     (nuclear, biological or chemical) and carriers thereof nor supply
 *     military consignees.
-*
+* 
 * 7. TERMINATION OF USE PERMIT
 *     If the User violates these Terms of Use, such User's permit to use
 *     this Model terminates automatically. In addition, Infineon may
@@ -94,7 +94,7 @@
 *     at any time regardless of any violation of these Terms of Use. In
 *     any of the foregoing events, the User is obliged to immediately destroy
 *     any content that has been downloaded or printed from Infineon's website.
-*
+* 
 * 8. MISCELLANEOUS
 * 8.1 These Terms of Use are subject to the laws of the Federal Republic
 *     of Germany with the exception of the United Nations on Purchase
@@ -103,15 +103,15 @@
 * 8.2 Should any provision in these Terms of Use be or become invalid, the
 *     validity of all other provisions or agreements shall remain unaffected
 *     thereby.
-*
+* 
 * ------------------------------------------------------------------------------
-*
+* 
 * Title:    INFINEON Power Transistors Simulation Models for PSpice
 * Description: p-channel Transistors
 *                 OptiMOS-P2 30V
 * Authors:  Dr. Elmar Gondro, Tel: +49/89/234-29391
 *           Sebastian Koch,   Tel: +49/89/234-89858
-*           Gerhard NÃ¶bauer,  Tel: +43/(5)/1777-6653
+*           Gerhard Nöbauer,  Tel: +43/(5)/1777-6653
 * Email:    Elmar.Gondro@Infineon.com
 *           Sebastian.Koch@Infineon.com
 *           Gerhard.Noebauer@Infineon.com
@@ -119,52 +119,52 @@
 *           www.Infineon.com/support
 *
 * ------------------------------------------------------------------------------
-*
+* 
 * This library contains models of the following INFINEON transistors:
-*
-* Product          DeviceType  Level  VDSmax/V  RDSonmax/mOhm  IDmax/A  Package            L3-ModelName       L1-ModelName         L0-ModelName
+* 
+* Product          DeviceType  Level  VDSmax/V  RDSonmax/mOhm  IDmax/A  Package            L3-ModelName       L1-ModelName         L0-ModelName 
 * -----------------------------------------------------------------------------------------------------------------------------------------------------
-* IPB45P03P4L-11     OptiMOS      LL      -30       10.8        -45     TO263-3.(D2PAK)    IPB45P03P4L_11     IPB45P03P4L_11_L1    IPB45P03P4L_11_L0
-* IPB80P03P4L-04     OptiMOS      LL      -30        4.1        -80     TO263-3.(D2PAK)    IPB80P03P4L_04     IPB80P03P4L_04_L1    IPB80P03P4L_04_L0
-* IPB80P03P4L-07     OptiMOS      LL      -30        6.9        -80     TO263-3.(D2PAK)    IPB80P03P4L_07     IPB80P03P4L_07_L1    IPB80P03P4L_07_L0
-* IPD50P03P4L-11     OptiMOS      LL      -30       10.5        -50     TO252-3.(DPAK)     IPD50P03P4L_11     IPD50P03P4L_11_L1    IPD50P03P4L_11_L0
-* IPD80P03P4L-07     OptiMOS      LL      -30        6.8        -80     TO252-3.(DPAK)     IPD80P03P4L_07     IPD80P03P4L_07_L1    IPD80P03P4L_07_L0
-* IPD90P03P4L-04     OptiMOS      LL      -30        4.5        -90     TO252-3.(DPAK)     IPD90P03P4L_04     IPD90P03P4L_04_L1    IPD90P03P4L_04_L0
-* IPP80P03P4L-04     OptiMOS      LL      -30        4.4        -80     TO220-3            IPP80P03P4L_04     IPP80P03P4L_04_L1    IPP80P03P4L_04_L0
-* IPB80P03P4-05      OptiMOS      NL      -30        4.7        -80     TO263-3.(D2PAK)    IPB80P03P4_05      IPB80P03P4_05_L1     IPB80P03P4_05_L0
-* IPD90P03P4-04      OptiMOS      NL      -30        4.5        -90     TO252-3.(DPAK)     IPD90P03P4_04      IPD90P03P4_04_L1     IPD90P03P4_04_L0
-*
+* IPB45P03P4L-11     OptiMOS      LL      -30       10.8        -45     TO263-3.(D2PAK)    IPB45P03P4L_11     IPB45P03P4L_11_L1    IPB45P03P4L_11_L0   
+* IPB80P03P4L-04     OptiMOS      LL      -30        4.1        -80     TO263-3.(D2PAK)    IPB80P03P4L_04     IPB80P03P4L_04_L1    IPB80P03P4L_04_L0   
+* IPB80P03P4L-07     OptiMOS      LL      -30        6.9        -80     TO263-3.(D2PAK)    IPB80P03P4L_07     IPB80P03P4L_07_L1    IPB80P03P4L_07_L0   
+* IPD50P03P4L-11     OptiMOS      LL      -30       10.5        -50     TO252-3.(DPAK)     IPD50P03P4L_11     IPD50P03P4L_11_L1    IPD50P03P4L_11_L0   
+* IPD80P03P4L-07     OptiMOS      LL      -30        6.8        -80     TO252-3.(DPAK)     IPD80P03P4L_07     IPD80P03P4L_07_L1    IPD80P03P4L_07_L0   
+* IPD90P03P4L-04     OptiMOS      LL      -30        4.5        -90     TO252-3.(DPAK)     IPD90P03P4L_04     IPD90P03P4L_04_L1    IPD90P03P4L_04_L0   
+* IPP80P03P4L-04     OptiMOS      LL      -30        4.4        -80     TO220-3            IPP80P03P4L_04     IPP80P03P4L_04_L1    IPP80P03P4L_04_L0   
+* IPB80P03P4-05      OptiMOS      NL      -30        4.7        -80     TO263-3.(D2PAK)    IPB80P03P4_05      IPB80P03P4_05_L1     IPB80P03P4_05_L0    
+* IPD90P03P4-04      OptiMOS      NL      -30        4.5        -90     TO252-3.(DPAK)     IPD90P03P4_04      IPD90P03P4_04_L1     IPD90P03P4_04_L0    
+* 
 * ------------------------------------------------------------------------------
-*
-* Thermal nodes of level 3 models:
-*
-*  Tj:    Potential (temperature in Â°C) at junction (typically not connected)
+* 
+* Thermal nodes of level 3 models: 
+* 
+*  Tj:    Potential (temperature in °C) at junction (typically not connected) 
 *  Tcase: Node where boundary condition (external heat sinks) must be connected.
-*         Ideal heat sink can be modeled by using a voltage source stating the
-*         ambient temperature in Â°C between Tcase and ground.
-*
+*         Ideal heat sink can be modeled by using a voltage source stating the 
+*         ambient temperature in °C between Tcase and ground. 
+* 
 * ------------------------------------------------------------------------------
-*
-* This file also contains simplified models that are compatible to standard
-* Spice (Level 0)
-*
+* 
+* This file also contains simplified models that are compatible to standard 
+* Spice (Level 0) 
+* 
 * ------------------------------------------------------------------------------
-*
-* History:
-* DD/MM/YY
-* 07/11/08 initial version                                             (NÃ¶bauer)
+* 
+* History: 
+* DD/MM/YY 
+* 07/11/08 initial version                                             (Nöbauer)
 * 17/05/17 rename Zthtype -> dZth                               (Gondro, Moyses)
 * 03/05/18 param Rlim limited to avoid negative sqrt                    (Gondro)
 * 25/01/19 fixed bug in .FUNC Pb(I,dT,Rb)                               (Gondro)
 * 08/09/22 added Compact Model Completion Monitor                       (Gondro)
 *          model lib reduced to products with status "active and preferred"
-*
+* 
 * ------------------------------------------------------------------------------
-*
+* 
 * P4_40_s_var:  PFET4-40V NL
 * P4_40_r_var:  PFET4-40V LL
 * P4_40_r1_var: PFET4-40V LL ATV
-*
+* 
 * ------------------------------------------------------------------------------
 
 * LTspice: turning off default 1 mOhm series damping resistance (R=0)
@@ -184,9 +184,9 @@
 .PARAM  b0=45.6      p0=9.702    p1=-41m      p2=63u
 
 .PARAM  Rd=16.4m     nmu=2.3     Tref=298     T0=273      lnIsj=-23.54
-.PARAM  ndi=1.24     n_Isj=3.0   Rdi=6m      nmu2=0.479
+.PARAM  ndi=1.24     n_Isj=3.0   Rdi=6m      nmu2=0.479   
 .PARAM  ta=3n        td=20n
-.PARAM  Rf=0.68      nmu3=0.91
+.PARAM  Rf=0.68      nmu3=0.91   
 
 .PARAM  f1=420p      f2=800p     f3=1.02n     U0=15      nc=2.3       nd=1.2
 .PARAM  g1=0.17      bb=2.8      remp=0.01p   f2r=230p
@@ -213,7 +213,7 @@
 .FUNC  I0(Uee,p,pp,z1)  {if(Uee>pp,(Uee-c*z1)*z1,p*(pp-p)/c*exp((Uee-pp)/p))}
 .FUNC  Ig(Uds,T,p,Uee)  {bet*(T0/T)**nmu3*I0(Uee,p,min(2*p,p+c*Uds),min(Uds,Uee/(2*c)))}
 
-.FUNC J(d,g,T,da,s)
+.FUNC J(d,g,T,da,s) 
 + {a*s*((Ig(da,T,(p0+(p1+p2*T)*T)*kbq*T,g-Vth+auth*(T-Tref)+Fm*da**Fn+1*limit(-d,0,1))+
 + exp(min(lB+(d-UB-ab*(T-Tref))/UT,25))))}
 
@@ -277,7 +277,7 @@ G_TH      0   Tj  VALUE =
 
 .PARAM  Rd=16.4m     nmu=2.3     Tref=298     T0=273      lnIsj=-26.974
 .PARAM  ndi=1.104    n_Isj=3.0   Rdi=6m      nmu2=0.479   ta=3n       td=20n
-.PARAM  Rf=0.68      nmu3=1
+.PARAM  Rf=0.68      nmu3=1   
 
 .PARAM  f1=280p      f2=800p     f3=930p      U0=15      nc=2.5       nd=1.2
 .PARAM  g1=0.12      bb=5        remp=0.01p   f2r=230p
@@ -304,7 +304,7 @@ G_TH      0   Tj  VALUE =
 .FUNC  I0(Uee,p,pp,z1)  {if(Uee>pp,(Uee-c*z1)*z1,p*(pp-p)/c*exp((Uee-pp)/p))}
 .FUNC  Ig(Uds,T,p,Uee)  {bet*(T0/T)**nmu3*I0(Uee,p,min(2*p,p+c*Uds),min(Uds,Uee/(2*c)))}
 
-.FUNC J(d,g,T,da,s)
+.FUNC J(d,g,T,da,s) 
 + {a*s*((Ig(da,T,(p0+(p1+p2*T)*T)*kbq*T,g-Vth+auth*(T-Tref)+Fm*da**Fn+1*limit(-d,0,1))+
 + exp(min(lB+(d-UB-ab*(T-Tref))/UT,25))))}
 
@@ -369,9 +369,9 @@ G_TH      0   Tj  VALUE =
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -384,7 +384,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               6.34m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {3.12m+limit(dZth,0,1)*1.15m}
 Rth2  t1      t2              {41.7m+limit(dZth,0,1)*15.43m}
 Rth3  t2      t3              {160.83m+limit(dZth,0,1)*51.87m}
@@ -410,9 +410,9 @@ Cth6  Tcase   0               190m
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -425,7 +425,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               3.71m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {3.12m+limit(dZth,0,1)*1.15m}
 Rth2  t1      t2              {41.7m+limit(dZth,0,1)*15.43m}
 Rth3  t2      t3              {160.83m+limit(dZth,0,1)*51.87m}
@@ -451,9 +451,9 @@ Cth6  Tcase   0               70m
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -466,7 +466,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               6.34m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {3.12m+limit(dZth,0,1)*1.15m}
 Rth2  t1      t2              {41.7m+limit(dZth,0,1)*15.43m}
 Rth3  t2      t3              {160.83m+limit(dZth,0,1)*51.87m}
@@ -492,9 +492,9 @@ Cth6  Tcase   0               220m
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -507,7 +507,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               6.34m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {6.18m+limit(dZth,0,1)*2.29m}
 Rth2  t1      t2              {80.78m+limit(dZth,0,1)*29.89m}
 Rth3  t2      t3              {297.27m+limit(dZth,0,1)*103.45m}
@@ -533,9 +533,9 @@ Cth6  Tcase   0               190m
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -548,7 +548,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               3.71m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {6.18m+limit(dZth,0,1)*2.29m}
 Rth2  t1      t2              {80.78m+limit(dZth,0,1)*29.89m}
 Rth3  t2      t3              {297.27m+limit(dZth,0,1)*103.45m}
@@ -574,9 +574,9 @@ Cth6  Tcase   0               70m
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -589,7 +589,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               3.17m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {9.33m+limit(dZth,0,1)*3.46m}
 Rth2  t1      t2              {119.9m+limit(dZth,0,1)*44.38m}
 Rth3  t2      t3              {436.08m+limit(dZth,0,1)*157.07m}
@@ -615,9 +615,9 @@ Cth6  Tcase   0               190m
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -630,7 +630,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               1.85m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {9.33m+limit(dZth,0,1)*3.46m}
 Rth2  t1      t2              {119.9m+limit(dZth,0,1)*44.38m}
 Rth3  t2      t3              {436.08m+limit(dZth,0,1)*157.07m}
@@ -656,9 +656,9 @@ Cth6  Tcase   0               70m
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_s_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_s_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -671,7 +671,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               6.34m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {3.12m+limit(dZth,0,1)*1.15m}
 Rth2  t1      t2              {41.7m+limit(dZth,0,1)*15.43m}
 Rth3  t2      t3              {160.83m+limit(dZth,0,1)*51.87m}
@@ -697,9 +697,9 @@ Cth6  Tcase   0               190m
 
 .FUNC   Pb(I,dT,Rb)  {Rb/(2*Rtb)*(I-limit((dT/(max(I,1n)*Rb)+RRf*I)*g2,0,I))**2}
 
-X1  d1 g s Tj P4_30_s_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_s_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -712,7 +712,7 @@ Rdb   drain  d2    10
 
 G_TH  0    Tb  VALUE = {Pb(abs(I(Ls)),V(Tj,Tcase),Rrbond*(1+(limit((V(Tb)+V(Tj))/2,-200,999)-25)*4m))}
 Cthb  Tb      0               3.71m
-Rthb  Tb      Tj              {Rtb}
+Rthb  Tb      Tj              {Rtb} 
 Rth1  Tj      t1              {3.12m+limit(dZth,0,1)*1.15m}
 Rth2  t1      t2              {41.7m+limit(dZth,0,1)*15.43m}
 Rth3  t2      t3              {160.83m+limit(dZth,0,1)*51.87m}
@@ -735,9 +735,9 @@ Cth6  Tcase   0               70m
 .PARAM Inn=80       Unn=10       Rmax=4.2m    gmin=78
 .PARAM act=8.44
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -758,9 +758,9 @@ R1    w      0      1u
 .PARAM Inn=90       Unn=10       Rmax=4m      gmin=84
 .PARAM act=8.44
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -781,9 +781,9 @@ R1    w      0      1u
 .PARAM Inn=80       Unn=10       Rmax=4.5m    gmin=78
 .PARAM act=8.44
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -804,9 +804,9 @@ R1    w      0      1u
 .PARAM Inn=80       Unn=10       Rmax=7m      gmin=59
 .PARAM act=4.26
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -827,9 +827,9 @@ R1    w      0      1u
 .PARAM Inn=80       Unn=10       Rmax=6.8m    gmin=60
 .PARAM act=4.26
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -850,9 +850,9 @@ R1    w      0      1u
 .PARAM Inn=45       Unn=10       Rmax=10.9m   gmin=35
 .PARAM act=2.82
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -873,9 +873,9 @@ R1    w      0      1u
 .PARAM Inn=50       Unn=10       Rmax=10.5m   gmin=38
 .PARAM act=2.82
 
-X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_r_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -896,9 +896,9 @@ R1    w      0      1u
 .PARAM Inn=80       Unn=10       Rmax=4.6m    gmin=66
 .PARAM act=8.44
 
-X1  d1 g s Tj P4_30_s_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_s_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
@@ -919,9 +919,9 @@ R1    w      0      1u
 .PARAM Inn=90       Unn=10       Rmax=4.4m    gmin=71
 .PARAM act=8.44
 
-X1  d1 g s Tj P4_30_s_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn}
+X1  d1 g s Tj P4_30_s_var PARAMS: a={act} dVth={dVth} dR={dRdson} dgfs={dgfs} Inn={Inn} Unn={Unn} 
 +                                        Rmax={Rmax} gmin={gmin} Rs={Rs} Rp={Rd} dC={dC} Rm={Rm}
-Rg    g1     g    {Rg}
+Rg    g1     g    {Rg}   
 Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
 Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
 Rsa   s1     s    1Meg
