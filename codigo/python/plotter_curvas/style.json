@@ -1,0 +1,24 @@
+{
+  "slot0": {
+    "color": "#ffaa00",
+    "linestyle": "-",
+    "linewidth": 3.0,
+    "marker": "None",
+    "markersize": 6.0,
+    "markerfacecolor": "#1f77b4",
+    "markeredgecolor": "#1f77b4",
+    "alpha": 1.0,
+    "visible": true
+  },
+  "slot1": {
+    "color": "#ff007f",
+    "linestyle": "-",
+    "linewidth": 2.5,
+    "marker": "None",
+    "markersize": 6.0,
+    "markerfacecolor": "#1f77b4",
+    "markeredgecolor": "#1f77b4",
+    "alpha": 1.0,
+    "visible": true
+  }
+}

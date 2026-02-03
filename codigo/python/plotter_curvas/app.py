@@ -54,6 +54,9 @@ class MainWindow(QMainWindow):
         self.colnames2 = None
         self.lines = []
 
+        self.data1_steps = None  # list of {"label":..., "data":..., "colnames":...}
+        self.data2_steps = None
+
         # Probes A/B
         self.probeA = None
         self.probeB = None
@@ -163,7 +166,7 @@ class MainWindow(QMainWindow):
         )
 
         self.tit = QLineEdit("LTspice plot")
-        self.xlab = QLineEdit("time")
+        self.xlab = QLineEdit("tiempo")
         self.y1lab = QLineEdit("Y1")
         self.y2lab = QLineEdit("Y2")
 
@@ -554,22 +557,47 @@ class MainWindow(QMainWindow):
     # File I/O
     # -------------------------
     def open1(self):
-        p, _ = QFileDialog.getOpenFileName(self, "Abrir", "", "Text files (*.txt *.csv);;All (*.*)")
+        p, _ = QFileDialog.getOpenFileName(
+            self, "Abrir", "", "Text files (*.txt *.csv);;All (*.*)"
+        )
         if not p:
             return
+
+        self.file1_path = p
+
+        # -------- intentar leer como STEP primero --------
         try:
-            data, _, cols = read_ltspice_table(p, 1)
-            self.data1 = data
-            self.colnames1 = cols
-            self.file1_path = p
-            self._populate_column_combo(self.cmb_file1, cols)
-            self._on_file1_column_changed()
-            if cols:
-                self.xlab.setText(cols[0])
-            self.l1.setText(f"Archivo 1: {os.path.basename(p)}")
-            self._refresh_signal_list()
-        except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
+            _, cols, steps = read_ltspice_steps(p)
+
+            if steps:  # ✅ archivo con sweep
+                self.steps1 = steps
+                self.data1 = None
+                self.colnames1 = cols
+
+                # opcional: forzar modo N curvas
+                self.cmb_mode.setCurrentIndex(3)
+
+                # llenar lista con labels de step
+                self.lst_signals.clear()
+                for st in steps:
+                    item = QListWidgetItem(f"F1: {st['label']}")
+                    item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                    item.setCheckState(Qt.CheckState.Checked)
+                    self.lst_signals.addItem(item)
+
+                return  # ← IMPORTANTE: no seguir con modo normal
+
+        except Exception:
+            pass
+
+        # -------- modo normal (sin step) --------
+        data, _, cols = read_ltspice_table(p, "auto")
+
+        self.steps1 = None
+        self.data1 = data
+        self.colnames1 = cols
+
+        self._refresh_signal_list()
 
     def open2(self):
         p, _ = QFileDialog.getOpenFileName(self, "Abrir", "", "Text files (*.txt *.csv);;All (*.*)")
