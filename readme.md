@@ -2,7 +2,7 @@
 
 Trabajo Profesional de Ingeniería Electrónica  
 Facultad de Ingeniería – Universidad de Buenos Aires (FIUBA)  
-Año 2025
+Año 2026
 
 **Integrantes**
 - Sebastián Ezequiel García
@@ -24,7 +24,7 @@ La plataforma permite:
 <!-- Esto es un comentario -->- ensayar algoritmos de balanceo activo
 - validar resultados mediante simulación y prototipo físico
 
-El objetivo es contar con una prueba de concepto flexible para comparar
+El objetivo es contar con una plataforma para comparar
 distintas arquitecturas de balanceo y analizar su eficiencia energética.
 
 ---
