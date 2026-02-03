@@ -1,17 +1,19 @@
 import os
 import sys
+import numpy as np
 from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QFileDialog, QVBoxLayout, QHBoxLayout,
-    QPushButton, QLabel, QComboBox, QMessageBox, QLineEdit, QGroupBox, QFormLayout, QFrame, QScrollArea, QColorDialog
+    QPushButton, QLabel, QComboBox, QMessageBox, QLineEdit, QGroupBox, QFormLayout, QFrame, QScrollArea, QColorDialog,
+    QListWidget, QListWidgetItem
 )
 import json
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 
-from ltspice_io import read_ltspice_2col
+from ltspice_io import read_ltspice_table
 from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout
 from probe_tools import nearest_line_snap
 
@@ -42,8 +44,14 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("LTspice Plotter")
 
+        self.data1 = None
+        self.data2 = None
+        self.file1_path = None
+        self.file2_path = None
         self.x1 = self.y1 = None
         self.x2 = self.y2 = None
+        self.colnames1 = None
+        self.colnames2 = None
         self.lines = []
 
         # Probes A/B
@@ -98,11 +106,23 @@ class MainWindow(QMainWindow):
         self.l2 = QLabel("Archivo 2: (opcional)")
         fl.addWidget(b1)
         fl.addWidget(self.l1)
+        self.cmb_file1 = QComboBox()
+        self.cmb_file1.currentIndexChanged.connect(self._on_file1_column_changed)
+        self.cmb_file1.addItem("(sin datos)")
+        self.cmb_file1.setEnabled(False)
+        fl.addWidget(QLabel("Columnas archivo 1:"))
+        fl.addWidget(self.cmb_file1)
         row = QHBoxLayout()
         row.addWidget(b2)
         row.addWidget(bc)
         fl.addLayout(row)
         fl.addWidget(self.l2)
+        self.cmb_file2 = QComboBox()
+        self.cmb_file2.currentIndexChanged.connect(self._on_file2_column_changed)
+        self.cmb_file2.addItem("(sin datos)")
+        self.cmb_file2.setEnabled(False)
+        fl.addWidget(QLabel("Columnas archivo 2:"))
+        fl.addWidget(self.cmb_file2)
         controls.addWidget(grp_files)
 
         # Opciones
@@ -115,7 +135,10 @@ class MainWindow(QMainWindow):
 
 
         self.cmb_mode = QComboBox()
-        self.cmb_mode.addItems(["1 curva", "2 curvas (mismo eje Y)", "2 curvas (doble eje Y)"])
+        self.cmb_mode.addItems(
+            ["1 curva", "2 curvas (mismo eje Y)", "2 curvas (doble eje Y)", "N curvas (mismo eje Y)"]
+        )
+        self.cmb_mode.currentIndexChanged.connect(self._sync_plot_selection_ui)
 
         self.cmb_x = QComboBox()
         self.cmb_x.addItems(["s", "ms"])
@@ -150,6 +173,9 @@ class MainWindow(QMainWindow):
         self.c1name.editingFinished.connect(self.apply_curve_names_now)
         self.c2name.editingFinished.connect(self.apply_curve_names_now)
 
+        self.lst_signals = QListWidget()
+        self.lst_signals.itemChanged.connect(self._sync_curve_name_from_selection)
+
         form.addRow("Tema:", self.cmb_theme)
         form.addRow("Modo:", self.cmb_mode)
         form.addRow("X:", self.cmb_x)
@@ -164,6 +190,7 @@ class MainWindow(QMainWindow):
         form.addRow("Y2 label:", self.y2lab)
         form.addRow("Nombre curva 1:", self.c1name)
         form.addRow("Nombre curva 2:", self.c2name)
+        form.addRow("Señales a graficar (modo N):", self.lst_signals)
         controls.addWidget(grp_opts)
         grp_style = QGroupBox("Estilo de curvas")
         form_s = QFormLayout(grp_style)
@@ -251,6 +278,7 @@ class MainWindow(QMainWindow):
 
         # Initialize factor labels
         self._update_factor_labels()
+        self._sync_plot_selection_ui()
 
     # -------------------------
     # Helpers: escala + estilos
@@ -282,6 +310,126 @@ class MainWindow(QMainWindow):
         y2_txt = self.cmb_y2.currentText()
         self.lbl_y1_factor.setText("Auto" if y1_txt.startswith("Auto") else self._factor_str(SCALE_MAP.get(y1_txt, 1.0)))
         self.lbl_y2_factor.setText("Auto" if y2_txt.startswith("Auto") else self._factor_str(SCALE_MAP.get(y2_txt, 1.0)))
+
+    def _populate_column_combo(self, combo: QComboBox, colnames: tuple[str, ...] | None):
+        combo.blockSignals(True)
+        combo.clear()
+        if not colnames:
+            combo.addItem("(sin datos)")
+            combo.setEnabled(False)
+            combo.blockSignals(False)
+            return
+
+        for name in colnames[1:]:
+            combo.addItem(name)
+        combo.setEnabled(True)
+        combo.blockSignals(False)
+
+    def _refresh_signal_list(self):
+        self.lst_signals.blockSignals(True)
+        self.lst_signals.clear()
+        default_checked = False
+
+        def add_items(prefix, colnames):
+            nonlocal default_checked
+            if not colnames or len(colnames) < 2:
+                return
+            for idx, name in enumerate(colnames[1:], start=1):
+                label = f"{prefix}: {name}"
+                item = QListWidgetItem(label)
+                item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                if not default_checked:
+                    item.setCheckState(Qt.CheckState.Checked)
+                    default_checked = True
+                else:
+                    item.setCheckState(Qt.CheckState.Unchecked)
+                item.setData(Qt.ItemDataRole.UserRole, (prefix, idx, name))
+                self.lst_signals.addItem(item)
+
+        add_items("F1", self.colnames1)
+        add_items("F2", self.colnames2)
+
+        if self.lst_signals.count() == 0:
+            item = QListWidgetItem("(sin datos)")
+            item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsUserCheckable)
+            self.lst_signals.addItem(item)
+            self.lst_signals.setEnabled(False)
+        else:
+            self.lst_signals.setEnabled(True)
+
+        self.lst_signals.blockSignals(False)
+
+    def _sync_plot_selection_ui(self):
+        mode = self.cmb_mode.currentIndex()
+        if mode == 3:
+            self.cmb_curve.setEnabled(False)
+            self.btn_color.setEnabled(False)
+            self.cmb_ls.setEnabled(False)
+            self.cmb_marker.setEnabled(False)
+            self.spin_lw.setEnabled(False)
+            self.c1name.setEnabled(False)
+            self.c2name.setEnabled(False)
+            self.y2lab.setEnabled(False)
+            self.cmb_y2.setEnabled(False)
+            self.lst_signals.setEnabled(True)
+        else:
+            self.cmb_curve.setEnabled(True)
+            self.btn_color.setEnabled(True)
+            self.cmb_ls.setEnabled(True)
+            self.cmb_marker.setEnabled(True)
+            self.spin_lw.setEnabled(True)
+            self.c1name.setEnabled(True)
+            self.c2name.setEnabled(True)
+            self.y2lab.setEnabled(True)
+            self.cmb_y2.setEnabled(True)
+            self.lst_signals.setEnabled(False)
+
+    def _sync_curve_name_from_selection(self):
+        if self.cmb_mode.currentIndex() != 3:
+            return
+        selected = self._selected_columns()
+        if not selected:
+            return
+        labels = [name for _, _, name in selected]
+        self.y1lab.setText(", ".join(labels))
+
+    def _selected_columns(self) -> list[tuple[str, int, str]]:
+        selected = []
+        for i in range(self.lst_signals.count()):
+            item = self.lst_signals.item(i)
+            if not item.flags() & Qt.ItemFlag.ItemIsUserCheckable:
+                continue
+            if item.checkState() == Qt.CheckState.Checked:
+                payload = item.data(Qt.ItemDataRole.UserRole)
+                if payload:
+                    selected.append(payload)
+        return selected
+
+    def _on_file1_column_changed(self):
+        if self.data1 is None or self.colnames1 is None:
+            return
+        idx = self.cmb_file1.currentIndex()
+        col_idx = idx + 1
+        if col_idx < self.data1.shape[1]:
+            self.x1 = self.data1[:, 0]
+            self.y1 = self.data1[:, col_idx]
+            if len(self.colnames1) > col_idx:
+                self.y1lab.setText(self.colnames1[col_idx])
+                if self.c1name.text().strip() in ("", "Curva 1"):
+                    self.c1name.setText(self.colnames1[col_idx])
+
+    def _on_file2_column_changed(self):
+        if self.data2 is None or self.colnames2 is None:
+            return
+        idx = self.cmb_file2.currentIndex()
+        col_idx = idx + 1
+        if col_idx < self.data2.shape[1]:
+            self.x2 = self.data2[:, 0]
+            self.y2 = self.data2[:, col_idx]
+            if len(self.colnames2) > col_idx:
+                self.y2lab.setText(self.colnames2[col_idx])
+                if self.c2name.text().strip() in ("", "Curva 2"):
+                    self.c2name.setText(self.colnames2[col_idx])
 
     def _scale(self, combo: QComboBox, y, info_label: QLabel):
         t = combo.currentText()
@@ -410,14 +558,16 @@ class MainWindow(QMainWindow):
         if not p:
             return
         try:
-            x, y, _, cols = read_ltspice_2col(p, 1)
-            self.x1, self.y1 = x, y
-            if len(cols) >= 2:
+            data, _, cols = read_ltspice_table(p, 1)
+            self.data1 = data
+            self.colnames1 = cols
+            self.file1_path = p
+            self._populate_column_combo(self.cmb_file1, cols)
+            self._on_file1_column_changed()
+            if cols:
                 self.xlab.setText(cols[0])
-                self.y1lab.setText(cols[1])
-                if self.c1name.text().strip() in ("", "Curva 1"):
-                    self.c1name.setText(cols[1])
             self.l1.setText(f"Archivo 1: {os.path.basename(p)}")
+            self._refresh_signal_list()
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
 
@@ -426,19 +576,27 @@ class MainWindow(QMainWindow):
         if not p:
             return
         try:
-            x, y, _, cols = read_ltspice_2col(p, 1)
-            self.x2, self.y2 = x, y
-            if len(cols) >= 2:
-                self.y2lab.setText(cols[1])
-                if self.c2name.text().strip() in ("", "Curva 2"):
-                    self.c2name.setText(cols[1])
+            data, _, cols = read_ltspice_table(p, 1)
+            self.data2 = data
+            self.colnames2 = cols
+            self.file2_path = p
+            self._populate_column_combo(self.cmb_file2, cols)
+            self._on_file2_column_changed()
             self.l2.setText(f"Archivo 2: {os.path.basename(p)}")
+            self._refresh_signal_list()
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
 
     def clear2(self):
+        self.data2 = None
+        self.colnames2 = None
+        self.file2_path = None
         self.x2 = self.y2 = None
         self.l2.setText("Archivo 2: (opcional)")
+        self.cmb_file2.clear()
+        self.cmb_file2.addItem("(sin datos)")
+        self.cmb_file2.setEnabled(False)
+        self._refresh_signal_list()
         if self.cmb_mode.currentIndex() != 0:
             self.cmb_mode.setCurrentIndex(0)
 
@@ -626,12 +784,12 @@ class MainWindow(QMainWindow):
 
 
     def plot(self):
-        if self.x1 is None:
+        if self.data1 is None:
             QMessageBox.warning(self, "Falta", "Cargá archivo 1")
             return
 
         xsc = self._xscale()
-        y1sc = self._scale(self.cmb_y1, self.y1, self.lbl_y1_factor)
+        y1sc = self._scale(self.cmb_y1, self.y1, self.lbl_y1_factor) if self.y1 is not None else 1.0
         y2sc = 1.0 if self.y2 is None else self._scale(self.cmb_y2, self.y2, self.lbl_y2_factor)
 
         # Guardar estilos actuales antes de borrar el figure (para no perder cambios)
@@ -648,30 +806,61 @@ class MainWindow(QMainWindow):
         # IMPORTANTE: el usuario pidió sin notación/escala en el label => SOLO el texto del usuario
         ax1.set_ylabel(self.y1lab.text())
 
-        p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
-
         mode = self.cmb_mode.currentIndex()
-        self.lines = [p1[0]]
+        self.lines = []
 
-        if mode == 0:
-            pass
-
-        elif mode == 1:
-            if self.x2 is None:
-                QMessageBox.warning(self, "Falta", "Cargá archivo 2")
+        if mode == 3:
+            selected = self._selected_columns()
+            if not selected:
+                QMessageBox.warning(self, "Falta", "Seleccioná al menos una señal en modo N.")
                 return
-            p2 = ax1.plot(self.x2 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
-            self.lines.append(p2[0])
+            y_sets = []
+            for source, col_idx, _ in selected:
+                if source == "F1" and self.data1 is not None:
+                    y_sets.append(self.data1[:, col_idx])
+                elif source == "F2" and self.data2 is not None:
+                    y_sets.append(self.data2[:, col_idx])
 
-        else:  # mode == 2
-            if self.x2 is None:
-                QMessageBox.warning(self, "Falta", "Cargá archivo 2")
-                return
-            ax2 = ax1.twinx()
-            self.ax2 = ax2
-            ax2.set_ylabel(self.y2lab.text())  # solo texto del usuario
-            p2 = ax2.plot(self.x2 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
-            self.lines.append(p2[0])
+            if y_sets:
+                y_all = np.concatenate(y_sets)
+                y1sc = self._scale(self.cmb_y1, y_all, self.lbl_y1_factor)
+
+            for source, col_idx, name in selected:
+                if source == "F1" and self.data1 is not None:
+                    x = self.data1[:, 0]
+                    y = self.data1[:, col_idx]
+                    label = f"F1:{name}"
+                elif source == "F2" and self.data2 is not None:
+                    x = self.data2[:, 0]
+                    y = self.data2[:, col_idx]
+                    label = f"F2:{name}"
+                else:
+                    continue
+                p = ax1.plot(x * xsc, y * y1sc, label=label)
+                self.lines.append(p[0])
+        else:
+            p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
+            self.lines = [p1[0]]
+
+            if mode == 0:
+                pass
+
+            elif mode == 1:
+                if self.x2 is None:
+                    QMessageBox.warning(self, "Falta", "Cargá archivo 2")
+                    return
+                p2 = ax1.plot(self.x2 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
+                self.lines.append(p2[0])
+
+            else:  # mode == 2
+                if self.x2 is None:
+                    QMessageBox.warning(self, "Falta", "Cargá archivo 2")
+                    return
+                ax2 = ax1.twinx()
+                self.ax2 = ax2
+                ax2.set_ylabel(self.y2lab.text())  # solo texto del usuario
+                p2 = ax2.plot(self.x2 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
+                self.lines.append(p2[0])
 
         # Reaplicar estilos (color/ls/lw/marker/visible) ANTES de recrear la leyenda
         self._apply_line_styles()
@@ -914,10 +1103,15 @@ class MainWindow(QMainWindow):
 Abrir archivo 1 (obligatorio)<br>
 Abrir archivo 2 (opcional)<br><br>
 
+<b>Selección de señales</b><br>
+Columnas archivo 1/2 → elige la señal para curvas 1/2<br>
+Modo N → tildá múltiples señales en la lista<br><br>
+
 <b>Modos de gráfico</b><br>
 1 curva → solo archivo 1<br>
 2 curvas mismo eje → comparación directa<br>
-2 curvas doble eje → cada señal con su escala<br><br>
+2 curvas doble eje → cada señal con su escala<br>
+N curvas mismo eje → múltiples señales desde archivo 1/2<br><br>
 
 <b>Escalas</b><br>
 Elegí la escala en “Escala Y1/Y2”.<br>
