@@ -13,7 +13,7 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 
-from ltspice_io import read_ltspice_table
+from ltspice_io import read_ltspice_table, read_ltspice_steps
 from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout
 from probe_tools import nearest_line_snap
 
@@ -44,18 +44,13 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("LTspice Plotter")
 
-        self.data1 = None
-        self.data2 = None
+        self.data1 = None  # tabla NxM (sin .step)
+        self.steps = None  # lista de bloques (con .step)
         self.file1_path = None
-        self.file2_path = None
         self.x1 = self.y1 = None
-        self.x2 = self.y2 = None
+        self.x2 = self.y2 = None  # Curva 2 (misma tabla/steps)
         self.colnames1 = None
-        self.colnames2 = None
         self.lines = []
-
-        self.data1_steps = None  # list of {"label":..., "data":..., "colnames":...}
-        self.data2_steps = None
 
         # Probes A/B
         self.probeA = None
@@ -97,34 +92,37 @@ class MainWindow(QMainWindow):
         layout.addWidget(scroll, 0)
 
         # Archivos
-        grp_files = QGroupBox("Archivos")
+        grp_files = QGroupBox("Archivo")
         fl = QVBoxLayout(grp_files)
-        b1 = QPushButton("Abrir archivo 1…")
+
+        b1 = QPushButton("Abrir archivo…")
         b1.clicked.connect(self.open1)
-        b2 = QPushButton("Abrir archivo 2…")
-        b2.clicked.connect(self.open2)
-        bc = QPushButton("Quitar archivo 2")
+
+        bc = QPushButton("Quitar curva 2")
         bc.clicked.connect(self.clear2)
-        self.l1 = QLabel("Archivo 1: (no seleccionado)")
-        self.l2 = QLabel("Archivo 2: (opcional)")
+
+        self.l1 = QLabel("Archivo: (no seleccionado)")
+
         fl.addWidget(b1)
         fl.addWidget(self.l1)
+
         self.cmb_file1 = QComboBox()
         self.cmb_file1.currentIndexChanged.connect(self._on_file1_column_changed)
         self.cmb_file1.addItem("(sin datos)")
         self.cmb_file1.setEnabled(False)
-        fl.addWidget(QLabel("Columnas archivo 1:"))
+
+        fl.addWidget(QLabel("Curva 1 (columna):"))
         fl.addWidget(self.cmb_file1)
-        row = QHBoxLayout()
-        row.addWidget(b2)
-        row.addWidget(bc)
-        fl.addLayout(row)
-        fl.addWidget(self.l2)
+
         self.cmb_file2 = QComboBox()
         self.cmb_file2.currentIndexChanged.connect(self._on_file2_column_changed)
-        self.cmb_file2.addItem("(sin datos)")
+        self.cmb_file2.addItem("(sin curva 2)")
         self.cmb_file2.setEnabled(False)
-        fl.addWidget(QLabel("Columnas archivo 2:"))
+
+        row = QHBoxLayout()
+        row.addWidget(QLabel("Curva 2 (columna):"))
+        row.addWidget(bc)
+        fl.addLayout(row)
         fl.addWidget(self.cmb_file2)
         controls.addWidget(grp_files)
 
@@ -166,7 +164,7 @@ class MainWindow(QMainWindow):
         )
 
         self.tit = QLineEdit("LTspice plot")
-        self.xlab = QLineEdit("tiempo")
+        self.xlab = QLineEdit("time")
         self.y1lab = QLineEdit("Y1")
         self.y2lab = QLineEdit("Y2")
 
@@ -283,6 +281,7 @@ class MainWindow(QMainWindow):
         self._update_factor_labels()
         self._sync_plot_selection_ui()
 
+
     # -------------------------
     # Helpers: escala + estilos
     # -------------------------
@@ -314,31 +313,43 @@ class MainWindow(QMainWindow):
         self.lbl_y1_factor.setText("Auto" if y1_txt.startswith("Auto") else self._factor_str(SCALE_MAP.get(y1_txt, 1.0)))
         self.lbl_y2_factor.setText("Auto" if y2_txt.startswith("Auto") else self._factor_str(SCALE_MAP.get(y2_txt, 1.0)))
 
-    def _populate_column_combo(self, combo: QComboBox, colnames: tuple[str, ...] | None):
+    def _populate_column_combo(self, combo: QComboBox, colnames: tuple[str, ...] | None, allow_none: bool = False):
+        """
+        Llena el combo con columnas Y (colnames[1:]).
+        Si allow_none=True, agrega primero '(sin curva 2)'.
+        """
         combo.blockSignals(True)
         combo.clear()
-        if not colnames:
-            combo.addItem("(sin datos)")
+
+        if allow_none:
+            combo.addItem("(sin curva 2)")
+
+        if not colnames or len(colnames) < 2:
+            if not allow_none:
+                combo.addItem("(sin datos)")
             combo.setEnabled(False)
             combo.blockSignals(False)
             return
 
         for name in colnames[1:]:
             combo.addItem(name)
+
         combo.setEnabled(True)
         combo.blockSignals(False)
 
     def _refresh_signal_list(self):
+        """
+        Modo N:
+          - si hay .step: lista = steps (una curva por step)
+          - si NO hay .step: lista = columnas (una curva por columna)
+        """
         self.lst_signals.blockSignals(True)
         self.lst_signals.clear()
         default_checked = False
 
-        def add_items(prefix, colnames):
-            nonlocal default_checked
-            if not colnames or len(colnames) < 2:
-                return
-            for idx, name in enumerate(colnames[1:], start=1):
-                label = f"{prefix}: {name}"
+        if self.steps:
+            for i, st in enumerate(self.steps):
+                label = st.get("label", f"Step {i+1}")
                 item = QListWidgetItem(label)
                 item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
                 if not default_checked:
@@ -346,55 +357,29 @@ class MainWindow(QMainWindow):
                     default_checked = True
                 else:
                     item.setCheckState(Qt.CheckState.Unchecked)
-                item.setData(Qt.ItemDataRole.UserRole, (prefix, idx, name))
+                item.setData(Qt.ItemDataRole.UserRole, ("STEP", i, label))
                 self.lst_signals.addItem(item)
-
-        add_items("F1", self.colnames1)
-        add_items("F2", self.colnames2)
+        else:
+            if self.colnames1 and len(self.colnames1) >= 2:
+                for col_idx, name in enumerate(self.colnames1[1:], start=1):
+                    item = QListWidgetItem(name)
+                    item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                    if not default_checked:
+                        item.setCheckState(Qt.CheckState.Checked)
+                        default_checked = True
+                    else:
+                        item.setCheckState(Qt.CheckState.Unchecked)
+                    item.setData(Qt.ItemDataRole.UserRole, ("COL", col_idx, name))
+                    self.lst_signals.addItem(item)
 
         if self.lst_signals.count() == 0:
             item = QListWidgetItem("(sin datos)")
             item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsUserCheckable)
             self.lst_signals.addItem(item)
-            self.lst_signals.setEnabled(False)
-        else:
-            self.lst_signals.setEnabled(True)
 
+        self.lst_signals.setEnabled(True)
         self.lst_signals.blockSignals(False)
 
-    def _sync_plot_selection_ui(self):
-        mode = self.cmb_mode.currentIndex()
-        if mode == 3:
-            self.cmb_curve.setEnabled(False)
-            self.btn_color.setEnabled(False)
-            self.cmb_ls.setEnabled(False)
-            self.cmb_marker.setEnabled(False)
-            self.spin_lw.setEnabled(False)
-            self.c1name.setEnabled(False)
-            self.c2name.setEnabled(False)
-            self.y2lab.setEnabled(False)
-            self.cmb_y2.setEnabled(False)
-            self.lst_signals.setEnabled(True)
-        else:
-            self.cmb_curve.setEnabled(True)
-            self.btn_color.setEnabled(True)
-            self.cmb_ls.setEnabled(True)
-            self.cmb_marker.setEnabled(True)
-            self.spin_lw.setEnabled(True)
-            self.c1name.setEnabled(True)
-            self.c2name.setEnabled(True)
-            self.y2lab.setEnabled(True)
-            self.cmb_y2.setEnabled(True)
-            self.lst_signals.setEnabled(False)
-
-    def _sync_curve_name_from_selection(self):
-        if self.cmb_mode.currentIndex() != 3:
-            return
-        selected = self._selected_columns()
-        if not selected:
-            return
-        labels = [name for _, _, name in selected]
-        self.y1lab.setText(", ".join(labels))
 
     def _selected_columns(self) -> list[tuple[str, int, str]]:
         selected = []
@@ -409,30 +394,64 @@ class MainWindow(QMainWindow):
         return selected
 
     def _on_file1_column_changed(self):
-        if self.data1 is None or self.colnames1 is None:
+        if self.colnames1 is None:
             return
+
         idx = self.cmb_file1.currentIndex()
-        col_idx = idx + 1
-        if col_idx < self.data1.shape[1]:
-            self.x1 = self.data1[:, 0]
-            self.y1 = self.data1[:, col_idx]
-            if len(self.colnames1) > col_idx:
-                self.y1lab.setText(self.colnames1[col_idx])
-                if self.c1name.text().strip() in ("", "Curva 1"):
-                    self.c1name.setText(self.colnames1[col_idx])
+        col_idx = idx + 1  # porque el combo lista colnames[1:]
+
+        # Fuente de datos: tabla normal o primer step
+        base = None
+        if self.data1 is not None:
+            base = self.data1
+        elif self.steps:
+            base = self.steps[0]["data"]
+
+        if base is None or col_idx >= base.shape[1]:
+            return
+
+        self.x1 = base[:, 0]
+        self.y1 = base[:, col_idx]
+
+        if len(self.colnames1) > col_idx:
+            self.y1lab.setText(self.colnames1[col_idx])
+            if self.c1name.text().strip() in ("", "Curva 1"):
+                self.c1name.setText(self.colnames1[col_idx])
+
+
 
     def _on_file2_column_changed(self):
-        if self.data2 is None or self.colnames2 is None:
+        # Curva 2 es opcional: idx 0 = "(sin curva 2)"
+        if self.colnames1 is None:
             return
         idx = self.cmb_file2.currentIndex()
-        col_idx = idx + 1
-        if col_idx < self.data2.shape[1]:
-            self.x2 = self.data2[:, 0]
-            self.y2 = self.data2[:, col_idx]
-            if len(self.colnames2) > col_idx:
-                self.y2lab.setText(self.colnames2[col_idx])
-                if self.c2name.text().strip() in ("", "Curva 2"):
-                    self.c2name.setText(self.colnames2[col_idx])
+        if idx <= 0:
+            self.x2 = None
+            self.y2 = None
+            return
+
+        col_idx = idx  # por allow_none=True: idx 1 -> col 1 en data
+
+        base = None
+        if self.data1 is not None:
+            base = self.data1
+        elif self.steps:
+            base = self.steps[0]["data"]
+
+        if base is None or col_idx >= base.shape[1]:
+            self.x2 = None
+            self.y2 = None
+            return
+
+        self.x2 = base[:, 0]
+        self.y2 = base[:, col_idx]
+
+        if len(self.colnames1) > col_idx:
+            self.y2lab.setText(self.colnames1[col_idx])
+            if self.c2name.text().strip() in ("", "Curva 2"):
+                self.c2name.setText(self.colnames1[col_idx])
+
+
 
     def _scale(self, combo: QComboBox, y, info_label: QLabel):
         t = combo.currentText()
@@ -557,80 +576,54 @@ class MainWindow(QMainWindow):
     # File I/O
     # -------------------------
     def open1(self):
-        p, _ = QFileDialog.getOpenFileName(
-            self, "Abrir", "", "Text files (*.txt *.csv);;All (*.*)"
-        )
-        if not p:
-            return
-
-        self.file1_path = p
-
-        # -------- intentar leer como STEP primero --------
-        try:
-            _, cols, steps = read_ltspice_steps(p)
-
-            if steps:  # ✅ archivo con sweep
-                self.steps1 = steps
-                self.data1 = None
-                self.colnames1 = cols
-
-                # opcional: forzar modo N curvas
-                self.cmb_mode.setCurrentIndex(3)
-
-                # llenar lista con labels de step
-                self.lst_signals.clear()
-                for st in steps:
-                    item = QListWidgetItem(f"F1: {st['label']}")
-                    item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
-                    item.setCheckState(Qt.CheckState.Checked)
-                    self.lst_signals.addItem(item)
-
-                return  # ← IMPORTANTE: no seguir con modo normal
-
-        except Exception:
-            pass
-
-        # -------- modo normal (sin step) --------
-        data, _, cols = read_ltspice_table(p, "auto")
-
-        self.steps1 = None
-        self.data1 = data
-        self.colnames1 = cols
-
-        self._refresh_signal_list()
-
-    def open2(self):
         p, _ = QFileDialog.getOpenFileName(self, "Abrir", "", "Text files (*.txt *.csv);;All (*.*)")
         if not p:
             return
         try:
-            data, _, cols = read_ltspice_table(p, 1)
-            self.data2 = data
-            self.colnames2 = cols
-            self.file2_path = p
-            self._populate_column_combo(self.cmb_file2, cols)
+            self.file1_path = p
+
+            # Intentar leer como sweep (.step) primero
+            _, cols, steps = read_ltspice_steps(p, "auto")
+            if steps:
+                self.steps = steps
+                self.data1 = None
+                self.colnames1 = cols
+            else:
+                data, _, cols = read_ltspice_table(p, "auto")
+                self.steps = None
+                self.data1 = data
+                self.colnames1 = cols
+
+            # UI
+            self._populate_column_combo(self.cmb_file1, self.colnames1, allow_none=False)
+            self._populate_column_combo(self.cmb_file2, self.colnames1, allow_none=True)
+
+            self._on_file1_column_changed()
             self._on_file2_column_changed()
-            self.l2.setText(f"Archivo 2: {os.path.basename(p)}")
+
+            if self.colnames1:
+                self.xlab.setText(self.colnames1[0])
+
+            self.l1.setText(f"Archivo: {os.path.basename(p)}")
+
             self._refresh_signal_list()
+
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
 
     def clear2(self):
-        self.data2 = None
-        self.colnames2 = None
-        self.file2_path = None
-        self.x2 = self.y2 = None
-        self.l2.setText("Archivo 2: (opcional)")
-        self.cmb_file2.clear()
-        self.cmb_file2.addItem("(sin datos)")
-        self.cmb_file2.setEnabled(False)
-        self._refresh_signal_list()
-        if self.cmb_mode.currentIndex() != 0:
-            self.cmb_mode.setCurrentIndex(0)
+        # Quitar Curva 2 (no borra el archivo)
+        self.x2 = None
+        self.y2 = None
+        if hasattr(self, "cmb_file2"):
+            self.cmb_file2.blockSignals(True)
+            if self.cmb_file2.count() > 0:
+                self.cmb_file2.setCurrentIndex(0)  # (sin curva 2)
+            self.cmb_file2.blockSignals(False)
 
-    # -------------------------
-    # Legend
-    # -------------------------
+        # Volver a modo "Curva 1"
+        if self.cmb_mode.currentIndex() == 1 or self.cmb_mode.currentIndex() == 2:
+            self.cmb_mode.setCurrentIndex(0)
     def _apply_legend(self, ax, handles=None, labels=None):
         mode = self.cmb_legend.currentText()
         if mode == "Auto (best)":
@@ -817,8 +810,31 @@ class MainWindow(QMainWindow):
             return
 
         xsc = self._xscale()
-        y1sc = self._scale(self.cmb_y1, self.y1, self.lbl_y1_factor) if self.y1 is not None else 1.0
-        y2sc = 1.0 if self.y2 is None else self._scale(self.cmb_y2, self.y2, self.lbl_y2_factor)
+
+        if self.steps:
+            col1 = self.cmb_file1.currentIndex() + 1
+            ys1 = []
+            for st in self.steps:
+                arr = st["data"]
+                if col1 < arr.shape[1]:
+                    ys1.append(arr[:, col1])
+            y1src = np.concatenate(ys1) if ys1 else None
+            y1sc = self._scale(self.cmb_y1, y1src, self.lbl_y1_factor) if y1src is not None else 1.0
+
+            if self.y2 is None:
+                y2sc = 1.0
+            else:
+                col2 = self.cmb_file2.currentIndex()
+                ys2 = []
+                for st in self.steps:
+                    arr = st["data"]
+                    if col2 < arr.shape[1]:
+                        ys2.append(arr[:, col2])
+                y2src = np.concatenate(ys2) if ys2 else None
+                y2sc = self._scale(self.cmb_y2, y2src, self.lbl_y2_factor) if y2src is not None else 1.0
+        else:
+            y1sc = self._scale(self.cmb_y1, self.y1, self.lbl_y1_factor) if self.y1 is not None else 1.0
+            y2sc = 1.0 if self.y2 is None else self._scale(self.cmb_y2, self.y2, self.lbl_y2_factor)
 
         # Guardar estilos actuales antes de borrar el figure (para no perder cambios)
         self._capture_line_styles()
@@ -842,57 +858,121 @@ class MainWindow(QMainWindow):
             if not selected:
                 QMessageBox.warning(self, "Falta", "Seleccioná al menos una señal en modo N.")
                 return
+
             y_sets = []
-            for source, col_idx, _ in selected:
-                if source == "F1" and self.data1 is not None:
-                    y_sets.append(self.data1[:, col_idx])
-                elif source == "F2" and self.data2 is not None:
-                    y_sets.append(self.data2[:, col_idx])
+
+            if self.steps:
+                # En sweeps, elegimos qué columna Y graficar desde el combo de Curva 1
+                col_idx = self.cmb_file1.currentIndex() + 1
+                for kind, idx, _ in selected:
+                    if kind != "STEP":
+                        continue
+                    arr = self.steps[idx]["data"]
+                    if col_idx < arr.shape[1]:
+                        y_sets.append(arr[:, col_idx])
+            else:
+                if self.data1 is None:
+                    QMessageBox.warning(self, "Falta", "Cargá un archivo.")
+                    return
+                for kind, col_idx, _ in selected:
+                    if kind != "COL":
+                        continue
+                    if col_idx < self.data1.shape[1]:
+                        y_sets.append(self.data1[:, col_idx])
 
             if y_sets:
                 y_all = np.concatenate(y_sets)
                 y1sc = self._scale(self.cmb_y1, y_all, self.lbl_y1_factor)
 
-            for source, col_idx, name in selected:
-                if source == "F1" and self.data1 is not None:
+            for kind, idx, name in selected:
+                if self.steps and kind == "STEP":
+                    arr = self.steps[idx]["data"]
+                    col_idx = self.cmb_file1.currentIndex() + 1
+                    if col_idx >= arr.shape[1]:
+                        continue
+                    x = arr[:, 0]
+                    y = arr[:, col_idx]
+                    label = name
+                elif (not self.steps) and kind == "COL" and self.data1 is not None:
                     x = self.data1[:, 0]
-                    y = self.data1[:, col_idx]
-                    label = f"F1:{name}"
-                elif source == "F2" and self.data2 is not None:
-                    x = self.data2[:, 0]
-                    y = self.data2[:, col_idx]
-                    label = f"F2:{name}"
+                    y = self.data1[:, idx]
+                    label = name
                 else:
                     continue
+
                 p = ax1.plot(x * xsc, y * y1sc, label=label)
                 self.lines.append(p[0])
         else:
-            p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
-            self.lines = [p1[0]]
+            if self.steps:
+                self.lines = []
+                base1 = self.c1name.text().strip() or "Curva 1"
+                col1 = self.cmb_file1.currentIndex() + 1
 
-            if mode == 0:
-                pass
+                for st in self.steps:
+                    arr = st["data"]
+                    if col1 >= arr.shape[1]:
+                        continue
+                    x = arr[:, 0]
+                    y = arr[:, col1]
+                    label = f"{base1} | {st.get('label','Step')}"
+                    p = ax1.plot(x * xsc, y * y1sc, label=label)
+                    self.lines.append(p[0])
 
-            elif mode == 1:
-                if self.x2 is None:
-                    QMessageBox.warning(self, "Falta", "Cargá archivo 2")
-                    return
-                p2 = ax1.plot(self.x2 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
-                self.lines.append(p2[0])
+                if mode == 1:
+                    # Curva 2 en el mismo eje Y
+                    if self.y2 is None:
+                        return
+                    base2 = self.c2name.text().strip() or "Curva 2"
+                    col2 = self.cmb_file2.currentIndex()
+                    for st in self.steps:
+                        arr = st["data"]
+                        if col2 >= arr.shape[1]:
+                            continue
+                        x = arr[:, 0]
+                        y = arr[:, col2]
+                        label = f"{base2} | {st.get('label','Step')}"
+                        p = ax1.plot(x * xsc, y * y2sc, label=label)
+                        self.lines.append(p[0])
 
-            else:  # mode == 2
-                if self.x2 is None:
-                    QMessageBox.warning(self, "Falta", "Cargá archivo 2")
-                    return
-                ax2 = ax1.twinx()
-                self.ax2 = ax2
-                ax2.set_ylabel(self.y2lab.text())  # solo texto del usuario
-                p2 = ax2.plot(self.x2 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
-                self.lines.append(p2[0])
+                elif mode == 2:
+                    # Curva 2 en eje Y2
+                    if self.y2 is None:
+                        return
+                    ax2 = ax1.twinx()
+                    base2 = self.c2name.text().strip() or "Curva 2"
+                    col2 = self.cmb_file2.currentIndex()
+                    for st in self.steps:
+                        arr = st["data"]
+                        if col2 >= arr.shape[1]:
+                            continue
+                        x = arr[:, 0]
+                        y = arr[:, col2]
+                        label = f"{base2} | {st.get('label','Step')}"
+                        p = ax2.plot(x * xsc, y * y2sc, label=label)
+                        self.lines.append(p[0])
 
-        # Reaplicar estilos (color/ls/lw/marker/visible) ANTES de recrear la leyenda
+            else:
+                p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
+                self.lines = [p1[0]]
+
+                if mode == 0:
+                    pass
+
+                elif mode == 1:
+                    if self.y2 is None:
+                        QMessageBox.warning(self, "Falta", "Seleccioná Curva 2.")
+                        return
+                    p2 = ax1.plot(self.x1 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
+                    self.lines.append(p2[0])
+
+                else:  # mode == 2
+                    if self.y2 is None:
+                        QMessageBox.warning(self, "Falta", "Seleccioná Curva 2.")
+                        return
+                    ax2 = ax1.twinx()
+                    p2 = ax2.plot(self.x1 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
+                    self.lines.append(p2[0])
         self._apply_line_styles()
-
         # Leyenda siempre sincronizada con estilos reales + clickeable
         self.refresh_legend()
 
@@ -1110,6 +1190,59 @@ class MainWindow(QMainWindow):
         self.refresh_legend()
         self.canvas.draw_idle()
         self._capture_line_styles()
+
+    def _sync_plot_selection_ui(self, *_):
+        """
+        Habilita/deshabilita controles según el modo seleccionado.
+        Modos:
+          0: 1 curva
+          1: 2 curvas (mismo Y)
+          2: 2 curvas (doble Y)
+          3: N curvas (mismo Y)
+        """
+        mode = self.cmb_mode.currentIndex()
+        has_data = (self.data1 is not None) or bool(self.steps)
+
+        # combos de columnas (Curva 1 / Curva 2)
+        self.cmb_file1.setEnabled(has_data)
+
+        if mode == 0:
+            # 1 curva
+            self.cmb_file2.setEnabled(False)
+            self.c2name.setEnabled(False)
+            self.cmb_y2.setEnabled(False)
+            self.y2lab.setEnabled(False)
+            self.lbl_y2_factor.setEnabled(False)
+            self.lst_signals.setEnabled(False)
+
+        elif mode == 1:
+            # 2 curvas mismo Y
+            self.cmb_file2.setEnabled(has_data)
+            self.c2name.setEnabled(True)
+            self.cmb_y2.setEnabled(False)
+            self.y2lab.setEnabled(False)
+            self.lbl_y2_factor.setEnabled(False)
+            self.lst_signals.setEnabled(False)
+
+        elif mode == 2:
+            # 2 curvas doble Y
+            self.cmb_file2.setEnabled(has_data)
+            self.c2name.setEnabled(True)
+            self.cmb_y2.setEnabled(True)
+            self.y2lab.setEnabled(True)
+            self.lbl_y2_factor.setEnabled(True)
+            self.lst_signals.setEnabled(False)
+
+        else:
+            # N curvas
+            self.cmb_file2.setEnabled(False)
+            self.c2name.setEnabled(False)
+            self.cmb_y2.setEnabled(False)
+            self.y2lab.setEnabled(False)
+            self.lbl_y2_factor.setEnabled(False)
+            self.lst_signals.setEnabled(has_data)
+            if has_data:
+                self._refresh_signal_list()
 
     # -------------------------
     # Help
