@@ -12,6 +12,7 @@ import json
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+from matplotlib import cm
 
 from ltspice_io import read_ltspice_table, read_ltspice_steps
 from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout
@@ -48,7 +49,6 @@ class MainWindow(QMainWindow):
         self.steps = None  # lista de bloques (con .step)
         self.file1_path = None
         self.x1 = self.y1 = None
-        self.x2 = self.y2 = None  # Curva 2 (misma tabla/steps)
         self.colnames1 = None
         self.lines = []
 
@@ -73,10 +73,13 @@ class MainWindow(QMainWindow):
 
         # Estilos (persistencia)
         self._style_cache = {}  # re-plot inmediato (mismo dataset)
-        self._slot_styles = {0: None, 1: None}  # persistente (curva 1 / curva 2 aunque cambie archivo)
-        self._slot_default_styles = {
-            0: {"color": "#1f77b4", "linewidth": 2.5, "linestyle": "-", "marker": None, "alpha": 1.0, "visible": True},
-            1: {"color": "#d62728", "linewidth": 2.5, "linestyle": "-", "marker": None, "alpha": 1.0, "visible": True},
+        self._curve_style = {
+            "color": "#1f77b4",
+            "linewidth": 2.5,
+            "linestyle": "-",
+            "marker": None,
+            "alpha": 1.0,
+            "visible": True,
         }
 
         root = QWidget()
@@ -98,9 +101,6 @@ class MainWindow(QMainWindow):
         b1 = QPushButton("Abrir archivo…")
         b1.clicked.connect(self.open1)
 
-        bc = QPushButton("Quitar curva 2")
-        bc.clicked.connect(self.clear2)
-
         self.l1 = QLabel("Archivo: (no seleccionado)")
 
         fl.addWidget(b1)
@@ -111,19 +111,8 @@ class MainWindow(QMainWindow):
         self.cmb_file1.addItem("(sin datos)")
         self.cmb_file1.setEnabled(False)
 
-        fl.addWidget(QLabel("Curva 1 (columna):"))
+        fl.addWidget(QLabel("Curva (columna):"))
         fl.addWidget(self.cmb_file1)
-
-        self.cmb_file2 = QComboBox()
-        self.cmb_file2.currentIndexChanged.connect(self._on_file2_column_changed)
-        self.cmb_file2.addItem("(sin curva 2)")
-        self.cmb_file2.setEnabled(False)
-
-        row = QHBoxLayout()
-        row.addWidget(QLabel("Curva 2 (columna):"))
-        row.addWidget(bc)
-        fl.addLayout(row)
-        fl.addWidget(self.cmb_file2)
         controls.addWidget(grp_files)
 
         # Opciones
@@ -137,7 +126,7 @@ class MainWindow(QMainWindow):
 
         self.cmb_mode = QComboBox()
         self.cmb_mode.addItems(
-            ["1 curva", "2 curvas (mismo eje Y)", "2 curvas (doble eje Y)", "N curvas (mismo eje Y)"]
+            ["1 curva", "N curvas (mismo eje Y)"]
         )
         self.cmb_mode.currentIndexChanged.connect(self._sync_plot_selection_ui)
 
@@ -147,16 +136,12 @@ class MainWindow(QMainWindow):
 
         self.cmb_y1 = QComboBox()
         self.cmb_y1.addItems(["Auto"] + list(SCALE_MAP.keys()))
-        self.cmb_y2 = QComboBox()
-        self.cmb_y2.addItems(["Auto"] + list(SCALE_MAP.keys()))
 
         # info de escala aplicada (SIN notación científica)
         self.lbl_y1_factor = QLabel("x1")
-        self.lbl_y2_factor = QLabel("x1")
 
         # actualizar factor mostrado al cambiar selección
         self.cmb_y1.currentTextChanged.connect(self._update_factor_labels)
-        self.cmb_y2.currentTextChanged.connect(self._update_factor_labels)
 
         self.cmb_legend = QComboBox()
         self.cmb_legend.addItems(
@@ -166,39 +151,27 @@ class MainWindow(QMainWindow):
         self.tit = QLineEdit("LTspice plot")
         self.xlab = QLineEdit("time")
         self.y1lab = QLineEdit("Y1")
-        self.y2lab = QLineEdit("Y2")
 
         # Nombres de curvas (independientes de los labels de ejes)
         self.c1name = QLineEdit("Curva 1")
-        self.c2name = QLineEdit("Curva 2")
         self.c1name.editingFinished.connect(self.apply_curve_names_now)
-        self.c2name.editingFinished.connect(self.apply_curve_names_now)
 
         self.lst_signals = QListWidget()
-        self.lst_signals.itemChanged.connect(self._sync_curve_name_from_selection)
 
         form.addRow("Tema:", self.cmb_theme)
         form.addRow("Modo:", self.cmb_mode)
         form.addRow("X:", self.cmb_x)
         form.addRow("Escala Y1:", self.cmb_y1)
         form.addRow("Factor Y1 aplicado:", self.lbl_y1_factor)
-        form.addRow("Escala Y2:", self.cmb_y2)
-        form.addRow("Factor Y2 aplicado:", self.lbl_y2_factor)
         form.addRow("Leyenda:", self.cmb_legend)
         form.addRow("Título:", self.tit)
         form.addRow("X label:", self.xlab)
         form.addRow("Y1 label:", self.y1lab)
-        form.addRow("Y2 label:", self.y2lab)
-        form.addRow("Nombre curva 1:", self.c1name)
-        form.addRow("Nombre curva 2:", self.c2name)
+        form.addRow("Nombre curva:", self.c1name)
         form.addRow("Señales a graficar (modo N):", self.lst_signals)
         controls.addWidget(grp_opts)
         grp_style = QGroupBox("Estilo de curvas")
         form_s = QFormLayout(grp_style)
-
-        self.cmb_curve = QComboBox()
-        self.cmb_curve.addItems(["Curva 1", "Curva 2"])
-        self.cmb_curve.currentIndexChanged.connect(self.on_curve_slot_changed)
 
         self.btn_color = QPushButton("Color…")
         self.btn_color.clicked.connect(self.edit_color)
@@ -220,7 +193,6 @@ class MainWindow(QMainWindow):
         btn_load = QPushButton("Cargar preset…")
         btn_load.clicked.connect(self.load_preset)
 
-        form_s.addRow("Curva:", self.cmb_curve)
         form_s.addRow("Color:", self.btn_color)
         form_s.addRow("Línea:", self.cmb_ls)
         form_s.addRow("Marcador:", self.cmb_marker)
@@ -229,7 +201,7 @@ class MainWindow(QMainWindow):
         form_s.addRow(btn_load)
 
         controls.addWidget(grp_style)
-        self._sync_style_ui_from_slot()
+        self._sync_style_ui_from_curve()
 
         # Botones
         bp = QPushButton("Graficar")
@@ -288,6 +260,12 @@ class MainWindow(QMainWindow):
     def _xscale(self):
         return 1e3 if self.cmb_x.currentText() == "ms" else 1.0
 
+    def _distinct_colors(self, count: int):
+        if count <= 0:
+            return []
+        cmap = cm.get_cmap("tab20", count)
+        return [cmap(i) for i in range(count)]
+
     def _factor_str(self, f: float) -> str:
         """Formato SIN notación científica: x1000 / x0.001 / x1"""
         if f is None:
@@ -309,24 +287,17 @@ class MainWindow(QMainWindow):
     def _update_factor_labels(self):
         # Por ahora sólo refleja lo que diga el combo si no hay datos aún
         y1_txt = self.cmb_y1.currentText()
-        y2_txt = self.cmb_y2.currentText()
         self.lbl_y1_factor.setText("Auto" if y1_txt.startswith("Auto") else self._factor_str(SCALE_MAP.get(y1_txt, 1.0)))
-        self.lbl_y2_factor.setText("Auto" if y2_txt.startswith("Auto") else self._factor_str(SCALE_MAP.get(y2_txt, 1.0)))
 
-    def _populate_column_combo(self, combo: QComboBox, colnames: tuple[str, ...] | None, allow_none: bool = False):
+    def _populate_column_combo(self, combo: QComboBox, colnames: tuple[str, ...] | None):
         """
         Llena el combo con columnas Y (colnames[1:]).
-        Si allow_none=True, agrega primero '(sin curva 2)'.
         """
         combo.blockSignals(True)
         combo.clear()
 
-        if allow_none:
-            combo.addItem("(sin curva 2)")
-
         if not colnames or len(colnames) < 2:
-            if not allow_none:
-                combo.addItem("(sin datos)")
+            combo.addItem("(sin datos)")
             combo.setEnabled(False)
             combo.blockSignals(False)
             return
@@ -340,16 +311,15 @@ class MainWindow(QMainWindow):
     def _refresh_signal_list(self):
         """
         Modo N:
-          - si hay .step: lista = steps (una curva por step)
-          - si NO hay .step: lista = columnas (una curva por columna)
+          - lista = columnas (cada columna puede graficarse en todos los steps)
         """
         self.lst_signals.blockSignals(True)
         self.lst_signals.clear()
         default_checked = False
 
-        if self.steps:
-            for i, st in enumerate(self.steps):
-                label = st.get("label", f"Step {i+1}")
+        if self.colnames1 and len(self.colnames1) >= 2:
+            for col_idx, name in enumerate(self.colnames1[1:], start=1):
+                label = name if not self.steps else f"{name} (todos los steps)"
                 item = QListWidgetItem(label)
                 item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
                 if not default_checked:
@@ -357,20 +327,8 @@ class MainWindow(QMainWindow):
                     default_checked = True
                 else:
                     item.setCheckState(Qt.CheckState.Unchecked)
-                item.setData(Qt.ItemDataRole.UserRole, ("STEP", i, label))
+                item.setData(Qt.ItemDataRole.UserRole, ("COL", col_idx, name))
                 self.lst_signals.addItem(item)
-        else:
-            if self.colnames1 and len(self.colnames1) >= 2:
-                for col_idx, name in enumerate(self.colnames1[1:], start=1):
-                    item = QListWidgetItem(name)
-                    item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
-                    if not default_checked:
-                        item.setCheckState(Qt.CheckState.Checked)
-                        default_checked = True
-                    else:
-                        item.setCheckState(Qt.CheckState.Unchecked)
-                    item.setData(Qt.ItemDataRole.UserRole, ("COL", col_idx, name))
-                    self.lst_signals.addItem(item)
 
         if self.lst_signals.count() == 0:
             item = QListWidgetItem("(sin datos)")
@@ -420,39 +378,6 @@ class MainWindow(QMainWindow):
 
 
 
-    def _on_file2_column_changed(self):
-        # Curva 2 es opcional: idx 0 = "(sin curva 2)"
-        if self.colnames1 is None:
-            return
-        idx = self.cmb_file2.currentIndex()
-        if idx <= 0:
-            self.x2 = None
-            self.y2 = None
-            return
-
-        col_idx = idx  # por allow_none=True: idx 1 -> col 1 en data
-
-        base = None
-        if self.data1 is not None:
-            base = self.data1
-        elif self.steps:
-            base = self.steps[0]["data"]
-
-        if base is None or col_idx >= base.shape[1]:
-            self.x2 = None
-            self.y2 = None
-            return
-
-        self.x2 = base[:, 0]
-        self.y2 = base[:, col_idx]
-
-        if len(self.colnames1) > col_idx:
-            self.y2lab.setText(self.colnames1[col_idx])
-            if self.c2name.text().strip() in ("", "Curva 2"):
-                self.c2name.setText(self.colnames1[col_idx])
-
-
-
     def _scale(self, combo: QComboBox, y, info_label: QLabel):
         t = combo.currentText()
         if t.startswith("Auto"):
@@ -469,7 +394,6 @@ class MainWindow(QMainWindow):
         """
         Guarda el estilo actual de las curvas:
         - cache por label/índice (para re-plot inmediato)
-        - cache por slot (persistente aunque cambie el archivo)
         """
         cache = {}
         for i, line in enumerate(getattr(self, "lines", []) or []):
@@ -490,16 +414,13 @@ class MainWindow(QMainWindow):
             }
             cache[key] = st
 
-            if i in (0, 1):
-                self._slot_styles[i] = st.copy()
-
         self._style_cache = cache
 
-    def _apply_style_dict_to_line(self, line, st: dict):
+    def _apply_style_dict_to_line(self, line, st: dict, allow_color: bool = True):
         if line is None or not st:
             return
 
-        if st.get("color") is not None:
+        if allow_color and st.get("color") is not None:
             line.set_color(st["color"])
         if st.get("linestyle") is not None:
             line.set_linestyle(st["linestyle"])
@@ -523,13 +444,12 @@ class MainWindow(QMainWindow):
         if st.get("visible") is not None:
             line.set_visible(st["visible"])
 
-    def _apply_line_styles(self):
+    def _apply_line_styles(self, allow_color: bool = True):
         """
         Reaplica estilos a las curvas recién creadas.
         Prioridad:
         1) _style_cache (re-plot inmediato)
-        2) _slot_styles (persistente aunque cambie archivo)
-        3) _slot_default_styles (preset)
+        2) _curve_style (preset actual)
         """
         for i, line in enumerate(getattr(self, "lines", []) or []):
             if line is None:
@@ -542,35 +462,11 @@ class MainWindow(QMainWindow):
                 st = self._style_cache.get(key) or self._style_cache.get(f"__idx_{i}")
 
             if st is None:
-                st = self._slot_styles.get(i)
-
-            if st is None:
-                st = self._slot_default_styles.get(i)
+                st = self._curve_style
 
             if not st:
                 continue
-
-            if st.get("color") is not None:
-                line.set_color(st["color"])
-            if st.get("linestyle") is not None:
-                line.set_linestyle(st["linestyle"])
-            if st.get("linewidth") is not None:
-                line.set_linewidth(st["linewidth"])
-            mk = st.get("marker", None)
-            if mk is None:
-                line.set_marker("None")
-            else:
-                line.set_marker(mk)
-            if st.get("markersize") is not None:
-                line.set_markersize(st["markersize"])
-            if st.get("markerfacecolor") is not None:
-                line.set_markerfacecolor(st["markerfacecolor"])
-            if st.get("markeredgecolor") is not None:
-                line.set_markeredgecolor(st["markeredgecolor"])
-            if st.get("alpha") is not None:
-                line.set_alpha(st["alpha"])
-            if st.get("visible") is not None:
-                line.set_visible(st["visible"])
+            self._apply_style_dict_to_line(line, st, allow_color=allow_color)
 
     # -------------------------
     # File I/O
@@ -595,11 +491,9 @@ class MainWindow(QMainWindow):
                 self.colnames1 = cols
 
             # UI
-            self._populate_column_combo(self.cmb_file1, self.colnames1, allow_none=False)
-            self._populate_column_combo(self.cmb_file2, self.colnames1, allow_none=True)
+            self._populate_column_combo(self.cmb_file1, self.colnames1)
 
             self._on_file1_column_changed()
-            self._on_file2_column_changed()
 
             if self.colnames1:
                 self.xlab.setText(self.colnames1[0])
@@ -610,20 +504,6 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
-
-    def clear2(self):
-        # Quitar Curva 2 (no borra el archivo)
-        self.x2 = None
-        self.y2 = None
-        if hasattr(self, "cmb_file2"):
-            self.cmb_file2.blockSignals(True)
-            if self.cmb_file2.count() > 0:
-                self.cmb_file2.setCurrentIndex(0)  # (sin curva 2)
-            self.cmb_file2.blockSignals(False)
-
-        # Volver a modo "Curva 1"
-        if self.cmb_mode.currentIndex() == 1 or self.cmb_mode.currentIndex() == 2:
-            self.cmb_mode.setCurrentIndex(0)
     def _apply_legend(self, ax, handles=None, labels=None):
         mode = self.cmb_legend.currentText()
         if mode == "Auto (best)":
@@ -714,15 +594,8 @@ class MainWindow(QMainWindow):
                 leg_artist.set_alpha(1.0 if line.get_visible() else 0.25)
 
         # persistir visibilidad al slot
-        idx = None
-        for i, l in enumerate(self.lines):
-            if l is line:
-                idx = i
-                break
-        if idx in (0, 1) and self._slot_styles.get(idx):
-            self._slot_styles[idx]["visible"] = line.get_visible()
-        elif idx in (0, 1):
-            self._slot_styles[idx] = {"visible": line.get_visible()}
+        if line is self.lines[0]:
+            self._curve_style["visible"] = line.get_visible()
 
         self.canvas.draw_idle()
 
@@ -792,49 +665,56 @@ class MainWindow(QMainWindow):
     # -------------------------
 
     def apply_curve_names_now(self):
-        """Aplica los nombres de Curva 1/2 a las líneas actuales sin re-graficar."""
+        """Aplica el nombre de la curva actual sin re-graficar."""
         if not getattr(self, "lines", None):
             return
         if len(self.lines) >= 1:
             self.lines[0].set_label(self.c1name.text().strip() or "Curva 1")
-        if len(self.lines) >= 2:
-            self.lines[1].set_label(self.c2name.text().strip() or "Curva 2")
         # refrescar leyenda para reflejar los nuevos nombres
         self.refresh_legend()
         self.canvas.draw_idle()
 
 
     def plot(self):
-        if self.data1 is None:
-            QMessageBox.warning(self, "Falta", "Cargá archivo 1")
+        if self.data1 is None and not self.steps:
+            QMessageBox.warning(self, "Falta", "Cargá un archivo")
             return
 
         xsc = self._xscale()
+        mode = self.cmb_mode.currentIndex()
 
+        y1src = None
         if self.steps:
-            col1 = self.cmb_file1.currentIndex() + 1
-            ys1 = []
-            for st in self.steps:
-                arr = st["data"]
+            if mode == 0:
+                col1 = self.cmb_file1.currentIndex() + 1
+                arr = self.steps[0]["data"]
                 if col1 < arr.shape[1]:
-                    ys1.append(arr[:, col1])
-            y1src = np.concatenate(ys1) if ys1 else None
-            y1sc = self._scale(self.cmb_y1, y1src, self.lbl_y1_factor) if y1src is not None else 1.0
-
-            if self.y2 is None:
-                y2sc = 1.0
+                    y1src = arr[:, col1]
             else:
-                col2 = self.cmb_file2.currentIndex()
-                ys2 = []
-                for st in self.steps:
-                    arr = st["data"]
-                    if col2 < arr.shape[1]:
-                        ys2.append(arr[:, col2])
-                y2src = np.concatenate(ys2) if ys2 else None
-                y2sc = self._scale(self.cmb_y2, y2src, self.lbl_y2_factor) if y2src is not None else 1.0
+                selected = self._selected_columns()
+                ys1 = []
+                for kind, col_idx, _ in selected:
+                    if kind != "COL":
+                        continue
+                    for st in self.steps:
+                        arr = st["data"]
+                        if col_idx < arr.shape[1]:
+                            ys1.append(arr[:, col_idx])
+                y1src = np.concatenate(ys1) if ys1 else None
         else:
-            y1sc = self._scale(self.cmb_y1, self.y1, self.lbl_y1_factor) if self.y1 is not None else 1.0
-            y2sc = 1.0 if self.y2 is None else self._scale(self.cmb_y2, self.y2, self.lbl_y2_factor)
+            if mode == 0:
+                y1src = self.y1
+            else:
+                selected = self._selected_columns()
+                ys1 = []
+                for kind, col_idx, _ in selected:
+                    if kind != "COL":
+                        continue
+                    if self.data1 is not None and col_idx < self.data1.shape[1]:
+                        ys1.append(self.data1[:, col_idx])
+                y1src = np.concatenate(ys1) if ys1 else None
+
+        y1sc = self._scale(self.cmb_y1, y1src, self.lbl_y1_factor) if y1src is not None else 1.0
 
         # Guardar estilos actuales antes de borrar el figure (para no perder cambios)
         self._capture_line_styles()
@@ -850,129 +730,71 @@ class MainWindow(QMainWindow):
         # IMPORTANTE: el usuario pidió sin notación/escala en el label => SOLO el texto del usuario
         ax1.set_ylabel(self.y1lab.text())
 
-        mode = self.cmb_mode.currentIndex()
         self.lines = []
 
-        if mode == 3:
+        if mode == 1:
             selected = self._selected_columns()
             if not selected:
                 QMessageBox.warning(self, "Falta", "Seleccioná al menos una señal en modo N.")
                 return
 
-            y_sets = []
-
             if self.steps:
-                # En sweeps, elegimos qué columna Y graficar desde el combo de Curva 1
-                col_idx = self.cmb_file1.currentIndex() + 1
-                for kind, idx, _ in selected:
-                    if kind != "STEP":
-                        continue
-                    arr = self.steps[idx]["data"]
-                    if col_idx < arr.shape[1]:
-                        y_sets.append(arr[:, col_idx])
-            else:
-                if self.data1 is None:
-                    QMessageBox.warning(self, "Falta", "Cargá un archivo.")
-                    return
+                total = 0
                 for kind, col_idx, _ in selected:
                     if kind != "COL":
                         continue
-                    if col_idx < self.data1.shape[1]:
-                        y_sets.append(self.data1[:, col_idx])
-
-            if y_sets:
-                y_all = np.concatenate(y_sets)
-                y1sc = self._scale(self.cmb_y1, y_all, self.lbl_y1_factor)
-
-            for kind, idx, name in selected:
-                if self.steps and kind == "STEP":
-                    arr = self.steps[idx]["data"]
-                    col_idx = self.cmb_file1.currentIndex() + 1
-                    if col_idx >= arr.shape[1]:
+                    for st in self.steps:
+                        arr = st["data"]
+                        if col_idx < arr.shape[1]:
+                            total += 1
+                colors = self._distinct_colors(total)
+                color_idx = 0
+                for kind, col_idx, name in selected:
+                    if kind != "COL":
                         continue
-                    x = arr[:, 0]
-                    y = arr[:, col_idx]
-                    label = name
-                elif (not self.steps) and kind == "COL" and self.data1 is not None:
+                    for st in self.steps:
+                        arr = st["data"]
+                        if col_idx >= arr.shape[1]:
+                            continue
+                        x = arr[:, 0]
+                        y = arr[:, col_idx]
+                        label = f"{name} | {st.get('label', 'Step')}"
+                        p = ax1.plot(x * xsc, y * y1sc, label=label)
+                        if colors:
+                            p[0].set_color(colors[color_idx])
+                        color_idx += 1
+                        self.lines.append(p[0])
+            else:
+                colors = self._distinct_colors(len(selected))
+                for i, (kind, col_idx, name) in enumerate(selected):
+                    if kind != "COL" or self.data1 is None:
+                        continue
+                    if col_idx >= self.data1.shape[1]:
+                        continue
                     x = self.data1[:, 0]
-                    y = self.data1[:, idx]
+                    y = self.data1[:, col_idx]
                     label = name
-                else:
-                    continue
-
-                p = ax1.plot(x * xsc, y * y1sc, label=label)
-                self.lines.append(p[0])
+                    p = ax1.plot(x * xsc, y * y1sc, label=label)
+                    if colors:
+                        p[0].set_color(colors[i])
+                    self.lines.append(p[0])
         else:
             if self.steps:
-                self.lines = []
                 base1 = self.c1name.text().strip() or "Curva 1"
                 col1 = self.cmb_file1.currentIndex() + 1
-
-                for st in self.steps:
-                    arr = st["data"]
-                    if col1 >= arr.shape[1]:
-                        continue
-                    x = arr[:, 0]
-                    y = arr[:, col1]
-                    label = f"{base1} | {st.get('label','Step')}"
-                    p = ax1.plot(x * xsc, y * y1sc, label=label)
-                    self.lines.append(p[0])
-
-                if mode == 1:
-                    # Curva 2 en el mismo eje Y
-                    if self.y2 is None:
-                        return
-                    base2 = self.c2name.text().strip() or "Curva 2"
-                    col2 = self.cmb_file2.currentIndex()
-                    for st in self.steps:
-                        arr = st["data"]
-                        if col2 >= arr.shape[1]:
-                            continue
-                        x = arr[:, 0]
-                        y = arr[:, col2]
-                        label = f"{base2} | {st.get('label','Step')}"
-                        p = ax1.plot(x * xsc, y * y2sc, label=label)
-                        self.lines.append(p[0])
-
-                elif mode == 2:
-                    # Curva 2 en eje Y2
-                    if self.y2 is None:
-                        return
-                    ax2 = ax1.twinx()
-                    base2 = self.c2name.text().strip() or "Curva 2"
-                    col2 = self.cmb_file2.currentIndex()
-                    for st in self.steps:
-                        arr = st["data"]
-                        if col2 >= arr.shape[1]:
-                            continue
-                        x = arr[:, 0]
-                        y = arr[:, col2]
-                        label = f"{base2} | {st.get('label','Step')}"
-                        p = ax2.plot(x * xsc, y * y2sc, label=label)
-                        self.lines.append(p[0])
-
+                arr = self.steps[0]["data"]
+                if col1 >= arr.shape[1]:
+                    QMessageBox.warning(self, "Falta", "Seleccioná una columna válida.")
+                    return
+                x = arr[:, 0]
+                y = arr[:, col1]
+                label = f"{base1} | {self.steps[0].get('label','Step')}"
+                p = ax1.plot(x * xsc, y * y1sc, label=label)
+                self.lines.append(p[0])
             else:
                 p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
                 self.lines = [p1[0]]
-
-                if mode == 0:
-                    pass
-
-                elif mode == 1:
-                    if self.y2 is None:
-                        QMessageBox.warning(self, "Falta", "Seleccioná Curva 2.")
-                        return
-                    p2 = ax1.plot(self.x1 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
-                    self.lines.append(p2[0])
-
-                else:  # mode == 2
-                    if self.y2 is None:
-                        QMessageBox.warning(self, "Falta", "Seleccioná Curva 2.")
-                        return
-                    ax2 = ax1.twinx()
-                    p2 = ax2.plot(self.x1 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
-                    self.lines.append(p2[0])
-        self._apply_line_styles()
+        self._apply_line_styles(allow_color=(mode == 0))
         # Leyenda siempre sincronizada con estilos reales + clickeable
         self.refresh_legend()
 
@@ -1078,14 +900,9 @@ class MainWindow(QMainWindow):
     # Logica del editor de curvas
     #-------------------------
 
-    def _current_slot(self) -> int:
-        # 0 = curva 1, 1 = curva 2
-        return int(self.cmb_curve.currentIndex())
-
-    def _sync_style_ui_from_slot(self):
-        """Actualiza los controles UI según el estilo guardado del slot seleccionado."""
-        slot = self._current_slot()
-        st = (self._slot_styles.get(slot) or self._slot_default_styles.get(slot) or {})
+    def _sync_style_ui_from_curve(self):
+        """Actualiza los controles UI según el estilo guardado actual."""
+        st = self._curve_style or {}
 
         ls = st.get("linestyle", "-")
         mk = st.get("marker", None)
@@ -1101,34 +918,24 @@ class MainWindow(QMainWindow):
 
         self.spin_lw.setText(str(lw))
 
-    def on_curve_slot_changed(self):
-        self._sync_style_ui_from_slot()
-
     def edit_color(self):
         c = QColorDialog.getColor(parent=self)
         if not c.isValid():
             return
+        self._curve_style["color"] = c.name()
 
-        slot = self._current_slot()
-        st = self._slot_styles.get(slot) or {}
-        st["color"] = c.name()
-        self._slot_styles[slot] = st
+        if self.lines:
+            allow_color = self.cmb_mode.currentIndex() == 0
+            for line in self.lines:
+                self._apply_style_dict_to_line(line, self._curve_style, allow_color=allow_color)
 
-        # aplicar directo al Line2D del slot (si existe)
-        if self.lines and slot < len(self.lines):
-            self._apply_style_dict_to_line(self.lines[slot], st)
-
-        # limpiar cache para que no pise luego
         self._style_cache = {}
         self.refresh_legend()
         self.canvas.draw_idle()
-
-        # sincronizar caches/slots con lo aplicado
         self._capture_line_styles()
 
     def edit_style(self):
-        slot = self._current_slot()
-        st = self._slot_styles.get(slot) or {}
+        st = self._curve_style
 
         st["linestyle"] = self.cmb_ls.currentText()
 
@@ -1140,11 +947,12 @@ class MainWindow(QMainWindow):
         except Exception:
             pass
 
-        self._slot_styles[slot] = st
+        self._curve_style = st
 
-        # aplicar directo al Line2D del slot (si existe)
-        if self.lines and slot < len(self.lines):
-            self._apply_style_dict_to_line(self.lines[slot], st)
+        if self.lines:
+            allow_color = self.cmb_mode.currentIndex() == 0
+            for line in self.lines:
+                self._apply_style_dict_to_line(line, st, allow_color=allow_color)
 
         self._style_cache = {}
         self.refresh_legend()
@@ -1158,10 +966,7 @@ class MainWindow(QMainWindow):
         if not p.lower().endswith(".json"):
             p += ".json"
 
-        data = {
-            "slot0": self._slot_styles.get(0),
-            "slot1": self._slot_styles.get(1),
-        }
+        data = {"curve": self._curve_style}
         with open(p, "w", encoding="utf8") as f:
             json.dump(data, f, indent=2)
 
@@ -1173,20 +978,15 @@ class MainWindow(QMainWindow):
         with open(p, "r", encoding="utf8") as f:
             data = json.load(f)
 
-        self._slot_styles[0] = data.get("slot0")
-        self._slot_styles[1] = data.get("slot1")
+        self._curve_style = data.get("curve") or self._curve_style
 
-        # Compatibilidad: si viene marker null, lo convertimos a "None"
-        for k in (0, 1):
-            st = self._slot_styles.get(k)
-            if isinstance(st, dict) and st.get("marker", "__missing__") is None:
-                st["marker"] = "None"
-                self._slot_styles[k] = st
+        if isinstance(self._curve_style, dict) and self._curve_style.get("marker", "__missing__") is None:
+            self._curve_style["marker"] = "None"
 
-        self._sync_style_ui_from_slot()
+        self._sync_style_ui_from_curve()
 
         self._style_cache = {}
-        self._apply_line_styles()
+        self._apply_line_styles(allow_color=(self.cmb_mode.currentIndex() == 0))
         self.refresh_legend()
         self.canvas.draw_idle()
         self._capture_line_styles()
@@ -1196,50 +996,20 @@ class MainWindow(QMainWindow):
         Habilita/deshabilita controles según el modo seleccionado.
         Modos:
           0: 1 curva
-          1: 2 curvas (mismo Y)
-          2: 2 curvas (doble Y)
-          3: N curvas (mismo Y)
+          1: N curvas (mismo Y)
         """
         mode = self.cmb_mode.currentIndex()
         has_data = (self.data1 is not None) or bool(self.steps)
 
-        # combos de columnas (Curva 1 / Curva 2)
+        # combos de columnas
         self.cmb_file1.setEnabled(has_data)
 
         if mode == 0:
             # 1 curva
-            self.cmb_file2.setEnabled(False)
-            self.c2name.setEnabled(False)
-            self.cmb_y2.setEnabled(False)
-            self.y2lab.setEnabled(False)
-            self.lbl_y2_factor.setEnabled(False)
-            self.lst_signals.setEnabled(False)
-
-        elif mode == 1:
-            # 2 curvas mismo Y
-            self.cmb_file2.setEnabled(has_data)
-            self.c2name.setEnabled(True)
-            self.cmb_y2.setEnabled(False)
-            self.y2lab.setEnabled(False)
-            self.lbl_y2_factor.setEnabled(False)
-            self.lst_signals.setEnabled(False)
-
-        elif mode == 2:
-            # 2 curvas doble Y
-            self.cmb_file2.setEnabled(has_data)
-            self.c2name.setEnabled(True)
-            self.cmb_y2.setEnabled(True)
-            self.y2lab.setEnabled(True)
-            self.lbl_y2_factor.setEnabled(True)
             self.lst_signals.setEnabled(False)
 
         else:
             # N curvas
-            self.cmb_file2.setEnabled(False)
-            self.c2name.setEnabled(False)
-            self.cmb_y2.setEnabled(False)
-            self.y2lab.setEnabled(False)
-            self.lbl_y2_factor.setEnabled(False)
             self.lst_signals.setEnabled(has_data)
             if has_data:
                 self._refresh_signal_list()
@@ -1261,21 +1031,21 @@ class MainWindow(QMainWindow):
 <h2>LTspice Plotter — Manual rápido</h2>
 
 <b>Cargar archivos</b><br>
-Abrir archivo 1 (obligatorio)<br>
-Abrir archivo 2 (opcional)<br><br>
+Abrir archivo (obligatorio)<br><br>
 
 <b>Selección de señales</b><br>
-Columnas archivo 1/2 → elige la señal para curvas 1/2<br>
+Columnas → elegí la señal para curva única<br>
 Modo N → tildá múltiples señales en la lista<br><br>
 
+<b>Archivos con .step</b><br>
+En modo N, cada señal seleccionada se grafica para todos los steps<br><br>
+
 <b>Modos de gráfico</b><br>
-1 curva → solo archivo 1<br>
-2 curvas mismo eje → comparación directa<br>
-2 curvas doble eje → cada señal con su escala<br>
-N curvas mismo eje → múltiples señales desde archivo 1/2<br><br>
+1 curva → una sola señal<br>
+N curvas mismo eje → múltiples señales del mismo archivo<br><br>
 
 <b>Escalas</b><br>
-Elegí la escala en “Escala Y1/Y2”.<br>
+Elegí la escala en “Escala Y1”.<br>
 El <i>factor aplicado</i> se muestra a la izquierda y no modifica el texto del label.<br><br>
 
 <b>Cursores A/B</b><br>
