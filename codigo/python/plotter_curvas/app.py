@@ -51,6 +51,7 @@ class MainWindow(QMainWindow):
         self.x1 = self.y1 = None
         self.colnames1 = None
         self.lines = []
+        self._signal_names = {}
 
         # Probes A/B
         self.probeA = None
@@ -157,6 +158,7 @@ class MainWindow(QMainWindow):
         self.c1name.editingFinished.connect(self.apply_curve_names_now)
 
         self.lst_signals = QListWidget()
+        self.lst_signals.itemChanged.connect(self._on_signal_item_changed)
 
         form.addRow("Tema:", self.cmb_theme)
         form.addRow("Modo:", self.cmb_mode)
@@ -319,9 +321,14 @@ class MainWindow(QMainWindow):
 
         if self.colnames1 and len(self.colnames1) >= 2:
             for col_idx, name in enumerate(self.colnames1[1:], start=1):
-                label = name if not self.steps else f"{name} (todos los steps)"
+                base_name = self._signal_names.get(col_idx, name)
+                label = base_name if not self.steps else f"{base_name} (todos los steps)"
                 item = QListWidgetItem(label)
-                item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                item.setFlags(
+                    item.flags()
+                    | Qt.ItemFlag.ItemIsUserCheckable
+                    | Qt.ItemFlag.ItemIsEditable
+                )
                 if not default_checked:
                     item.setCheckState(Qt.CheckState.Checked)
                     default_checked = True
@@ -337,6 +344,18 @@ class MainWindow(QMainWindow):
 
         self.lst_signals.setEnabled(True)
         self.lst_signals.blockSignals(False)
+
+    def _on_signal_item_changed(self, item: QListWidgetItem):
+        payload = item.data(Qt.ItemDataRole.UserRole)
+        if not payload:
+            return
+        kind, col_idx, default_name = payload
+        if kind != "COL":
+            return
+        new_name = item.text().replace(" (todos los steps)", "").strip()
+        if not new_name:
+            new_name = default_name
+        self._signal_names[col_idx] = new_name
 
 
     def _selected_columns(self) -> list[tuple[str, int, str]]:
@@ -752,13 +771,14 @@ class MainWindow(QMainWindow):
                 for kind, col_idx, name in selected:
                     if kind != "COL":
                         continue
+                    base_name = self._signal_names.get(col_idx, name)
                     for st in self.steps:
                         arr = st["data"]
                         if col_idx >= arr.shape[1]:
                             continue
                         x = arr[:, 0]
                         y = arr[:, col_idx]
-                        label = f"{name} | {st.get('label', 'Step')}"
+                        label = f"{base_name} | {st.get('label', 'Step')}"
                         p = ax1.plot(x * xsc, y * y1sc, label=label)
                         if colors:
                             p[0].set_color(colors[color_idx])
@@ -773,7 +793,7 @@ class MainWindow(QMainWindow):
                         continue
                     x = self.data1[:, 0]
                     y = self.data1[:, col_idx]
-                    label = name
+                    label = self._signal_names.get(col_idx, name)
                     p = ax1.plot(x * xsc, y * y1sc, label=label)
                     if colors:
                         p[0].set_color(colors[i])
