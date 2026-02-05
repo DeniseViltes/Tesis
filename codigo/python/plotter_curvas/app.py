@@ -12,10 +12,9 @@ import json
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-from matplotlib import cm
 
 from ltspice_io import read_ltspice_table, read_ltspice_steps
-from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout
+from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout, theme_curve_colors
 from probe_tools import nearest_line_snap
 
 
@@ -52,6 +51,7 @@ class MainWindow(QMainWindow):
         self.colnames1 = None
         self.lines = []
         self._signal_names = {}
+        self.datasets = []
 
         # Probes A/B
         self.probeA = None
@@ -96,13 +96,13 @@ class MainWindow(QMainWindow):
         layout.addWidget(scroll, 0)
 
         # Archivos
-        grp_files = QGroupBox("Archivo")
+        grp_files = QGroupBox("Archivos")
         fl = QVBoxLayout(grp_files)
 
-        b1 = QPushButton("Abrir archivo…")
+        b1 = QPushButton("Abrir archivo(s)…")
         b1.clicked.connect(self.open1)
 
-        self.l1 = QLabel("Archivo: (no seleccionado)")
+        self.l1 = QLabel("Archivos: (ninguno seleccionado)")
 
         fl.addWidget(b1)
         fl.addWidget(self.l1)
@@ -265,8 +265,11 @@ class MainWindow(QMainWindow):
     def _distinct_colors(self, count: int):
         if count <= 0:
             return []
-        cmap = cm.get_cmap("tab20", count)
-        return [cmap(i) for i in range(count)]
+        theme = THEMES[self.cmb_theme.currentText()]
+        colors = theme_curve_colors(theme, count)
+        if colors:
+            return colors
+        return []
 
     def _factor_str(self, f: float) -> str:
         """Formato SIN notación científica: x1000 / x0.001 / x1"""
@@ -313,16 +316,23 @@ class MainWindow(QMainWindow):
     def _refresh_signal_list(self):
         """
         Modo N:
-          - lista = columnas (cada columna puede graficarse en todos los steps)
+          - lista = columnas de todos los archivos cargados
         """
         self.lst_signals.blockSignals(True)
         self.lst_signals.clear()
         default_checked = False
 
-        if self.colnames1 and len(self.colnames1) >= 2:
-            for col_idx, name in enumerate(self.colnames1[1:], start=1):
-                base_name = self._signal_names.get(col_idx, name)
-                label = base_name if not self.steps else f"{base_name} (todos los steps)"
+        for ds_idx, ds in enumerate(self.datasets):
+            colnames = ds.get("colnames")
+            if not colnames or len(colnames) < 2:
+                continue
+            fname = ds.get("name", f"archivo_{ds_idx+1}")
+            for col_idx, name in enumerate(colnames[1:], start=1):
+                key = (ds_idx, col_idx)
+                base_name = self._signal_names.get(key, name)
+                label = f"[{fname}] {base_name}"
+                if ds.get("steps"):
+                    label += " (todos los steps)"
                 item = QListWidgetItem(label)
                 item.setFlags(
                     item.flags()
@@ -334,7 +344,7 @@ class MainWindow(QMainWindow):
                     default_checked = True
                 else:
                     item.setCheckState(Qt.CheckState.Unchecked)
-                item.setData(Qt.ItemDataRole.UserRole, ("COL", col_idx, name))
+                item.setData(Qt.ItemDataRole.UserRole, ("DSCOL", ds_idx, col_idx, name))
                 self.lst_signals.addItem(item)
 
         if self.lst_signals.count() == 0:
@@ -349,13 +359,18 @@ class MainWindow(QMainWindow):
         payload = item.data(Qt.ItemDataRole.UserRole)
         if not payload:
             return
-        kind, col_idx, default_name = payload
-        if kind != "COL":
+        kind = payload[0]
+        if kind != "DSCOL":
             return
-        new_name = item.text().replace(" (todos los steps)", "").strip()
+        _, ds_idx, col_idx, default_name = payload
+        raw = item.text().replace(" (todos los steps)", "").strip()
+        if "] " in raw:
+            new_name = raw.split("] ", 1)[1].strip()
+        else:
+            new_name = raw
         if not new_name:
             new_name = default_name
-        self._signal_names[col_idx] = new_name
+        self._signal_names[(ds_idx, col_idx)] = new_name
 
 
     def _selected_columns(self) -> list[tuple[str, int, str]]:
@@ -491,38 +506,53 @@ class MainWindow(QMainWindow):
     # File I/O
     # -------------------------
     def open1(self):
-        p, _ = QFileDialog.getOpenFileName(self, "Abrir", "", "Text files (*.txt *.csv);;All (*.*)")
-        if not p:
+        paths, _ = QFileDialog.getOpenFileNames(self, "Abrir", "", "Text files (*.txt *.csv);;All (*.*)")
+        if not paths:
             return
         try:
-            self.file1_path = p
+            self.datasets = []
+            for p in paths:
+                _, cols, steps = read_ltspice_steps(p, "auto")
+                if steps:
+                    self.datasets.append({
+                        "path": p,
+                        "name": os.path.basename(p),
+                        "data": None,
+                        "steps": steps,
+                        "colnames": cols,
+                    })
+                else:
+                    data, _, cols = read_ltspice_table(p, "auto")
+                    self.datasets.append({
+                        "path": p,
+                        "name": os.path.basename(p),
+                        "data": data,
+                        "steps": None,
+                        "colnames": cols,
+                    })
 
-            # Intentar leer como sweep (.step) primero
-            _, cols, steps = read_ltspice_steps(p, "auto")
-            if steps:
-                self.steps = steps
-                self.data1 = None
-                self.colnames1 = cols
-            else:
-                data, _, cols = read_ltspice_table(p, "auto")
-                self.steps = None
-                self.data1 = data
-                self.colnames1 = cols
+            first = self.datasets[0]
+            self.file1_path = first["path"]
+            self.steps = first["steps"]
+            self.data1 = first["data"]
+            self.colnames1 = first["colnames"]
 
-            # UI
             self._populate_column_combo(self.cmb_file1, self.colnames1)
-
             self._on_file1_column_changed()
 
             if self.colnames1:
                 self.xlab.setText(self.colnames1[0])
 
-            self.l1.setText(f"Archivo: {os.path.basename(p)}")
+            if len(self.datasets) == 1:
+                self.l1.setText(f"Archivo: {self.datasets[0]['name']}")
+            else:
+                self.l1.setText(f"Archivos: {len(self.datasets)} cargados")
 
             self._refresh_signal_list()
 
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
+
     def _apply_legend(self, ax, handles=None, labels=None):
         mode = self.cmb_legend.currentText()
         if mode == "Auto (best)":
@@ -712,13 +742,17 @@ class MainWindow(QMainWindow):
             else:
                 selected = self._selected_columns()
                 ys1 = []
-                for kind, col_idx, _ in selected:
-                    if kind != "COL":
+                for kind, ds_idx, col_idx, _ in selected:
+                    if kind != "DSCOL":
                         continue
-                    for st in self.steps:
-                        arr = st["data"]
-                        if col_idx < arr.shape[1]:
-                            ys1.append(arr[:, col_idx])
+                    ds = self.datasets[ds_idx]
+                    if ds.get("steps"):
+                        for st in ds["steps"]:
+                            arr = st["data"]
+                            if col_idx < arr.shape[1]:
+                                ys1.append(arr[:, col_idx])
+                    elif ds.get("data") is not None and col_idx < ds["data"].shape[1]:
+                        ys1.append(ds["data"][:, col_idx])
                 y1src = np.concatenate(ys1) if ys1 else None
         else:
             if mode == 0:
@@ -726,11 +760,17 @@ class MainWindow(QMainWindow):
             else:
                 selected = self._selected_columns()
                 ys1 = []
-                for kind, col_idx, _ in selected:
-                    if kind != "COL":
+                for kind, ds_idx, col_idx, _ in selected:
+                    if kind != "DSCOL":
                         continue
-                    if self.data1 is not None and col_idx < self.data1.shape[1]:
-                        ys1.append(self.data1[:, col_idx])
+                    ds = self.datasets[ds_idx]
+                    if ds.get("steps"):
+                        for st in ds["steps"]:
+                            arr = st["data"]
+                            if col_idx < arr.shape[1]:
+                                ys1.append(arr[:, col_idx])
+                    elif ds.get("data") is not None and col_idx < ds["data"].shape[1]:
+                        ys1.append(ds["data"][:, col_idx])
                 y1src = np.concatenate(ys1) if ys1 else None
 
         y1sc = self._scale(self.cmb_y1, y1src, self.lbl_y1_factor) if y1src is not None else 1.0
@@ -757,46 +797,50 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, "Falta", "Seleccioná al menos una señal en modo N.")
                 return
 
-            if self.steps:
-                total = 0
-                for kind, col_idx, _ in selected:
-                    if kind != "COL":
-                        continue
-                    for st in self.steps:
+            total = 0
+            for kind, ds_idx, col_idx, _ in selected:
+                if kind != "DSCOL":
+                    continue
+                ds = self.datasets[ds_idx]
+                if ds.get("steps"):
+                    for st in ds["steps"]:
                         arr = st["data"]
                         if col_idx < arr.shape[1]:
                             total += 1
-                colors = self._distinct_colors(total)
-                color_idx = 0
-                for kind, col_idx, name in selected:
-                    if kind != "COL":
-                        continue
-                    base_name = self._signal_names.get(col_idx, name)
-                    for st in self.steps:
+                elif ds.get("data") is not None and col_idx < ds["data"].shape[1]:
+                    total += 1
+
+            colors = self._distinct_colors(total)
+            color_idx = 0
+            for kind, ds_idx, col_idx, name in selected:
+                if kind != "DSCOL":
+                    continue
+                ds = self.datasets[ds_idx]
+                base_name = self._signal_names.get((ds_idx, col_idx), name)
+                file_name = ds.get("name", f"archivo_{ds_idx+1}")
+
+                if ds.get("steps"):
+                    for st in ds["steps"]:
                         arr = st["data"]
                         if col_idx >= arr.shape[1]:
                             continue
                         x = arr[:, 0]
                         y = arr[:, col_idx]
-                        label = f"{base_name} | {st.get('label', 'Step')}"
+                        label = f"[{file_name}] {base_name} | {st.get('label', 'Step')}"
                         p = ax1.plot(x * xsc, y * y1sc, label=label)
                         if colors:
                             p[0].set_color(colors[color_idx])
                         color_idx += 1
                         self.lines.append(p[0])
-            else:
-                colors = self._distinct_colors(len(selected))
-                for i, (kind, col_idx, name) in enumerate(selected):
-                    if kind != "COL" or self.data1 is None:
-                        continue
-                    if col_idx >= self.data1.shape[1]:
-                        continue
-                    x = self.data1[:, 0]
-                    y = self.data1[:, col_idx]
-                    label = self._signal_names.get(col_idx, name)
+                elif ds.get("data") is not None and col_idx < ds["data"].shape[1]:
+                    arr = ds["data"]
+                    x = arr[:, 0]
+                    y = arr[:, col_idx]
+                    label = f"[{file_name}] {base_name}"
                     p = ax1.plot(x * xsc, y * y1sc, label=label)
                     if colors:
-                        p[0].set_color(colors[i])
+                        p[0].set_color(colors[color_idx])
+                    color_idx += 1
                     self.lines.append(p[0])
         else:
             if self.steps:
@@ -1051,7 +1095,7 @@ class MainWindow(QMainWindow):
 <h2>LTspice Plotter — Manual rápido</h2>
 
 <b>Cargar archivos</b><br>
-Abrir archivo (obligatorio)<br><br>
+Abrir archivo(s) (uno o más)<br><br>
 
 <b>Selección de señales</b><br>
 Columnas → elegí la señal para curva única<br>
@@ -1062,7 +1106,7 @@ En modo N, cada señal seleccionada se grafica para todos los steps<br><br>
 
 <b>Modos de gráfico</b><br>
 1 curva → una sola señal<br>
-N curvas mismo eje → múltiples señales del mismo archivo<br><br>
+N curvas mismo eje → múltiples señales de uno o más archivos<br><br>
 
 <b>Escalas</b><br>
 Elegí la escala en “Escala Y1”.<br>
