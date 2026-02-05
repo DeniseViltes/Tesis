@@ -10,4 +10,5 @@ version2.6.asc
 RL=10
 
 ## Conclusiones rápidas
-
+En config MAS-MAS, no se ven diferencias
+En config MAS-MENOS, cuando se enciende el segundo banco no se llega a la tensión deseada.

@@ -12,5 +12,3 @@ Rg= [1, 2.2, 4.7, 10]
 RL=1k
 
 ## Conclusiones rápidas
-- Rg bajo → ringing alto
-- 4.7 Ω mejor compromiso
