@@ -75,8 +75,8 @@ class MainWindow(QMainWindow):
         self._style_cache = {}  # re-plot inmediato (mismo dataset)
         self._slot_styles = {0: None, 1: None}  # persistente (curva 1 / curva 2 aunque cambie archivo)
         self._slot_default_styles = {
-            0: {"color": "#1f77b4", "linewidth": 2.5, "linestyle": "-", "marker": None, "alpha": 1.0, "visible": True},
-            1: {"color": "#d62728", "linewidth": 2.5, "linestyle": "-", "marker": None, "alpha": 1.0, "visible": True},
+            0: {"color": None, "linewidth": 2.5, "linestyle": "-", "marker": None, "alpha": 1.0, "visible": True},
+            1: {"color": None, "linewidth": 2.5, "linestyle": "-", "marker": None, "alpha": 1.0, "visible": True},
         }
 
         root = QWidget()
@@ -851,6 +851,18 @@ class MainWindow(QMainWindow):
         ax1.set_ylabel(self.y1lab.text())
 
         mode = self.cmb_mode.currentIndex()
+        theme = THEMES[self.cmb_theme.currentText()]
+        palette = list(theme.color_cycle) if getattr(theme, "color_cycle", None) else []
+        color_idx = 0
+
+        def next_theme_color():
+            nonlocal color_idx
+            if not palette:
+                return None
+            c = palette[color_idx % len(palette)]
+            color_idx += 1
+            return c
+
         self.lines = []
 
         if mode == 3:
@@ -900,7 +912,7 @@ class MainWindow(QMainWindow):
                 else:
                     continue
 
-                p = ax1.plot(x * xsc, y * y1sc, label=label)
+                p = ax1.plot(x * xsc, y * y1sc, label=label, color=next_theme_color())
                 self.lines.append(p[0])
         else:
             if self.steps:
@@ -915,7 +927,7 @@ class MainWindow(QMainWindow):
                     x = arr[:, 0]
                     y = arr[:, col1]
                     label = f"{base1} | {st.get('label','Step')}"
-                    p = ax1.plot(x * xsc, y * y1sc, label=label)
+                    p = ax1.plot(x * xsc, y * y1sc, label=label, color=next_theme_color())
                     self.lines.append(p[0])
 
                 if mode == 1:
@@ -931,7 +943,7 @@ class MainWindow(QMainWindow):
                         x = arr[:, 0]
                         y = arr[:, col2]
                         label = f"{base2} | {st.get('label','Step')}"
-                        p = ax1.plot(x * xsc, y * y2sc, label=label)
+                        p = ax1.plot(x * xsc, y * y2sc, label=label, color=next_theme_color())
                         self.lines.append(p[0])
 
                 elif mode == 2:
@@ -948,11 +960,11 @@ class MainWindow(QMainWindow):
                         x = arr[:, 0]
                         y = arr[:, col2]
                         label = f"{base2} | {st.get('label','Step')}"
-                        p = ax2.plot(x * xsc, y * y2sc, label=label)
+                        p = ax2.plot(x * xsc, y * y2sc, label=label, color=next_theme_color())
                         self.lines.append(p[0])
 
             else:
-                p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
+                p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"), color=next_theme_color())
                 self.lines = [p1[0]]
 
                 if mode == 0:
@@ -962,7 +974,7 @@ class MainWindow(QMainWindow):
                     if self.y2 is None:
                         QMessageBox.warning(self, "Falta", "Seleccioná Curva 2.")
                         return
-                    p2 = ax1.plot(self.x1 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
+                    p2 = ax1.plot(self.x1 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"), color=next_theme_color())
                     self.lines.append(p2[0])
 
                 else:  # mode == 2
@@ -970,7 +982,7 @@ class MainWindow(QMainWindow):
                         QMessageBox.warning(self, "Falta", "Seleccioná Curva 2.")
                         return
                     ax2 = ax1.twinx()
-                    p2 = ax2.plot(self.x1 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"))
+                    p2 = ax2.plot(self.x1 * xsc, self.y2 * y2sc, label=(self.c2name.text().strip() or "Curva 2"), color=next_theme_color())
                     self.lines.append(p2[0])
         self._apply_line_styles()
         # Leyenda siempre sincronizada con estilos reales + clickeable
