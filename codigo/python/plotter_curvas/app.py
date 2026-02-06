@@ -14,7 +14,7 @@ from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as Navigation
 from matplotlib.figure import Figure
 
 from ltspice_io import read_ltspice_table, read_ltspice_steps
-from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout, theme_curve_colors
+from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout, theme_curve_colors, use_theme_style
 from probe_tools import nearest_line_snap
 
 
@@ -75,13 +75,14 @@ class MainWindow(QMainWindow):
         # Estilos (persistencia)
         self._style_cache = {}  # re-plot inmediato (mismo dataset)
         self._curve_style = {
-            "color": "#1f77b4",
+            "color": None,
             "linewidth": 2.5,
             "linestyle": "-",
             "marker": None,
             "alpha": 1.0,
             "visible": True,
         }
+        self._curve_color_custom = False
 
         root = QWidget()
         self.setCentralWidget(root)
@@ -385,6 +386,22 @@ class MainWindow(QMainWindow):
                     selected.append(payload)
         return selected
 
+    def _commit_signal_names_from_list(self):
+        """Sincroniza nombres editados en la lista (modo N), incluso si no disparó itemChanged."""
+        for i in range(self.lst_signals.count()):
+            item = self.lst_signals.item(i)
+            payload = item.data(Qt.ItemDataRole.UserRole) if item else None
+            if not payload or payload[0] != "DSCOL":
+                continue
+
+            _, ds_idx, col_idx, default_name = payload
+            raw = item.text().replace(" (todos los steps)", "").strip()
+            if "] " in raw:
+                new_name = raw.split("] ", 1)[1].strip()
+            else:
+                new_name = raw
+            self._signal_names[(ds_idx, col_idx)] = new_name or default_name
+
     def _on_file1_column_changed(self):
         if self.colnames1 is None:
             return
@@ -500,7 +517,10 @@ class MainWindow(QMainWindow):
 
             if not st:
                 continue
-            self._apply_style_dict_to_line(line, st, allow_color=allow_color)
+            use_color = allow_color
+            if st is self._curve_style and not self._curve_color_custom:
+                use_color = False
+            self._apply_style_dict_to_line(line, st, allow_color=use_color)
 
     # -------------------------
     # File I/O
@@ -731,6 +751,10 @@ class MainWindow(QMainWindow):
 
         xsc = self._xscale()
         mode = self.cmb_mode.currentIndex()
+        if mode == 1:
+            self._commit_signal_names_from_list()
+
+        use_theme_style(THEMES[self.cmb_theme.currentText()])
 
         y1src = None
         if self.steps:
@@ -987,6 +1011,7 @@ class MainWindow(QMainWindow):
         if not c.isValid():
             return
         self._curve_style["color"] = c.name()
+        self._curve_color_custom = True
 
         if self.lines:
             allow_color = self.cmb_mode.currentIndex() == 0
@@ -1043,6 +1068,9 @@ class MainWindow(QMainWindow):
             data = json.load(f)
 
         self._curve_style = data.get("curve") or self._curve_style
+        self._curve_color_custom = bool(
+            isinstance(self._curve_style, dict) and self._curve_style.get("color")
+        )
 
         if isinstance(self._curve_style, dict) and self._curve_style.get("marker", "__missing__") is None:
             self._curve_style["marker"] = "None"
