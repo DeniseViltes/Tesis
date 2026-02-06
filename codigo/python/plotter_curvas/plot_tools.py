@@ -1,21 +1,50 @@
 from dataclasses import dataclass
 import numpy as np
+import matplotlib.pyplot as plt
+from cycler import cycler
+from pathlib import Path
 
-@dataclass
+@dataclass(frozen=True)
 class Theme:
-    fig_face: str
-    ax_face: str
-    text: str
-    grid: str
-    spine: str
-    grid_ls: str = "-"
-    grid_alpha: float = 0.6
+    plt_style: str
+
+_STYLE_DIR = Path(__file__).resolve().parent / "styles"
 
 THEMES = {
-    "Paper": Theme("#FAF7F0", "#FAF7F0", "#1A1A1A", "#C9C2B8", "#2A2A2A", "--", 0.5),
-    "Light": Theme("#FFFFFF", "#FFFFFF", "#111111", "#E6E6E6", "#222222", "-", 0.6),
-    "Dark":  Theme("#1E1E1E", "#1E1E1E", "#EAEAEA", "#3A3A3A", "#C0C0C0", "-", 0.5),
-    "LTspice":Theme("#0B0F14", "#0B0F14", "#D7E1EA", "#2BB673", "#93A4B2", ":", 0.35),
+    # estilos externos
+    "pacoty": Theme(str(_STYLE_DIR / "pacoty.mplstyle")),
+    "pitayasmoothie-dark": Theme(str(_STYLE_DIR / "pitayasmoothie-dark.mplstyle")),
+    "pitayasmoothie-light": Theme(str(_STYLE_DIR / "pitayasmoothie-light.mplstyle")),
+
+    # estilos incluidos en matplotlib
+    "Solarize_Light2": Theme("Solarize_Light2"),
+    "_classic_test_patch": Theme("_classic_test_patch"),
+    "_mpl-gallery": Theme("_mpl-gallery"),
+    "_mpl-gallery-nogrid": Theme("_mpl-gallery-nogrid"),
+    "bmh": Theme("bmh"),
+    "classic": Theme("classic"),
+    "dark_background": Theme("dark_background"),
+    "fast": Theme("fast"),
+    "fivethirtyeight": Theme("fivethirtyeight"),
+    "ggplot": Theme("ggplot"),
+    "grayscale": Theme("grayscale"),
+    "seaborn": Theme("seaborn"),
+    "seaborn-bright": Theme("seaborn-bright"),
+    "seaborn-colorblind": Theme("seaborn-colorblind"),
+    "seaborn-dark": Theme("seaborn-dark"),
+    "seaborn-dark-palette": Theme("seaborn-dark-palette"),
+    "seaborn-darkgrid": Theme("seaborn-darkgrid"),
+    "seaborn-deep": Theme("seaborn-deep"),
+    "seaborn-muted": Theme("seaborn-muted"),
+    "seaborn-notebook": Theme("seaborn-notebook"),
+    "seaborn-paper": Theme("seaborn-paper"),
+    "seaborn-pastel": Theme("seaborn-pastel"),
+    "seaborn-poster": Theme("seaborn-poster"),
+    "seaborn-talk": Theme("seaborn-talk"),
+    "seaborn-ticks": Theme("seaborn-ticks"),
+    "seaborn-white": Theme("seaborn-white"),
+    "seaborn-whitegrid": Theme("seaborn-whitegrid"),
+    "tableau-colorblind10": Theme("tableau-colorblind10"),
 }
 
 SCALE_MAP = {"x1":1.0, "x1e3":1e3, "x1e-3":1e-3, "x1e6":1e6, "x1e-6":1e-6}
@@ -37,17 +66,13 @@ def pick_auto_scale(y: np.ndarray) -> float:
 def scale_suffix(f: float) -> str:
     return "x1" if f == 1.0 else f"x{f:g}"
 
-def apply_theme(fig, theme: Theme):
-    fig.set_facecolor(theme.fig_face)
-    for ax in fig.axes:
-        ax.set_facecolor(theme.ax_face)
-        ax.tick_params(colors=theme.text)
-        ax.xaxis.label.set_color(theme.text)
-        ax.yaxis.label.set_color(theme.text)
-        ax.title.set_color(theme.text)
-        ax.grid(True, color=theme.grid, linestyle=theme.grid_ls, alpha=theme.grid_alpha)
-        for sp in ax.spines.values():
-            sp.set_color(theme.spine)
+def use_theme_style(theme: Theme):
+    """Carga un estilo base de matplotlib para el tema seleccionado."""
+    plt.style.use(theme.plt_style)
+
+def theme_curve_colors(theme: Theme, count: int) -> list[str]:
+        return []
+
 
 def apply_layout(fig, legend_mode: str):
     if legend_mode == "Afuera derecha":
