@@ -14,7 +14,7 @@ from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as Navigation
 from matplotlib.figure import Figure
 
 from ltspice_io import read_ltspice_table, read_ltspice_steps
-from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout, theme_curve_colors
+from plot_tools import THEME_NAMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout, theme_curve_colors, set_active_theme
 from probe_tools import nearest_line_snap
 
 
@@ -121,7 +121,7 @@ class MainWindow(QMainWindow):
         form = QFormLayout(grp_opts)
 
         self.cmb_theme = QComboBox()
-        self.cmb_theme.addItems(list(THEMES.keys()))
+        self.cmb_theme.addItems(THEME_NAMES)
         self.cmb_theme.setCurrentText("Paper")
 
 
@@ -265,8 +265,7 @@ class MainWindow(QMainWindow):
     def _distinct_colors(self, count: int):
         if count <= 0:
             return []
-        theme = THEMES[self.cmb_theme.currentText()]
-        colors = theme_curve_colors(theme, count)
+        colors = theme_curve_colors(self.cmb_theme.currentText(), count)
         if colors:
             return colors
         return []
@@ -778,6 +777,7 @@ class MainWindow(QMainWindow):
         # Guardar estilos actuales antes de borrar el figure (para no perder cambios)
         self._capture_line_styles()
 
+        set_active_theme(self.cmb_theme.currentText())
         self.canvas.fig.clear()
         ax1 = self.canvas.fig.add_subplot(111)
         self.ax1 = ax1
@@ -866,7 +866,7 @@ class MainWindow(QMainWindow):
         self._update_crosshairs()
 
         apply_layout(self.canvas.fig, self.cmb_legend.currentText())
-        apply_theme(self.canvas.fig, THEMES[self.cmb_theme.currentText()])
+        apply_theme(self.canvas.fig, self.cmb_theme.currentText())
         self.canvas.draw()
 
     # -------------------------
