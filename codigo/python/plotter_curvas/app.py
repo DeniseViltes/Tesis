@@ -50,7 +50,9 @@ class MainWindow(QMainWindow):
         self.x1 = self.y1 = None
         self.colnames1 = None
         self.lines = []
+        self._line_keys=[]
         self._signal_names = {}
+        self._line_name_overrides = {}
         self.datasets = []
 
         # Probes A/B
@@ -467,6 +469,19 @@ class MainWindow(QMainWindow):
 
         self._style_cache = cache
 
+    def _persist_line_name_overrides(self):
+        """Guarda nombres actuales de curvas para reusar en próximos re-plots."""
+        for i, line in enumerate(getattr(self, "lines", []) or []):
+            if line is None:
+                continue
+            if i >= len(self._line_keys):
+                continue
+            key = self._line_keys[i]
+            self._line_name_overrides[key] = line.get_label()
+
+    def _label_for_key(self, key, default_label: str) -> str:
+        return self._line_name_overrides.get(key, default_label)
+
     def _apply_style_dict_to_line(self, line, st: dict, allow_color: bool = True):
         if line is None or not st:
             return
@@ -800,6 +815,7 @@ class MainWindow(QMainWindow):
         y1sc = self._scale(self.cmb_y1, y1src, self.lbl_y1_factor) if y1src is not None else 1.0
 
         # Guardar estilos actuales antes de borrar el figure (para no perder cambios)
+        self._persist_line_name_overrides()
         self._capture_line_styles()
 
         self.canvas.fig.clear()
@@ -814,6 +830,7 @@ class MainWindow(QMainWindow):
         ax1.set_ylabel(self.y1lab.text())
 
         self.lines = []
+        self._line_keys = []
 
         if mode == 1:
             selected = self._selected_columns()
@@ -850,22 +867,29 @@ class MainWindow(QMainWindow):
                             continue
                         x = arr[:, 0]
                         y = arr[:, col_idx]
-                        label = f"[{file_name}] {base_name} | {st.get('label', 'Step')}"
+                        step_label = st.get("label", "Step")
+                        key = ("DSCOL_STEP", ds_idx, col_idx, step_label)
+                        default_label = f"[{file_name}] {base_name} | {step_label}"
+                        label = self._label_for_key(key, default_label)
                         p = ax1.plot(x * xsc, y * y1sc, label=label)
                         if colors:
                             p[0].set_color(colors[color_idx])
                         color_idx += 1
                         self.lines.append(p[0])
+                        self._line_keys.append(key)
                 elif ds.get("data") is not None and col_idx < ds["data"].shape[1]:
                     arr = ds["data"]
                     x = arr[:, 0]
                     y = arr[:, col_idx]
-                    label = f"[{file_name}] {base_name}"
+                    key = ("DSCOL", ds_idx, col_idx)
+                    default_label = f"[{file_name}] {base_name}"
+                    label = self._label_for_key(key, default_label)
                     p = ax1.plot(x * xsc, y * y1sc, label=label)
                     if colors:
                         p[0].set_color(colors[color_idx])
                     color_idx += 1
                     self.lines.append(p[0])
+                    self._line_keys.append(key)
         else:
             if self.steps:
                 base1 = self.c1name.text().strip() or "Curva 1"
@@ -879,9 +903,11 @@ class MainWindow(QMainWindow):
                 label = f"{base1} | {self.steps[0].get('label','Step')}"
                 p = ax1.plot(x * xsc, y * y1sc, label=label)
                 self.lines.append(p[0])
+                self._line_keys.append(("SINGLE_STEP", col1, 0))
             else:
                 p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
                 self.lines = [p1[0]]
+                self._line_keys = [("SINGLE", self.cmb_file1.currentIndex() + 1)]
         self._apply_line_styles(allow_color=(mode == 0))
         # Leyenda siempre sincronizada con estilos reales + clickeable
         self.refresh_legend()
