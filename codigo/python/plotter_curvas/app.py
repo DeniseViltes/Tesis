@@ -14,7 +14,7 @@ from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as Navigation
 from matplotlib.figure import Figure
 
 from ltspice_io import read_ltspice_table, read_ltspice_steps
-from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_theme, apply_layout, theme_curve_colors, use_theme_style
+from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_layout, theme_curve_colors, use_theme_style
 from probe_tools import nearest_line_snap
 
 
@@ -123,7 +123,7 @@ class MainWindow(QMainWindow):
 
         self.cmb_theme = QComboBox()
         self.cmb_theme.addItems(list(THEMES.keys()))
-        self.cmb_theme.setCurrentText("Paper")
+        self.cmb_theme.setCurrentText("ggplot")
 
 
         self.cmb_mode = QComboBox()
@@ -890,7 +890,6 @@ class MainWindow(QMainWindow):
         self._update_crosshairs()
 
         apply_layout(self.canvas.fig, self.cmb_legend.currentText())
-        apply_theme(self.canvas.fig, THEMES[self.cmb_theme.currentText()])
         self.canvas.draw()
 
     # -------------------------
