@@ -5,12 +5,11 @@ Ver como el valor de la resistencia en tierra
  afecta a la corriente en la celda y a la tension de salida
 
 ## Esquemático base
-version1.9.asc
+version2.0.asc
 
 ## Parámetros
-Rg= [1, 2.2, 4.7, 10]
+Rg= [1k, 100k, 500k]
 RL=1k
 
 ## Conclusiones rápidas
-- Rg bajo → ringing alto
-- 4.7 Ω mejor compromiso
+

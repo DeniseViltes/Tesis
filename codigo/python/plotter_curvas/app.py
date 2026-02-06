@@ -12,6 +12,7 @@ import json
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+from matplotlib import cm
 
 from ltspice_io import read_ltspice_table, read_ltspice_steps
 from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_layout, theme_curve_colors, use_theme_style
