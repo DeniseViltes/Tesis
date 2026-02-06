@@ -12,7 +12,8 @@ import json
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-from matplotlib import cm
+from pathlib import Path
+
 
 from ltspice_io import read_ltspice_table, read_ltspice_steps
 from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_layout, theme_curve_colors, use_theme_style
@@ -987,7 +988,10 @@ class MainWindow(QMainWindow):
     # Export
     # -------------------------
     def save_png(self):
-        p, _ = QFileDialog.getSaveFileName(self, "Guardar", "ltspice_plot.png", "PNG (*.png)")
+        path = self.datasets[0]["name"]
+        archivo =  Path(path)
+        nombre = archivo.with_suffix(".png")
+        p, _ = QFileDialog.getSaveFileName(self, "Guardar",str(nombre), "PNG (*.png)")
         if not p:
             return
         if not p.lower().endswith(".png"):
