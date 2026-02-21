@@ -5,23 +5,51 @@ STEP_PREFIX = "Step Information:"
 
 
 def _guess_delimiter(path: str, max_lines: int = 200) -> str | None:
-    """Try to infer delimiter from the first lines.
+    """Infer delimiter from early lines, favoring consistent multi-column parsing.
 
     Returns ',', ';', '\t', or None (whitespace split).
     """
-    counts = {",": 0, ";": 0, "\t": 0}
+    lines: list[str] = []
     with open(path, "r", encoding="utf-8", errors="replace") as f:
         for i, line in enumerate(f):
             if i >= max_lines:
                 break
-            if not line.strip() or line.lstrip().startswith(STEP_PREFIX):
+            s = line.strip()
+            if not s or s.startswith(STEP_PREFIX):
                 continue
-            for d in counts:
-                if d in line:
-                    counts[d] += 1
+            lines.append(s)
 
-    best = max(counts, key=counts.get)
-    return best if counts[best] > 0 else None
+    if not lines:
+        return None
+
+    candidates = ["\t", ";", ","]
+    best_delim: str | None = None
+    best_score = -1.0
+
+    for delim in candidates:
+        counts = []
+        for line in lines:
+            if delim not in line:
+                continue
+            n = len([p for p in line.split(delim) if p.strip()])
+            if n >= 2:
+                counts.append(n)
+
+        if not counts:
+            continue
+
+        mode_cols = max(set(counts), key=counts.count)
+        stable = sum(1 for c in counts if c == mode_cols)
+        score = stable / len(lines)
+
+        # Prefer delimiters that parse >= 2 columns in many lines,
+        # and with a stable column count. This avoids picking ',' when
+        # decimal commas appear inside ';' separated files.
+        if mode_cols >= 2 and score > best_score:
+            best_score = score
+            best_delim = delim
+
+    return best_delim
 
 
 def _split_fields(s: str, delimiter: str | None) -> list[str]:
