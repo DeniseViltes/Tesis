@@ -1,0 +1,23 @@
+Tal como esta no problemas de continuidad o al menos no los encuentro
+Uso fuente de tensión para la señal de control y para proporcionar la tension de la celda. Limite de corriente en 100mA. 
+Con todo apagado, enciendo la fuente y no hay consumo de corriente
+Coloco la carga y consume 63mA, en este caso deberia dar 0A. Enciendo Q2 y consume 64mA, lo cual seria correcto si funcionara bien el apagado.
+
+Saco la carga y enciendo el banco, sin carga la fuente entra en corto,y queda clavado en el limite de corriente el consumo.
+
+Al revisar las huellas encontramos que los pines gate y source del JFET estan intercambiados, está mal la huella.
+
+Sacamos el JFET, y ya no se observa el corto al encender el banco, pero sigue consumiendo 63mA en apagado
+
+
+Prueba para el mos del banco:
+conecto como figura en el archivo de ltspice de prueba de banco, una fuente simulando una celda
+dejo la celda 12 apagada (la 11 no la toco), y pongo le pongo al banco una señal cuadrada en el control. Se pueden ver los resultados en la carpeta.
+
+
+La corriente en RL en el switcheo: 58m/53mA
+
+
+
+
+A modo de prueba ponemos una resistencia entre el source y el gate del NMOS de la celda 1, y el consumo de corriente bajo a 4mA momentaneamente, al quitar la resistencia, vuelve a 63mA

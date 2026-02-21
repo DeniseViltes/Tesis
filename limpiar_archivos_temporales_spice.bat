@@ -1,5 +1,5 @@
 @echo off
-cd "C:\Users\---\Desktop\DCE\dce-g5-proyecto_integrador"
+cd "C:\Users\---\Desktop\Tesis"
 del /S *.raw
 del /S *.log
 del /S *.op.raw

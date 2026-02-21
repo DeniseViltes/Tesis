@@ -1,0 +1,682 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[square,numbers]{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{dsfont}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{circuitikz}
+\usepackage{wrapfig}
+\newcommand{\degree}{\ensuremath{^\circ}}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage[ddmmyy]{datetime}
+\usepackage{anyfontsize}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{comment}
+\usepackage{setspace}
+\usepackage{ulem}
+\usepackage{cancel}
+\usepackage{ragged2e}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{xfrac}
+\usepackage{nicefrac}
+\usepackage[autostyle]{csquotes}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{imakeidx}
+\usepackage{multirow}
+\usepackage[hidelinks]{hyperref}
+\usepackage{colortbl}
+\usepackage{subcaption}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {2ex plus .2ex}%  Espacio antes
+  {0.5em}%             Espacio después
+  {\normalfont\normalsize\bfseries}% Estilo
+}
+\makeatother
+
+
+% Configuración del encabezado para la carátula y el índice
+
+\newcommand{\quotes}[1]{``#1''}
+
+\sisetup{
+  per-mode=fraction,
+}
+
+\renewcommand\indexname{Índice}
+
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\captionsetup{
+    width=0.6\textwidth, % Ancho del caption
+    margin=20pt, % Margen del caption
+}
+
+\makeindex[columns=3, title=Alphabetical Index, intoc]
+
+\begin{document}
+
+%--------------------------- DATOS GENERALES -----------------------------%
+
+\title{Trabajo Profesional de Ingeniería Electrónica}	% Titulo del trabajo.
+\author{UBA - Facultad de Ingeniería}	% Nombre y apellido
+\newcommand{\tpnumber}{I}       % Número de trabajo práctico
+\date{\today}					% Fecha (automática, no tocar)
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+
+\fancyhead[R]{Grupo 2}
+\fancyhead[L]{TP1}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+%-------------------------------------------------------------------------%
+%-------------------------------------------------------------------------%
+%------------------------------- CARÁTULA --------------------------------%
+%-------------------------------------------------------------------------%
+%-------------------------------------------------------------------------%
+
+\begin{titlepage}
+\fancyhf{} % limpia encabezado y pie
+
+% --- Configuración del pie de página ---
+\fancyfoot[L]{\small Trabajo Profesional de Ingeniería Electrónica}
+\fancyfoot[R]{\small Año 2026}
+
+% --- Quita la línea del encabezado y activa la del pie ---
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\thispagestyle{fancy}
+
+\vfill 
+
+\begin{center}
+    \includegraphics[scale=0.6]{FIUBA.png}\\[1cm]
+    
+    {\huge \textbf{Diseño de una plataforma experimental de ecualización activa de celdas de litio}}\\[1cm]
+
+    {\large\textbf{Integrantes}}\\[0.2cm]
+    {\Large Sebastián Ezequiel García}\\
+    Padrón: 103780\\
+    \textit{sebgarcia@fi.uba.ar}\\[0.3cm]
+    
+    {\Large Denise Oriana Viltes}\\
+    Padrón: 106943\\
+    \textit{dviltes@fi.uba.ar}\\[1cm]
+
+    {\large\textbf{Tutora}}\\[0.2cm]
+    {\Large Dra. Cecilia G. Galarza}\\
+    \textit{cgalar@fi.uba.ar}\\[0.3cm]
+    {\large\textbf{Cotutor}}\\[0.2cm]
+   {\Large Ing. Juan Zuloaga}\\
+    \textit{jzuloaga@fi.uba.ar}\\[1cm]
+\end{center}
+\vfill 
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\clearpage
+
+
+\onehalfspacing
+\justifying
+
+%-------------------------------------------------------------------------%
+
+\section{Marco teórico}
+
+-->Ver propuesta, baterias, ecualizacion pasiva y activa
+
+1) QUE ES UNA BATERIA
+2) QUE ES UN BMS -> FUNCIONES DEL BMS
+3) ECUALIZACION-> PASIVA VS ACTIVA
+4) SOLUCION PROPUESTA (breve porque se desarrolla bien en diseño del circuito)
+
+\section{Diseño del circuito}
+
+%---> Que es una celda y que es un banco
+El circuito propuesto surge a partir del trabajo de \cite{kim2012self}, donde se implementa una plataforma de ecualización activa mediante el método de \textit{bypass}. En este contexto y con el fin de unificar la terminología de este informe, se denomina \textit{celda} a la unidad de almacenamiento que convierte energía química en energía eléctrica constituida por un ánodo y un cátodo. Cada una de estas celdas se conecta a un circuito para habilitar o deshabilitar, al cual llamaremos \textit{switch}. Por otro lado, el conjunto de celdas conectadas en paralelo se denomina \enquote*{banco}, cada uno cuenta con su propio \textit{switch} para asegurar la continuidad del circuito. Se conectan los bancos en serie formando una matriz, como se ve en la figura(fig. \ref{fig:matriz_de_celdas}), a la cual se designa como \enquote*{batería}. En esta plataforma, se trabajará con celdas de valor típico de \SI{3.3}{\volt} (con valores mínimo y máximo de \SI{2.5}{\volt} y \SI{3.7}{\volt} respectivamente).
+
+%[ARGREGAR DIBUJITOS CON EL CAMINO DE LA CORRIENTE CUANDO ESTAN PRENDIDAS/APAGADAS LAS CELDAS]
+
+% LISTO [AGREGAR LA EXPLICACION DE LA BATERIA RECONFIGURABLE CON LA POSIBILIDAD DE ELIMINAR CELDAS DE SERVICIO]
+
+% LISTO [AGREGAR UN PARRAFO DE COMO ECUALIZARIAMOS CON ESTO]
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Imágenes//Diseño de circuito/Matriz de celdas.png}
+    \caption{Esquema de la matriz de celdas propuesta \cite{kim2012self}.}
+    \label{fig:matriz_de_celdas}
+\end{figure}
+
+Ambos grupos, el de celdas y el de los \textit{switches} se unifican mediante el controlador formando la plataforma experimental de la figura(fig.  \ref{fig:esquema_bateria}). Para mayor claridad se denominaron \enquote*{bus positivo} al nodo del terminal positivo de la celda y \enquote*{bus negativo} al nodo conectado al \textit{drain} de los MOSFETs.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Imágenes//Diseño de circuito/Esquema_bateria.png}
+    \caption{Esquema de la plataforma experimental adaptado de \cite{kim2012self}.}
+    \label{fig:esquema_bateria}
+\end{figure}
+
+El principio de funcionamiento de la matriz consiste en encender o apagar los \textit{switches} de cada celda para lograr la tensión deseada en la salida del circuito. El controlador se encarga de dicha mecánica y de seleccionar a los bancos más apropiados para alcanzar la tensión objetivo.
+
+Además de la ecualización previamente mencionada, esta topología permite crear una batería reconfigurable. Como los bancos están en serie, prendiendo o apagándolos es que se puede decidir si la tensión de salida del sistema corresponderá a la de una celda, dos, tres, etcétera. Es decir, que se podrá obtener una tensión típica de salida $n\times\SI{3.3}{\volt}$, siendo $n$ un número a elegir entre $1$ y la cantidad de bancos en la batería.
+
+Esta funcionalidad presenta dos grandes ventajas. Por un lado, la posibilidad de modificar en tiempo real mediante el controlador, la tensión que se desea obtener. Basta con elegir el número de bancos encendidos. Por otro lado, si no están todos encendidos a la vez, se los puede alternar periódicamente para prolongar el tiempo de funcionamiento del sistema antes de necesitar ser cargado.
+
+\subsection{Esquema base}
+
+ La figura(fig.  \ref{fig:circuito_original} ) muestra cómo fue el planteo original del circuito.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Imágenes/Diseño de circuito/Circuito - Original.png}
+    \caption{Circuito obtenido de \cite{kim2012self}.}
+    \label{fig:circuito_original}
+\end{figure}
+
+
+Este esquema presenta dos partes con funciones diferentes. El lado izquierdo corresponde al circuito responsable de prender y apagar cada celda. A su vez, el derecho es similar para los bancos. En ambos casos a modo de llave se usa un transistor MOSFET junto con TBJs para sus respectivas etapas de control.
+
+\subsubsection{\textit{Switch} de las celdas}
+
+%--> Como funciona el switch (el camino de la señal de la señal de control para encender switch)
+%--> Que componentes se consiguen
+
+El circuito de las celdas consta de un N-MOSFET en serie con la celda. De esta forma, al encender el MOSFET se cierra la malla y se obtiene como salida la tensión de la celda. Para lograr esto con éxito es crucial que la tensión $R_{DS}$ del transistor sea lo más chica posible. El otro caso es con el MOSFET apagado, dejando a la celda en una malla abierta, apagándola.
+
+Por otro lado, también se tiene la etapa de control, la cual recibe una señal de entrada y su negada, que definen si se debe prender o apagar el sistema. En las figuras(fig.  \ref{fig:celda_encendida}) y(fig.  \ref{fig:celda_apagada}) se pueden ver ambos casos.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño de circuito/Circuito - Celda Encendida.png}
+        \caption{}
+        \label{fig:celda_encendida}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño de circuito/Circuito - Celda Apagada.png}
+        \caption{}
+        \label{fig:celda_apagada}
+    \end{subfigure}
+    \caption{Circuitos de una celda encendida (a) y apagada (b).}
+    \label{fig:circuito_celda_on_off}
+\end{figure}
+
+Cuando se recibe la señal de encendido (\textit{IN} $= 1$) como en la figura(fig.  \ref{fig:celda_encendida}), se enciende directamente el TBJ NPN $Qij_1$, el cual a su vez enciende el PNP $Qij_2$. Esto implica un aumento de tensión en el nodo de \textit{gate} del MOSFET, permitiendo conducción a través de él. Esto se mantiene así hasta que el capacitor MOS se carga, cortando el paso de la corriente a través de $Qij_2$. Como se mencionó previamente, con el MOSFET prendido se obtiene la tensión de la celda a la salida.
+
+Con respecto a las resistencias, sus ubicaciones y valores cumplen un rol específico. En un principio, las resistencias en las bases de los TBJs ($R_1$ y $R_6$) están para limitar la corriente que entra a la base de los transistores. Por otro lado, las resistencias $R_2$ y $R_3$ tienen valores elevados de forma tal que la corriente de colector del TBJ NPN $Qij_1$ se reducida en valor. Esto último es crucial, dado que la etapa de control también está siendo alimentada por las mismas celdas por lo que se busca minimizar la potencia consumida en dicha etapa. De forma similar se toman los valores de las resistencias $R_4$ y $R_5$: se buscan valores elevados para que la corriente circulando a través de $Qij_2$ sea chica, pero no tan elevado como para realentizar excesivamente la descarga del capacitor MOS cuando se apaga la celda.
+
+Con estas consideraciones en mente, se tiene el otro caso, el de apagar de la figura(fig.  \ref{fig:celda_apagada}), el cual funciona de forma más simple. $Qij_1$ y $Qij_2$ están apagados pero sí se enciende $Qij_3$. Con este TBJ, el \textit{gate} del MOSFET tiene conexión a tierra, permitiendo su descarga. De esta forma se lo puede apagar y abrir la malla que contiene a la celda.
+
+Finalmente, se tiene el diodo \textit{zener}. Su rol es de protección: si por alguna falla, la tensión toma un valor demasiado elevado, se puede eliminar el pico a través del \textit{zener} y descargarlo a tierra por el transistor $Qij_3$. De esta forma, dicho pico de tensión no se propaga por el circuito ni afecta a la salida del sistema.
+
+\subsubsection{\textit{Switch} de los bancos}
+
+%--> Para que está el switch
+%--> Como debe ir sincronizado con las celdas del banco
+%--> Como se enciende el switch
+%--> Para que esta el Jfet
+%--> Que componentes se consiguen
+
+El \textit{switch} de cada banco solo entra en funcionamiento cuando todas las celdas del banco se encuentras apagadas. Encender $S_i$ permite garantizar la existencia de un camino eléctrico entre las celdas previas ($S_{(i-n)}$) y los terminales de la batería. El \textit{switch} tiene dos estados posibles: en caso de apagarse las celdas, éste se debe encender; de otro modo, en caso de hallarse al menos una celda encendida se deberá mantener el \textit{switch} apagado.
+
+El P-MOSFET debe accionarse según el estado de las celdas del banco evitando el solapamiento con el N-MOSFET de cualquier celda. Al momento de encenderse, se deben apagar las celdas y luego se procede a habilitar el \textit{switch} del banco. En caso contrario es necesario tomar medidas más cautelosas, al encender las celdas es obligatorio tener el P-MOSFET apagado, pero su conmutación no es instantánea, y en estos instantes aún existe conducción, dando lugar a la posibilidad de tener dos caminos uno por $S_i$ y otro por $S_{ij}$. La velocidad de conmutación del \textit{switch} depende de la velocidad de descarga de su compuerta, por lo tanto, para mejorar este aspecto se encuentra el JFET. Éste solo entra en funcionamiento cuando se apaga el P-MOSFET, y ofrece un camino de menor impedancia para descargar la compuerta del P-MOSFET, logrando acelerar la conmutación de \textit{switch}.
+
+A nivel circuital, planteando como estado inicial el circuito apagado, tenemos en el \textit{gate} aproximadamente la tensión de la celda obteniendo un \textit{$v_{gs} \simeq 0$}. Por lo tanto, para encender el P-MOSFET(fig.  \ref{fig:banco_encendido}, se inyecta un pulso positivo en la base de $Q_{i1}$, esto provoca que baje la tensión del nodo colector del mismo, obteniendo un \textit{$V_{GS}$} más negativo el cual enciende el \textit{switch}. Luego, para apagar el switch, se necesita un pulso negativa en la entrada del $Q_{i1}$, volviendo a subir la tensión a el nivel de celda, 
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño de circuito/Circuito - Banco Encendido.png}
+        \caption{}
+        \label{fig:banco_encendido}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño de circuito/Circuito - Banco Apagado.png}
+        \caption{}
+        \label{fig:banco_apagado}
+    \end{subfigure}
+    \caption{Circuitos de un banco encendido (a) y apagado (b).}
+    \label{fig:circuito_banco_on_off}
+\end{figure}
+
+
+%[DEJAR ABIERTA LA POSIBILIDAD DE EXPLICAR EL PORQUE PARTICULAR DE CADA VALOR DE LOS COMPONENTES]
+
+\subsection{Cambios funcionales}
+
+%--->Porque anda mal, y los cambios para que funcione
+%---> Porque ponemos [Rout]? En principio para que no tire error ltspice. Además sirve para modelar la resistencia interna de la celda. Por otro lado los dejamos para tomar mediciones en la placa.
+
+Al circuito descrito previamente se le aplicaron sucesivos cambios. El principal problema es que en algunos aspectos fallaba y no cumplía correctamente su rol de ecualizador. Algunos de los cambios fueron hechos para corregir dichos problemas, mientras que otros simplemente para mejorar el funcionamiento del sistema en ciertos aspectos.
+
+En un principio, debe hacerse la aclaración de cómo se toma la salida. La salida es diferencial, tomando la tensión entre los buses positivo del último banco y el negativo del primero. Importante notar que en el circuito original no hay tierra en la malla de salida. Este fue una de los primeros problemas que se detectó y se corrigió.
+
+
+
+\subsubsection{Incorporación de tierra flotante}
+
+%-->Primero probamos solo poniendo la tierra
+%-->Despues agregamos una resistencia, y variamos la resistencia
+%--->Agregamos el mosfet para tener la celda a tierra cuando la celda está encendida (con una resistencia considerable) y flotando cuando este apagada.
+
+%[PONER POR QUE SE PUSO LA TIERRA FLOTANTE Y LOS GRAFICOS DE COMO QUEDA CON Y SIN EL CAMBIO]
+
+Se simula el circuito propuesto en(fig.  \ref{fig:circuito_original}) evaluando el comportamiento de un banco con una única celda. En esta simulación se encuentran algunos defectos respecto al funcionamiento planteado, como se muestra en la figura(fig.  \ref{fig:primer_simu_funcional}).En la salida se alcanza el valor de tensión esperado correspondiente a una celda encendida, sin embargo al apagar la celda, la tensión no cae a cero.
+Esto se debe a que en la celda aun hay corriente, es decir que la celda nunca se apaga. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resultado de primera simulacion funcional.png}
+    \caption{Primer resultado de simulación con el circuito propuesto}
+    \label{fig:primer_simu_funcional}
+\end{figure}
+
+La solución propuesta es colocar una tierra en el terminal negativo de la celdas del primer banco, proporcionando una referencia a tierra absoluta para el resto de la matriz. Esto proporciona un camino de descarga para todas las cargas residuales, evitando así las corrientes parásitas. De esta forma se asegura el apagado completo de la celda.
+
+Con esta solución surgen fugas en esta nueva tierra, por lo tanto, en un intento de solucionar  este problema, se coloca una resistencia en la tierra  (fig.  \ref{fig:detalle_resistencia_en_tierra}). En este caso si se observan resultados positivos en el apagado de la celda, a mayor resistencia, menor la corriente que se fuga por la tierra. Pero surge un efecto negativo, a resistencias altas se observan deformaciones en la salida, los bancos superiores dejan de funcionar bajo lo indicado por la señal de control y solo replican la condición del banco 1. Para observar esta situación, se propone utilizar como banco de pruebas en ltspice la siguiente configuración, 
+
+\begin{itemize}
+    \item Matriz 2x2
+    \item Entrada de control pulso de \SI{10}{\milli \second}, con un tiempo de encendido de 10ms.
+     \item Periodo de \SI{20}{\milli \second}
+      \item Configuración 1:Bancos sincronizados (ambos bancos comienzan encendidos).
+     \item Configuración 2: Bancos desincronizados, es decir banco 1 comienza encendido, banco 2 comienza apagado.
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Imágenes//Diseño de circuito/Detalle - Con resistencia en tierra.png}
+    \caption{Detalle del circuito con conexión a tierra en el terminal negativo de la celda mediante una resistencia.}
+    \label{fig:detalle_resistencia_en_tierra}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Imágenes/Diseño de circuito/1MAS_2MAS-RL_10-tension_salida.png}
+        \caption{Tensión de salida.}
+        \label{fig:config1-barrido_de_res-tension_salida}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Imágenes/Diseño de circuito/1MAS_2MAS-RL_10-corriente_celda.png}
+        \caption{Corriente en la celda.}
+        \label{fig:config1-barrido_de_res-corriente_celda}
+    \end{subfigure}
+
+    \label{fig:config1-barrido_res}
+\end{figure}
+
+
+\begin{figure}[H]\ContinuedFloat
+    \centering
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Imágenes/Diseño de circuito/1MAS_2MAS-RL_10-corriente_en_tierra.png}
+        \caption{Corriente en tierra.}
+        \label{fig:config1-barrido_de_res-corriente_en_tierra}
+    \end{subfigure}
+
+    \caption{Barrido de resistencias en la tierra para la configuración 1.}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Imágenes/Diseño de circuito/1MAS_2MENOS-RL_10_tension-salida.png}
+        \caption{Tensión de salida.}
+        \label{fig:config2-barrido_de_res-tension_salida}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Imágenes/Diseño de circuito/1MAS_2MENOS-RL_10-corriente_celda.png}
+        \caption{Corriente en la celda.}
+        \label{fig:config2-barrido_de_res-corriente_celda}
+    \end{subfigure}
+
+    \label{fig:config2-barrido_res}
+\end{figure}
+
+
+\begin{figure}[H]\ContinuedFloat
+    \centering
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Imágenes/Diseño de circuito/1MAS_2MENOS-RL_10-corriente_en_tierra.png}
+        \caption{Corriente en tierra.}
+        \label{fig:config2-barrido_de_res-corriente_en_tierra}
+    \end{subfigure}
+
+    \caption{Barrido de resistencias en la tierra para la configuración 2.}
+\end{figure}
+
+A partir de lo expuesto, se coloca un MOSFET en la tierra, coordinado con el MOSFET de la celda (fig.  \ref{fig:mos en tierra}). Hay dos opciones de conexión, se puede conectar el drain o el source a tierra. Utilizando el banco de pruebas indicado anteriormente en la configuración 1, no se observan diferencias en el comportamiento del circuito con ambas opciones de conexión. Sin embargo al utilizar la matriz en la segunda configuración, el caso del drain a tierra, provoca que la salida no alcance la tensión deseada (fig. \ref{fig:tension-salida_comparacion_mos}).
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Imágenes//Diseño de circuito/Circuito - Con mosfet en la tierra.png}
+    \caption{Circuito con un N-MOSFET entre la tierra y el terminal negativo de la celda.}
+    \label{fig:mos en tierra}
+\end{figure}
+
+Este cambio (fig. \ref{fig:mos en tierra}) soluciona el problema del apagado de la celda, cuando el N-MOSFET esta apagado funciona como una gran resistencia. Cuando el N-MOSFET está encendido proporciona una tierra para el terminal negativo de la celda.
+
+[INSERTAR IMAGENES DE COMPORTAMIENTO DEL MOSFET PARA DRAIN O SOURCE A TIERRA]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Imágenes//Diseño de circuito/1MAS-2MENOS-tensión_de_salida.png}
+    \caption{Comparación de la tensión en la salida para ambas conexiones del mosfet}
+    \label{fig:tension-salida_comparacion_mos}
+\end{figure}
+
+
+
+\begin{comment}
+mosfet prendido -> tierra
+mosefet apagado->resistencia
+\end{comment}
+
+
+
+\subsubsection{Capacitor en la salida}
+
+Al realizar simulaciones con más de un banco surge otro problema, al intercalar un banco por otro, en el instante de switch se genera un pico de tensión. En el instante de conmutación al apagar un banco la salida cae a cero, y luego al encenderse el otro vuelve a subir a la tensión correspondiente. Esto se da en un pequeño instante, pero idealmente la salida debe ser constante, por lo tanto para oponerse a los cambios bruscos de tensión, se coloca un capacitor en la salida en paralelo a la carga. 
+
+
+\begin{comment}
+[INSERTAR COMPARACIÓN DE SALIDA CON Y SIN CAP]
+\end{comment}
+
+
+\subsubsection{Pruebas con \textit{delay} en la entrada}
+
+%[Se buscaba solucionar el problema de los picos de corriente, no se pudo]
+
+Otro inconveniente que se tenía fue la presencia de picos de corriente de las celdas. en el instante del \textit{switcheo}. Cabe destacar que estos picos aparecían solamente en las celdas pero no se veían reflejados en la salida. A su vez, se daba cuando se pasaba de todas las celdas del banco apagadas, es decir, todos los N-MOSFETs abiertos, a al menos una prendida. 
+
+[PONER GRAFICO DEL PICO DE CORRIENTE]
+
+Después de analizar la situación se llegó a la conclusión que esto se debe a que el cambio de los MOSFETs de las celdas y del banco no se daban exactamente a la vez. 
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño de circuito/Picos Corriente - PMOS cerrado.png}
+        \caption{}
+        \label{fig:pico_i_pmos}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño de circuito/Picos Corriente - Ambos cerrados.png}
+        \caption{}
+        \label{fig:pico_i_ambos}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño de circuito/Picos Corriente - NMOS cerrado.png}
+        \caption{}
+        \label{fig:pico_i_nmos}
+    \end{subfigure}
+    \caption{Esquemas de la progresión del \textit{switcheo} de una celda y del banco cuando se pasa de todas las celdas del banco apagadas a una prendida.}
+    \label{fig:pico_corriente_esquema}
+\end{figure}
+
+En la figura (fig.  \ref{fig:pico_corriente_esquema}) se aprecia la progresión de izquierda a derecha de la situación descrita previamente. Se parte de la posición inicial de la figura (fig.  \ref{fig:pico_i_pmos}), donde están los \textit{switches} de las celdas abiertos y el del banco cerrado. Sin embargo, el problema radica en que el cierre de un MOSFET es más rápido que su apertura. Entonces, cuando se da la orden de prender la celda (por ende, abrir el \textit{switch} del banco a la vez), ocurre lo de la figura (fig.  \ref{fig:pico_i_ambos}). Queda formada una malla con muy baja impedancia, siendo las $R_{DS}$ de los dos MOSFETs las únicas resistencias presentes, lo que produce el nombrado pico de corriente en la celda. Una vez se carga el capacitor del P-MOSFET, se transita al esquema(fig.  \ref{fig:pico_i_nmos}), donde se vuelve al funcionamiento correcto.
+
+\subsubsection{Resistencias del nodo de \textit{gate} de los N-MOSFET}
+
+->Se descarga más rápido el mos, mejorando el problema del delay
+
+
+
+\subsubsection{Selección de componentes}
+%[Componentes no lineales que se mantuvieron: TBJs NPN y PNP, JFET]
+
+Para seleccionar los componentes se parte de los propuestos en \cite{kim2012self}. Los TBJs y el JFET aun es posible encontrarlos en el mercado y  funcionan para las tensiones esperadas en esta matriz, por lo que se mantienen en el circuito final. El resto de los elementos son reemplazados priorizando que estos estén disponibles en el mercado local.
+
+
+
+\paragraph{MOSFET}
+
+Dado que el componente utilizado en el circuito original es obsoleto, se analizan nuevas opciones, que cumplan con lo pedido en \cite{kim2012self},
+
+\begin{itemize}
+    \item Tensión $V_{GS}$ baja, preferentemente mucho menor que la tensión de las celdas.
+    \item MOSFET de potencia. No es un aspecto crítico, pero debe permitir la circulación de corrientes del orden de \SI{1}{\ampere}, por lo tanto se busca que tenga una $R_{DS_{on}}$ muy baja. Esto permite la circulación bidireccional de corriente con perdidas mínimas.
+    \item Minimizar el calentamiento, se buscan componentes con una resistencia térmica baja o que permitan el uso de disipadores térmicos.
+\end{itemize}
+
+Para el caso de los N-MOSFET, no se encuentran dificultades para encontrar reemplazos, se prueban las opciones, y se selecciona la que ofrece el nivel de tensión esperado en la salida. En cambio esto no sucede para los P-MOSFET, la mayoría de las opciones disponibles tienen un $V_{GS}$ en el rango de [2, 4]\si{\volt}, y otras producen mucho calentamiento. Por lo tanto, los MOSFET que mejor se adecúan al circuito propuesto son,
+
+[PONER LA EVOLUCIÓN DEL P-MOSFET (PRIMERO EL DEL PAPER, DESPUÉS OTRO QUE NO ERA DE POTENCIA, DESPUÉS PROBAMOS MÁS Y FINALMENTE EL ÚLTIMO)]
+
+\begin{itemize}
+    \item \small{\textbf{N-MOSFET: } IRLB8721.}
+    \item \small{\textbf{P-MOSFET: } FDMS6681Z.}
+\end{itemize}
+
+En ambos casos, se trata de MOSFET de potencia; en el primer caso es un THT, una opción fácil de conseguir, y en el segundo se trata de un dispositivo SMD que logra cumplir los requerimientos con márgenes ajustados. En condiciones normales de operación, permiten prescindir de disipadores de corriente, evitando condiciones de estrés térmico.
+
+
+
+\paragraph{TBJ}
+Para la etapa de control no hay requerimientos esenciales, por lo tanto se eligen TBJ típicos para el canal n y p, en versión smd, siendo esta la única condición  de diseño.
+\paragraph{JFET}
+En el caso del JFET, se buscan dispositivos de bajo consumo, y con alta impedancia de forma que sea posible conectarlo a la celda.
+
+%[Componentes que se cambiaron: NMOS, PMOS, \textit{zener}, inversores]
+
+
+%//Requsitos para elegir los MOS
+
+%-vgs chico (nos costo encontrar uno de potencia con vgs menor a 3V)
+%-potencia (Para que se banque la corriente de todos los bancos)
+%-térmicos (El pmos smd no tiene disipador termico, tienen que bancarse el calor sin disipador)
+
+\paragraph{Zener}
+
+
+No se indica en \cite{kim2012self} un modelo de diodo Zener; por lo tanto, se elige uno que se adapte a los nuevos parámetros del circuito. Se busca que la tensión nominal del Zener sea lo más cercana a la tensión máxima que permita la celda. La corriente que circule por esta rama se espera que sea despreciable, lo que permite elegir un diodo de baja potencia. Se elige el diodo Zener de $V_z = \SI{3.9}{\volt}$ y \SI{1}{\watt}. 
+
+
+%// Zener: seleccionamos uno adecuado para la celda que vamos a usar
+
+\paragraph{Inversor}
+
+Para la entrada de control, en el circuito original se propone el uso de un \textit{flip-flop} para generar las señales complementarias en los transistores $Q_{ij1}$ y $Q_{ij3}$. En este proyecto, para simplificar la implementación se reemplaza el \textit{flip-flop} por una compuerta \textit{NOT}. Toda la lógica de control se desarrolla en el microcontrolador, por lo tanto las operaciones y secuencias conmutación se trasladan al dispositivo de control. 
+
+Permitir un mínimo de lógica digital en el diseño de la placa, ayuda a optimizar los recursos del microcontrolador. El uso del inversor permite reducir los pines GPIO necesarios, controlando ambas entradas del driver de $S_{ij}$ mediante una única señal y eliminando la necesidad de lógica externa adicional.
+
+Para garantizar el funcionamiento correcto del circuito es necesario insertar tiempos muertos durante la conmutación del \textit{switch} del banco y el de las celdas para evitar estados no deseados durante la transición.
+
+%//Inversor: cambiamos el flip flop por un inversor.
+
+[QUIZAS: VER SI AGREGAR UNA SUBSECTION DE POTENCIA/CONSUMO/*EFICIENCIA* PARA COMPARAR CON LAS MEDICIONES CUANDO ESTEN]
+
+\paragraph{Resumen}
+
+%[AGREGAR UNA TABLITA CON LOS COMPONENTES Y SUS REQUISITOS, INCLUYENDO A LOS TBJS Y EL JFET QUE NO CAMBIAMOS]
+
+A modo de resumen se presenta la siguiente tabla con los requisitos que debe cumplir cada uno de los componentes del circuito y cuáles fueron finalmente los elegidos que cumplen. Cabe destacar que lo primero que se revisó para cada uno de los componentes es la disponibilidad en el mercado local.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{>{\centering\arraybackslash}m{2.8cm} m{8cm} >{\centering\arraybackslash}m{3.2cm}}
+\hline
+\textbf{Componente} & \multicolumn{1}{c}{\textbf{Requisitos}} & \textbf{Modelo elegido} \\ \hline
+N-MOSFET    & \vspace{4pt}\begin{itemize}[leftmargin=*, nosep]
+                \item Tensión $V_{GS}$ igual o menor que la tensión de la celda
+                \item Que sea de potencia
+                \item Baja resistencia térmica
+            \end{itemize} & IRLB8721   \\ \hline
+P-MOSFET    & Similar al N-MOSFET con la consideración que debe poder ser atravesado por la corriente de salida & FDMS6681Z  \\ \hline
+TBJ NPN     & Bajo costo y alta disponibilidad & MMBT2222A  \\ \hline
+TBJ PNP     & Bajo costo y alta disponibilidad & MMBT2907A  \\ \hline
+JFET        & Bajo consumo e impedancia & MMBFJ201   \\ \hline
+Diodo Zener & La tensión $V_Z$ debe ser la menor posible que siga siendo mayor a la tensión máxima de la celda (\SI{3.7}{\volt}) & 1N4730A    \\ \hline
+Inversor    &   \multicolumn{1}{c}{-}    & CD40106    \\ \hline
+\end{tabular}
+\label{tab:componentes}
+\caption{Resumen de los componentes seleccionados y los requisitos que deben cumplir.}
+\end{table}
+
+\subsection{Simulaciones en masa}
+
+-->Se simulan distintos casos de configuraciones de celdas 
+
+
+
+
+
+////////////
+
+
+\section{Prototipo}
+
+[Matriz $3\times2$, uso de celdas 18650 de \SI{3.3}{\volt}]
+
+[PONER LAS MEDICIONES Y EL TESTEO COMO OTRA SECCION]
+
+[AGREGAR UN APENDICE CON UN PEQUEÑO MANUAL DE USO DEL CIRCUITO]
+
+\subsection{Diseño del prototipo}
+
+[Uso de una fuente externa para los LEDs e inversores]
+[ejamos el capatitor en una bornera en la salida para  ver cual sirve en la realidad]
+
+\subsubsection{Diseño del esquemático}
+
+[LEDs, portapilas, fusibles, \textit{test points}, \textit{jumpers}]
+
+[POR QUÉ DISEÑAMOS ASÍ LA PLACA, ESPACIO, DISPOSICIÓN, ETCÉTERA]
+
+\subsubsection{Diseño del PCB}
+
+[Placa de $\SI{20}{\centi\meter}\times\SI{20}{\centi\meter}$ bifásica]
+
+
+
+
+
+////////////
+
+
+\subsection{Controlador para el prototipo}
+
+[Selección de microcontrolador]
+
+\subsubsection{Diseño inicial del controlador para el prototipo}
+
+[Primero se apaga lo que se deba apagar y después se enciende lo que se deba encender]
+
+\subsubsection{Código}
+
+\subsection{Implementación}
+
+[DECIR QUE ESTABA \enquote*{MAL} LA HUELLA DEL PMOS]
+
+\section{Mediciones sobre el prototipo}
+
+[VER SI ESTÁ BIEN SEPARAR EN IMPLEMENTACIÓN Y MEDICIONES O HACERLO TODA UNA MISMA SECCIÓN]
+
+Como se mencionó previamente, el objetivo del prototipo era verificar el correcto funcionamiento del circuito real. Para eso la etapa de medición es crucial, dado que se puede utilizar para buscar posibles errores y mejoras a implementar en el dispositivo final. Sin embargo, como medida cortafuegos, se decidió soldar el prototipo y medir de forma progresiva: primero una celda, luego un banco, y finalmente todo el circuito. De este modo, en caso de haber alguna falla crítica, se puede detectar de forma temprana antes de ya haber dedicado más trabajo y usado todos los componentes a disposición.
+
+\subsection{Primera medición fallida en una celda del banco $1$}
+
+Lo primero que se soldó fue el circuito de una de las celda junto con la etapa de control del banco $1$. Aunque a simple vista parecía que todo estaba en orden, rápidamente se reveló que no era el caso.
+
+[INSERTAR IMAGEN DEL KICAD Y FOTO DE ESTA CELDA]
+
+En primer lugar se buscó verificar el funcionamiento en estado estacionario de la celda, por lo que se conectó a la entrada una fuente de tensión continua de \SI{5}{\volt} (con una corriente de hasta \SI{20}{\milli\ampere}). Esto debería ser suficiente para obtener como tensión de salida a la de la celda pero no fue el caso: la salida era nula con pequeñas variaciones ocasionales en torno a las decenas de milivolts.
+
+Ante la temprana falla se midieron las caídas de tensión de todos los componentes en las mallas de control. Cuando se estaba midiendo la caída sobre el resistor $R_3$, el TBJ PNP $Qij_2$ comenzó a soltar humo. De este punto en adelante se desataron una serie de eventos desafortunados que concluyeron en el reemplazo de varios componentes más.
+
+En el intento de desoldar el transistor para reemplazarlo, el diodo \textit{zener} también empezó a soltar humo. Fue tanta la temperatura que desprendió que el estaño que lo sujetaba se fundió. Cabe destacar que la fuente de continua no estaba conectada pero sí estaba colocada la celda. Aunque debido a la baja potencia que emite, ésta no debería haber sido la causa de la destrucción del diodo.
+
+Luego, más humo se desprendió de lo que parecería ser el fusible de la celda. Éste fue rápidamente extraído, aunque luego de unas pruebas con multímetro se descubrió que ambos fusibles estaban perfectamente bien y que ninguno se había quemado.
+
+Dado este nuevo suceso, se decidió que lo más probable que se haya quemado era el transsitor N-MOSFET de la tierra, por lo que se lo desoldó. Debido a la proximidad con otros componentes, el calor del soldador fue tal que el plástico del portafusible de la celda se derritió. No hubo otra opción que también descartarlo, siendo el cuarto componente en seguidilla en ser eliminado y sin tener una clara idea de cuál fue el problema.
+
+\subsection{Segundo intento de medición y primero exitoso}
+
+Luego de los problemas del intento anterior, se priorizó restaurar los componentes en la placa, asegurándose en cada paso el correcto funcionamiento de los mismos. Comenzando por la etapa de control, se soldaron nuevos TBJ NPN y diodo \textit{zener}. Ingresando una tensión de control equivalente a un $1$ lógico (\SI{5}{\volt}) se corroboró la correcta apertura del transistor.
+
+Luego, debido a la proximidad de los componentes y el gran tamaño relativo de los portafusibles, se decidió extraerlos. En su lugar se colocaron alambres para cerrar las mallas en las que estaban colocados.
+
+Con lo soldado hasta ahora el sistema debería prender y apagar correctamente la celda. Lo único faltante es el N-MOSFET de la tierra. Cuando se lo desoldó, la pista quedó dañada y se soltó el \textit{pad}, por lo que colocarlo nuevamente resultaría dificultoso. Más adelante es algo que debe hacerse (y se hizo) pero por el momento se podría medir sin el transistor y cortocircuitar la tierra con el nodo correspondiente de forma manual con cables cuando sea necesario.
+
+Con el circuito de la celda devuelto a casi su estado original se conectó todo para volver a medir. Cabe destacar que en lugar de la celda de litio se colocó una tensión a través de una fuente de continua. La razón detrás de esta decisión fue colocar una corriente máxima de \SI{100}{\milli\ampere} para, en caso de que algo falle, minimizar la probabilidad de quemar más componentes.
+
+Con todo esto en mente, se encendieron las fuentes que emiten la tensión de la celda y la entrada de control y se obtuvo a la salida la tensión de la celda. Aunque un progreso respecto del último intento de medición, rápidamente se hizo notorio otro problema: la fuente de la celda estaba emitiendo corriente. Normalmente eso es lo que se esperaría ver salvo cuando la salida está abierta (como era el caso en cuestión) donde no debería haber corriente circulando. Estos valores rondaban los \SI{80}{\milli\ampere} o \SI{90}{\milli\ampere}, valores para nada despreciables. 
+
+Midiendo la caída de tensión en cada componente se encontró la ubicación del problema: había caída de tensión en los resistores $R_7$ y $R_8$ correspondientes a la etapa de control del \textit{switch} del banco. En ellos caían [PONER VALOR TENSIONES].
+
+[AGREGAR IMAGEN CON EL REDONDEL ROJO DE LOS RESISTORES EN CUESTIÓN]
+
+Ese bloque estaba apagado por lo que no debería haber corriente circulando por sus componentes. Testeando continuidad en el nodo de [LA FIGURA QUE FALTA ARRIBA] hay un cortocircuito con tierra. Se desoldó el TBJ, el cual se partió a la mitad. Probablemente haya estado quemado, lo cual explicaría el humo visto previamente en el primer intento de medición que se había creído erróneamente que provenía de alguno de los fusibles. El cortocircuito seguía estando por lo que también se extrajo el JFET, momento en el cual se solucionó el problema.
+
+Nuevamente se incorporan las fuente de tensión y esta vez sí se obtiene el resultado esperado: \SI{3.3}{\volt} a la salida con corriente nula. Incorporando cargas de prueba se aprecia que la corriente de salida varía. El MOSFET de la tierra flotante sigue ausente pero se pudo corroborar el correcto funcionamiento del encendido y apagado de una celda.
+
+\section{Circuito final}
+
+\newpage
+\bibliographystyle{IEEEtran}
+\bibliography{biblio}
+
+\end{document}
