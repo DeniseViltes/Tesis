@@ -130,6 +130,50 @@ def _mode_len(rows: list[list[float]]) -> int:
     return max(set(lengths), key=lengths.count)
 
 
+def _parse_numeric_rows(path: str, skip_header: int, delimiter: str | None) -> tuple[list[list[float]], int]:
+    rows: list[list[float]] = []
+    with open(path, "r", encoding="utf-8", errors="replace") as f:
+        for i, line in enumerate(f):
+            if i < int(skip_header):
+                continue
+            if line.lstrip().startswith(STEP_PREFIX):
+                continue
+            if not line.strip():
+                continue
+            parts = _split_fields(line, delimiter)
+            if len(parts) < 2:
+                continue
+            try:
+                rows.append([_parse_num(p, delimiter) for p in parts])
+            except ValueError:
+                continue
+
+    ncols = _mode_len(rows)
+    filtered = [r for r in rows if len(r) == ncols] if ncols >= 2 else []
+    return filtered, ncols
+
+
+def _choose_best_rows(path: str, skip_header: int, preferred: str | None) -> tuple[list[list[float]], int, str | None]:
+    candidates = []
+    for delim in [preferred, "	", ";", ",", None]:
+        if delim in candidates:
+            continue
+        candidates.append(delim)
+
+    best_rows: list[list[float]] = []
+    best_ncols = 0
+    best_delim = preferred
+
+    for delim in candidates:
+        rows, ncols = _parse_numeric_rows(path, skip_header, delim)
+        if len(rows) > len(best_rows) or (len(rows) == len(best_rows) and ncols > best_ncols):
+            best_rows = rows
+            best_ncols = ncols
+            best_delim = delim
+
+    return best_rows, best_ncols, best_delim
+
+
 def read_ltspice_steps(path: str, skip_header: int | str = "auto"):
     """Read an LTspice export that contains .step blocks."""
     delim = _guess_delimiter(path)
@@ -203,25 +247,12 @@ def read_ltspice_table(path: str, skip_header: int | str = 1):
     header_idx = max(int(skip_header) - 1, 0)
     header, colnames = _read_header(path, line_idx=header_idx, delimiter=delim)
 
-    rows: list[list[float]] = []
-    with open(path, "r", encoding="utf-8", errors="replace") as f:
-        for i, line in enumerate(f):
-            if i < int(skip_header):
-                continue
-            if line.lstrip().startswith(STEP_PREFIX):
-                continue
-            if not line.strip():
-                continue
-            parts = _split_fields(line, delim)
-            if len(parts) < 2:
-                continue
-            try:
-                rows.append([_parse_num(p, delim) for p in parts])
-            except ValueError:
-                continue
+    filtered, ncols, used_delim = _choose_best_rows(path, int(skip_header), delim)
+    if used_delim != delim:
+        # keep header parsing consistent with the delimiter that actually worked
+        delim = used_delim
+        header, colnames = _read_header(path, line_idx=header_idx, delimiter=delim)
 
-    ncols = _mode_len(rows)
-    filtered = [r for r in rows if len(r) == ncols] if ncols >= 2 else []
     data = np.asarray(filtered, dtype=float)
 
     if data.ndim != 2 or data.shape[1] < 2:
