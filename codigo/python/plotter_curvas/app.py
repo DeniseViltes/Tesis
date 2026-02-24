@@ -165,6 +165,14 @@ class MainWindow(QMainWindow):
         self.lst_signals = QListWidget()
         self.lst_signals.itemChanged.connect(self._on_signal_item_changed)
 
+        # Operaciones entre curvas
+        self.cmb_op_a = QComboBox()
+        self.cmb_op_b = QComboBox()
+        self.cmb_op = QComboBox()
+        self.cmb_op.addItems(["Suma (+)", "Resta (-)"])
+        self.btn_op_apply = QPushButton("Aplicar operación")
+        self.btn_op_apply.clicked.connect(self.apply_curve_operation)
+
         form.addRow("Tema:", self.cmb_theme)
         form.addRow("Modo:", self.cmb_mode)
         form.addRow("X:", self.cmb_x)
@@ -176,6 +184,10 @@ class MainWindow(QMainWindow):
         form.addRow("Y1 label:", self.y1lab)
         form.addRow("Nombre curva:", self.c1name)
         form.addRow("Señales a graficar (modo N):", self.lst_signals)
+        form.addRow("Curva A:", self.cmb_op_a)
+        form.addRow("Operación:", self.cmb_op)
+        form.addRow("Curva B:", self.cmb_op_b)
+        form.addRow(self.btn_op_apply)
         controls.addWidget(grp_opts)
         grp_style = QGroupBox("Estilo de curvas")
         form_s = QFormLayout(grp_style)
@@ -209,6 +221,7 @@ class MainWindow(QMainWindow):
 
         controls.addWidget(grp_style)
         self._sync_style_ui_from_curve()
+        self._refresh_operation_curve_combos()
 
         # Botones
         bp = QPushButton("Graficar")
@@ -432,6 +445,83 @@ class MainWindow(QMainWindow):
                 self.c1name.setText(self.colnames1[col_idx])
 
 
+
+    def _refresh_operation_curve_combos(self):
+        self.cmb_op_a.blockSignals(True)
+        self.cmb_op_b.blockSignals(True)
+        self.cmb_op_a.clear()
+        self.cmb_op_b.clear()
+
+        if not self.lines:
+            self.cmb_op_a.addItem("(sin curvas)")
+            self.cmb_op_b.addItem("(sin curvas)")
+            self.cmb_op_a.setEnabled(False)
+            self.cmb_op_b.setEnabled(False)
+            self.btn_op_apply.setEnabled(False)
+        else:
+            for i, line in enumerate(self.lines):
+                label = line.get_label() or f"Curva {i+1}"
+                txt = f"{i+1}: {label}"
+                self.cmb_op_a.addItem(txt, i)
+                self.cmb_op_b.addItem(txt, i)
+            self.cmb_op_a.setEnabled(True)
+            self.cmb_op_b.setEnabled(True)
+            self.btn_op_apply.setEnabled(len(self.lines) >= 2)
+            if len(self.lines) >= 2:
+                self.cmb_op_b.setCurrentIndex(1)
+
+        self.cmb_op_a.blockSignals(False)
+        self.cmb_op_b.blockSignals(False)
+
+    def _align_curves(self, a, b):
+        xa = np.asarray(a.get_xdata(), dtype=float)
+        ya = np.asarray(a.get_ydata(), dtype=float)
+        xb = np.asarray(b.get_xdata(), dtype=float)
+        yb = np.asarray(b.get_ydata(), dtype=float)
+
+        if xa.size == xb.size and np.allclose(xa, xb):
+            return xa, ya, yb
+
+        order = np.argsort(xb)
+        xb_sorted = xb[order]
+        yb_sorted = yb[order]
+        # Dedup x for interpolation stability
+        xb_unique, idx = np.unique(xb_sorted, return_index=True)
+        yb_unique = yb_sorted[idx]
+        yb_interp = np.interp(xa, xb_unique, yb_unique)
+        return xa, ya, yb_interp
+
+    def apply_curve_operation(self):
+        if not self.lines or len(self.lines) < 2 or self.ax1 is None:
+            QMessageBox.warning(self, "Operación", "Necesitás al menos 2 curvas graficadas.")
+            return
+
+        ia = self.cmb_op_a.currentData()
+        ib = self.cmb_op_b.currentData()
+        if ia is None or ib is None or ia == ib:
+            QMessageBox.warning(self, "Operación", "Elegí dos curvas distintas.")
+            return
+
+        la = self.lines[int(ia)]
+        lb = self.lines[int(ib)]
+        x, ya, yb = self._align_curves(la, lb)
+
+        op = self.cmb_op.currentText()
+        if op.startswith("Suma"):
+            y = ya + yb
+            symbol = "+"
+        else:
+            y = ya - yb
+            symbol = "-"
+
+        label = f"({la.get_label()}) {symbol} ({lb.get_label()})"
+        p = self.ax1.plot(x, y, label=label)
+        self.lines.append(p[0])
+        self._line_keys.append(("OP", int(ia), symbol, int(ib), len(self.lines)))
+
+        self.refresh_legend()
+        self._refresh_operation_curve_combos()
+        self.canvas.draw_idle()
 
     def _scale(self, combo: QComboBox, y, info_label: QLabel):
         t = combo.currentText()
@@ -913,6 +1003,7 @@ class MainWindow(QMainWindow):
         self._apply_line_styles(allow_color=(mode == 0))
         # Leyenda siempre sincronizada con estilos reales + clickeable
         self.refresh_legend()
+        self._refresh_operation_curve_combos()
 
         # Crosshairs persistentes (si había probes)
         self._update_crosshairs()
