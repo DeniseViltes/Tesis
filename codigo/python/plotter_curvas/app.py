@@ -6,7 +6,7 @@ from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QFileDialog, QVBoxLayout, QHBoxLayout,
     QPushButton, QLabel, QComboBox, QMessageBox, QLineEdit, QGroupBox, QFormLayout, QFrame, QScrollArea, QColorDialog,
-    QListWidget, QListWidgetItem
+    QListWidget, QListWidgetItem, QCheckBox
 )
 import json
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
@@ -170,6 +170,7 @@ class MainWindow(QMainWindow):
         self.cmb_op_b = QComboBox()
         self.cmb_op = QComboBox()
         self.cmb_op.addItems(["Suma (+)", "Resta (-)"])
+        self.chk_only_result = QCheckBox("Solo graficar resultado")
         self.btn_op_apply = QPushButton("Aplicar operación")
         self.btn_op_apply.clicked.connect(self.apply_curve_operation)
 
@@ -187,6 +188,7 @@ class MainWindow(QMainWindow):
         form.addRow("Curva A:", self.cmb_op_a)
         form.addRow("Operación:", self.cmb_op)
         form.addRow("Curva B:", self.cmb_op_b)
+        form.addRow("Opciones operación:", self.chk_only_result)
         form.addRow(self.btn_op_apply)
         controls.addWidget(grp_opts)
         grp_style = QGroupBox("Estilo de curvas")
@@ -457,6 +459,7 @@ class MainWindow(QMainWindow):
             self.cmb_op_b.addItem("(sin curvas)")
             self.cmb_op_a.setEnabled(False)
             self.cmb_op_b.setEnabled(False)
+            self.chk_only_result.setEnabled(False)
             self.btn_op_apply.setEnabled(False)
         else:
             for i, line in enumerate(self.lines):
@@ -466,6 +469,7 @@ class MainWindow(QMainWindow):
                 self.cmb_op_b.addItem(txt, i)
             self.cmb_op_a.setEnabled(True)
             self.cmb_op_b.setEnabled(True)
+            self.chk_only_result.setEnabled(True)
             self.btn_op_apply.setEnabled(len(self.lines) >= 2)
             if len(self.lines) >= 2:
                 self.cmb_op_b.setCurrentIndex(1)
@@ -515,9 +519,19 @@ class MainWindow(QMainWindow):
             symbol = "-"
 
         label = f"({la.get_label()}) {symbol} ({lb.get_label()})"
-        p = self.ax1.plot(x, y, label=label)
-        self.lines.append(p[0])
-        self._line_keys.append(("OP", int(ia), symbol, int(ib), len(self.lines)))
+        if self.chk_only_result.isChecked():
+            # Dejar solo la curva resultante en pantalla
+            self.ax1.cla()
+            self.ax1.set_title(self.tit.text())
+            self.ax1.set_xlabel(f"{self.xlab.text()} [{self.cmb_x.currentText()}]")
+            self.ax1.set_ylabel(self.y1lab.text())
+            p = self.ax1.plot(x, y, label=label)
+            self.lines = [p[0]]
+            self._line_keys = [("OP_ONLY", int(ia), symbol, int(ib))]
+        else:
+            p = self.ax1.plot(x, y, label=label)
+            self.lines.append(p[0])
+            self._line_keys.append(("OP", int(ia), symbol, int(ib), len(self.lines)))
 
         self.refresh_legend()
         self._refresh_operation_curve_combos()
