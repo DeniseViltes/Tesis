@@ -1,9 +1,10 @@
-#include "cli.h"
-#include "controller.h"
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include "main.h"
+#include "cli.h"
+#include "controller.h"
 
 /* ===================== CONFIG ===================== */
 #define CLI_BUF_LEN 64
@@ -19,6 +20,14 @@ static void cli_print(const char *s)
 {
   HAL_UART_Transmit(cli_huart, (uint8_t *)s, (uint16_t)strlen(s), HAL_MAX_DELAY);
 }
+
+void str_to_lower(char *s) {
+    while (*s) {
+        *s = tolower((unsigned char)*s);
+        s++;
+    }
+}
+
 
 static uint8_t parse_float_strict(const char *s, float *out)
 {
@@ -42,12 +51,12 @@ static void print_vtarget(void)
     return;
   }
 
-  uint16_t vt = Controller_GetTargetVoltage_x100();
+  uint16_t vt = Controller_GetTargetVoltage();
   char buf[48];
   snprintf(buf, sizeof(buf),
-           "VTARGET: %u.%02u V\r\n",
-           (unsigned)(vt / 100),
-           (unsigned)(vt % 100));
+           "VTARGET: %u.%03u V\r\n",
+           (unsigned)(vt / 1000u),
+           (unsigned)(vt % 1000u));
   cli_print(buf);
 }
 
@@ -91,7 +100,7 @@ static void cli_handle_line(const char *line_in)
   // Trim espacios iniciales
   while (*line_in == ' ' || *line_in == '\t') line_in++;
   if (*line_in == '\0') return;
-
+   str_to_lower(line_in);
   // HELP
   if (strcmp(line_in, "help") == 0) {
     cli_print_help();
@@ -123,15 +132,7 @@ static void cli_handle_line(const char *line_in)
           return;
         }
 
-        if (v < 3.3f || v > 9.9f) {
-          cli_print("ERR: voltage out of range (3.3..9.9)\r\n");
-          return;
-        }
-
-        // Convertir a x100
-        uint16_t v_x100 = (uint16_t)(v * 100.0f + 0.5f);
-
-        if (!Controller_SetTargetVoltage_x100(v_x100)) {
+        if (!Controller_SetTargetVoltage(v)) {
           cli_print("ERR: voltage out of range (3.3..9.9)\r\n");
           return;
         }
@@ -250,4 +251,16 @@ void CLI_RxCallback(UART_HandleTypeDef *huart)
   }
 
   HAL_UART_Receive_IT(cli_huart, &rx_ch, 1);
+}
+
+
+
+void CLI_ButtonManualCallback(uint16_t gpio_pin)
+{
+  if (gpio_pin != Modo_manual_Pin) return;
+
+  if (Controller_GetMode() != CTRL_MODE_MANUAL) {
+    (void)Controller_SetMode(CTRL_MODE_MANUAL);
+    cli_print("\r\nBTN B1: MODE -> MANUAL\r\n> ");
+  }
 }

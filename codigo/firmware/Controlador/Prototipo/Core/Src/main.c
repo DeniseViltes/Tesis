@@ -62,7 +62,7 @@ static void MX_ADC1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+extern void initialise_monitor_handles(void);
 /* USER CODE END 0 */
 
 /**
@@ -358,11 +358,11 @@ static void MX_GPIO_Init(void)
                           |Vc_2_Pin|Vc_3_Pin|Vc_11_Pin|Vc_21_Pin
                           |Vc_22_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
+  /*Configure GPIO pin : Modo_manual_Pin */
+  GPIO_InitStruct.Pin = Modo_manual_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(Modo_manual_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : Vc_31_Pin Vc_32_Pin Vc_12_Pin Vc_1_Pin
                            Vc_2_Pin Vc_3_Pin Vc_11_Pin Vc_21_Pin
@@ -388,6 +388,10 @@ static void MX_GPIO_Init(void)
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   CLI_RxCallback(huart);
+}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  CLI_ButtonManualCallback(GPIO_Pin);
 }
 /* USER CODE END 4 */
 

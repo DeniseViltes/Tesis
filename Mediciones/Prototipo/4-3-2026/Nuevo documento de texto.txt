@@ -1,0 +1,21 @@
+Prueba de banco 1
+ Conectamos el banco 1 celda12 y celda21.
+Comenzamos con todo en OFF, banco1 y celda 12 funcionan correctamente, pero la celda 21 esta con las tensiones defasada.
+Encendemos el banco1, se comporta de manera esperada con un vgs= -1.8V. La celda 21 sigue desfasada.
+Encendemos la celda 21. Se corrige el defasaje, funciona correctamente con un consumo de 67mA en la fuente.
+Encendemos la celda 12. Se observan los 6,4V en la salida, con un consumo de corriente reflejado en la fuente de 135mA. Funciona todo de manera esperada, pero porque vemos los 135mA? En la fuente no vemos la corriente que proporciona la fuente de tensión, si no que vemos la corriente que circula en la malla.
+
+Probamos poner ambas celdas con la fuente y vemos 140mA en la celda 12 y 135mA en la celda 21.
+
+Se suelda el banco 2, se testea con el banco1 en OFF y celda 12 en ON. Con la celda 21 OFF y el banco 2 en ON, midiendo desde bu spos del banco 2 y bus neg y vemos 3.3V y 62mA de consumo. Funciona el banco. 
+
+Mediciones con el banco 2
+celda-banco
+ON-OFF
+OFF-ON
+
+Se fue el defasaje en la celda 21 (celda apagada). Tenemos -2V de vgs en el pmos.
+
+OFF-ON
+ON-OFF
+ Tenemos 300mV de defasaje pero en la salida tenemos 3.2V y 67mA de consumo

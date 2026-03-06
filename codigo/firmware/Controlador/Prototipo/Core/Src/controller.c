@@ -165,15 +165,15 @@ static void Controller_sort_bank_(void)
   }
 }
 
-// privado: devuelve top2 (lo vas a usar en la lógica auto más adelante)
-static uint8_t Controller_get_top2_banks_(uint8_t *b1, uint8_t *b2)
+// privado: devuelve top2
+/*static uint8_t Controller_get_top2_banks_(uint8_t *b1, uint8_t *b2)
 {
   if (NUM_BANKS < 2 || !b1 || !b2) return 0;
   *b1 = g_bank_rank[0].bank;
   *b2 = g_bank_rank[1].bank;
   return 1;
 }
-
+*/
 
 
 
@@ -194,9 +194,10 @@ void Controller_SetBankVoltages_mV(const uint16_t v_bank_mV[NUM_BANKS])
 /*
  * Setea la tension que debe proporcional el pack de celdas
  */
-uint8_t Controller_SetTargetVoltage_mV(uint16_t v_mV)
+uint8_t Controller_SetTargetVoltage(float v)
 {
   // 3.3..9.9 V -> 3300..9900 mV
+  uint16_t v_mV = (uint16_t)(v * 1000.0f + 0.5f);
   if (v_mV < 3300 || v_mV > 9900) return 0;
 
   g_vtarget_mV = v_mV;
@@ -209,7 +210,7 @@ uint8_t Controller_HasTargetVoltage(void)
   return g_vtarget_set; //indica si hay un valor posible elegido
 }
 
-uint16_t Controller_GetTargetVoltage_mV(void)
+uint16_t Controller_GetTargetVoltage(void)
 {
   return g_vtarget_set ? g_vtarget_mV : 0;
 }

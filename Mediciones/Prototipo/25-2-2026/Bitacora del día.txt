@@ -1,0 +1,14 @@
+Repasamos las mediciones del día anterior, pero al ver distintas mediciones entre bus pos y el gate del pmos y el nmos (celda 2), decidimos probar sacando todos los diodos.
+
+Medimos nuevamente la celda 2 y el gate efectivamente se descarga, cae 0V. Medimos esto en la celda 1, y sigue sin funcionar.
+
+Desconectamos el portafusibles de la celda 1 para desconectar la celda, medidmos y encontramos que sigue habiendo 2.8V en el gate con el control de la celda en OFF, creemos que el responsable es el driver.
+
+DATO DE COLOR: Al probar la celda 1, conectamos la fuente de tensión a la celda 1, pero el control seguia para la celda 2, al poner el control en ON, habia consumo de corriente e incluso caida de tension en la celda 2.
+
+
+Desconectamos la rout de la celda 1, para aislarla completamente.
+
+Colocamos la celda en el portapilas de la celda 2 y funciona todo como corresponde.
+
+
