@@ -145,10 +145,10 @@ uint8_t Controller_GetBankSwitch(uint8_t bank)
 void señal_cuadrada(uint8_t bank, uint8_t cell, uint8_t freq )
 {
     static int counter = 0;
-    static int state = 0;
+    static int state = CELL_OFF;
 
     counter++;
-    int ciclos = freq;
+    int ciclos = 500;
 
 
     if (counter >= ciclos)
@@ -156,9 +156,9 @@ void señal_cuadrada(uint8_t bank, uint8_t cell, uint8_t freq )
         counter = 0;
 
         if (state)
-            Controller_SetCell(bank, cell, CELL_OFF);
-        else
             Controller_SetCell(bank, cell, CELL_ON);
+        else
+            Controller_SetCell(bank, cell, CELL_OFF);
 
         state = !state;
     }

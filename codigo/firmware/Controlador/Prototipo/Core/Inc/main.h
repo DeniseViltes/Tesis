@@ -74,8 +74,8 @@ void Error_Handler(void);
 #define USART_RX_GPIO_Port GPIOA
 #define cell_21_Pin GPIO_PIN_4
 #define cell_21_GPIO_Port GPIOA
-#define bus_1_Pin GPIO_PIN_5
-#define bus_1_GPIO_Port GPIOA
+#define Vc_11_Pin GPIO_PIN_5
+#define Vc_11_GPIO_Port GPIOA
 #define out_neg_Pin GPIO_PIN_6
 #define out_neg_GPIO_Port GPIOA
 #define out_pos_Pin GPIO_PIN_7
@@ -100,8 +100,8 @@ void Error_Handler(void);
 #define Vc_2_GPIO_Port GPIOB
 #define Vc_3_Pin GPIO_PIN_5
 #define Vc_3_GPIO_Port GPIOB
-#define Vc_11_Pin GPIO_PIN_6
-#define Vc_11_GPIO_Port GPIOB
+#define otro_Pin GPIO_PIN_6
+#define otro_GPIO_Port GPIOB
 #define Vc_21_Pin GPIO_PIN_8
 #define Vc_21_GPIO_Port GPIOB
 #define Vc_22_Pin GPIO_PIN_9
