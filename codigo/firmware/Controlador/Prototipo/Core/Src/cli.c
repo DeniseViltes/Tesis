@@ -91,6 +91,8 @@ static void cli_print_help(void)
     "  mode                            show control mode\r\n"
     "  mode manual|auto                set control mode (auto needs vset)\r\n"
     "  cell <bank 1-3> <cell 1-2> on|off   (manual only)\r\n"
+	"  cell <bank 1-3> <cell 1-2> <1...1000>   (manual only) set signal frequency\r\n"
+
   );
 }
 
@@ -118,6 +120,7 @@ static void cli_handle_line(const char *line_in)
     print_vtarget();
     return;
   }
+
 
   // VSET <float>
   {
@@ -215,12 +218,22 @@ static void cli_handle_line(const char *line_in)
         return;
       }
 
+      unsigned int freq;
+	  if (sscanf(st, "%u", &freq) == 1) {
+		if (freq >= 1 && freq <= 1000) {
+		  señal_cuadrada(b, c, freq);
+		  cli_print("OK\r\n");
+		  return;
+		}
+	  }
+
       cli_print("ERR: use on|off\r\n");
       return;
     }
   }
 
   cli_print("ERR: unknown command (try 'help')\r\n");
+
 }
 
 /* ===================== API ===================== */

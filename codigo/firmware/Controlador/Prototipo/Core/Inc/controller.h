@@ -56,6 +56,11 @@ ctrl_mode_t Controller_GetMode(void);
  */
 void Controller_SetBankVoltages_mV(const uint16_t v_bank[NUM_BANKS]);
 
+/*
+ * Configura una señal cuadrada de frecuencia freq en la celda seleccionada
+ */
+void señal_cuadrada(uint8_t bank, uint8_t cell, uint8_t freq );
+
 
 
 

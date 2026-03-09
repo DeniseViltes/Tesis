@@ -2,6 +2,8 @@
 #include "main.h"
 #include <stdint.h>
 
+
+
 /* ======================= ESTADO CELDAS ======================= */
 
 static cell_state_t cell_state[NUM_BANKS][CELLS_PER_BANK];
@@ -136,6 +138,30 @@ uint8_t Controller_GetBankSwitch(uint8_t bank)
 
   return (cell_state[bank][0] == CELL_OFF) &&
          (cell_state[bank][1] == CELL_OFF);
+}
+
+
+
+void señal_cuadrada(uint8_t bank, uint8_t cell, uint8_t freq )
+{
+    static int counter = 0;
+    static int state = 0;
+
+    counter++;
+    int ciclos = freq;
+
+
+    if (counter >= ciclos)
+    {
+        counter = 0;
+
+        if (state)
+            Controller_SetCell(bank, cell, CELL_OFF);
+        else
+            Controller_SetCell(bank, cell, CELL_ON);
+
+        state = !state;
+    }
 }
 
 /* ======================= LOGICA DE SELECCION DE BANCO ======================= */
