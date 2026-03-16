@@ -1,4 +1,5 @@
 /* USER CODE BEGIN Header */
+#include "controller.h"
 /**
   ******************************************************************************
   * @file    stm32f1xx_it.c
@@ -189,7 +190,7 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-
+  Controller_Update();
   /* USER CODE END SysTick_IRQn 1 */
 }
 

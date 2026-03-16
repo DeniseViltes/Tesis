@@ -25,6 +25,7 @@ typedef enum {
 
 
 void Controller_Init(void);
+void Controller_Update(void);
 void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st);
 cell_state_t Controller_GetCell(uint8_t bank, uint8_t cell);
 uint8_t Controller_GetBankSwitch(uint8_t bank);
@@ -57,10 +58,20 @@ ctrl_mode_t Controller_GetMode(void);
 void Controller_SetBankVoltages_mV(const uint16_t v_bank[NUM_BANKS]);
 
 /*
- * Configura una señal cuadrada de frecuencia freq en la celda seleccionada
+ * Inicia una señal cuadrada de frecuencia freq en la celda seleccionada
+ * la celda comienza apagada
  */
-void señal_cuadrada(uint8_t bank, uint8_t cell, uint8_t freq );
+void senial_cuadrada_start(uint8_t bank, uint8_t cell, uint16_t freq);
 
 
+/*
+ * Finaliza una señal cuadrada en la celda seleccionada
+ * y apaga la celda
+ */
+void senial_cuadrada_stop(uint8_t bank, uint8_t cell);
 
+/*
+ * Apaga todas las celdas
+ */
+void Apagar_celdas(void);
 

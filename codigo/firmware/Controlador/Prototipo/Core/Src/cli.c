@@ -91,7 +91,7 @@ static void cli_print_help(void)
     "  mode                            show control mode\r\n"
     "  mode manual|auto                set control mode (auto needs vset)\r\n"
     "  cell <bank 1-3> <cell 1-2> on|off   (manual only)\r\n"
-	"  cell <bank 1-3> <cell 1-2> <1...1000>   (manual only) set signal frequency\r\n"
+	"  sw <bank 1-3> <cell 1-2> on/off <1...1000>   (manual only) set signal frequency if ->on\r\n"
 
   );
 }
@@ -101,22 +101,25 @@ static void cli_handle_line(const char *line_in)
 {
   // Trim espacios iniciales
   while (*line_in == ' ' || *line_in == '\t') line_in++;
-  if (*line_in == '\0') return;
-   str_to_lower(line_in);
+  char line_copy[128];
+  strcpy(line_copy, line_in);
+  str_to_lower(line_copy);
+  if (*line_copy == '\0') return;
+   str_to_lower(line_copy);
   // HELP
-  if (strcmp(line_in, "help") == 0) {
+  if (strcmp(line_copy, "help") == 0) {
     cli_print_help();
     return;
   }
 
   // STATUS
-  if (strcmp(line_in, "status") == 0) {
+  if (strcmp(line_copy, "status") == 0) {
     cli_print_status();
     return;
   }
 
   // VGET
-  if (strcmp(line_in, "vget") == 0) {
+  if (strcmp(line_copy, "vget") == 0) {
     print_vtarget();
     return;
   }
@@ -125,7 +128,7 @@ static void cli_handle_line(const char *line_in)
   // VSET <float>
   {
     char cmd[8], arg[24];
-    if (sscanf(line_in, "%7s %23s", cmd, arg) == 2) {
+    if (sscanf(line_copy, "%7s %23s", cmd, arg) == 2) {
       for (int i = 0; cmd[i]; i++) cmd[i] = (char)tolower((unsigned char)cmd[i]);
 
       if (strcmp(cmd, "vset") == 0) {
@@ -149,7 +152,7 @@ static void cli_handle_line(const char *line_in)
   // MODE / MODE manual|auto
   {
     char cmd[8], arg[16];
-    int n = sscanf(line_in, "%7s %15s", cmd, arg);
+    int n = sscanf(line_copy, "%7s %15s", cmd, arg);
     if (n >= 1) {
       for (int i = 0; cmd[i]; i++) cmd[i] = (char)tolower((unsigned char)cmd[i]);
 
@@ -187,7 +190,7 @@ static void cli_handle_line(const char *line_in)
     unsigned int b_user, c_user;
     char st[8];
 
-    if (sscanf(line_in, "cell %u %u %7s", &b_user, &c_user, st) == 3) {
+    if (sscanf(line_copy, "cell %u %u %7s", &b_user, &c_user, st) == 3) {
 
       for (int i = 0; st[i]; i++)
         st[i] = (char)tolower((unsigned char)st[i]);
@@ -218,20 +221,62 @@ static void cli_handle_line(const char *line_in)
         return;
       }
 
-      unsigned int freq;
-	  if (sscanf(st, "%u", &freq) == 1) {
-		if (freq >= 1 && freq <= 1000) {
-		  señal_cuadrada(b, c, freq);
-		  cli_print("OK\r\n");
-		  return;
-		}
-	  }
-
       cli_print("ERR: use on|off\r\n");
       return;
     }
   }
+  //switching
+  {
+	  unsigned int b_user, c_user, freq = 0;
+	  char st[8];
 
+	  int n = sscanf(line_copy, "sw %u %u %7s %u", &b_user, &c_user, st, &freq);
+
+	  if (n >= 3) {
+
+		  for (int i = 0; st[i]; i++)
+			  st[i] = (char)tolower((unsigned char)st[i]);
+
+		  if (b_user < 1 || b_user > 3 || c_user < 1 || c_user > 2) {
+			  cli_print("ERR: switching <bank 1-3> <cell 1-2> on|off [freq]\r\n");
+			  return;
+		  }
+
+		  if (Controller_GetMode() != CTRL_MODE_MANUAL) {
+			  cli_print("ERR: cell command allowed only in MANUAL mode\r\n");
+			  return;
+		  }
+
+		  uint8_t b = (uint8_t)(b_user - 1);
+		  uint8_t c = (uint8_t)(c_user - 1);
+
+		  if (strcmp(st, "on") == 0) {
+
+			  if (n != 4) {
+				  cli_print("ERR: missing frequency\r\n");
+				  return;
+			  }
+
+			  if (freq < 1 || freq > 500) {
+				  cli_print("ERR: frequency out of range\r\n");
+				  return;
+			  }
+
+			  senial_cuadrada_start(b, c, freq);
+			  cli_print("OK\r\n");
+			  return;
+		  }
+
+		  if (strcmp(st, "off") == 0) {
+			  senial_cuadrada_stop(b, c);
+			  cli_print("OK\r\n");
+			  return;
+		  }
+
+		  cli_print("ERR: use on|off\r\n");
+		  return;
+	  }
+  }
   cli_print("ERR: unknown command (try 'help')\r\n");
 
 }
@@ -271,7 +316,7 @@ void CLI_RxCallback(UART_HandleTypeDef *huart)
 void CLI_ButtonManualCallback(uint16_t gpio_pin)
 {
   if (gpio_pin != Modo_manual_Pin) return;
-
+  Apagar_celdas();
   if (Controller_GetMode() != CTRL_MODE_MANUAL) {
     (void)Controller_SetMode(CTRL_MODE_MANUAL);
     cli_print("\r\nBTN B1: MODE -> MANUAL\r\n> ");

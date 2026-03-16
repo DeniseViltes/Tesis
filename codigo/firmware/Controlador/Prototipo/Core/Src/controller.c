@@ -8,6 +8,14 @@
 
 static cell_state_t cell_state[NUM_BANKS][CELLS_PER_BANK];
 
+typedef struct {
+    uint8_t activo;
+    uint16_t ticks;
+    uint16_t contador;
+} square_signal_t;
+
+static square_signal_t cuadrada[NUM_BANKS][CELLS_PER_BANK];
+
 /* ======================= MAPEOS SWITCHES ======================= */
 
 // Celdas
@@ -101,6 +109,8 @@ void Controller_Init(void)
   }
 }
 
+
+
 /* ======================= CELDAS ======================= */
 
 static void Controller_SetCell_ON_(uint8_t bank, uint8_t cell)
@@ -140,30 +150,61 @@ uint8_t Controller_GetBankSwitch(uint8_t bank)
          (cell_state[bank][1] == CELL_OFF);
 }
 
-
-
-void señal_cuadrada(uint8_t bank, uint8_t cell, uint8_t freq )
+static void senial_cuadrada_Toggle(uint8_t bank, uint8_t cell)
 {
-    static int counter = 0;
-    static int state = CELL_OFF;
-
-    counter++;
-    int ciclos = 500;
-
-
-    if (counter >= ciclos)
-    {
-        counter = 0;
-
-        if (state)
-            Controller_SetCell(bank, cell, CELL_ON);
-        else
-            Controller_SetCell(bank, cell, CELL_OFF);
-
-        state = !state;
-    }
+    if (cell_state[bank][cell] == CELL_ON)
+        Controller_SetCell(bank, cell, CELL_OFF);
+    else
+        Controller_SetCell(bank, cell, CELL_ON);
 }
 
+void Apagar_celdas(void){
+	for (uint8_t i = 0;i<NUM_BANKS;i++){
+		for(uint8_t j = 0;j<CELLS_PER_BANK;j++)
+		Controller_SetCell(i, j, CELL_OFF);
+	}
+}
+
+void senial_cuadrada(void){
+	for (uint8_t bank = 0; bank < NUM_BANKS; bank++) {
+	        for (uint8_t cell = 0; cell < CELLS_PER_BANK; cell++) {
+
+	            if (!cuadrada[bank][cell].activo)
+	                continue;
+
+	            cuadrada[bank][cell].contador++;
+
+	            if (cuadrada[bank][cell].contador >= cuadrada[bank][cell].ticks) {
+	            	cuadrada[bank][cell].contador = 0;
+
+	                senial_cuadrada_Toggle(bank, cell);
+	            }
+	        }
+	    }
+}
+
+
+void senial_cuadrada_start(uint8_t bank, uint8_t cell, uint16_t freq){
+	if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return;
+	cuadrada[bank][cell].activo = 1;
+	cuadrada[bank][cell].contador = 0;
+	cuadrada[bank][cell].ticks= 500/freq;
+
+
+}
+
+void senial_cuadrada_stop(uint8_t bank, uint8_t cell){
+	if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return;
+	cuadrada[bank][cell].activo = 0;
+	cuadrada[bank][cell].contador = 0;
+	cuadrada[bank][cell].ticks= 0;
+
+}
+
+
+void Controller_Update(void){
+	senial_cuadrada();
+}
 /* ======================= LOGICA DE SELECCION DE BANCO ======================= */
 
 static void Controller_sort_bank_(void)
