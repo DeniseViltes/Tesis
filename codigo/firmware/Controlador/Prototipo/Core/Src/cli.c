@@ -83,17 +83,33 @@ static void cli_print_status(void)
 static void cli_print_help(void)
 {
   cli_print(
-    "Commands:\r\n"
+    "\r\n=== COMMANDS ===\r\n"
+    "\r\n"
     "  help\r\n"
     "  status\r\n"
-    "  vset <3.3..9.9>                 set target voltage\r\n"
-    "  vget                            show target voltage\r\n"
-    "  mode                            show control mode\r\n"
-    "  mode manual|auto                set control mode (auto needs vset)\r\n"
-    "  cell <bank 1-3> <cell 1-2> on|off   (manual only)\r\n"
-	"  sw <bank 1-3> <cell 1-2> on/off <1...1000>   (manual only) set signal frequency if ->on\r\n"
-
-  );
+    "\r\n"
+    "  vset <3.3..9.9>           Set target voltage\r\n"
+    "  vget                      Show target voltage\r\n"
+    "\r\n"
+    "  mode                      Show control mode\r\n"
+    "  mode manual|auto          Set control mode\r\n"
+    "\r\n"
+    "  cell <b 1-3> <c 1-2> on   Turn cell ON (manual mode)\r\n"
+    "  cell <b 1-3> <c 1-2> off  Turn cell OFF / stop switching\r\n"
+    "\r\n"
+    "  sw <b> <c> <f> <g> <s|c>  Set square signal (manual mode)\r\n"
+    "                            b: bank (1-3)\r\n"
+    "                            c: cell (1-2)\r\n"
+    "                            f: freq (1-30 Hz)\r\n"
+    "                            g: group (0-%d)\r\n"
+    "                            s: same phase\r\n"
+    "                            c: complementary\r\n"
+    "\r\n"
+    "  Examples:\r\n"
+    "    sw 1 1 10 0 s\r\n"
+    "    sw 1 2 10 0 s\r\n"
+    "    sw 2 1 10 0 c\r\n"
+    "\r\n");
 }
 
 /* ===================== COMMANDOS ===================== */
@@ -227,55 +243,50 @@ static void cli_handle_line(const char *line_in)
   }
   //switching
   {
-	  unsigned int b_user, c_user, freq = 0;
-	  char st[8];
+	  unsigned int b_user, c_user, freq, grupo;
+	  char mode[4];
 
-	  int n = sscanf(line_copy, "sw %u %u %7s %u", &b_user, &c_user, st, &freq);
-
-	  if (n >= 3) {
-
-		  for (int i = 0; st[i]; i++)
-			  st[i] = (char)tolower((unsigned char)st[i]);
-
-		  if (b_user < 1 || b_user > 3 || c_user < 1 || c_user > 2) {
-			  cli_print("ERR: switching <bank 1-3> <cell 1-2> on|off [freq]\r\n");
-			  return;
+	  if (sscanf(line_copy, "sw %u %u %u %u %3s",
+	             &b_user, &c_user, &freq, &grupo, mode) == 5)
+	  {
+		  if (b_user < 1 || b_user > NUM_BANKS ||
+		      c_user < 1 || c_user > CELLS_PER_BANK) {
+		    cli_print("ERR: sw <bank 1-3> <cell 1-2> <freq> <grupo> <s|c>\r\n");
+		    return;
 		  }
 
-		  if (Controller_GetMode() != CTRL_MODE_MANUAL) {
-			  cli_print("ERR: cell command allowed only in MANUAL mode\r\n");
-			  return;
+		  if (freq < 1 || freq > 30) {
+		    cli_print("ERR: frequency out of range (1-30 Hz)\r\n");
+		    return;
 		  }
 
-		  uint8_t b = (uint8_t)(b_user - 1);
-		  uint8_t c = (uint8_t)(c_user - 1);
+		  if (grupo >= MAX_SQUARE_GROUPS) {
+		    cli_print("ERR: invalid group\r\n");
+		    return;
+		  }
+		  cell_phase_t fase;
 
-		  if (strcmp(st, "on") == 0) {
-
-			  if (n != 4) {
-				  cli_print("ERR: missing frequency\r\n");
-				  return;
-			  }
-
-			  if (freq < 1 || freq > 500) {
-				  cli_print("ERR: frequency out of range\r\n");
-				  return;
-			  }
-
-			  senial_cuadrada_start(b, c, freq);
-			  cli_print("OK\r\n");
-			  return;
+		  if (strcmp(mode, "s") == 0) {
+		    fase = CELL_PHASE_POS;
+		  }
+		  else if (strcmp(mode, "c") == 0) {
+		    fase = CELL_PHASE_NEG;
+		  }
+		  else {
+		  	cli_print("ERR: mode must be s or c\r\n");
+		  	return;
 		  }
 
-		  if (strcmp(st, "off") == 0) {
-			  senial_cuadrada_stop(b, c);
-			  cli_print("OK\r\n");
-			  return;
-		  }
+		  uint8_t bank = b_user - 1;
+		  uint8_t cell = c_user - 1;
 
-		  cli_print("ERR: use on|off\r\n");
+		  Controller_ConfigSquareGroup(grupo, freq);
+		  Controller_SetCellSquare(bank, cell, grupo, fase);
+
+		  cli_print("OK\r\n");
 		  return;
-	  }
+		  }
+
   }
   cli_print("ERR: unknown command (try 'help')\r\n");
 

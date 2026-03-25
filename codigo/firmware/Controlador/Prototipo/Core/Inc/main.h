@@ -96,10 +96,10 @@ void Error_Handler(void);
 #define TCK_GPIO_Port GPIOA
 #define Vc_1_Pin GPIO_PIN_3
 #define Vc_1_GPIO_Port GPIOB
-#define Vc_2_Pin GPIO_PIN_4
-#define Vc_2_GPIO_Port GPIOB
-#define Vc_3_Pin GPIO_PIN_5
+#define Vc_3_Pin GPIO_PIN_4
 #define Vc_3_GPIO_Port GPIOB
+#define Vc_2_Pin GPIO_PIN_5
+#define Vc_2_GPIO_Port GPIOB
 #define Vc_11_Pin GPIO_PIN_6
 #define Vc_11_GPIO_Port GPIOB
 #define Vc_21_Pin GPIO_PIN_8

@@ -5,7 +5,7 @@
 
 #define NUM_BANKS 3
 #define CELLS_PER_BANK 2
-
+#define MAX_SQUARE_GROUPS  3
 typedef enum {
   CELL_OFF = 0,
   CELL_ON  = 1
@@ -22,6 +22,23 @@ typedef enum {
   CTRL_MODE_MANUAL = 0,
   CTRL_MODE_AUTO   = 1
 } ctrl_mode_t;
+
+typedef enum {
+  CELL_MODE_STATIC = 0,
+  CELL_MODE_SIGNAL
+} cell_mode_t;
+
+typedef enum {
+	CELL_PHASE_POS = 0,
+	CELL_PHASE_NEG
+}cell_phase_t;
+
+
+typedef struct {
+	cell_mode_t modo;
+	uint8_t id_grupo;
+	cell_phase_t fase;
+}cell_cfg_t;
 
 
 void Controller_Init(void);
@@ -74,4 +91,13 @@ void senial_cuadrada_stop(uint8_t bank, uint8_t cell);
  * Apaga todas las celdas
  */
 void Apagar_celdas(void);
+
+
+uint8_t Controller_ConfigSquareGroup(uint8_t id_grupo, uint16_t freq_hz);
+
+
+uint8_t Controller_SetCellSquare(uint8_t bank,
+                                 uint8_t cell,
+                                 uint8_t id_grupo,
+                                 cell_phase_t fase);
 

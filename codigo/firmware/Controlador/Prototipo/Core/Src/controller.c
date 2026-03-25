@@ -6,15 +6,24 @@
 
 /* ======================= ESTADO CELDAS ======================= */
 
+
+
 static cell_state_t cell_state[NUM_BANKS][CELLS_PER_BANK];
 
-typedef struct {
-    uint8_t activo;
-    uint16_t ticks;
-    uint16_t contador;
-} square_signal_t;
 
-static square_signal_t cuadrada[NUM_BANKS][CELLS_PER_BANK];
+
+static cell_cfg_t cell_cfg[NUM_BANKS][CELLS_PER_BANK];
+
+
+
+typedef struct {
+  uint8_t  enabled;
+  uint16_t ticks;   // en ticks de 1 ms
+  uint16_t counter;
+  uint8_t  phase;               // si está en on u off
+} square_group_t;
+
+static square_group_t square_groups[MAX_SQUARE_GROUPS];
 
 /* ======================= MAPEOS SWITCHES ======================= */
 
@@ -97,44 +106,80 @@ void Controller_Init(void)
   for (uint8_t b = 0; b < NUM_BANKS; b++) {
     for (uint8_t c = 0; c < CELLS_PER_BANK; c++) {
       cell_state[b][c] = CELL_OFF;
+
+      cell_cfg[b][c].modo = CELL_MODE_STATIC;
+      cell_cfg[b][c].id_grupo = 0;
+      cell_cfg[b][c].fase = CELL_PHASE_POS;
+
       gpio_write(&cell_sw[b][c], 0);
     }
+
     Controller_UpdateBank(b);
+  }
+
+  for (uint8_t g = 0; g < MAX_SQUARE_GROUPS; g++) {
+    square_groups[g].enabled = 0;
+    square_groups[g].ticks = 0;
+    square_groups[g].counter = 0;
+    square_groups[g].phase = 0;
   }
 
   // Inicializar ranking coherente
   for (uint8_t i = 0; i < NUM_BANKS; i++) {
+    g_bank_v_mV[i] = 0;
     g_bank_rank[i].bank = i;
-    g_bank_rank[i].v_mV = g_bank_v_mV[i];
+    g_bank_rank[i].v_mV = 0;
   }
 }
 
+void Controller_SquareTask(void);
 
+void Controller_Update(void){
+	Controller_SquareTask();
+}
 
 /* ======================= CELDAS ======================= */
 
-static void Controller_SetCell_ON_(uint8_t bank, uint8_t cell)
+static void _controller_SetCell_ON(uint8_t bank, uint8_t cell)
 {
   cell_state[bank][cell] = CELL_ON;
   Controller_UpdateBank(bank);
   gpio_write(&cell_sw[bank][cell], 1);
-
 }
 
-static void Controller_SetCell_OFF_(uint8_t bank, uint8_t cell)
+static void _controller_SetCell_OFF(uint8_t bank, uint8_t cell)
 {
   cell_state[bank][cell] = CELL_OFF;
   gpio_write(&cell_sw[bank][cell], 0);
   Controller_UpdateBank(bank);
 }
 
+
+
+
+static void Controller_SetCell_ON_(uint8_t bank, uint8_t cell)
+{
+  cell_cfg[bank][cell].modo = CELL_MODE_STATIC;
+  _controller_SetCell_ON(bank,cell);
+}
+
+static void Controller_SetCell_OFF_(uint8_t bank, uint8_t cell)
+{
+  cell_cfg[bank][cell].modo = CELL_MODE_STATIC;
+  _controller_SetCell_OFF(bank,cell);
+}
+
 void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st)
 {
   if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return;
 
-  if (st == CELL_ON)  Controller_SetCell_ON_(bank, cell);
-  else                Controller_SetCell_OFF_(bank, cell);
+  if (st == CELL_ON)
+	  Controller_SetCell_ON_(bank, cell);
+  else
+	  Controller_SetCell_OFF_(bank, cell);
 }
+
+
 
 cell_state_t Controller_GetCell(uint8_t bank, uint8_t cell)
 {
@@ -150,13 +195,6 @@ uint8_t Controller_GetBankSwitch(uint8_t bank)
          (cell_state[bank][1] == CELL_OFF);
 }
 
-static void senial_cuadrada_Toggle(uint8_t bank, uint8_t cell)
-{
-    if (cell_state[bank][cell] == CELL_ON)
-        Controller_SetCell(bank, cell, CELL_OFF);
-    else
-        Controller_SetCell(bank, cell, CELL_ON);
-}
 
 void Apagar_celdas(void){
 	for (uint8_t i = 0;i<NUM_BANKS;i++){
@@ -165,46 +203,103 @@ void Apagar_celdas(void){
 	}
 }
 
-void senial_cuadrada(void){
-	for (uint8_t bank = 0; bank < NUM_BANKS; bank++) {
-	        for (uint8_t cell = 0; cell < CELLS_PER_BANK; cell++) {
 
-	            if (!cuadrada[bank][cell].activo)
-	                continue;
 
-	            cuadrada[bank][cell].contador++;
+uint8_t Controller_SetCellSquare(uint8_t bank,
+                                 uint8_t cell,
+                                 uint8_t id_grupo,
+                                 cell_phase_t fase)
+{
+  if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK)
+    return 0;
 
-	            if (cuadrada[bank][cell].contador >= cuadrada[bank][cell].ticks) {
-	            	cuadrada[bank][cell].contador = 0;
+  if (id_grupo >= MAX_SQUARE_GROUPS)
+    return 0;
 
-	                senial_cuadrada_Toggle(bank, cell);
-	            }
-	        }
-	    }
+  cell_cfg[bank][cell].modo     = CELL_MODE_SIGNAL;
+  cell_cfg[bank][cell].id_grupo = id_grupo;
+  cell_cfg[bank][cell].fase = fase;
+
+  return 1;
 }
 
 
-void senial_cuadrada_start(uint8_t bank, uint8_t cell, uint16_t freq){
-	if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return;
-	cuadrada[bank][cell].activo = 1;
-	cuadrada[bank][cell].contador = 0;
-	cuadrada[bank][cell].ticks= 500/freq;
+uint8_t Controller_ConfigSquareGroup(uint8_t id_grupo, uint16_t freq_hz)
+{
+  uint32_t ticks;
 
+  if (id_grupo >= MAX_SQUARE_GROUPS || freq_hz == 0)
+    return 0;
 
+  ticks = 500U / freq_hz;   // tick base de 1 ms
+
+  if (ticks == 0)
+    ticks = 1;
+
+  square_groups[id_grupo].enabled = 1;
+  square_groups[id_grupo].ticks = (uint16_t)ticks;
+  square_groups[id_grupo].counter = 0;
+  square_groups[id_grupo].phase = 0;
+
+  return 1;
 }
 
-void senial_cuadrada_stop(uint8_t bank, uint8_t cell){
-	if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return;
-	cuadrada[bank][cell].activo = 0;
-	cuadrada[bank][cell].contador = 0;
-	cuadrada[bank][cell].ticks= 0;
 
+void Controller_SquareTask(void)
+{
+  uint8_t group_phase_changed[MAX_SQUARE_GROUPS] = {0};
+  uint8_t group_phase[MAX_SQUARE_GROUPS] = {0};
+
+
+  for (uint8_t i = 0; i < MAX_SQUARE_GROUPS; i++) {
+    if (!square_groups[i].enabled || square_groups[i].ticks == 0)
+      continue;
+
+    square_groups[i].counter++;
+
+    if (square_groups[i].counter >= square_groups[i].ticks) {
+      square_groups[i].counter = 0;
+      square_groups[i].phase ^= 1U;
+      group_phase_changed[i] = 1;
+    }
+
+    group_phase[i] = square_groups[i].phase;
+  }
+
+
+  for (uint8_t b = 0; b < NUM_BANKS; b++) {
+    for (uint8_t c = 0; c < CELLS_PER_BANK; c++) {
+      uint8_t g;
+
+
+      if (cell_cfg[b][c].modo != CELL_MODE_SIGNAL)
+        continue;
+
+      g = cell_cfg[b][c].id_grupo;
+
+      if (g >= MAX_SQUARE_GROUPS)
+        continue;
+
+      if (!group_phase_changed[g])
+        continue;
+
+      if (cell_cfg[b][c].fase == CELL_PHASE_POS) {
+        if (group_phase[g]) {
+          _controller_SetCell_ON(b, c);
+        } else {
+          _controller_SetCell_OFF(b, c);
+        }
+      } else {
+        if (group_phase[g]) {
+          _controller_SetCell_OFF(b, c);
+        } else {
+          _controller_SetCell_ON(b, c);
+        }
+      }
+    }
+  }
 }
 
-
-void Controller_Update(void){
-	senial_cuadrada();
-}
 /* ======================= LOGICA DE SELECCION DE BANCO ======================= */
 
 static void Controller_sort_bank_(void)
