@@ -2065,6 +2065,16 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "agregar LED\nagregar micro ATtiny\nagregar inversor MOS?\nvolar Vcell_neg y agregar Vcc (todas compartidas salvo cell_neg)\ntopologia torrecita por banco\n"
+		(exclude_from_sim no)
+		(at 48.26 115.062 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "05ff68a9-7fd4-456a-aef7-2caab3b2357c")
+	)
 	(junction
 		(at 118.11 95.25)
 		(diameter 0)
