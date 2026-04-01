@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 
-typedef enum
+/*typedef enum
 {
   ADC_MEAS_CH_0 = 0,
   ADC_MEAS_CH_1,
@@ -15,13 +15,32 @@ typedef enum
   ADC_MEAS_CH_11,
   ADC_MEAS_CH_14,
   ADC_MEAS_CH_COUNT
-} adc_meas_ch_t;
+} adc_meas_ch_t;*/
 
-extern uint16_t g_adc_raw[ADC_MEAS_CH_COUNT];
+
+typedef enum
+{
+  ADC_NODE_CELL_11 = 0,
+  ADC_NODE_CELL_12,
+  ADC_NODE_CELL_21,
+  ADC_NODE_CELL_22,
+  ADC_NODE_CELL_31,
+  ADC_NODE_CELL_32,
+  ADC_NODE_OUT_POS,
+  ADC_NODE_OUT_NEG,
+  ADC_NODE_BUS_1,
+  ADC_NODE_BUS_2,
+  ADC_NODE_COUNT
+} adc_node_t;
+
+
+
 
 void adc_init(void);
 void adc_update(void);
 
-uint16_t adc_get_raw(adc_meas_ch_t channel);
-const uint16_t *adc_get_raw_buffer(void);
+uint16_t adc_get_raw(adc_node_t node);
 uint8_t adc_is_dma_started(void);
+uint16_t adc_get_pin_voltage(adc_node_t node);
+uint16_t adc_get_meas_voltage(adc_node_t node);
+

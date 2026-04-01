@@ -90,11 +90,11 @@ void senial_cuadrada_stop(uint8_t bank, uint8_t cell);
 /*
  * Apaga todas las celdas
  */
-void Apagar_celdas(void);
+void apagar_celdas(void);
 
 
 uint8_t Controller_ConfigSquareGroup(uint8_t id_grupo, uint16_t freq_hz);
-
+void Test_ConmutacionConDelay(void);
 
 uint8_t Controller_SetCellSquare(uint8_t bank,
                                  uint8_t cell,

@@ -1,6 +1,8 @@
 #include "controller.h"
 #include "main.h"
 #include <stdint.h>
+#include <adc.h>
+
 
 
 
@@ -9,8 +11,6 @@
 
 
 static cell_state_t cell_state[NUM_BANKS][CELLS_PER_BANK];
-
-
 
 static cell_cfg_t cell_cfg[NUM_BANKS][CELLS_PER_BANK];
 
@@ -24,6 +24,9 @@ typedef struct {
 } square_group_t;
 
 static square_group_t square_groups[MAX_SQUARE_GROUPS];
+
+
+
 
 /* ======================= MAPEOS SWITCHES ======================= */
 
@@ -70,8 +73,8 @@ typedef struct {
   uint16_t v_mV;   // miliVolt
 } bank_v_t;
 
-static uint16_t g_bank_v_mV[NUM_BANKS] = {0};
-static bank_v_t g_bank_rank[NUM_BANKS];
+static uint16_t bank_voltage[NUM_BANKS] = {0};
+static bank_v_t bank_rank[NUM_BANKS];
 
 /* ======================= GPIO WRITE ======================= */
 
@@ -126,9 +129,9 @@ void Controller_Init(void)
 
   // Inicializar ranking coherente
   for (uint8_t i = 0; i < NUM_BANKS; i++) {
-    g_bank_v_mV[i] = 0;
-    g_bank_rank[i].bank = i;
-    g_bank_rank[i].v_mV = 0;
+    bank_voltage[i] = 0;
+    bank_rank[i].bank = i;
+    bank_rank[i].v_mV = 0;
   }
 }
 
@@ -144,14 +147,18 @@ static void _controller_SetCell_ON(uint8_t bank, uint8_t cell)
 {
   cell_state[bank][cell] = CELL_ON;
   Controller_UpdateBank(bank);
+
   gpio_write(&cell_sw[bank][cell], 1);
+
 }
 
 static void _controller_SetCell_OFF(uint8_t bank, uint8_t cell)
 {
   cell_state[bank][cell] = CELL_OFF;
   gpio_write(&cell_sw[bank][cell], 0);
+
   Controller_UpdateBank(bank);
+
 }
 
 
@@ -196,7 +203,7 @@ uint8_t Controller_GetBankSwitch(uint8_t bank)
 }
 
 
-void Apagar_celdas(void){
+void apagar_celdas(void){
 	for (uint8_t i = 0;i<NUM_BANKS;i++){
 		for(uint8_t j = 0;j<CELLS_PER_BANK;j++)
 		Controller_SetCell(i, j, CELL_OFF);
@@ -305,8 +312,8 @@ void Controller_SquareTask(void)
 static void Controller_sort_bank_(void)
 {
   for (uint8_t i = 0; i < NUM_BANKS; i++) {
-    g_bank_rank[i].bank = i;
-    g_bank_rank[i].v_mV = g_bank_v_mV[i];
+    bank_rank[i].bank = i;
+    bank_rank[i].v_mV = bank_voltage[i];
   }
 
   // Orden descendente por v_mV; desempate por índice menor
@@ -314,14 +321,14 @@ static void Controller_sort_bank_(void)
     for (uint8_t j = i + 1; j < NUM_BANKS; j++) {
       uint8_t swap = 0;
 
-      if (g_bank_rank[j].v_mV > g_bank_rank[i].v_mV) swap = 1;
-      else if (g_bank_rank[j].v_mV == g_bank_rank[i].v_mV &&
-               g_bank_rank[j].bank < g_bank_rank[i].bank) swap = 1;
+      if (bank_rank[j].v_mV > bank_rank[i].v_mV) swap = 1;
+      else if (bank_rank[j].v_mV == bank_rank[i].v_mV &&
+               bank_rank[j].bank < bank_rank[i].bank) swap = 1;
 
       if (swap) {
-        bank_v_t tmp = g_bank_rank[i];
-        g_bank_rank[i] = g_bank_rank[j];
-        g_bank_rank[j] = tmp;
+        bank_v_t tmp = bank_rank[i];
+        bank_rank[i] = bank_rank[j];
+        bank_rank[j] = tmp;
       }
     }
   }
@@ -331,8 +338,8 @@ static void Controller_sort_bank_(void)
 /*static uint8_t Controller_get_top2_banks_(uint8_t *b1, uint8_t *b2)
 {
   if (NUM_BANKS < 2 || !b1 || !b2) return 0;
-  *b1 = g_bank_rank[0].bank;
-  *b2 = g_bank_rank[1].bank;
+  *b1 = bank_rank[0].bank;
+  *b2 = bank_rank[1].bank;
   return 1;
 }
 */
@@ -345,7 +352,7 @@ static void Controller_sort_bank_(void)
 void Controller_SetBankVoltages_mV(const uint16_t v_bank_mV[NUM_BANKS])
 {
   for (uint8_t i = 0; i < NUM_BANKS; i++) {
-    g_bank_v_mV[i] = v_bank_mV[i];
+    bank_voltage[i] = v_bank_mV[i];
   }
   Controller_sort_bank_();
 }
@@ -387,4 +394,37 @@ uint8_t Controller_SetMode(ctrl_mode_t mode)
 ctrl_mode_t Controller_GetMode(void)
 {
   return g_ctrl_mode;
+}
+
+
+
+
+
+void Test_ConmutacionConDelay(void)
+{
+	uint8_t bank = 0;
+	uint8_t cell = 1;
+
+
+	gpio_write(&cell_sw[bank][cell], CELL_OFF);
+	HAL_Delay(2);
+	gpio_write(&bank_sw[bank], CELL_ON);
+
+	HAL_Delay(1000);
+
+	gpio_write(&bank_sw[bank], CELL_OFF);
+	HAL_Delay(2);
+	gpio_write(&cell_sw[bank][cell], CELL_ON);
+
+	HAL_Delay(1000);
+
+	gpio_write(&cell_sw[bank][cell], CELL_OFF);
+	HAL_Delay(2);
+	gpio_write(&bank_sw[bank], CELL_ON);
+
+	HAL_Delay(1000);
+
+	gpio_write(&bank_sw[bank], CELL_OFF);
+	HAL_Delay(2);
+	gpio_write(&cell_sw[bank][cell], CELL_ON);
 }

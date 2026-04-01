@@ -327,7 +327,7 @@ void CLI_RxCallback(UART_HandleTypeDef *huart)
 void CLI_ButtonManualCallback(uint16_t gpio_pin)
 {
   if (gpio_pin != Modo_manual_Pin) return;
-  Apagar_celdas();
+  apagar_celdas();
   if (Controller_GetMode() != CTRL_MODE_MANUAL) {
     (void)Controller_SetMode(CTRL_MODE_MANUAL);
     cli_print("\r\nBTN B1: MODE -> MANUAL\r\n> ");
