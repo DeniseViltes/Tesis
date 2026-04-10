@@ -2,20 +2,20 @@
 
 #include "stm32f1xx_hal.h"
 #include <stdint.h>
+#include <adc.h>
+
 
 #define NUM_BANKS 3
 #define CELLS_PER_BANK 2
 #define MAX_SQUARE_GROUPS  3
-typedef enum {
-  CELL_OFF = 0,
-  CELL_ON  = 1
-} cell_state_t;
 
-typedef struct {
-  GPIO_TypeDef* port;
-  uint16_t pin;
-  uint8_t active_high;
-} pin_switch_t;
+
+typedef enum {
+  SW_OFF = 0,
+  SW_ON  = 1
+} sw_state_t;
+
+
 
 
 typedef enum {
@@ -41,10 +41,13 @@ typedef struct {
 }cell_cfg_t;
 
 
+
+
+
 void Controller_Init(void);
 void Controller_Update(void);
-void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st);
-cell_state_t Controller_GetCell(uint8_t bank, uint8_t cell);
+void Controller_SetCell(uint8_t bank, uint8_t cell, sw_state_t st);
+sw_state_t Controller_GetCell(uint8_t bank, uint8_t cell);
 uint8_t Controller_GetBankSwitch(uint8_t bank);
 
 // Devuelve la tensión configurada. Si no hay, devuelve 0.
@@ -54,8 +57,6 @@ uint16_t Controller_GetTargetVoltage(void);
 // Devuelve 1 si OK, 0 si fuera de rango.
 uint8_t Controller_SetTargetVoltage(float v_mV);
 
-// Devuelve 1 si hay tensión configurada, 0 si no.
-uint8_t Controller_HasTargetVoltage(void);
 
 
 
@@ -94,6 +95,11 @@ void apagar_celdas(void);
 
 
 uint8_t Controller_ConfigSquareGroup(uint8_t id_grupo, uint16_t freq_hz);
+
+
+/*
+ * Prueba de delay (bloqueante)
+ */
 void Test_ConmutacionConDelay(void);
 
 uint8_t Controller_SetCellSquare(uint8_t bank,
@@ -101,3 +107,9 @@ uint8_t Controller_SetCellSquare(uint8_t bank,
                                  uint8_t id_grupo,
                                  cell_phase_t fase);
 
+/*
+ * Para obtener la medición de una celda, (i,j)
+ * Para objener la medición de un banco (i,0)
+ * con i, j > 0
+ */
+uint16_t Controller_getMeasurement(uint8_t bank, uint8_t cell);

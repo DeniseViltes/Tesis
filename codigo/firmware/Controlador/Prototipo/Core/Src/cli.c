@@ -46,10 +46,7 @@ static uint8_t parse_float_strict(const char *s, float *out)
 
 static void print_vtarget(void)
 {
-  if (!Controller_HasTargetVoltage()) {
-    cli_print("VTARGET: NOT_SET\r\n");
-    return;
-  }
+
 
   uint16_t vt = Controller_GetTargetVoltage();
   char buf[48];
@@ -66,15 +63,24 @@ static void cli_print_status(void)
   cli_print(Controller_GetMode() == CTRL_MODE_AUTO ? "MODE=AUTO | " : "MODE=MANUAL | ");
   print_vtarget();
 
-  // Estado de bancos/celdas
-  char buf[80];
+  char buf[120];
+
   for (uint8_t b = 0; b < 3; b++) {
+    uint8_t bank_user = b + 1;
+
+    uint16_t v_cell1_mV = Controller_getMeasurement(bank_user, 1);
+    uint16_t v_cell2_mV = Controller_getMeasurement(bank_user, 2);
+    uint16_t v_bank_mV  = Controller_getMeasurement(bank_user, 0);
+
     snprintf(buf, sizeof(buf),
-      "BANK %u: C1=%s C2=%s | BANK_SW=%s\r\n",
-      (unsigned)(b + 1),
+      "BANK %u: C1=%s (%u mV) C2=%s (%u mV) | BANK_SW=%s (%u mV)\r\n",
+      (unsigned)bank_user,
       Controller_GetCell(b, 0) ? "ON" : "OFF",
+      (unsigned)v_cell1_mV,
       Controller_GetCell(b, 1) ? "ON" : "OFF",
-      Controller_GetBankSwitch(b) ? "ON" : "OFF"
+      (unsigned)v_cell2_mV,
+      Controller_GetBankSwitch(b) ? "ON" : "OFF",
+      (unsigned)v_bank_mV
     );
     cli_print(buf);
   }
@@ -226,13 +232,13 @@ static void cli_handle_line(const char *line_in)
       uint8_t c = (uint8_t)(c_user - 1);
 
       if (strcmp(st, "on") == 0) {
-        Controller_SetCell(b, c, CELL_ON);
+        Controller_SetCell(b, c, SW_ON);
         cli_print("OK\r\n");
         return;
       }
 
       if (strcmp(st, "off") == 0) {
-        Controller_SetCell(b, c, CELL_OFF);
+        Controller_SetCell(b, c, SW_OFF);
         cli_print("OK\r\n");
         return;
       }

@@ -201,6 +201,20 @@ uint16_t adc_get_pin_voltage(adc_node_t node)
 }
 
 
+void adc_get_buffer_voltage(uint16_t *buffer, uint16_t len)
+{
+    if ((buffer == 0) || (len < ADC_NODE_COUNT))
+    {
+        return;
+    }
+
+    for (uint8_t i = 0; i < ADC_NODE_COUNT; i++)
+    {
+        buffer[i] = (uint16_t)(((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u);
+    }
+}
+
+
 uint16_t adc_get_meas_voltage(adc_node_t node)
 {
     uint32_t vadc;

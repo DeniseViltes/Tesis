@@ -10,10 +10,26 @@
 
 
 
-static cell_state_t cell_state[NUM_BANKS][CELLS_PER_BANK];
+static sw_state_t cell_state[NUM_BANKS][CELLS_PER_BANK];
 
 static cell_cfg_t cell_cfg[NUM_BANKS][CELLS_PER_BANK];
 
+
+//asi o separadas las celdas de los bancos?
+
+
+typedef enum
+{
+  CELL_11 = 0,
+  CELL_12,
+  CELL_21,
+  CELL_22,
+  CELL_31,
+  CELL_32,
+  BANK_1,
+  BANK_2,
+  BANK_3
+} module_t;
 
 
 typedef struct {
@@ -25,7 +41,12 @@ typedef struct {
 
 static square_group_t square_groups[MAX_SQUARE_GROUPS];
 
-
+typedef struct {
+  GPIO_TypeDef* port;
+  uint16_t pin;
+  uint8_t active_high;
+  module_t id;
+} pin_switch_t;
 
 
 /* ======================= MAPEOS SWITCHES ======================= */
@@ -34,47 +55,81 @@ static square_group_t square_groups[MAX_SQUARE_GROUPS];
 static pin_switch_t cell_sw[NUM_BANKS][CELLS_PER_BANK] = {
   // Banco 1
   {
-    { Vc_11_GPIO_Port, Vc_11_Pin, 1 },
-    { Vc_12_GPIO_Port, Vc_12_Pin, 1 }
+    { Vc_11_GPIO_Port, Vc_11_Pin, 1, CELL_11},
+    { Vc_12_GPIO_Port, Vc_12_Pin, 1, CELL_12 }
   },
   // Banco 2
   {
-    { Vc_21_GPIO_Port, Vc_21_Pin, 1 },
-    { Vc_22_GPIO_Port, Vc_22_Pin, 1 }
+    { Vc_21_GPIO_Port, Vc_21_Pin, 1, CELL_21},
+    { Vc_22_GPIO_Port, Vc_22_Pin, 1, CELL_22}
   },
   // Banco 3
   {
-    { Vc_31_GPIO_Port, Vc_31_Pin, 1 },
-    { Vc_32_GPIO_Port, Vc_32_Pin, 1 }
+    { Vc_31_GPIO_Port, Vc_31_Pin, 1, CELL_31},
+    { Vc_32_GPIO_Port, Vc_32_Pin, 1 , CELL_32}
   }
 };
 
 // Bancos
 static pin_switch_t bank_sw[NUM_BANKS] = {
-  { Vc_1_GPIO_Port, Vc_1_Pin, 1 },
-  { Vc_2_GPIO_Port, Vc_2_Pin, 1 },
-  { Vc_3_GPIO_Port, Vc_3_Pin, 1 }
+  { Vc_1_GPIO_Port, Vc_1_Pin, 1, BANK_1 },
+  { Vc_2_GPIO_Port, Vc_2_Pin, 1, BANK_2 },
+  { Vc_3_GPIO_Port, Vc_3_Pin, 1, BANK_3 }
 };
 
-/* ======================= CONFIGURACIONES ======================= */
 
-#define UMBRAL_mV 10  // 10mV (para futuro control)
+/* ======================= NODOS DE MEDICION ======================= */
+
+
+typedef struct {
+  adc_node_t nodo;
+  uint16_t v_mV;   // miliVolt
+  module_t cell;
+} cell_v_t;
+
+typedef struct {
+  adc_node_t bus_pos;
+  adc_node_t bus_neg;
+  uint16_t v_mV;   // miliVolt
+  module_t bank;
+} bank_v_t;
+
+
+static bank_v_t bank_nodes[NUM_BANKS] = {
+    {ADC_NODE_BUS_1 , ADC_NODE_OUT_NEG, 3300, BANK_1 },
+    {ADC_NODE_BUS_2 , ADC_NODE_BUS_1, 3300, BANK_2 },
+    {ADC_NODE_OUT_POS , ADC_NODE_BUS_2, 3300, BANK_3 }
+};
+
+#define TOTAL_CELLS (CELLS_PER_BANK*NUM_BANKS)
+
+static cell_v_t cell_nodes[TOTAL_CELLS] = {
+    {ADC_NODE_CELL_11,  3300, CELL_11 },
+    {ADC_NODE_CELL_12,  3300, CELL_12 },
+    {ADC_NODE_CELL_21,  3300, CELL_21 },
+    {ADC_NODE_CELL_22,  3300, CELL_22 },
+    {ADC_NODE_CELL_31,  3300, CELL_31 },
+	{ADC_NODE_CELL_32,  3300, CELL_32 }
+};
+
+/*typedef struct {
+  uint8_t  bank;   // 0..NUM_BANKS-1
+  uint16_t v_mV;   // miliVolt
+} bank_v_t;
+
+static uint16_t bank_voltage[NUM_BANKS] = {0};*/
+
+
+static bank_v_t bank_rank[NUM_BANKS];
+
 
 /* ======================= VARIABLES DE TENSION ======================= */
 
 static ctrl_mode_t g_ctrl_mode = CTRL_MODE_MANUAL;
 static uint16_t g_vtarget_mV = 3300;     // mV tension elegida
-static uint8_t  g_vtarget_set = 0; 		// booleano, si la tension seteada es valida
 
-/* ======================= MEDICIONES POR BANCO ======================= */
 
-typedef struct {
-  uint8_t  bank;   // 0..NUM_BANKS-1
-  uint16_t v_mV;   // miliVolt
-} bank_v_t;
-
-static uint16_t bank_voltage[NUM_BANKS] = {0};
-static bank_v_t bank_rank[NUM_BANKS];
+#define UMBRAL_mV 10  // 10mV
 
 /* ======================= GPIO WRITE ======================= */
 
@@ -96,8 +151,8 @@ static void Controller_UpdateBank(uint8_t bank)
 {
   // Switch del banco ON solo si AMBAS celdas están OFF
   uint8_t both_off =
-    (cell_state[bank][0] == CELL_OFF) &&
-    (cell_state[bank][1] == CELL_OFF);
+    (cell_state[bank][0] == SW_OFF) &&
+    (cell_state[bank][1] == SW_OFF);
 
   gpio_write(&bank_sw[bank], both_off);
 }
@@ -108,7 +163,7 @@ void Controller_Init(void)
 {
   for (uint8_t b = 0; b < NUM_BANKS; b++) {
     for (uint8_t c = 0; c < CELLS_PER_BANK; c++) {
-      cell_state[b][c] = CELL_OFF;
+      cell_state[b][c] = SW_OFF;
 
       cell_cfg[b][c].modo = CELL_MODE_STATIC;
       cell_cfg[b][c].id_grupo = 0;
@@ -127,25 +182,72 @@ void Controller_Init(void)
     square_groups[g].phase = 0;
   }
 
-  // Inicializar ranking coherente
   for (uint8_t i = 0; i < NUM_BANKS; i++) {
-    bank_voltage[i] = 0;
-    bank_rank[i].bank = i;
-    bank_rank[i].v_mV = 0;
+    bank_rank[i].bank = bank_nodes[i].bank; // quedaria BANK_1 (6), BANK_2 (7), BANK_3 (8)
+    bank_rank[i].v_mV = bank_nodes[i].v_mV;
   }
 }
 
 void Controller_SquareTask(void);
+void Controller_mediciones(void);
+uint8_t Controller_GetBanksNeeded(uint16_t *achieved_mV);
 
 void Controller_Update(void){
-	Controller_SquareTask();
+
+	Controller_mediciones();
+	/*uint16_t tension_lograda = 0;
+	if (Controller_GetMode() == CTRL_MODE_AUTO){
+		uint8_t cant_bancos = Controller_GetBanksNeeded(&tension_lograda);
+
+		for (uint8_t i = 0; i< cant_bancos; i++){
+			for (uint8_t j = 0; j < CELLS_PER_BANK; j++){
+			Controller_SetCell(i,j,CELL_ON);}
+		}
+		for (uint8_t i = cant_bancos; i < NUM_BANKS;i ++ ){
+			for (uint8_t j = 0; j < CELLS_PER_BANK; j++){
+				Controller_SetCell(i,j,CELL_OFF);
+			}
+		}
+	}
+
+		*/
+
 }
+
+
+static uint8_t Controller_MapToModule(uint8_t bank_user,
+                                      int8_t cell_user,
+                                      module_t *mod)
+{
+    if (mod == NULL) {
+        return 0;
+    }
+
+    if (bank_user < 1 || bank_user > NUM_BANKS) {
+        return 0;
+    }
+
+    // Pedido de banco: (bank, 0)
+    if (cell_user == 0) {
+        *mod = (module_t)(BANK_1 + (bank_user - 1));
+        return 1;
+    }
+
+    // Pedido de celda: (bank, cell)
+    if (cell_user < 1 || cell_user > CELLS_PER_BANK) {
+        return 0;
+    }
+
+    *mod = cell_sw[bank_user - 1][cell_user - 1].id;
+    return 1;
+}
+
 
 /* ======================= CELDAS ======================= */
 
 static void _controller_SetCell_ON(uint8_t bank, uint8_t cell)
 {
-  cell_state[bank][cell] = CELL_ON;
+  cell_state[bank][cell] = SW_ON;
   Controller_UpdateBank(bank);
 
   gpio_write(&cell_sw[bank][cell], 1);
@@ -154,7 +256,7 @@ static void _controller_SetCell_ON(uint8_t bank, uint8_t cell)
 
 static void _controller_SetCell_OFF(uint8_t bank, uint8_t cell)
 {
-  cell_state[bank][cell] = CELL_OFF;
+  cell_state[bank][cell] = SW_OFF;
   gpio_write(&cell_sw[bank][cell], 0);
 
   Controller_UpdateBank(bank);
@@ -176,11 +278,11 @@ static void Controller_SetCell_OFF_(uint8_t bank, uint8_t cell)
   _controller_SetCell_OFF(bank,cell);
 }
 
-void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st)
+void Controller_SetCell(uint8_t bank, uint8_t cell, sw_state_t st)
 {
   if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return;
 
-  if (st == CELL_ON)
+  if (st == SW_ON)
 	  Controller_SetCell_ON_(bank, cell);
   else
 	  Controller_SetCell_OFF_(bank, cell);
@@ -188,9 +290,9 @@ void Controller_SetCell(uint8_t bank, uint8_t cell, cell_state_t st)
 
 
 
-cell_state_t Controller_GetCell(uint8_t bank, uint8_t cell)
+sw_state_t Controller_GetCell(uint8_t bank, uint8_t cell)
 {
-  if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return CELL_OFF;
+  if (bank >= NUM_BANKS || cell >= CELLS_PER_BANK) return SW_OFF;
   return cell_state[bank][cell];
 }
 
@@ -198,15 +300,15 @@ uint8_t Controller_GetBankSwitch(uint8_t bank)
 {
   if (bank >= NUM_BANKS) return 0;
 
-  return (cell_state[bank][0] == CELL_OFF) &&
-         (cell_state[bank][1] == CELL_OFF);
+  return (cell_state[bank][0] == SW_OFF) &&
+         (cell_state[bank][1] == SW_OFF);
 }
 
 
 void apagar_celdas(void){
 	for (uint8_t i = 0;i<NUM_BANKS;i++){
 		for(uint8_t j = 0;j<CELLS_PER_BANK;j++)
-		Controller_SetCell(i, j, CELL_OFF);
+		Controller_SetCell(i, j, SW_OFF);
 	}
 }
 
@@ -254,6 +356,10 @@ uint8_t Controller_ConfigSquareGroup(uint8_t id_grupo, uint16_t freq_hz)
 
 void Controller_SquareTask(void)
 {
+
+	if (Controller_GetMode() == CTRL_MODE_AUTO){
+		return;
+	}
   uint8_t group_phase_changed[MAX_SQUARE_GROUPS] = {0};
   uint8_t group_phase[MAX_SQUARE_GROUPS] = {0};
 
@@ -309,12 +415,9 @@ void Controller_SquareTask(void)
 
 /* ======================= LOGICA DE SELECCION DE BANCO ======================= */
 
-static void Controller_sort_bank_(void)
+static void _sort_bank_(void)
 {
-  for (uint8_t i = 0; i < NUM_BANKS; i++) {
-    bank_rank[i].bank = i;
-    bank_rank[i].v_mV = bank_voltage[i];
-  }
+
 
   // Orden descendente por v_mV; desempate por índice menor
   for (uint8_t i = 0; i < NUM_BANKS; i++) {
@@ -345,17 +448,104 @@ static void Controller_sort_bank_(void)
 */
 
 
-
-/*
- * Actualiza los valores de tension de cada banco
- */
-void Controller_SetBankVoltages_mV(const uint16_t v_bank_mV[NUM_BANKS])
+uint8_t Controller_GetBanksNeeded(uint16_t *achieved_mV)
 {
-  for (uint8_t i = 0; i < NUM_BANKS; i++) {
-    bank_voltage[i] = v_bank_mV[i];
-  }
-  Controller_sort_bank_();
+    uint16_t sum_mV = 0;
+    uint16_t best_sum_mV = 0;
+    uint16_t best_diff = 0xFFFFu;
+    uint8_t  best_count = 0;
+
+    for (uint8_t i = 0; i < NUM_BANKS; i++) {
+        sum_mV += bank_rank[i].v_mV;
+
+        uint32_t diff;
+        if (sum_mV >= g_vtarget_mV) {
+            diff = sum_mV - g_vtarget_mV;
+        } else {
+            diff = g_vtarget_mV - sum_mV;
+        }
+
+        if (diff < best_diff) {
+            best_diff = diff;
+            best_sum_mV = sum_mV;
+            best_count = i + 1;
+        }
+    }
+
+    if (achieved_mV != 0) {
+        *achieved_mV = best_sum_mV;
+    }
+
+    return best_count;
 }
+
+
+
+
+
+
+/* =======================  TOMAR MEDICIONES ======================= */
+
+
+
+void Controller_cargar_mediciones(void){
+	uint16_t aux[ADC_NODE_COUNT];
+	adc_get_buffer_voltage(aux,ADC_NODE_COUNT);
+
+    for (uint8_t i = 0; i <= ADC_NODE_CELL_32; i++)
+    {
+    	cell_nodes[i].v_mV = aux[i];
+    }
+
+    for (uint8_t b = 0; b < NUM_BANKS; b++) {
+        bank_nodes[b].v_mV = aux[bank_nodes[b].bus_pos] - aux[bank_nodes[b].bus_neg];
+    }
+}
+
+
+/*static uint16_t abs_diff(uint16_t a, uint16_t b)
+{
+    return (a > b) ? (a - b) : (b - a);
+}
+
+void actualizar_ranking (void){
+
+}*/
+
+void Controller_mediciones(void){
+	Controller_cargar_mediciones();
+
+	/*uint8_t changed = 0;
+
+	for (uint8_t b = 0; b < NUM_BANKS; b++) {
+	        if (abs_diff_u16(bank_nodes[b].v_mV, g_bank_voltage_mV[b]) > UMBRAL_mV) {
+	            g_bank_voltage_mV[b] = bank_nodes[b].v_mV;
+	            changed = 1;
+	        }
+	    }
+
+
+	if (changed == 0) return;
+
+    for (uint8_t b = 0; b < NUM_BANKS; b++) {
+        bank_rank[b] = bank_nodes[b];
+        bank_rank[b].v_mV = g_bank_voltage_mV[b];
+    }
+
+    _sort_bank_();*/
+
+}
+
+
+uint16_t Controller_getMeasurement(uint8_t bank, uint8_t cell)
+{
+    if (cell == 0) {
+        return bank_nodes[bank - 1].v_mV;
+    }
+
+    return cell_nodes[(bank - 1) * CELLS_PER_BANK + (cell - 1)].v_mV;
+}
+
 
 /* ======================= MODO AUTOMATICO (para CLI) ======================= */
 
@@ -370,23 +560,18 @@ uint8_t Controller_SetTargetVoltage(float v)
   if (v_mV < 3300 || v_mV > 9900) return 0;
 
   g_vtarget_mV = v_mV;
-  g_vtarget_set = 1;
   return 1;
 }
 
-uint8_t Controller_HasTargetVoltage(void)
-{
-  return g_vtarget_set; //indica si hay un valor posible elegido
-}
 
 uint16_t Controller_GetTargetVoltage(void)
 {
-  return g_vtarget_set ? g_vtarget_mV : 0;
+  return g_vtarget_mV;
 }
 
 uint8_t Controller_SetMode(ctrl_mode_t mode)
 {
-  if (mode == CTRL_MODE_AUTO && !g_vtarget_set) return 0;
+  if (mode == CTRL_MODE_AUTO) return 0;
   g_ctrl_mode = mode;
   return 1;
 }
@@ -406,25 +591,25 @@ void Test_ConmutacionConDelay(void)
 	uint8_t cell = 1;
 
 
-	gpio_write(&cell_sw[bank][cell], CELL_OFF);
+	gpio_write(&cell_sw[bank][cell], SW_OFF);
 	HAL_Delay(2);
-	gpio_write(&bank_sw[bank], CELL_ON);
+	gpio_write(&bank_sw[bank], SW_ON);
 
 	HAL_Delay(1000);
 
-	gpio_write(&bank_sw[bank], CELL_OFF);
+	gpio_write(&bank_sw[bank], SW_OFF);
 	HAL_Delay(2);
-	gpio_write(&cell_sw[bank][cell], CELL_ON);
+	gpio_write(&cell_sw[bank][cell], SW_ON);
 
 	HAL_Delay(1000);
 
-	gpio_write(&cell_sw[bank][cell], CELL_OFF);
+	gpio_write(&cell_sw[bank][cell], SW_OFF);
 	HAL_Delay(2);
-	gpio_write(&bank_sw[bank], CELL_ON);
+	gpio_write(&bank_sw[bank], SW_ON);
 
 	HAL_Delay(1000);
 
-	gpio_write(&bank_sw[bank], CELL_OFF);
+	gpio_write(&bank_sw[bank], SW_OFF);
 	HAL_Delay(2);
-	gpio_write(&cell_sw[bank][cell], CELL_ON);
+	gpio_write(&cell_sw[bank][cell], SW_ON);
 }
