@@ -3103,26 +3103,6 @@
 	)
 	(wire
 		(pts
-			(xy 27.94 39.37) (xy 29.21 39.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "199f886d-db21-4b7b-8869-ea3e809c82b0")
-	)
-	(wire
-		(pts
-			(xy 41.91 39.37) (xy 43.18 39.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2003033c-f978-43f7-9d4d-4ef50ea061ef")
-	)
-	(wire
-		(pts
 			(xy 228.6 69.85) (xy 228.6 73.66)
 		)
 		(stroke
@@ -3153,6 +3133,16 @@
 	)
 	(wire
 		(pts
+			(xy 71.12 31.75) (xy 73.66 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2f4cc8a3-70da-47e3-ba67-1c2e85432393")
+	)
+	(wire
+		(pts
 			(xy 118.11 55.88) (xy 156.21 55.88)
 		)
 		(stroke
@@ -3160,26 +3150,6 @@
 			(type default)
 		)
 		(uuid "35d46fee-2db5-4974-a323-f54bd3258f24")
-	)
-	(wire
-		(pts
-			(xy 86.36 39.37) (xy 87.63 39.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "39c2e1d5-bd46-4c2b-b3f9-5b0f84ca6855")
-	)
-	(wire
-		(pts
-			(xy 72.39 41.91) (xy 72.39 39.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3e0d58c9-e45c-40ab-b962-7cd0915f0c7d")
 	)
 	(wire
 		(pts
@@ -3210,16 +3180,6 @@
 			(type default)
 		)
 		(uuid "539aa8fb-7c30-43a2-a2ed-f582745ebe07")
-	)
-	(wire
-		(pts
-			(xy 27.94 41.91) (xy 27.94 39.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "54f63d32-9e05-4a39-b1eb-d53c958d3237")
 	)
 	(wire
 		(pts
@@ -3323,6 +3283,16 @@
 	)
 	(wire
 		(pts
+			(xy 86.36 31.75) (xy 88.9 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f458ba0-decb-4925-9cf1-a3e69ef07b9a")
+	)
+	(wire
+		(pts
 			(xy 68.58 120.65) (xy 68.58 121.92)
 		)
 		(stroke
@@ -3330,16 +3300,6 @@
 			(type default)
 		)
 		(uuid "87b2bed3-3e87-4fe4-b029-4eeee8ae2599")
-	)
-	(wire
-		(pts
-			(xy 43.18 39.37) (xy 43.18 41.91)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "88edaf4a-e873-415e-8125-be3d5f3b7515")
 	)
 	(wire
 		(pts
@@ -3420,6 +3380,16 @@
 			(type default)
 		)
 		(uuid "995bcbfe-70ce-41c2-b76b-6d29e0c9a77f")
+	)
+	(wire
+		(pts
+			(xy 41.91 31.75) (xy 44.45 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9fb5a458-3c27-4d4f-85cd-475384e0cd53")
 	)
 	(wire
 		(pts
@@ -3533,16 +3503,6 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 39.37) (xy 73.66 39.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c0e629ce-7e30-48a6-953b-8d7ac8ce1e7b")
-	)
-	(wire
-		(pts
 			(xy 118.11 55.88) (xy 86.36 55.88)
 		)
 		(stroke
@@ -3593,13 +3553,13 @@
 	)
 	(wire
 		(pts
-			(xy 87.63 39.37) (xy 87.63 41.91)
+			(xy 26.67 31.75) (xy 29.21 31.75)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e2e2e3d2-2123-4708-91e8-e72ee4ef6f4a")
+		(uuid "ddd940ca-a77a-4481-8b07-a754cfcec830")
 	)
 	(wire
 		(pts
@@ -3663,7 +3623,7 @@
 	)
 	(global_label "bus_pos"
 		(shape bidirectional)
-		(at 73.66 34.29 180)
+		(at 73.66 39.37 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3671,14 +3631,36 @@
 			)
 			(justify right)
 		)
-		(uuid "04b5c706-503b-40d2-a1ad-c4c0023ca763")
+		(uuid "039e5177-538b-475b-bb6d-ae6038d11e6f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.055 34.29 0)
+			(at 63.055 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "bus_pos"
+		(shape bidirectional)
+		(at 41.91 39.37 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "084d675e-9ddc-47f3-9c0c-352bac05e2f9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 52.515 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -3718,28 +3700,6 @@
 		(uuid "0d1ff1dc-a26a-42dd-9462-ea176f65d385")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 69.4863 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "Vcc"
-		(shape input)
-		(at 86.36 29.21 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "0e298c10-4288-4490-8d5d-f719c9cc4d0b")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 92.611 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3793,28 +3753,6 @@
 			)
 		)
 	)
-	(global_label "bus_pos"
-		(shape bidirectional)
-		(at 86.36 34.29 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "2c0ad07b-8d5c-42c8-aaeb-8cf2507b7c5a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 96.965 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "Vcell_enable"
 		(shape input)
 		(at 118.11 31.75 180)
@@ -3828,28 +3766,6 @@
 		(uuid "2ea9c92a-fbb8-4488-b153-9c324bfcc842")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 103.2716 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "Vcc"
-		(shape input)
-		(at 73.66 29.21 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "326645fb-9503-4084-b4cd-13cc9c4900e3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 67.409 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3925,31 +3841,9 @@
 			)
 		)
 	)
-	(global_label "Vcell_banco"
-		(shape input)
-		(at 73.66 31.75 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "45fa53fd-3112-48da-a30f-93866e876aa5")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 59.4264 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "bus_neg"
-		(shape input)
-		(at 41.91 36.83 0)
+		(shape bidirectional)
+		(at 86.36 29.21 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3957,14 +3851,36 @@
 			)
 			(justify left)
 		)
-		(uuid "55fc68b6-fefd-4692-b880-b956cd7c7f93")
+		(uuid "5322295e-a396-4aae-9fe0-24497f2ec8b4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 52.5755 36.83 0)
+			(at 97.0255 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Vcc"
+		(shape input)
+		(at 73.66 36.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "64013228-3e5b-4894-8bbb-73afb9af7202")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 67.409 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -4035,28 +3951,6 @@
 			)
 		)
 	)
-	(global_label "bus_neg"
-		(shape bidirectional)
-		(at 73.66 36.83 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "7c12c19a-3f8a-4539-979f-04d5955e30f5")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 62.9945 36.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "cell_neg"
 		(shape output)
 		(at 153.67 82.55 180)
@@ -4075,6 +3969,72 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "bus_neg"
+		(shape bidirectional)
+		(at 41.91 29.21 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7e3d4339-1ca3-4249-b91b-aa8d0dba2af3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 52.5755 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Vcell_banco"
+		(shape input)
+		(at 86.36 34.29 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8174432a-fd59-4811-81aa-40b3a4b55c12")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 100.5936 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "bus_pos"
+		(shape bidirectional)
+		(at 86.36 39.37 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8543d360-6049-41c7-84b3-c0abada70d8e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 96.965 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -4103,7 +4063,7 @@
 	)
 	(global_label "bus_neg"
 		(shape bidirectional)
-		(at 29.21 36.83 180)
+		(at 29.21 29.21 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4111,58 +4071,14 @@
 			)
 			(justify right)
 		)
-		(uuid "8c3ca373-1db0-40c3-9f7b-edf7ae0cee3d")
+		(uuid "a8fa665b-b6f3-47e4-a083-4a37d5b17596")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 18.5445 36.83 0)
+			(at 18.5445 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "bus_pos"
-		(shape input)
-		(at 41.91 34.29 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "931043c1-73ad-4dac-befc-3364f0fcac73")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 52.515 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "Vcell_banco"
-		(shape input)
-		(at 41.91 31.75 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "a8201493-fc96-4750-a537-e98b8a6d9399")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 56.1436 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
@@ -4189,46 +4105,46 @@
 			)
 		)
 	)
-	(global_label "bus_neg"
+	(global_label "bus_pos"
 		(shape bidirectional)
-		(at 86.36 36.83 0)
+		(at 29.21 39.37 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "bdf54a37-ded3-4174-a7e5-2202a2999bf1")
+		(uuid "b175617a-a6d8-47e3-8d5c-42d5468427c4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 97.0255 36.83 0)
+			(at 18.605 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
 	)
 	(global_label "Vcell_banco"
 		(shape input)
-		(at 86.36 31.75 0)
+		(at 29.21 34.29 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "bf474a75-1b47-4601-879e-f2b89b09e669")
+		(uuid "bed570d7-8453-4a19-812e-f6ec96860207")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 100.5936 31.75 0)
+			(at 14.9764 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -4255,9 +4171,31 @@
 			)
 		)
 	)
-	(global_label "bus_pos"
+	(global_label "Vcell_banco"
+		(shape input)
+		(at 41.91 34.29 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cb5a6834-2438-466e-b4d4-6b14b517dbff")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 56.1436 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "bus_neg"
 		(shape bidirectional)
-		(at 29.21 34.29 180)
+		(at 73.66 29.21 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4265,9 +4203,9 @@
 			)
 			(justify right)
 		)
-		(uuid "c3bae3d0-00a4-48f0-9750-1ea7fec0bd92")
+		(uuid "ce159aee-a3a9-4550-a295-d5dfff1ee835")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 18.605 34.29 0)
+			(at 62.9945 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4279,22 +4217,22 @@
 	)
 	(global_label "Vcc"
 		(shape input)
-		(at 29.21 29.21 180)
+		(at 41.91 36.83 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
-		(uuid "c639c264-7cb5-41e2-8e0d-32b842ac283a")
+		(uuid "d2471648-2809-4f1a-8539-ac409f6f0db3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 22.959 29.21 0)
+			(at 48.161 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -4323,29 +4261,7 @@
 	)
 	(global_label "Vcc"
 		(shape input)
-		(at 41.91 29.21 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "d9efc00d-6e41-42ad-9464-08424a07d05c")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 48.161 29.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "Vcell_banco"
-		(shape input)
-		(at 29.21 31.75 180)
+		(at 29.21 36.83 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4353,9 +4269,9 @@
 			)
 			(justify right)
 		)
-		(uuid "e54914fc-032e-4d96-9686-3cbd9fc8b2f6")
+		(uuid "d8e80e93-1889-4db2-855e-9f0ef68af49b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 14.9764 31.75 0)
+			(at 22.959 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4387,6 +4303,28 @@
 			)
 		)
 	)
+	(global_label "Vcc"
+		(shape input)
+		(at 86.36 36.83 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f82f568c-f188-4a06-ba04-dec88a54570d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 92.611 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "Vcell_banco"
 		(shape input)
 		(at 39.37 64.77 180)
@@ -4400,6 +4338,28 @@
 		(uuid "faa1fd97-f1fb-4b27-8e1f-87664b2f81d6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 25.1364 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Vcell_banco"
+		(shape input)
+		(at 73.66 34.29 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fc2203db-b715-4e9e-aa88-8b15542b1c2d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 59.4264 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4675,6 +4635,71 @@
 		)
 	)
 	(symbol
+		(lib_id "Simulation_SPICE:0")
+		(at 71.12 31.75 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0e571d41-c2c1-4daf-9f02-f92cb75da2c6")
+		(property "Reference" "#GND010"
+			(at 66.04 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "0"
+			(at 72.39 30.734 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 71.12 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Circuit_elements__device"
+			(at 60.96 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0V reference potential for simulation"
+			(at 63.5 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7fc73a7c-c20e-4771-99d5-d46f65bffd0e")
+		)
+		(instances
+			(project "Switch celda"
+				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
+					(reference "#GND010")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 83.82 120.65 0)
 		(unit 1)
@@ -4901,6 +4926,71 @@
 			(project ""
 				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
 					(reference "Q1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Simulation_SPICE:0")
+		(at 88.9 31.75 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2a07b2d2-2e91-4714-9ddc-94e6adb27d56")
+		(property "Reference" "#GND09"
+			(at 93.98 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "0"
+			(at 87.63 32.766 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 88.9 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Circuit_elements__device"
+			(at 99.06 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0V reference potential for simulation"
+			(at 96.52 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "af0acf99-55d3-43fd-bdb5-8b888af7bbf0")
+		)
+		(instances
+			(project "Switch celda"
+				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
+					(reference "#GND09")
 					(unit 1)
 				)
 			)
@@ -5576,7 +5666,7 @@
 	)
 	(symbol
 		(lib_id "Simulation_SPICE:0")
-		(at 27.94 41.91 0)
+		(at 26.67 31.75 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5584,7 +5674,7 @@
 		(dnp no)
 		(uuid "83f1f50b-03d4-4a0a-a1e9-f2615840505c")
 		(property "Reference" "#GND08"
-			(at 27.94 46.99 0)
+			(at 21.59 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5593,7 +5683,7 @@
 			)
 		)
 		(property "Value" "0"
-			(at 26.924 40.64 0)
+			(at 27.94 30.734 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5601,7 +5691,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 27.94 41.91 0)
+			(at 26.67 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5610,7 +5700,7 @@
 			)
 		)
 		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Circuit_elements__device"
-			(at 27.94 52.07 0)
+			(at 16.51 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5619,7 +5709,7 @@
 			)
 		)
 		(property "Description" "0V reference potential for simulation"
-			(at 27.94 49.53 0)
+			(at 19.05 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5974,6 +6064,71 @@
 			(project ""
 				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
 					(reference "Qinv1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Simulation_SPICE:0")
+		(at 44.45 31.75 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a523df54-9a46-40df-9efa-b8aada007fa4")
+		(property "Reference" "#GND05"
+			(at 49.53 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "0"
+			(at 43.18 32.766 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 44.45 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Circuit_elements__device"
+			(at 54.61 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0V reference potential for simulation"
+			(at 52.07 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5035a165-9f4f-4b8c-8ce5-bfeec6e29c91")
+		)
+		(instances
+			(project "Switch celda"
+				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
+					(reference "#GND05")
 					(unit 1)
 				)
 			)
@@ -6827,136 +6982,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Simulation_SPICE:0")
-		(at 87.63 41.91 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e9038b40-9927-44e0-9968-81f71713955e")
-		(property "Reference" "#GND011"
-			(at 87.63 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "0"
-			(at 86.614 40.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 87.63 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Circuit_elements__device"
-			(at 87.63 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "0V reference potential for simulation"
-			(at 87.63 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1d961889-382c-4f94-b228-75ccfd1f22fc")
-		)
-		(instances
-			(project "Switch celda"
-				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
-					(reference "#GND011")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Simulation_SPICE:0")
-		(at 43.18 41.91 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "ed3d3925-7124-4a4a-aa5a-dc5c3e96d15d")
-		(property "Reference" "#GND010"
-			(at 43.18 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "0"
-			(at 42.164 40.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 43.18 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Circuit_elements__device"
-			(at 43.18 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "0V reference potential for simulation"
-			(at 43.18 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8c549244-4473-4dfe-aa14-5e47f28111e5")
-		)
-		(instances
-			(project "Switch celda"
-				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
-					(reference "#GND010")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 125.73 95.25 0)
 		(unit 1)
@@ -7083,71 +7108,6 @@
 			(project "Switch celda"
 				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
 					(reference "#GND03")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Simulation_SPICE:0")
-		(at 72.39 41.91 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f99c109a-f058-4f92-a3ad-ec9dd5f602d6")
-		(property "Reference" "#GND09"
-			(at 72.39 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "0"
-			(at 71.374 40.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 72.39 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Circuit_elements__device"
-			(at 72.39 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "0V reference potential for simulation"
-			(at 72.39 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ab698dd6-94d0-42a8-bd45-373c03eddfa1")
-		)
-		(instances
-			(project "Switch celda"
-				(path "/4783565b-68b0-4d0c-b0f9-91a8fe34107e"
-					(reference "#GND09")
 					(unit 1)
 				)
 			)
