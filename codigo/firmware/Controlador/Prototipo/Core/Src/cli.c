@@ -57,11 +57,42 @@ static void print_vtarget(void)
   cli_print(buf);
 }
 
+
+static void print_vout(void)
+{
+
+
+  uint16_t vt = Tension_medida();
+  char buf[48];
+  snprintf(buf, sizeof(buf),
+           "TENSION EN LA SALIDA: %u.%03u V\r\n",
+           (unsigned)(vt / 1000u),
+           (unsigned)(vt % 1000u));
+  cli_print(buf);
+}
+
+
+static void print_vcontrolada(void)
+{
+
+
+  uint16_t vt = Controller_GetVoltage();
+  char buf[48];
+  snprintf(buf, sizeof(buf),
+           "TENSION OBJETIVO: %u.%03u V\r\n",
+           (unsigned)(vt / 1000u),
+           (unsigned)(vt % 1000u));
+  cli_print(buf);
+}
+
+
 static void cli_print_status(void)
 {
   // Modo + Vtarget
   cli_print(Controller_GetMode() == CTRL_MODE_AUTO ? "MODE=AUTO | " : "MODE=MANUAL | ");
   print_vtarget();
+  print_vcontrolada();
+  print_vout();
 
   char buf[120];
 
@@ -97,8 +128,8 @@ static void cli_print_help(void)
     "  vset <3.3..9.9>           Set target voltage\r\n"
     "  vget                      Show target voltage\r\n"
     "\r\n"
-    "  mode                      Show control mode\r\n"
-    "  mode manual|auto          Set control mode\r\n"
+    "  modo                      Show control mode\r\n"
+    "  modo manual|auto          Set control mode\r\n"
     "\r\n"
     "  cell <b 1-3> <c 1-2> on   Turn cell ON (manual mode)\r\n"
     "  cell <b 1-3> <c 1-2> off  Turn cell OFF / stop switching\r\n"
@@ -178,9 +209,9 @@ static void cli_handle_line(const char *line_in)
     if (n >= 1) {
       for (int i = 0; cmd[i]; i++) cmd[i] = (char)tolower((unsigned char)cmd[i]);
 
-      if (strcmp(cmd, "mode") == 0) {
+      if (strcmp(cmd, "modo") == 0) {
         if (n == 1) {
-          cli_print(Controller_GetMode() == CTRL_MODE_AUTO ? "MODE: AUTO\r\n" : "MODE: MANUAL\r\n");
+          cli_print(Controller_GetMode() == CTRL_MODE_AUTO ? "MODO: AUTO\r\n" : "MODO: MANUAL\r\n");
           return;
         }
 
@@ -193,7 +224,7 @@ static void cli_handle_line(const char *line_in)
         }
 
         if (strcmp(arg, "auto") == 0) {
-          if (!Controller_SetMode(CTRL_MODE_AUTO)) {
+          if (Controller_SetMode(CTRL_MODE_AUTO)==0) {
             cli_print("ERR: set voltage first with vset (3.3..9.9)\r\n");
             return;
           }

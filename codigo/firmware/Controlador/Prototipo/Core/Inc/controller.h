@@ -113,3 +113,11 @@ uint8_t Controller_SetCellSquare(uint8_t bank,
  * con i, j > 0
  */
 uint16_t Controller_getMeasurement(uint8_t bank, uint8_t cell);
+
+
+
+
+uint16_t Controller_GetVoltage (void);
+
+uint16_t Tension_medida(void);
+

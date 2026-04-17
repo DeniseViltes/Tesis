@@ -127,6 +127,8 @@ static bank_v_t bank_rank[NUM_BANKS];
 
 static ctrl_mode_t g_ctrl_mode = CTRL_MODE_MANUAL;
 static uint16_t g_vtarget_mV = 3300;     // mV tension elegida
+static uint16_t tension_controlada = 0;
+static uint16_t tension_medida = 0;
 
 
 #define UMBRAL_mV 10  // 10mV
@@ -195,26 +197,38 @@ uint8_t Controller_GetBanksNeeded(uint16_t *achieved_mV);
 void Controller_Update(void){
 
 	Controller_mediciones();
-	/*uint16_t tension_lograda = 0;
+
+	uint16_t tension_lograda = 0;
 	if (Controller_GetMode() == CTRL_MODE_AUTO){
 		uint8_t cant_bancos = Controller_GetBanksNeeded(&tension_lograda);
 
 		for (uint8_t i = 0; i< cant_bancos; i++){
 			for (uint8_t j = 0; j < CELLS_PER_BANK; j++){
-			Controller_SetCell(i,j,CELL_ON);}
+			Controller_SetCell(i,j,SW_ON);}
 		}
 		for (uint8_t i = cant_bancos; i < NUM_BANKS;i ++ ){
 			for (uint8_t j = 0; j < CELLS_PER_BANK; j++){
-				Controller_SetCell(i,j,CELL_OFF);
+				Controller_SetCell(i,j,SW_OFF);
 			}
 		}
+		tension_controlada = tension_lograda;
 	}
 
-		*/
+
 
 }
 
+uint16_t Controller_GetVoltage (void){
+	return tension_controlada;
+}
 
+uint16_t Tension_medida(void){
+	return tension_medida;
+}
+
+
+
+/*
 static uint8_t Controller_MapToModule(uint8_t bank_user,
                                       int8_t cell_user,
                                       module_t *mod)
@@ -240,7 +254,7 @@ static uint8_t Controller_MapToModule(uint8_t bank_user,
 
     *mod = cell_sw[bank_user - 1][cell_user - 1].id;
     return 1;
-}
+}*/
 
 
 /* ======================= CELDAS ======================= */
@@ -260,7 +274,6 @@ static void _controller_SetCell_OFF(uint8_t bank, uint8_t cell)
   gpio_write(&cell_sw[bank][cell], 0);
 
   Controller_UpdateBank(bank);
-
 }
 
 
@@ -418,7 +431,6 @@ void Controller_SquareTask(void)
 static void _sort_bank_(void)
 {
 
-
   // Orden descendente por v_mV; desempate por índice menor
   for (uint8_t i = 0; i < NUM_BANKS; i++) {
     for (uint8_t j = i + 1; j < NUM_BANKS; j++) {
@@ -500,17 +512,18 @@ void Controller_cargar_mediciones(void){
     for (uint8_t b = 0; b < NUM_BANKS; b++) {
         bank_nodes[b].v_mV = aux[bank_nodes[b].bus_pos] - aux[bank_nodes[b].bus_neg];
     }
+
+    tension_medida = aux[ADC_NODE_OUT_POS]-aux[ADC_NODE_OUT_NEG];
+
 }
 
 
-/*static uint16_t abs_diff(uint16_t a, uint16_t b)
+static uint16_t abs_diff(uint16_t a, uint16_t b)
 {
     return (a > b) ? (a - b) : (b - a);
 }
 
-void actualizar_ranking (void){
 
-}*/
 
 void Controller_mediciones(void){
 	Controller_cargar_mediciones();
@@ -525,14 +538,14 @@ void Controller_mediciones(void){
 	    }
 
 
-	if (changed == 0) return;
+	if (changed == 0) return;*/
 
     for (uint8_t b = 0; b < NUM_BANKS; b++) {
         bank_rank[b] = bank_nodes[b];
-        bank_rank[b].v_mV = g_bank_voltage_mV[b];
+
     }
 
-    _sort_bank_();*/
+    _sort_bank_();
 
 }
 
@@ -571,7 +584,7 @@ uint16_t Controller_GetTargetVoltage(void)
 
 uint8_t Controller_SetMode(ctrl_mode_t mode)
 {
-  if (mode == CTRL_MODE_AUTO) return 0;
+  //if (mode == CTRL_MODE_AUTO) return 0;
   g_ctrl_mode = mode;
   return 1;
 }

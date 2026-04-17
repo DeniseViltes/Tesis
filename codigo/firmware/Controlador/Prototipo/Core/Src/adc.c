@@ -1,7 +1,7 @@
 /* Project includes. */
 #include <adc.h>
 #include "main.h"
-
+#include "stdio.h"
 
 /* App includes. */
 
@@ -87,6 +87,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc);
 
 static void adc_process_block(volatile uint16_t *p, uint16_t len);
 
+
 /********************** internal functions declaration ***********************/
 
 void adc_init(void)
@@ -157,7 +158,8 @@ static void adc_process_block(volatile uint16_t *p, uint16_t len)
 
     for (int ch = 0; ch < ADC_NODE_COUNT; ch++)
     {
-        g_adc_raw[ch] = (uint16_t)(g_adc_accum[ch] / samples);
+    	uint16_t aux = (uint16_t)(g_adc_accum[ch] / samples);
+        g_adc_raw[ch] = aux;
     }
 }
 
@@ -172,12 +174,12 @@ float adc_to_voltage(uint16_t raw)
     return (3.3f * raw) / 4095.0f;
 }
 
-
+/*
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc)
 {
     if (hadc->Instance == ADC1)
         adc_half_ready = 1;
-}
+}*/
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
@@ -210,8 +212,10 @@ void adc_get_buffer_voltage(uint16_t *buffer, uint16_t len)
 
     for (uint8_t i = 0; i < ADC_NODE_COUNT; i++)
     {
-        buffer[i] = (uint16_t)(((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u);
+    	uint16_t aux = (uint16_t)(((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u);
+        buffer[i] = aux;
     }
+
 }
 
 
