@@ -4063,28 +4063,6 @@
 			)
 		)
 	)
-	(global_label "Vcc"
-		(shape input)
-		(at 43.18 31.75 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "495abc21-6a22-490b-89d3-a994c13a7520")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.431 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "cell_neg3"
 		(shape output)
 		(at 236.22 27.94 0)
@@ -4125,6 +4103,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "bus_pos"
+		(shape bidirectional)
+		(at 30.48 31.75 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "506424b9-c940-4e16-a9d7-bb34711840a8")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 19.875 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -4327,28 +4327,6 @@
 			)
 		)
 	)
-	(global_label "bus_pos"
-		(shape bidirectional)
-		(at 30.48 34.29 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "856c2dbf-2769-486e-98fd-c203579fd6ce")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 19.875 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "Vcell2"
 		(shape input)
 		(at 119.38 25.4 0)
@@ -4433,28 +4411,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "Vcc"
-		(shape input)
-		(at 30.48 31.75 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "9b881c62-7152-4db7-aef6-7e711b315e93")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 24.229 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
@@ -4547,24 +4503,24 @@
 			)
 		)
 	)
-	(global_label "bus_pos"
-		(shape bidirectional)
-		(at 43.18 34.29 0)
+	(global_label "Vcc"
+		(shape input)
+		(at 30.48 34.29 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "ac790c07-398b-4482-b80c-ebdcb13cc479")
+		(uuid "b8349772-4c01-4c4a-9fa6-9ffb8a9d2c4b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 54.8963 34.29 0)
+			(at 24.229 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -4833,6 +4789,28 @@
 			)
 		)
 	)
+	(global_label "bus_pos"
+		(shape bidirectional)
+		(at 43.18 31.75 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e94371ec-6165-4694-badc-0c69b98afdf1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 54.8963 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "Vcell_banco"
 		(shape input)
 		(at 30.48 26.67 180)
@@ -4851,6 +4829,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Vcc"
+		(shape input)
+		(at 43.18 34.29 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f7640808-9bf8-4829-a052-f547a51e2a0b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 49.431 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
