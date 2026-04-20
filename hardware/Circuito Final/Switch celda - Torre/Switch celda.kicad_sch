@@ -5653,7 +5653,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_BJTs"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/MMBT2222A.pdf"
 			(at 179.07 120.65 0)
 			(effects
 				(font
@@ -5753,7 +5753,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://datasheet.octopart.com/5001-Keystone-datasheet-7268890.pdf"
 			(at 88.9 120.65 0)
 			(effects
 				(font
@@ -6119,7 +6119,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_BJTs"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/MMBT2222A.pdf"
 			(at 147.32 96.52 0)
 			(effects
 				(font
@@ -6284,7 +6284,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_MOSFETs"
+		(property "Datasheet" "https://www.aosmd.com/sites/default/files/res/datasheets/AO3400.pdf"
 			(at 66.04 139.7 0)
 			(effects
 				(font
@@ -7040,7 +7040,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_MOSFETs"
+		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-https://www.infineon.com/assets/row/public/documents/24/49/infineon-irlb8721-datasheet-en.pdf?fileId=5546d462533600a40153566056732591"
 			(at 153.67 82.55 0)
 			(effects
 				(font
@@ -7140,7 +7140,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://ultran.ru/upload/iblock/ff5/LIR18650-3000mAh.pdf"
 			(at 156.21 72.136 90)
 			(effects
 				(font
@@ -7344,7 +7344,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_MOSFETs"
+		(property "Datasheet" "https://www.aosmd.com/res/datasheets/AO3401.pdf"
 			(at 66.04 101.6 0)
 			(effects
 				(font
@@ -7698,7 +7698,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_BJTs"
+		(property "Datasheet" "https://www.mccsemi.com/pdf/Products/MMBT2907A(SOT-23).pdf"
 			(at 151.13 76.2 0)
 			(effects
 				(font
@@ -7797,7 +7797,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_MOSFETs"
+		(property "Datasheet" "https://www.infineon.com/assets/row/public/documents/24/49/infineon-irlb8721-datasheet-en.pdf?fileId=5546d462533600a40153566056732591"
 			(at 182.88 83.82 0)
 			(effects
 				(font
@@ -8099,7 +8099,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.farnell.com/datasheets/1498852.pdf"
 			(at 228.6 77.47 0)
 			(effects
 				(font
@@ -8352,7 +8352,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_BJTs"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/MMBT2222A.pdf"
 			(at 289.56 101.6 0)
 			(effects
 				(font
@@ -8452,7 +8452,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://datasheet.octopart.com/5001-Keystone-datasheet-7268890.pdf"
 			(at 102.87 76.2 0)
 			(effects
 				(font
@@ -8584,7 +8584,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://datasheet.octopart.com/5001-Keystone-datasheet-7268890.pdf"
 			(at 130.81 95.25 0)
 			(effects
 				(font
