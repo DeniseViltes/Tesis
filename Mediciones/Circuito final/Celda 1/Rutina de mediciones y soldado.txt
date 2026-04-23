@@ -1,0 +1,19 @@
+En celdas,
+
+1) Soldados tbjs y mos smd -> Verificamos continuidad
+
+2) Probamos inversor:
+
+
+
+3) Soldamos resistencias del driver-> Verificamos continuadad
+
+4) Mediciones del driver:
+
+
+
+
+
+5) 
+
+
