@@ -1,0 +1,14 @@
+Bitácora 29/04:
+
+Prueba del nuevo P-MOSFET (IRLML6402):
+- El lunes 27/04 se probó el MOS encontrando cortocircuitos tanto en encendido como apagado. Cabe destacar que se implementó el circuito en una placa de pruebas.
+- No se encontró el error por lo que se asumió que el problema era la placa y su poca facilidad para testear componentes SMD. Como consecuencia, se elaboró un mini PCB específico.
+
+- Miércoles 29: ahora con el nuevo PCB, siguen habiendo cortocircuitos, igual que como con la placa de pruebas.
+- Se probó la continuidad tanto en la placa como en el componente asilados y todo ok, por lo que se supuso que no había problemas de diseño del PCB ni que el componente esté dañado.
+- Sin embargo, con el componente soldado, había una ligera circulación de corriente tanto entre drain-source como viceversa.
+- Se probó con otro modelo de P-MOSFET, el AO3401 (usado en el inversor), y ahora sí todo ok. Suponemos que hubo un error del vendedor y nos dio N-MOSFETs. Como dato de color, el código escrito sobre los supuestos IRLML6402 no coincidían con ningún componente comercial, según Google. El código era N025P.
+
+- Se repitieron las simulaciones en LTspice con el nuevo nuevo MOSFET y los resultados eran los esperados. Sin embargo, térmicamente no se cumple con la potencia máxima disipada, por lo que se decidió diseñar la placa con dos de estos transistores en paralelo.
+
+- Por último se hicieron mediciones en la plaquita de prueba de todo el circuito para verificar el correcto funcionamiento circuital en todos los nodos.
