@@ -3057,6 +3057,226 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Transistor_FET:MMBFJ112"
+			(pin_names
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "Q"
+				(at 5.08 1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "MMBFJ112"
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+				(at 5.08 -1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(italic yes)
+					)
+					(justify left)
+				)
+			)
+			(property "Datasheet" "https://www.onsemi.com/pub/Collateral/MMBFJ113-D.PDF"
+				(at 5.08 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Description" "5mA min, 35V, 50mOhm max, 1-5V Vgs(off), N-Channel JFET, SOT-23"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "N-Channel FET Transistor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "SOT?23*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "MMBFJ112_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy -1.016 0.381) (xy -1.016 -0.381) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 1.905) (xy 0.254 -1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 0) (xy -2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 1.27 0)
+					(radius 2.8194)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 2.54) (xy 2.54 1.397) (xy 0.254 1.397)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.54) (xy 2.54 -1.397) (xy 0.254 -1.397)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "MMBFJ112_1_1"
+				(pin passive line
+					(at 2.54 5.08 270)
+					(length 2.54)
+					(name "D"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -5.08 90)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:GND"
 			(power global)
 			(pin_numbers
@@ -3222,10 +3442,16 @@
 		(uuid "28bf79ab-12dd-4c8a-93ba-f7d3594dd55f")
 	)
 	(junction
-		(at 101.6 20.32)
+		(at 165.1 100.33)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "30d6b5ba-dba0-4d9e-8549-fc077412e97d")
+		(uuid "28e29051-95f0-444f-9661-0dd232eba03c")
+	)
+	(junction
+		(at 144.78 90.17)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3ba1abac-e333-456d-8740-78f05fca2b54")
 	)
 	(junction
 		(at 54.61 20.32)
@@ -3234,22 +3460,28 @@
 		(uuid "46133124-fb0b-471a-b00f-8e3474bea47c")
 	)
 	(junction
+		(at 144.78 109.22)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "52b8349d-da3a-4436-8204-626732ca12d9")
+	)
+	(junction
 		(at 82.55 107.95)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5618fec3-6e0c-4cf2-8e05-320fb6636c9d")
 	)
 	(junction
+		(at 196.85 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "638777d5-2aa4-4a9e-ae2c-8aef4f0e9cc9")
+	)
+	(junction
 		(at 53.34 113.03)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "68e64014-5eed-457f-b378-1cd454d9540f")
-	)
-	(junction
-		(at 48.26 48.26)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6def4738-70fb-43d6-bc86-8260fc86a073")
 	)
 	(junction
 		(at 181.61 76.2)
@@ -3282,6 +3514,12 @@
 		(uuid "a1ee5ea6-4044-4f71-bb46-bc8e07c715c7")
 	)
 	(junction
+		(at 48.26 44.45)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "adc24253-0296-4bef-b34e-439b1c7c453c")
+	)
+	(junction
 		(at 60.96 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3292,6 +3530,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b66f856f-b48a-44d3-9427-8795355b1298")
+	)
+	(junction
+		(at 181.61 119.38)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "cf3f4028-9336-4e9e-81b1-ab98a4790f76")
 	)
 	(junction
 		(at 78.74 43.18)
@@ -3325,7 +3569,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 76.2) (xy 185.42 76.2)
+			(xy 181.61 76.2) (xy 196.85 76.2)
 		)
 		(stroke
 			(width 0)
@@ -3455,6 +3699,16 @@
 	)
 	(wire
 		(pts
+			(xy 181.61 100.33) (xy 196.85 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "10916e34-3f6c-4942-a91c-e3fa9a0458b3")
+	)
+	(wire
+		(pts
 			(xy 71.12 82.55) (xy 71.12 81.28)
 		)
 		(stroke
@@ -3485,6 +3739,26 @@
 	)
 	(wire
 		(pts
+			(xy 144.78 90.17) (xy 144.78 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d305a23-cf5c-43da-aedf-51451ca99766")
+	)
+	(wire
+		(pts
+			(xy 189.23 119.38) (xy 181.61 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e449b37-95d4-485b-b633-696035fad1f3")
+	)
+	(wire
+		(pts
 			(xy 52.07 82.55) (xy 49.53 82.55)
 		)
 		(stroke
@@ -3492,6 +3766,16 @@
 			(type default)
 		)
 		(uuid "1e4d6832-ddea-4ca8-8563-81a318fc2d23")
+	)
+	(wire
+		(pts
+			(xy 154.94 100.33) (xy 152.4 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ee9c2a7-c363-4d43-bc28-b1ace4f3547c")
 	)
 	(wire
 		(pts
@@ -3615,6 +3899,16 @@
 	)
 	(wire
 		(pts
+			(xy 165.1 93.98) (xy 165.1 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "39e31255-54a1-4056-8108-0a25ac27c5ad")
+	)
+	(wire
+		(pts
 			(xy 55.88 138.43) (xy 57.15 138.43)
 		)
 		(stroke
@@ -3632,6 +3926,16 @@
 			(type default)
 		)
 		(uuid "3bb5fd7c-74ed-4ebc-af78-62c435f7d4e9")
+	)
+	(wire
+		(pts
+			(xy 165.1 100.33) (xy 162.56 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4006c00e-5713-423a-9ef8-08947ef62002")
 	)
 	(wire
 		(pts
@@ -3725,7 +4029,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 115.57) (xy 181.61 121.92)
+			(xy 181.61 115.57) (xy 181.61 119.38)
 		)
 		(stroke
 			(width 0)
@@ -3765,13 +4069,33 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 58.42) (xy 55.88 58.42)
+			(xy 120.65 105.41) (xy 120.65 109.22)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "61707048-5530-4d43-9788-62fe23fc67d1")
+		(uuid "60e98436-1204-447c-8145-56948c0c597b")
+	)
+	(wire
+		(pts
+			(xy 120.65 95.25) (xy 120.65 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63d8a395-2ea0-4f46-aa79-d95477c2b0cb")
+	)
+	(wire
+		(pts
+			(xy 120.65 109.22) (xy 144.78 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "661c36c3-e586-481c-95f2-d5e1c40ee7f6")
 	)
 	(wire
 		(pts
@@ -3885,6 +4209,16 @@
 	)
 	(wire
 		(pts
+			(xy 128.27 93.98) (xy 130.81 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75e1c2b4-0f24-4777-93b5-9f246dcf73c0")
+	)
+	(wire
+		(pts
 			(xy 149.86 127) (xy 157.48 127)
 		)
 		(stroke
@@ -3945,6 +4279,16 @@
 	)
 	(wire
 		(pts
+			(xy 196.85 90.17) (xy 196.85 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "894532fa-b795-414e-a7fb-00c1a5b880cb")
+	)
+	(wire
+		(pts
 			(xy 68.58 82.55) (xy 71.12 82.55)
 		)
 		(stroke
@@ -3975,7 +4319,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 76.2) (xy 144.78 95.25)
+			(xy 144.78 76.2) (xy 144.78 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3985,13 +4329,13 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 19.05) (xy 109.22 20.32)
+			(xy 144.78 109.22) (xy 144.78 113.03)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9bed9bc3-36c4-4a92-8827-abce46409cca")
+		(uuid "99761beb-6a7d-4e86-a59c-5ca7bd3c88ab")
 	)
 	(wire
 		(pts
@@ -4012,6 +4356,16 @@
 			(type default)
 		)
 		(uuid "a5d4abd9-9ea5-40fc-8e62-43cd3a772e95")
+	)
+	(wire
+		(pts
+			(xy 128.27 100.33) (xy 128.27 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a8be4d73-b785-4f7d-ac35-6e654b833632")
 	)
 	(wire
 		(pts
@@ -4065,6 +4419,16 @@
 	)
 	(wire
 		(pts
+			(xy 138.43 93.98) (xy 165.1 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b19907fe-2337-4edc-915e-84491dd3b4a2")
+	)
+	(wire
+		(pts
 			(xy 64.77 29.21) (xy 64.77 20.32)
 		)
 		(stroke
@@ -4082,6 +4446,16 @@
 			(type default)
 		)
 		(uuid "b6aa0573-2265-4d4d-bbc1-a9a21f1ebbfa")
+	)
+	(wire
+		(pts
+			(xy 189.23 95.25) (xy 189.23 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b6e43a7d-410f-4fd7-bc4c-4bf59b346d59")
 	)
 	(wire
 		(pts
@@ -4245,6 +4619,16 @@
 	)
 	(wire
 		(pts
+			(xy 120.65 90.17) (xy 144.78 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d8d671f0-9de6-43ea-8649-97d252c4cf96")
+	)
+	(wire
+		(pts
 			(xy 55.88 151.13) (xy 57.15 151.13)
 		)
 		(stroke
@@ -4275,7 +4659,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 105.41) (xy 144.78 113.03)
+			(xy 144.78 105.41) (xy 144.78 109.22)
 		)
 		(stroke
 			(width 0)
@@ -4295,6 +4679,16 @@
 	)
 	(wire
 		(pts
+			(xy 196.85 76.2) (xy 198.12 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e3566a96-ae24-4275-bec9-4cfa038de959")
+	)
+	(wire
+		(pts
 			(xy 78.74 39.37) (xy 78.74 43.18)
 		)
 		(stroke
@@ -4305,6 +4699,16 @@
 	)
 	(wire
 		(pts
+			(xy 181.61 119.38) (xy 181.61 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e6c79a8e-2b8a-4ff9-9a3e-53bcc6a1d67c")
+	)
+	(wire
+		(pts
 			(xy 181.61 100.33) (xy 181.61 107.95)
 		)
 		(stroke
@@ -4312,6 +4716,16 @@
 			(type default)
 		)
 		(uuid "eb1285a7-3b4b-49b9-bc0b-b97a8b4a6890")
+	)
+	(wire
+		(pts
+			(xy 58.42 44.45) (xy 55.88 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eb37279f-237a-4082-9e31-73208366f472")
 	)
 	(wire
 		(pts
@@ -4355,16 +4769,6 @@
 	)
 	(wire
 		(pts
-			(xy 55.88 58.42) (xy 55.88 48.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f37c66a7-d129-4e8a-bf2a-89f46e5b9543")
-	)
-	(wire
-		(pts
 			(xy 77.47 82.55) (xy 74.93 82.55)
 		)
 		(stroke
@@ -4385,13 +4789,13 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 100.33) (xy 181.61 100.33)
+			(xy 165.1 100.33) (xy 181.61 100.33)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f7c701f5-51c2-4001-9c87-c915cccd1fb9")
+		(uuid "f8c095a9-f078-4748-b6d3-a6c26c4d3755")
 	)
 	(wire
 		(pts
@@ -4423,15 +4827,15 @@
 		)
 		(uuid "ff926135-c694-453f-86c3-1ae10b70d5d3")
 	)
-	(label "cell_neg1"
-		(at 62.23 19.05 0)
+	(label "cell_neg6"
+		(at 93.98 19.05 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "0598566e-3bc6-4146-b314-798dcae89a0d")
+		(uuid "04c4dcee-064a-4716-a558-033ae3f28b8b")
 	)
 	(label "clock"
 		(at 27.94 100.33 180)
@@ -4442,6 +4846,16 @@
 			(justify right bottom)
 		)
 		(uuid "0b2b0924-24cd-47d0-8d0f-b7097ca56e19")
+	)
+	(label "Bit_1"
+		(at 100.33 163.83 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0b56dbde-725e-4290-b415-4e47b4eb16d9")
 	)
 	(label "salida_adc"
 		(at 100.33 173.99 180)
@@ -4473,16 +4887,6 @@
 		)
 		(uuid "12808bce-8bf5-4dd4-8dea-efdccf995b87")
 	)
-	(label "bus_pos"
-		(at 57.15 58.42 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "1281a3a2-19ab-4b3a-8910-dc3d0759917d")
-	)
 	(label "Bit_2"
 		(at 30.48 36.83 180)
 		(effects
@@ -4494,14 +4898,24 @@
 		(uuid "18c360fe-45a9-4535-9c72-871fe42c8e9d")
 	)
 	(label "Bit_2"
-		(at 100.33 166.37 180)
+		(at 100.33 161.29 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "24cd05b8-b0fd-474b-b60f-eb55777a0e62")
+		(uuid "238d6da7-14f2-4fee-b8f4-1221b9de2199")
+	)
+	(label "MASTER"
+		(at 100.33 153.67 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2524ff24-006b-4cab-8ba5-b7c71610de50")
 	)
 	(label "Vcell3"
 		(at 55.88 140.97 180)
@@ -4524,16 +4938,6 @@
 		(uuid "2802ff0e-9b5c-4a92-817f-86ec58f4ffcf")
 	)
 	(label "reset"
-		(at 100.33 148.59 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "2ceea93e-c341-4915-8a74-ae22b7eba264")
-	)
-	(label "reset"
 		(at 27.94 102.87 180)
 		(effects
 			(font
@@ -4553,45 +4957,25 @@
 		)
 		(uuid "2f982427-a86d-4a4b-808a-dcae5aacbe3e")
 	)
+	(label "cell_neg4"
+		(at 86.36 41.91 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "33e8f3c5-6279-446c-8710-1c7ff91a2d56")
+	)
 	(label "cell_neg7"
-		(at 68.58 44.45 0)
+		(at 62.23 19.05 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "31b32376-c7ec-4a3b-89fd-f4ee099d2cc8")
-	)
-	(label "Bit_0"
-		(at 100.33 161.29 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "3bac7936-d038-413e-be75-2e5454491a32")
-	)
-	(label "cell_neg2"
-		(at 77.47 19.05 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "3dd04716-5ba5-47e1-b231-0ec049b4c579")
-	)
-	(label "cell_neg3"
-		(at 93.98 19.05 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "429a0809-765a-408f-a280-d4655adf9660")
+		(uuid "43f7d7af-5bf7-4079-a789-1ca5a7f5a7c4")
 	)
 	(label "Vcell5"
 		(at 101.6 107.95 0)
@@ -4624,6 +5008,16 @@
 		(uuid "47c7d1a8-2c90-46a4-9207-6f933408d1fe")
 	)
 	(label "Vcc"
+		(at 100.33 156.21 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "47fb3684-1a00-4553-b83e-0108ce36b497")
+	)
+	(label "Vcc"
 		(at 38.1 90.17 90)
 		(effects
 			(font
@@ -4632,16 +5026,6 @@
 			(justify left bottom)
 		)
 		(uuid "50309b52-2dbb-46dc-8f9e-ede5ebc73eab")
-	)
-	(label "Vcc"
-		(at 100.33 146.05 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "5464e3b8-f46b-4694-8f7a-3c027b273d85")
 	)
 	(label "MASTER"
 		(at 22.86 110.49 180)
@@ -4652,6 +5036,16 @@
 			(justify right bottom)
 		)
 		(uuid "54f808ee-fedb-4a3e-9b2e-9d026be64675")
+	)
+	(label "cell_neg5"
+		(at 77.47 19.05 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "570b0c97-b664-42cf-be27-a331b19ebdad")
 	)
 	(label "DATA"
 		(at 27.94 95.25 180)
@@ -4683,6 +5077,16 @@
 		)
 		(uuid "640cfdf1-e665-491e-8707-f523470f50d2")
 	)
+	(label "DATA"
+		(at 100.33 158.75 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "6500465e-ac66-40b9-9399-0e6e3eb406aa")
+	)
 	(label "Vcc"
 		(at 35.56 193.04 180)
 		(fields_autoplaced yes)
@@ -4706,16 +5110,6 @@
 			)
 		)
 	)
-	(label "MASTER"
-		(at 100.33 156.21 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "69c49809-b203-41e1-b8bc-98549fd9c92a")
-	)
 	(label "Vcell4"
 		(at 92.71 73.66 0)
 		(effects
@@ -4726,16 +5120,6 @@
 		)
 		(uuid "72740a93-f4d1-462c-b76a-232cca6d0201")
 	)
-	(label "cell_neg6"
-		(at 86.36 41.91 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "72fe6b3f-4a05-419c-960c-d7d7181659f9")
-	)
 	(label "Vcc"
 		(at 38.1 21.59 90)
 		(effects
@@ -4745,6 +5129,16 @@
 			(justify left bottom)
 		)
 		(uuid "758bbc7d-19d7-493c-a48b-9f66f33b4211")
+	)
+	(label "reset"
+		(at 100.33 146.05 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "76c3cae3-21da-47ec-8dea-c8b6df37bdc9")
 	)
 	(label "Vcell2"
 		(at 55.88 138.43 180)
@@ -4776,6 +5170,16 @@
 		)
 		(uuid "83a96a44-88d1-496d-a0fe-6e8050ff46ad")
 	)
+	(label "cell_neg1"
+		(at 68.58 44.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "84e8095f-0819-460f-b459-fe52d2d785aa")
+	)
 	(label "Vcell1"
 		(at 55.88 135.89 180)
 		(effects
@@ -4785,6 +5189,16 @@
 			(justify right bottom)
 		)
 		(uuid "853a1c36-4373-4efd-8be7-42daa679d0c4")
+	)
+	(label "Bit_0"
+		(at 100.33 166.37 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "8654fbf9-8c03-406e-95ca-9bbda1ff2e2b")
 	)
 	(label "Vcell4"
 		(at 55.88 143.51 180)
@@ -4806,16 +5220,6 @@
 		)
 		(uuid "97791db1-4854-4e95-ba0f-b28f6f48e063")
 	)
-	(label "latch"
-		(at 100.33 153.67 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "9d618f21-461d-427e-8f12-c4be31115961")
-	)
 	(label "Bit_1"
 		(at 30.48 34.29 180)
 		(effects
@@ -4835,6 +5239,16 @@
 			(justify left bottom)
 		)
 		(uuid "9ef892ba-6c0e-4bb2-bc62-f7ffc93f3b9b")
+	)
+	(label "clock"
+		(at 100.33 148.59 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "9f5bdcd2-0f59-47f5-acbb-7adc53dee97a")
 	)
 	(label "Vcell5"
 		(at 55.88 146.05 180)
@@ -4866,6 +5280,16 @@
 		)
 		(uuid "a467117d-5c75-40e2-8e05-565ead26bd9d")
 	)
+	(label "latch"
+		(at 100.33 151.13 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "a5191d0a-a7ab-4d19-a1bb-67473c9e1c4f")
+	)
 	(label "Vcell6"
 		(at 55.88 148.59 180)
 		(effects
@@ -4877,7 +5301,7 @@
 		(uuid "a904d8b6-6204-420b-bc33-f9eb01b92fdb")
 	)
 	(label "bus_pos"
-		(at 185.42 76.2 0)
+		(at 198.12 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4926,25 +5350,25 @@
 		)
 		(uuid "bd0e0c2a-a226-4f6e-b23e-c8d35427cc0b")
 	)
-	(label "DATA"
-		(at 100.33 158.75 180)
+	(label "cell_neg3"
+		(at 58.42 44.45 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "bdf46113-a266-48d1-b35e-ac680220c85e")
+		(uuid "be135347-e250-4a25-991e-aa4504cb68dd")
 	)
-	(label "cell_neg4"
-		(at 109.22 19.05 0)
+	(label "cell_neg2"
+		(at 106.68 35.56 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "bf749122-38b7-4a8a-90bd-ea98dcfb8edb")
+		(uuid "c8111f6c-2c64-4538-8708-60523770e318")
 	)
 	(label "Vcc"
 		(at 236.22 90.17 0)
@@ -4955,16 +5379,6 @@
 			(justify left bottom)
 		)
 		(uuid "c957beea-8b9e-4fa5-b8b0-8e25281f9e87")
-	)
-	(label "clock"
-		(at 100.33 151.13 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "cd07a2b7-37b1-4ba5-9183-7e97302ee6c7")
 	)
 	(label "Vbanco"
 		(at 58.42 73.66 0)
@@ -4986,16 +5400,6 @@
 		)
 		(uuid "cfdd2042-f9b5-4c13-9db2-0b570bba2b61")
 	)
-	(label "cell_neg5"
-		(at 106.68 35.56 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d4ff5aec-8199-455d-9255-3f8ed09f488e")
-	)
 	(label "Vcell2"
 		(at 73.66 73.66 0)
 		(effects
@@ -5005,16 +5409,6 @@
 			(justify left bottom)
 		)
 		(uuid "d95361e1-d4d1-402c-98cf-0988d9a9b04e")
-	)
-	(label "Bit_1"
-		(at 100.33 163.83 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "e2e748fb-1264-4211-936c-8bf86f62ca18")
 	)
 	(label "Vcell3"
 		(at 81.28 73.66 0)
@@ -5282,6 +5676,94 @@
 		)
 	)
 	(symbol
+		(lib_id "Transistor_FET:IRLML6402")
+		(at 123.19 100.33 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "07fd7777-78db-4bb0-bdab-825204370d1f")
+		(property "Reference" "S2"
+			(at 116.84 99.0599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "IRLML6402"
+			(at 116.84 101.5999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23_Handsoldering"
+			(at 118.11 98.425 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" "https://www.infineon.com/dgdl/irlml6402pbf.pdf?fileId=5546d462533600a401535668d5c2263c"
+			(at 118.11 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Description" "-3.7A Id, -20V Vds, 65mOhm Rds, P-Channel HEXFET Power MOSFET, SOT-23"
+			(at 123.19 100.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "8546bcc5-b5aa-4ed2-9024-62c872888d69")
+		)
+		(pin "3"
+			(uuid "829ea777-2094-420d-b691-83e602601c2c")
+		)
+		(pin "1"
+			(uuid "f6fc3b39-dce0-4a62-95b4-6a5c3aaae23b")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "S2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 73.66 20.32 90)
 		(unit 1)
@@ -5471,7 +5953,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.5mm"
+		(property "Footprint" "modificados:MountingHole_3.5mm"
 			(at 161.29 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -5672,8 +6154,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 52.07 48.26 90)
+		(lib_id "Transistor_FET:MMBFJ112")
+		(at 194.31 95.25 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5681,9 +6163,58 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "1e52ec08-c5f7-4157-999e-04106bbfa832")
-		(property "Reference" "R1_7"
-			(at 52.07 43.688 90)
+		(fields_autoplaced yes)
+		(uuid "21daea83-8199-4afe-a4a1-e3f840c36039")
+		(property "Reference" "Q1"
+			(at 199.39 93.9799 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MMBFJ112"
+			(at 199.39 96.5199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23_Handsoldering"
+			(at 199.39 97.155 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/MMBFJ113-D.PDF"
+			(at 199.39 99.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Description" "5mA min, 35V, 50mOhm max, 1-5V Vgs(off), N-Channel JFET, SOT-23"
+			(at 194.31 95.25 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5692,8 +6223,47 @@
 				)
 			)
 		)
-		(property "Value" "33k"
-			(at 52.07 45.72 90)
+		(pin "3"
+			(uuid "0eef512a-8c6d-455d-9947-e9912b55891f")
+		)
+		(pin "1"
+			(uuid "8cff06c3-a7ff-41ea-be65-19a351000441")
+		)
+		(pin "2"
+			(uuid "f65fe68a-84e2-4fc0-aedf-2fab00ed47ad")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "Q1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 158.75 100.33 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2b58af38-ed0b-4068-b997-8723241cb432")
+		(property "Reference" "Rg2"
+			(at 158.75 98.044 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "3"
+			(at 158.75 100.584 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5703,7 +6273,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 52.07 50.038 90)
+			(at 158.75 102.108 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5714,7 +6284,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 52.07 48.26 0)
+			(at 158.75 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5725,7 +6295,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 52.07 48.26 0)
+			(at 158.75 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5736,15 +6306,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "d87881ec-c711-4db0-8288-ced606428053")
+			(uuid "29751419-3ed0-44ba-9c1a-a87af1e234fb")
 		)
 		(pin "2"
-			(uuid "9b2183ee-c687-411a-8303-53d4e496c480")
+			(uuid "353d3a46-c42f-44b1-9d8e-03119fe7e2c4")
 		)
 		(instances
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
-					(reference "R1_7")
+					(reference "Rg2")
 					(unit 1)
 				)
 			)
@@ -7040,7 +7610,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23_Handsoldering"
 			(at 238.76 128.905 0)
 			(hide yes)
 			(show_name no)
@@ -7177,6 +7747,85 @@
 	)
 	(symbol
 		(lib_id "Device:R")
+		(at 52.07 44.45 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6fef001d-df21-446b-b4b3-33f775d5760e")
+		(property "Reference" "R1_7"
+			(at 52.07 39.878 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33k"
+			(at 52.07 41.91 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 52.07 46.228 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 52.07 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 52.07 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a7387994-0db3-46d8-896a-3bbe12aca414")
+		)
+		(pin "2"
+			(uuid "ebb5d863-e9ac-414c-b0ec-65b15ac01b8c")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R1_7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
 		(at 181.61 111.76 0)
 		(unit 1)
 		(body_style 1)
@@ -7252,6 +7901,87 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 138.43 29.21 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7493940b-79a1-4d45-9dec-500c28fad9d1")
+		(property "Reference" "R2_8"
+			(at 140.97 27.9399 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0"
+			(at 139.954 30.48 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 136.652 29.21 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 138.43 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 138.43 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2ec8daf1-61d1-4e64-bbc5-14c7c25897c7")
+		)
+		(pin "2"
+			(uuid "cf4c9e79-1abf-452e-803d-efab641726de")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R2_8")
 					(unit 1)
 				)
 			)
@@ -7916,6 +8646,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 138.43 33.02 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8ffb9897-5d49-4fbd-8c27-c089655d218a")
+		(property "Reference" "#PWR026"
+			(at 138.43 39.37 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 141.224 36.83 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 138.43 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 138.43 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 138.43 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "bf3b4500-d011-45d2-8b2d-12338889e5d2")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR026")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Mechanical:MountingHole")
 		(at 161.29 46.99 0)
 		(unit 1)
@@ -7949,7 +8756,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.5mm"
+		(property "Footprint" "modificados:MountingHole_3.5mm"
 			(at 161.29 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -8535,7 +9342,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23_Handsoldering"
 			(at 142.24 98.425 0)
 			(hide yes)
 			(show_name no)
@@ -8907,6 +9714,162 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "R1_6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 134.62 93.98 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ab726b7e-fe0a-4642-9b40-87ae67ba6897")
+		(property "Reference" "Rg1"
+			(at 134.62 91.694 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "3"
+			(at 134.62 94.234 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 134.62 95.758 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 93.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 134.62 93.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "48b95e6f-4fd5-4056-8aab-044cc33b6253")
+		)
+		(pin "2"
+			(uuid "2eeef1e1-aae1-49ea-8e2d-b089561ff1db")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "Rg1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 138.43 25.4 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "abd8ba23-20e3-4f88-9c17-ecbf99ddc3ce")
+		(property "Reference" "#PWR027"
+			(at 138.43 19.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 142.24 21.844 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 138.43 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 138.43 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 138.43 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c2430e7b-04f6-443f-b194-3a7f52ea3ee1")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -9750,7 +10713,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.5mm"
+		(property "Footprint" "modificados:MountingHole_3.5mm"
 			(at 161.29 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -9826,7 +10789,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.5mm"
+		(property "Footprint" "modificados:MountingHole_3.5mm"
 			(at 161.29 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -10740,85 +11703,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 105.41 20.32 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f22e9052-f422-4236-9082-1bca1452adb3")
-		(property "Reference" "R1_3"
-			(at 105.41 15.748 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33k"
-			(at 105.41 17.78 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 105.41 22.098 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 105.41 20.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 105.41 20.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "2af1f4f5-c24a-4d40-ab6a-89cb0bdef0b5")
-		)
-		(pin "2"
-			(uuid "9af42ece-4b2e-4142-8dcc-2306a3324970")
-		)
-		(instances
-			(project "Switch banco - Torre"
-				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
-					(reference "R1_3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Transistor_BJT:MMBT2222A")
 		(at 179.07 127 0)
 		(unit 1)
@@ -10852,7 +11736,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23_Handsoldering"
 			(at 184.15 128.905 0)
 			(hide yes)
 			(show_name no)
