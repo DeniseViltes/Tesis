@@ -1632,14 +1632,24 @@
 		(uuid "ff6598aa-54db-42c6-afd4-061a40ed65d8")
 	)
 	(label "gate"
-		(at 99.06 88.9 0)
+		(at 120.65 90.17 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "090d1340-2452-4d86-8a57-40c69e47873a")
+		(uuid "1471ef7a-d796-48c1-83ba-ca505f7756ba")
+	)
+	(label "gate"
+		(at 113.03 90.17 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "1a65b627-39a7-4b3d-914d-e3ce846b8d24")
 	)
 	(label "v_control"
 		(at 146.05 91.44 180)
@@ -1690,16 +1700,6 @@
 			(justify left bottom)
 		)
 		(uuid "b08b99e1-c85f-440c-934d-8bcfbb1067e6")
-	)
-	(label "gate"
-		(at 91.44 88.9 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "d50ebb09-d162-46fb-82b5-e82dde2d5d1f")
 	)
 	(label "bus_neg"
 		(at 116.84 77.47 180)
@@ -1966,6 +1966,86 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "R1_9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 116.84 90.17 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "86662117-0cfb-4e83-a28f-4504dc138c6d")
+		(property "Reference" "R1_10"
+			(at 116.84 83.82 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 116.84 86.36 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 116.84 91.948 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 116.84 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 116.84 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "630ed255-a93a-404a-8faf-78ad4f04abc8")
+		)
+		(pin "2"
+			(uuid "a6c34622-f381-4258-8a9c-ef500a565c13")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R1_10")
 					(unit 1)
 				)
 			)
@@ -2380,86 +2460,6 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "#PWR01")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 95.25 88.9 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "f0ad5787-b3f8-47d5-8512-0a689f9335c5")
-		(property "Reference" "R1_10"
-			(at 95.25 82.55 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "0"
-			(at 95.25 85.09 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 95.25 90.678 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 95.25 88.9 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 95.25 88.9 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "fe53170a-f631-4b7d-9a3c-7a596cea1e79")
-		)
-		(pin "2"
-			(uuid "ffafc763-d771-4ade-9a6a-93912a35c0df")
-		)
-		(instances
-			(project "Switch banco - Torre"
-				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
-					(reference "R1_10")
 					(unit 1)
 				)
 			)
