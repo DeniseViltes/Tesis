@@ -1,0 +1,26 @@
+Bitácora 11/05:
+
+Oficialmete prueba del nuevo P-MOSFET (IRLML6402):
+Hacemos las pruebas con y sin jfet ahora con el pmos correcto.
+Banco de pruebas, ponemos una tensión 13.2V como banco superior, y buscamos medir el vgs del pmos.
+
+Primer prueba con el Jfet soldado, con resistencias de 470k y 220k en el banco. No llegamos medir tiempo, el cambio es despreciable para la precicios del osciloscopio, por lo tanto tarda en descargarse menos de 500us. Vemos, a pesar del ruido, que la tensión del source y el gate quedan supuerpuestas, obteniendo un vgs de aprox 0V al estabilizar. 
+Segunda prueba sin Jfet, mismas resistencias. Se nos dificulta medir el tiempo exacto debido al ruido pero el tiempo de apagado si es aprecible sin el jfet. De todas formas se observa que el PMOS  no se llega a descargar, obteniendo un vgs promedio de apagado de aprox -1V.
+
+En resumen si nos conviene el jfet.
+
+Dato de color: estamos perdiendo unos 250mV en los cocos y solo unos 30mV en el PMOS => cuando tengamos el circuito posta la salida va a ser mucho más cercana a los 3.3V por celda como debería ser.
+
+______________________
+
+Análisis de bancos máximos posibles:
+
+Como vamos a seguir usando la STM32, tenemos 16 pines ADC, de los cuales 2 son usados para la comunicación (PA2 y PA3). Entonces, nos quedan 14 pines ADC para usar en los bancos. Cada banco usa 3: bus_pos, bus_neg y salida_adc, por lo que podríamos poner 4 bancos. Si usamos uno de los jumpers soldados en la placa podemos aumentar ese número por lo que estaríamos cómodos con 5 bancos.
+
+Por otro lado, tenemos 6 pines GPIO compartidos entre todos los bancos (clk_shift, clk_latch, reset, selector_0, sel_1, sel_2), y solamente 1 pin diferente para cada banco: el de control.
+
+_____________________
+
+Valores de los resistores R2 y R3 de las celdas:
+
+Manteniendo los valores de 10M y 1M, tenemos 15uA circulando en la malla de control del transistor Q1 npn. La potencia disipada por el resistor de 1M es de 240uW, mientras que en el transistor es de 100nW (estos valores fueron de simulación). Todo esto fue simulado para una calda del banco número 5, el peor caso. Por esto consideramos que no es necesario tener valores diferentes de resistencia, y todas las celdas pueden usar perfectamente 10M y 1M.
