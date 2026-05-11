@@ -1,0 +1,11 @@
+Bitácora 11/05:
+
+Oficialmete prueba del nuevo P-MOSFET (IRLML6402):
+Hacemos las pruebas con y sin jfet ahora con el pmos correcto.
+Banco de pruebas, ponemos una tensión 13.2V como banco superior, y buscamos medir el vgs del pmos.
+
+Primer prueba con el Jfet soldado, con resistencias de 470k y 220k en el banco. No llegamos medir tiempo, el cambio es despreciable para la precicios del osciloscopio, por lo tanto tarda en descargarse menos de 500us. Vemos, a pesar del ruido, que la tensión del source y el gate quedan supuerpuestas, obteniendo un vgs de aprox 0V al estabilizar. 
+Segunda prueba sin Jfet, mismas resistencias. Se nos dificulta medir el tiempo exacto debido al ruido pero el tiempo de apagado si es aprecible sin el jfet. De todas formas se observa que el PMOS  no se llega a descargar, obteniendo un vgs promedio de apagado de aprox -1V.
+
+
+En resumen si nos conviene el jfet.
