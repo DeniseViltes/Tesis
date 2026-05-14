@@ -1,0 +1,20 @@
+Bitácora 14/05:
+
+Prueba de la primera celda v2.1:
+Primero se soldó e hicieron las mediciones de la etapa de control --> Dio todo bien
+Se conectó un resistor de 47ohm a cell_neg para cerrar la malla con la celda. Esto fue porque los NMOS no estaban soldados todavía.
+Los valores de los test-points (control = 5V): inv: 0.0V | base pnp: 2.75V | gate NMOS: 3.27V
+Los valores de los test-points (control = 0V): inv: 4.98V | base pnp: 2.73V | gate NMOS: 16.9mV
+
+El único rasgo a destacar es que el LED, a pesar de tener todos sus componentes soldados, enciende muy despacito.
+Se procede a soldar el resto del módulo y rever nuevamente este tema cuando esté todo finalizado y funcionando correctamente
+
+Update: Al investigar porque la base del pnp en apagado nos daba 2.73V en vez de 3.27V, encontramos a los culpables, los resistores 2 y 3, los resistores de base del pnp. Al ser de 10Meg y 1Meg, por más de que la corriente que circulara en esa rama sea casi despreciable, generaban una gran caida de tensión. Al parecer el sistema de alguna forma seguía funcionando bien, ya que en el gate veiamos la tensión correcta. De todas formas cambiamos a los valores de prototitpo, 10k y 1k, nos queda pendiente analizar si estos valores nos sirven a nivel de eficiencia, y si es posible utilizarlos en bancos con más tensión. Otro pendiente que viene de la mano, es probar otros resistores manteniendo la relación pero creciendo en resistencia.
+
+Luego de arreglar el driver, continuamos con los N-MOSFET.
+Con todo soldado, las mediciones dieron correctas y el funcionamiento se verificó.
+
+Nos queda únicamente revisar:
+- Los valores de R2 y R3 (queremos que sean lo más grande posibles sin afectar la tensión del nodo de base del pnp)
+- Reemplazar el resistor de 0ohm por el fusible de 3A
+- Ver por qué el LED enciende muy despacito (probablemente haya que cambiar el resistor de 1k)

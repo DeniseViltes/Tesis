@@ -709,7 +709,7 @@
         "uuid": "4783565b-68b0-4d0c-b0f9-91a8fe34107e"
       }
     ],
-    "used_designators": "",
+    "used_designators": "#GND8,#GND12,Rvia2",
     "variants": []
   },
   "sheets": [
