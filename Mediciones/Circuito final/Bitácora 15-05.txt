@@ -1,0 +1,6 @@
+Bitácora 15/05:
+
+Nos dimos cuenta que la placa del banco tiene mal la huella de los integrados: son más grande de lo que deberían.
+Se intentó soldar igualmente el shift-register pero sin éxito.
+Se decidió hacer una plaquita adaptadora para la próxima.
+Luego se confirmó la lista de materiales junto con de dónde comprar cada uno.
