@@ -4993,6 +4993,16 @@
 		)
 		(uuid "0b2b0924-24cd-47d0-8d0f-b7097ca56e19")
 	)
+	(label "DATA"
+		(at 161.29 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "0bd3dbe7-7de3-424d-bdf2-026a842d4328")
+	)
 	(label "cell_neg5"
 		(at 39.37 165.1 0)
 		(effects
@@ -5023,6 +5033,16 @@
 		)
 		(uuid "18c360fe-45a9-4535-9c72-871fe42c8e9d")
 	)
+	(label "latch"
+		(at 163.83 66.04 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "1bb132c9-c34e-4e08-9a87-1187178a147a")
+	)
 	(label "Vcell3"
 		(at 73.66 163.83 180)
 		(effects
@@ -5052,6 +5072,16 @@
 			(justify left bottom)
 		)
 		(uuid "29c41d9b-0b30-4ea4-b6a8-a0fa85aa6253")
+	)
+	(label "clock"
+		(at 146.05 55.88 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2d2a0fa7-afb9-47ef-95f4-28af8ef7fb2a")
 	)
 	(label "reset"
 		(at 27.94 102.87 180)
@@ -5226,26 +5256,6 @@
 		)
 		(uuid "677c64ad-e034-4c91-9177-aa1e2d9951bf")
 	)
-	(label "reset"
-		(at 161.29 144.78 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "6c0869f6-e53c-4ffc-a4f0-90f19d87f9d0")
-	)
-	(label "DATA"
-		(at 148.59 144.78 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "70d161b0-ea1e-4b85-bad8-421fecd8c831")
-	)
 	(label "Vcell4"
 		(at 92.71 73.66 0)
 		(effects
@@ -5326,6 +5336,26 @@
 		)
 		(uuid "87565bae-8812-4f40-973d-23bb5b475c4c")
 	)
+	(label "clock"
+		(at 146.05 63.5 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "8ddf7338-5bd2-4e6e-a5e2-afe8c8f0481a")
+	)
+	(label "latch"
+		(at 161.29 144.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "986fa420-8b96-4174-9ef5-222826ddacd6")
+	)
 	(label "Bit_1"
 		(at 30.48 34.29 180)
 		(effects
@@ -5376,6 +5406,16 @@
 		)
 		(uuid "a467117d-5c75-40e2-8e05-565ead26bd9d")
 	)
+	(label "reset"
+		(at 148.59 144.78 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "a7782a1f-f1b5-43d4-a17c-9d4e4c3c83f6")
+	)
 	(label "Vcell6"
 		(at 73.66 171.45 180)
 		(effects
@@ -5386,7 +5426,7 @@
 		)
 		(uuid "a904d8b6-6204-420b-bc33-f9eb01b92fdb")
 	)
-	(label "latch"
+	(label "clock"
 		(at 148.59 147.32 180)
 		(effects
 			(font
@@ -5394,7 +5434,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "b0817ca1-00c7-4556-8f04-51aab83d9b62")
+		(uuid "ab11b608-ce47-4c53-9bc8-06abd88e4cf0")
 	)
 	(label "bus_pos"
 		(at 222.25 76.2 0)
@@ -5506,16 +5546,6 @@
 		)
 		(uuid "d95361e1-d4d1-402c-98cf-0988d9a9b04e")
 	)
-	(label "clock"
-		(at 161.29 147.32 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "dc144d23-8980-404d-a34a-2262dcfc4cfb")
-	)
 	(label "Vcc"
 		(at 148.59 142.24 180)
 		(effects
@@ -5565,6 +5595,16 @@
 			(justify right bottom)
 		)
 		(uuid "eaaeccb0-456c-4c57-994a-c3c3d7814526")
+	)
+	(label "latch"
+		(at 163.83 58.42 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ee280dca-0d3f-403a-8a2e-1943943652f0")
 	)
 	(label "bus_pos"
 		(at 148.59 137.16 180)
@@ -8679,6 +8719,87 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "#PWR029")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 146.05 59.69 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7aa98c5c-86f0-4488-a73c-deb5426b3080")
+		(property "Reference" "R2_11"
+			(at 148.59 58.4199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0"
+			(at 147.574 60.96 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 144.272 59.69 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 146.05 59.69 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 146.05 59.69 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "825efd43-619c-48f0-ae97-d0d827b96eb0")
+		)
+		(pin "2"
+			(uuid "6fc65d8e-2163-4866-a4f7-df90bfe3ce94")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R2_11")
 					(unit 1)
 				)
 			)
@@ -12730,6 +12851,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 163.83 62.23 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f79e31c5-dcbd-4b41-b84b-55e2c3e07e39")
+		(property "Reference" "R2_12"
+			(at 166.37 60.9599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0"
+			(at 165.354 63.5 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 162.052 62.23 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 163.83 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 163.83 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3c3b8b1e-0ab4-437e-b0ad-4d9047ff729e")
+		)
+		(pin "2"
+			(uuid "59af157f-2a75-4df8-8515-5f907e51ee88")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R2_12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "74xx:74HC595")
 		(at 38.1 105.41 0)
 		(unit 1)
@@ -12763,7 +12965,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm_SMDSocket_SmallPads"
+		(property "Footprint" "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm"
 			(at 38.1 105.41 0)
 			(hide yes)
 			(show_name no)
