@@ -1,18 +1,17 @@
-/*
- * shift_register.h
- *
- *  Created on: 22 abr 2026
- *      Author: ---
- */
+// shift_register.h
 
-#ifndef INC_SHIFT_REGISTER_H_
-#define INC_SHIFT_REGISTER_H_
+#ifndef SHIFT_REGISTER_H
+#define SHIFT_REGISTER_H
 
 #include "main.h"
+#include <stdint.h>
 
+// Pines definidos en CubeMX/main.h
+// Ejemplo:
+// #define SR_DATA_Pin GPIO_PIN_0
+// #define SR_DATA_GPIO_Port GPIOA
 
-void ShiftReg_Init(void);
-void ShiftReg_WriteByte(uint8_t data);
+void SR_Init(void);
+void SR_WriteByte(uint8_t data);
 
-
-#endif /* INC_SHIFT_REGISTER_H_ */
+#endif

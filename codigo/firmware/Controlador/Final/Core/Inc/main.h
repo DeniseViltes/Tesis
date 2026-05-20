@@ -68,8 +68,8 @@ void Error_Handler(void);
 #define LD2_GPIO_Port GPIOA
 #define LATCH_Pin GPIO_PIN_5
 #define LATCH_GPIO_Port GPIOC
-#define CLOK_Pin GPIO_PIN_6
-#define CLOK_GPIO_Port GPIOC
+#define CLK_Pin GPIO_PIN_6
+#define CLK_GPIO_Port GPIOC
 #define DATA_Pin GPIO_PIN_8
 #define DATA_GPIO_Port GPIOC
 #define TMS_Pin GPIO_PIN_13

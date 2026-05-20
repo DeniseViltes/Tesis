@@ -1,4 +1,5 @@
 /* USER CODE BEGIN Header */
+#include "shift_register.h"
 /**
   ******************************************************************************
   * @file           : main.c
@@ -90,7 +91,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  SR_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -98,11 +99,11 @@ int main(void)
   while (1)
   {
 
-	    ShiftReg_WriteByte(0xFF);
-	    HAL_Delay(500);
+	    SR_WriteByte(0x48); // 01101110
+	    HAL_Delay(50);
 
-	    ShiftReg_WriteByte(0x00);
-	    HAL_Delay(500);
+
+
 
 
     /* USER CODE END WHILE */
@@ -205,7 +206,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LATCH_Pin|CLOK_Pin|DATA_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, LATCH_Pin|CLK_Pin|DATA_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -220,8 +221,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LATCH_Pin CLOK_Pin DATA_Pin */
-  GPIO_InitStruct.Pin = LATCH_Pin|CLOK_Pin|DATA_Pin;
+  /*Configure GPIO pins : LATCH_Pin CLK_Pin DATA_Pin */
+  GPIO_InitStruct.Pin = LATCH_Pin|CLK_Pin|DATA_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
