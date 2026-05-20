@@ -1,0 +1,9 @@
+Pruebas del shift register.
+
+
+Tenemos soldados los pines de salida b-c-e-f-g.
+
+Probamos la salida de data de la instrucción 10010001. Medimos en el osciloscopio y obtenemos.
+
+Ton de un bit: ~6ms
+1 byte son ~48ms
