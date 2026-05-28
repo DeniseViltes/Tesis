@@ -90,7 +90,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical"
 		(layer "B.Cu")
 		(uuid "077800ea-51d3-444d-a0ff-763eaa416d09")
-		(at 96.204589 52.287157 180)
+		(at 80.32 42.87 180)
 		(descr "Through hole straight socket strip, 1x02, 2.54mm pitch, single row (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 1x02 2.54mm single row")
 		(property "Reference" "J4"
@@ -363,10 +363,107 @@
 			)
 		)
 	)
+	(footprint "Library - STM32:STM32"
+		(layer "B.Cu")
+		(uuid "286afc46-4049-4cbd-a74d-341db855bc9f")
+		(at 112.13 80 180)
+		(property "Reference" "STM32"
+			(at 0 0.5 0)
+			(unlocked yes)
+			(layer "B.SilkS")
+			(uuid "fd58b13c-feae-4c84-a6b6-2a781215396c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.1)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Value" "STM32"
+			(at 0 -1 0)
+			(unlocked yes)
+			(layer "B.Fab")
+			(uuid "d3342941-c701-437c-9c51-95ab878dfe53")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "1553671b-b0c9-4734-b42e-65930e5ab521")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "562dc7a3-7148-48e4-ba12-398a6ff8cf1b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+				(justify mirror)
+			)
+		)
+		(attr smd)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_rect
+			(start -35 41.250479)
+			(end 35 -41.249521)
+			(stroke
+				(width 0.1)
+				(type default)
+			)
+			(fill no)
+			(layer "B.SilkS")
+			(uuid "960d2e32-7e04-432f-9894-1c96ae7203cc")
+		)
+		(fp_text user "STM32 Nucleo 64 bits"
+			(at 0 -2.5 0)
+			(unlocked yes)
+			(layer "B.Fab")
+			(uuid "c104b8f8-708c-4a86-84f3-e4ca17b2537d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+				(justify mirror)
+			)
+		)
+		(embedded_fonts no)
+		(model "C:/Users/Sebas/Desktop/Trabajo Profesional de Ingeniería Electrónica/Tesis/hardware/PCB/Modelos 3D/NUCLEO-60-F401.STEP"
+			(offset
+				(xyz 9 -39 11)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
+	)
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical"
 		(layer "B.Cu")
 		(uuid "2a27c529-014b-41d7-8266-267dde69ec85")
-		(at 159.704589 52.287157 180)
+		(at 143.82 42.87 180)
 		(descr "Through hole straight socket strip, 1x02, 2.54mm pitch, single row (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 1x02 2.54mm single row")
 		(property "Reference" "J3"
@@ -1920,7 +2017,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x19_P2.54mm_Vertical"
 		(layer "B.Cu")
 		(uuid "6f2024a2-93af-43c2-8a9b-4e9cedf6118a")
-		(at 96.204589 80.227157 180)
+		(at 80.32 70.81 180)
 		(descr "Through hole straight socket strip, 2x19, 2.54mm pitch, double rows (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 2x19 2.54mm double row")
 		(property "Reference" "J2"
@@ -3254,7 +3351,7 @@
 	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x19_P2.54mm_Vertical"
 		(layer "B.Cu")
 		(uuid "916219ae-c4ef-4e1c-82f3-9a28930fea9d")
-		(at 157.164589 80.227157 180)
+		(at 141.28 70.81 180)
 		(descr "Through hole straight socket strip, 2x19, 2.54mm pitch, double rows (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 2x19 2.54mm double row")
 		(property "Reference" "J1"
@@ -5225,9 +5322,10 @@
 		)
 	)
 	(group ""
-		(uuid "e5de65d5-a82e-415e-91e3-be35e9e4fe2d")
-		(members "077800ea-51d3-444d-a0ff-763eaa416d09" "2a27c529-014b-41d7-8266-267dde69ec85"
-			"6f2024a2-93af-43c2-8a9b-4e9cedf6118a" "916219ae-c4ef-4e1c-82f3-9a28930fea9d"
+		(uuid "c784089d-482f-4d1a-ab6e-968aa2e8a388")
+		(members "077800ea-51d3-444d-a0ff-763eaa416d09" "286afc46-4049-4cbd-a74d-341db855bc9f"
+			"2a27c529-014b-41d7-8266-267dde69ec85" "6f2024a2-93af-43c2-8a9b-4e9cedf6118a"
+			"916219ae-c4ef-4e1c-82f3-9a28930fea9d"
 		)
 	)
 	(embedded_fonts no)
