@@ -3990,7 +3990,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 144.78) (xy 148.59 144.78)
+			(xy 144.78 144.78) (xy 148.59 144.78)
 		)
 		(stroke
 			(width 0)
@@ -4380,6 +4380,16 @@
 	)
 	(wire
 		(pts
+			(xy 118.11 64.77) (xy 118.11 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "66c5c53f-defd-4bb8-a484-bf63909a84fa")
+	)
+	(wire
+		(pts
 			(xy 50.8 26.67) (xy 48.26 26.67)
 		)
 		(stroke
@@ -4457,6 +4467,16 @@
 			(type default)
 		)
 		(uuid "72292e21-ae82-4787-942b-c34788847688")
+	)
+	(wire
+		(pts
+			(xy 119.38 78.74) (xy 119.38 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "725ae8fa-7937-43f2-80c3-c69434eed23d")
 	)
 	(wire
 		(pts
@@ -4810,16 +4830,6 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 138.43) (xy 138.43 142.24)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bc740e1d-6b7e-4169-b242-75925515e2d9")
-	)
-	(wire
-		(pts
 			(xy 38.1 50.8) (xy 39.37 50.8)
 		)
 		(stroke
@@ -4900,7 +4910,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 138.43) (xy 138.43 138.43)
+			(xy 132.08 142.24) (xy 148.59 142.24)
 		)
 		(stroke
 			(width 0)
@@ -4980,16 +4990,6 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 142.24) (xy 148.59 142.24)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dd3bb9f4-9ff1-4d54-8c34-ba173e7ad94f")
-	)
-	(wire
-		(pts
 			(xy 52.07 80.01) (xy 52.07 82.55)
 		)
 		(stroke
@@ -5040,6 +5040,16 @@
 	)
 	(wire
 		(pts
+			(xy 137.16 63.5) (xy 137.16 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e44966c2-0c77-429d-8322-6aae51cf61ae")
+	)
+	(wire
+		(pts
 			(xy 78.74 39.37) (xy 78.74 43.18)
 		)
 		(stroke
@@ -5057,6 +5067,16 @@
 			(type default)
 		)
 		(uuid "e6c79a8e-2b8a-4ff9-9a3e-53bcc6a1d67c")
+	)
+	(wire
+		(pts
+			(xy 137.16 77.47) (xy 137.16 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e880d3e6-9596-4c17-b11c-b9ea05be8031")
 	)
 	(wire
 		(pts
@@ -5167,6 +5187,16 @@
 			(type default)
 		)
 		(uuid "ff926135-c694-453f-86c3-1ae10b70d5d3")
+	)
+	(label "latch"
+		(at 137.16 77.47 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "0428ab5d-2a68-437f-9dec-a46981682a0c")
 	)
 	(label "clock"
 		(at 27.94 100.33 180)
@@ -5361,6 +5391,16 @@
 		)
 		(uuid "50309b52-2dbb-46dc-8f9e-ede5ebc73eab")
 	)
+	(label "DATA"
+		(at 137.16 63.5 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "517fd964-65b8-4f16-95bd-1ffc1da9824e")
+	)
 	(label "bus_neg"
 		(at 161.29 139.7 0)
 		(effects
@@ -5402,7 +5442,7 @@
 		(uuid "61ea528c-f9aa-4e37-82e1-9ef0062e71e3")
 	)
 	(label "clock"
-		(at 127 144.78 180)
+		(at 144.78 144.78 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5647,6 +5687,16 @@
 		)
 		(uuid "a904d8b6-6204-420b-bc33-f9eb01b92fdb")
 	)
+	(label "clock"
+		(at 119.38 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "af80b15b-a263-4d5d-9928-635a043db19d")
+	)
 	(label "bus_pos"
 		(at 222.25 76.2 0)
 		(effects
@@ -5686,6 +5736,16 @@
 			(justify left bottom)
 		)
 		(uuid "b5509ab9-d9ba-4f54-bbd6-1fac18c9ca17")
+	)
+	(label "salida_adc"
+		(at 118.11 64.77 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "b58b44ea-1f5e-4b1a-8eb6-4e021d2fd3c1")
 	)
 	(label "Vbanco"
 		(at 172.72 127 180)
@@ -8034,6 +8094,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 137.16 71.12 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "509b0ffd-a3db-470b-90ae-5886d258ce1b")
+		(property "Reference" "TP5"
+			(at 139.7 66.5479 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 139.7 69.0879 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D2.54mm_Drill1.5mm_Beaded"
+			(at 142.24 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 142.24 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 137.16 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "23cb3519-58fc-4504-9635-c0c1e8ff8cde")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "TP5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 54.61 24.13 0)
 		(unit 1)
@@ -8852,7 +8991,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 124.46 138.43 270)
+		(at 132.08 142.24 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8863,7 +9002,7 @@
 		(fields_autoplaced yes)
 		(uuid "71630ce4-4f73-43ce-a653-9d2d8759ab60")
 		(property "Reference" "#PWR033"
-			(at 118.11 138.43 0)
+			(at 125.73 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8874,7 +9013,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 120.65 138.4299 90)
+			(at 128.27 142.2399 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8885,7 +9024,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 124.46 138.43 0)
+			(at 132.08 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8896,7 +9035,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 124.46 138.43 0)
+			(at 132.08 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8907,7 +9046,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 124.46 138.43 0)
+			(at 132.08 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9006,6 +9145,85 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 137.16 60.96 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "735dbdf9-0c96-44ac-bd74-5c90ce4dfb2b")
+		(property "Reference" "TP3"
+			(at 139.7 56.3879 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 139.7 58.9279 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D2.54mm_Drill1.5mm_Beaded"
+			(at 142.24 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 142.24 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 137.16 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4ce48793-dac1-4bb3-8f75-2c84f11e839a")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "TP3")
 					(unit 1)
 				)
 			)
@@ -10142,6 +10360,85 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "#PWR026")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 118.11 62.23 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "90e4e0c5-5c1c-4f18-9402-97162342c5c8")
+		(property "Reference" "TP2"
+			(at 120.65 57.6579 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 120.65 60.1979 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D2.54mm_Drill1.5mm_Beaded"
+			(at 123.19 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 123.19 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 118.11 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4560974d-3ce2-46aa-a692-677aeace9fbc")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "TP2")
 					(unit 1)
 				)
 			)
@@ -11405,7 +11702,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 120.396 27.178 0)
+			(at 108.966 27.94 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -14049,6 +14346,85 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 119.38 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "fd098349-6e8a-4f2d-b496-14567a06937a")
+		(property "Reference" "TP4"
+			(at 121.92 69.0879 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 121.92 71.6279 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D2.54mm_Drill1.5mm_Beaded"
+			(at 124.46 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 124.46 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 119.38 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b6b6e79d-9b43-438b-84bf-f70f57fc1bbb")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "TP4")
 					(unit 1)
 				)
 			)
