@@ -1,0 +1,30 @@
+Bitácora 22/05:
+
+-Prueba del driver de la celda 2 en ON:
+     -Test point gate: 3.3V
+     -Test point base:2.61V
+     -Test point inversor:0V
+
+-Prueba del shift register:
+	Se hace la nueva plaquita adaptadora SOIC16-DIP16 para probar el comportamiento del shift-register.
+	Se soldaron y probaron todos los pines, pero la salida siempre fue cero; los pines de data, clock y latch eran correctos.
+	Se cambió el integrado por uno nuevo, y al conectar los pines hubo salida a la primera, de ahora en adelante considerar que puede fallar el SR.
+
+	Orden de las instrucciones:
+	1000 0001
+	HGFE DCBA
+
+Soldado y testeo de la celda 2:
+	Celda en ON: 47ohm, 3.20V, 65mA en la salida
+     		-Test point gate: 3.26V
+     		-Test point base:2.61V
+     		-Test point inversor:0.0V
+	Celda en OFF: 47ohm, 0.0V, 0mA en la salida
+     		-Test point gate: 15.7mV
+     		-Test point base:2.97V
+     		-Test point inversor:4.98V
+
+
+
+
+

@@ -100,7 +100,6 @@ int main(void)
   {
 
 	    SR_WriteByte(0x48); // 01101110
-	    HAL_Delay(50);
 
 
 

@@ -3990,6 +3990,16 @@
 	)
 	(wire
 		(pts
+			(xy 127 144.78) (xy 148.59 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14fbe4fe-7ff4-4b04-a2b2-1223d9b6adba")
+	)
+	(wire
+		(pts
 			(xy 71.12 82.55) (xy 71.12 81.28)
 		)
 		(stroke
@@ -4117,16 +4127,6 @@
 			(type default)
 		)
 		(uuid "2c7d96c3-6e02-4a0d-a1c0-e2cd4c4008c6")
-	)
-	(wire
-		(pts
-			(xy 132.08 138.43) (xy 138.43 138.43)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2cdbf6c1-9c60-4785-be35-25f428c0d439")
 	)
 	(wire
 		(pts
@@ -4670,16 +4670,6 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 144.78) (xy 148.59 144.78)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a47b0423-caac-425a-9bc4-76eecd927a2b")
-	)
-	(wire
-		(pts
 			(xy 48.26 29.21) (xy 64.77 29.21)
 		)
 		(stroke
@@ -4907,6 +4897,16 @@
 			(type default)
 		)
 		(uuid "d00c01f4-b335-486c-9aa5-06580a87ab02")
+	)
+	(wire
+		(pts
+			(xy 124.46 138.43) (xy 138.43 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1162874-3f06-4e3f-a9ee-141cf64d79e0")
 	)
 	(wire
 		(pts
@@ -5221,6 +5221,16 @@
 		)
 		(uuid "12808bce-8bf5-4dd4-8dea-efdccf995b87")
 	)
+	(label "Vcc"
+		(at 213.36 41.91 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "1753c489-b1af-4171-be64-6633c2c612d1")
+	)
 	(label "salida_adc"
 		(at 161.29 134.62 0)
 		(effects
@@ -5391,6 +5401,16 @@
 		)
 		(uuid "61ea528c-f9aa-4e37-82e1-9ef0062e71e3")
 	)
+	(label "clock"
+		(at 127 144.78 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "629ecdbc-6272-4f1e-80cd-7262d1570f42")
+	)
 	(label "salida_adc"
 		(at 30.48 26.67 180)
 		(effects
@@ -5433,6 +5453,16 @@
 			(justify left bottom)
 		)
 		(uuid "677c64ad-e034-4c91-9177-aa1e2d9951bf")
+	)
+	(label "latch"
+		(at 161.29 144.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6885897d-0e4b-4854-ae51-c25833d12aed")
 	)
 	(label "Bit_1"
 		(at 148.59 132.08 180)
@@ -5546,16 +5576,6 @@
 			(justify right bottom)
 		)
 		(uuid "87565bae-8812-4f40-973d-23bb5b475c4c")
-	)
-	(label "clock"
-		(at 124.46 138.43 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "8ddf7338-5bd2-4e6e-a5e2-afe8c8f0481a")
 	)
 	(label "cell_neg5"
 		(at 93.98 19.05 0)
@@ -5737,16 +5757,6 @@
 		)
 		(uuid "d95361e1-d4d1-402c-98cf-0988d9a9b04e")
 	)
-	(label "reset"
-		(at 161.29 144.78 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "dca752a6-47b1-4497-81b6-a955920f17fb")
-	)
 	(label "Vcc"
 		(at 27.94 102.87 180)
 		(effects
@@ -5787,6 +5797,16 @@
 		)
 		(uuid "e676da16-f917-4d9b-9695-ecc765a88c2c")
 	)
+	(label "Vcc"
+		(at 213.36 34.29 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "e71f06c4-43d1-4b0f-ba45-63b12f878cd9")
+	)
 	(label "Vcell7"
 		(at 73.66 173.99 180)
 		(effects
@@ -5806,16 +5826,6 @@
 			(justify right bottom)
 		)
 		(uuid "eaaeccb0-456c-4c57-994a-c3c3d7814526")
-	)
-	(label "latch"
-		(at 127 144.78 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "ee280dca-0d3f-403a-8a2e-1943943652f0")
 	)
 	(label "bus_pos"
 		(at 148.59 137.16 180)
@@ -6385,7 +6395,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 153.67 24.13 180)
+		(at 185.42 26.67 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6395,7 +6405,7 @@
 		(dnp no)
 		(uuid "1435461e-75ec-469c-8eb2-5d199aa91ca3")
 		(property "Reference" "#PWR028"
-			(at 153.67 17.78 0)
+			(at 185.42 20.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6406,7 +6416,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 157.48 20.574 0)
+			(at 189.23 23.114 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6416,7 +6426,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 153.67 24.13 0)
+			(at 185.42 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6427,7 +6437,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 153.67 24.13 0)
+			(at 185.42 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6438,7 +6448,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 153.67 24.13 0)
+			(at 185.42 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6613,6 +6623,168 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "Rp7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 213.36 38.1 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "1e38d211-f5d3-48f3-a770-cbff7d9aa983")
+		(property "Reference" "R2_11"
+			(at 215.9 36.8299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0"
+			(at 214.884 39.37 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 211.582 38.1 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 213.36 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 213.36 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "77434191-8303-41d7-a283-8547f9ec7c8d")
+		)
+		(pin "2"
+			(uuid "e4c33d8a-0909-4cd9-9b7f-d3c4d4eedc81")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R2_11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 185.42 48.26 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "21a2bc38-7c5d-402c-915a-52da117ec994")
+		(property "Reference" "R2_14"
+			(at 187.96 46.9899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0"
+			(at 186.944 49.53 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 183.642 48.26 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 185.42 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 185.42 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0548f26d-3493-4963-8e2b-b15e9d88bca1")
+		)
+		(pin "2"
+			(uuid "87c314fd-0bd0-4525-9f27-12c6dc152f63")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R2_14")
 					(unit 1)
 				)
 			)
@@ -7549,6 +7721,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 170.18 52.07 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "4c5aab19-ebb5-45e2-bb09-22d59204b25d")
+		(property "Reference" "#PWR037"
+			(at 170.18 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 172.974 55.88 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 170.18 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 170.18 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 170.18 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "91302cf0-c2bf-4628-bc69-3dda203d4840")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR037")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 63.5 77.47 0)
 		(unit 1)
@@ -7945,7 +8194,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 166.37 31.75 0)
+		(at 198.12 34.29 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7955,7 +8204,7 @@
 		(dnp no)
 		(uuid "5a4d8023-6707-4ed4-83e5-ec98a736ccdf")
 		(property "Reference" "#PWR031"
-			(at 166.37 38.1 0)
+			(at 198.12 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7966,7 +8215,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 169.164 35.56 0)
+			(at 200.914 38.1 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7976,7 +8225,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 166.37 31.75 0)
+			(at 198.12 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7987,7 +8236,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 166.37 31.75 0)
+			(at 198.12 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7998,7 +8247,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 166.37 31.75 0)
+			(at 198.12 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8446,6 +8695,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 198.12 52.07 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6cb1a4dd-5002-458e-ae1d-f602979dd269")
+		(property "Reference" "#PWR035"
+			(at 198.12 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 200.914 55.88 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 198.12 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 198.12 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 198.12 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c5470ec2-d733-4944-9888-f7305dc4c63c")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR035")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 52.07 44.45 90)
 		(unit 1)
@@ -8519,6 +8845,85 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "R1_7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 124.46 138.43 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "71630ce4-4f73-43ce-a653-9d2d8759ab60")
+		(property "Reference" "#PWR033"
+			(at 118.11 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 120.65 138.4299 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 124.46 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 124.46 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 124.46 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "bfb232d8-acbf-43fc-a2b4-8b31956f7863")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -8608,7 +9013,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 138.43 27.94 0)
+		(at 170.18 30.48 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8618,7 +9023,7 @@
 		(dnp no)
 		(uuid "7493940b-79a1-4d45-9dec-500c28fad9d1")
 		(property "Reference" "R2_8"
-			(at 140.97 26.6699 0)
+			(at 172.72 29.2099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8629,7 +9034,7 @@
 			)
 		)
 		(property "Value" "0"
-			(at 139.954 29.21 0)
+			(at 171.704 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8640,7 +9045,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 136.652 27.94 90)
+			(at 168.402 30.48 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8651,7 +9056,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 138.43 27.94 0)
+			(at 170.18 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8662,7 +9067,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 138.43 27.94 0)
+			(at 170.18 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8849,7 +9254,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 153.67 31.75 0)
+		(at 185.42 34.29 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8859,7 +9264,7 @@
 		(dnp no)
 		(uuid "7a212276-e6db-4a57-bf9d-af933c17f295")
 		(property "Reference" "#PWR029"
-			(at 153.67 38.1 0)
+			(at 185.42 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8870,7 +9275,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 156.464 35.56 0)
+			(at 188.214 38.1 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8880,7 +9285,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 153.67 31.75 0)
+			(at 185.42 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8891,7 +9296,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 153.67 31.75 0)
+			(at 185.42 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8902,7 +9307,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 153.67 31.75 0)
+			(at 185.42 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8919,87 +9324,6 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "#PWR029")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 128.27 138.43 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "7aa98c5c-86f0-4488-a73c-deb5426b3080")
-		(property "Reference" "R2_11"
-			(at 129.5401 140.97 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "0"
-			(at 127 139.954 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 128.27 136.652 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 128.27 138.43 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 128.27 138.43 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "825efd43-619c-48f0-ae97-d0d827b96eb0")
-		)
-		(pin "2"
-			(uuid "6fc65d8e-2163-4866-a4f7-df90bfe3ce94")
-		)
-		(instances
-			(project "Switch banco - Torre"
-				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
-					(reference "R2_11")
 					(unit 1)
 				)
 			)
@@ -9329,6 +9653,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 170.18 48.26 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8c54a0a7-a849-47c0-a31f-9c35b2968260")
+		(property "Reference" "R2_13"
+			(at 172.72 46.9899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0"
+			(at 171.704 49.53 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 168.402 48.26 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 170.18 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 170.18 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "aae03bbf-e2d2-4829-b074-71cbb93b35a0")
+		)
+		(pin "2"
+			(uuid "30d47f5f-634d-4446-82d8-59e0507b0c51")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R2_13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 259.08 101.6 90)
 		(unit 1)
@@ -9416,6 +9821,87 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 198.12 48.26 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8e1f4c51-ec5c-4b58-aa75-d0dc6ffbb4a3")
+		(property "Reference" "R2_12"
+			(at 200.66 46.9899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0"
+			(at 199.644 49.53 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 196.342 48.26 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 198.12 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 198.12 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "1f7abf03-a993-4b02-81ce-243134b140ed")
+		)
+		(pin "2"
+			(uuid "c6d8daa3-189a-459a-bc92-52d3d2f9a56b")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "R2_12")
 					(unit 1)
 				)
 			)
@@ -9586,7 +10072,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 138.43 31.75 0)
+		(at 170.18 34.29 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9596,7 +10082,7 @@
 		(dnp no)
 		(uuid "8ffb9897-5d49-4fbd-8c27-c089655d218a")
 		(property "Reference" "#PWR026"
-			(at 138.43 38.1 0)
+			(at 170.18 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9607,7 +10093,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 141.224 35.56 0)
+			(at 172.974 38.1 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9617,7 +10103,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 138.43 31.75 0)
+			(at 170.18 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9628,7 +10114,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 138.43 31.75 0)
+			(at 170.18 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9639,7 +10125,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 138.43 31.75 0)
+			(at 170.18 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9818,7 +10304,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 153.67 27.94 0)
+		(at 185.42 30.48 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9828,7 +10314,7 @@
 		(dnp no)
 		(uuid "98e3342e-6f4b-4cc8-84ee-1d0000a7d3f6")
 		(property "Reference" "R2_9"
-			(at 156.21 26.6699 0)
+			(at 187.96 29.2099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9839,7 +10325,7 @@
 			)
 		)
 		(property "Value" "0"
-			(at 155.194 29.21 0)
+			(at 186.944 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9850,7 +10336,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 151.892 27.94 90)
+			(at 183.642 30.48 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9861,7 +10347,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 153.67 27.94 0)
+			(at 185.42 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9872,7 +10358,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 153.67 27.94 0)
+			(at 185.42 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10744,7 +11230,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 138.43 24.13 180)
+		(at 170.18 26.67 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10754,7 +11240,7 @@
 		(dnp no)
 		(uuid "abd8ba23-20e3-4f88-9c17-ecbf99ddc3ce")
 		(property "Reference" "#PWR027"
-			(at 138.43 17.78 0)
+			(at 170.18 20.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10765,7 +11251,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 142.24 20.574 0)
+			(at 173.99 23.114 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10775,7 +11261,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 138.43 24.13 0)
+			(at 170.18 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10786,7 +11272,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 138.43 24.13 0)
+			(at 170.18 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10797,7 +11283,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 138.43 24.13 0)
+			(at 170.18 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10919,7 +11405,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 107.95 25.146 0)
+			(at 120.396 27.178 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12170,6 +12656,160 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 170.18 44.45 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "db70e496-fd45-4254-9eb2-2b63855b5408")
+		(property "Reference" "#PWR036"
+			(at 170.18 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 173.99 40.894 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 170.18 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 170.18 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 170.18 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9e51898b-5653-4452-9988-f3b3f98f980f")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR036")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 198.12 44.45 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "def03ba0-94ff-4ee4-88c3-ccc9bcfb766d")
+		(property "Reference" "#PWR034"
+			(at 198.12 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 201.93 40.894 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 198.12 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 198.12 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 198.12 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e10c4213-f273-4e17-bafb-7a54270304ea")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR034")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 161.29 142.24 90)
 		(unit 1)
 		(body_style 1)
@@ -12330,7 +12970,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 166.37 27.94 0)
+		(at 198.12 30.48 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12340,7 +12980,7 @@
 		(dnp no)
 		(uuid "e1ad221a-601a-4827-9ec7-8ae87591ed62")
 		(property "Reference" "R2_10"
-			(at 168.91 26.6699 0)
+			(at 200.66 29.2099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12351,7 +12991,7 @@
 			)
 		)
 		(property "Value" "0"
-			(at 167.894 29.21 0)
+			(at 199.644 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12362,7 +13002,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 164.592 27.94 90)
+			(at 196.342 30.48 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12373,7 +13013,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 166.37 27.94 0)
+			(at 198.12 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12384,7 +13024,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 166.37 27.94 0)
+			(at 198.12 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12567,7 +13207,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 166.37 24.13 180)
+		(at 198.12 26.67 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12577,7 +13217,7 @@
 		(dnp no)
 		(uuid "e852e1b3-94d3-4059-8ddc-fe51310c2884")
 		(property "Reference" "#PWR030"
-			(at 166.37 17.78 0)
+			(at 198.12 20.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12588,7 +13228,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 170.18 20.574 0)
+			(at 201.93 23.114 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12598,7 +13238,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 166.37 24.13 0)
+			(at 198.12 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12609,7 +13249,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 166.37 24.13 0)
+			(at 198.12 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12620,7 +13260,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 166.37 24.13 0)
+			(at 198.12 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13045,6 +13685,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 185.42 44.45 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f2663942-8424-4b66-82f3-13c8756b9c3b")
+		(property "Reference" "#PWR038"
+			(at 185.42 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 189.23 40.894 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 185.42 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 185.42 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 185.42 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a202fbea-50a6-44cf-a1fd-58d9d087c166")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR038")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Transistor_BJT:MMBT2222A")
 		(at 201.93 127 0)
 		(unit 1)
@@ -13214,87 +13931,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 130.81 144.78 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f79e31c5-dcbd-4b41-b84b-55e2c3e07e39")
-		(property "Reference" "R2_12"
-			(at 129.5399 142.24 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "0"
-			(at 132.08 143.256 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 130.81 146.558 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 130.81 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 130.81 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "3c3b8b1e-0ab4-437e-b0ad-4d9047ff729e")
-		)
-		(pin "2"
-			(uuid "59af157f-2a75-4df8-8515-5f907e51ee88")
-		)
-		(instances
-			(project "Switch banco - Torre"
-				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
-					(reference "R2_12")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "74xx:74HC595")
 		(at 38.1 105.41 0)
 		(unit 1)
@@ -13413,6 +14049,83 @@
 			(project "Switch banco - Torre"
 				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
 					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 185.42 52.07 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "fd6e9c59-04b6-4194-b436-f34c156f312d")
+		(property "Reference" "#PWR039"
+			(at 185.42 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 188.214 55.88 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 185.42 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 185.42 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 185.42 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "098a9507-bdea-4bd5-a002-4384a01f8884")
+		)
+		(instances
+			(project "Switch banco - Torre"
+				(path "/0f6cbaa3-1a93-4070-b53f-b642439dda2a"
+					(reference "#PWR039")
 					(unit 1)
 				)
 			)
