@@ -1,0 +1,25 @@
+Se soldó la parte del switch del banco y los pines de la placa 2.1 del PCB del banco. Se procedió a probarla para verificar el funcionamiento correcto del sistema de switcheo. La prueba consistió en un celda en paralelo con su banco y otra celda en serie a los dos anteriores. Ésta última está siempre encendida por lo que a la salida se deberían ver 6.6V o 3.3V. La carga es de 47ohm.
+
+1ra prueba: fallida. Cuando el banco está apagado se observa una corriente de 120mA y una salida de unos 5.8V. Cuando se intenta apagar la celda que está en serie al banco, hay cortocircuito.
+
+Se procede a volver a probar cada celda por separado. Ambas funcionan bien, por lo que el error probablemente sea el banco.
+
+2do prueba: exitosa? Banco apagado y celda en serie virtual (hecha con la fuente externa en vez de la celda real).
+V salida: 6.17V
+I salida: 129mA
+bus_pos - bus_neg: 3V ---> Medido en el banco
+bus_pos: 3.09V
+bus_neg: 70mV
+Gate JFET: 2.99V
+VGS PMOS: 0V
+
+Banco prendido:
+Gate PMOS: 1.06V
+Source PMOS: 2.91V
+=> VGS = -1.85V
+Drain PMOS: 2.91V
+Conclusión: EL P-MOSFET ANDA BIEN. Deducimos que cualquier diferencia de tensión a la salida respecto de la ideal es producto del cableado primitivo y la mala calidad de los cables dupont usados.
+
+Se procede soldando el circuito del LED y el del SR.
+Se eligió un LED amarillo para diferenciarlo del de las celdas y porque es el siguiente que menos tensión de encendido requiere.
+Por último, para probar la estabilidad mecánica se enganchó una celda (con la pila puesta) al banco y pareció haber habido humo. Se revisará la próxima semana.
