@@ -1,0 +1,14 @@
+Se probaron valores de resistencias a la salida del shift-register para medir el pico de corriente demandado por el circuito de las celdas, principalmente, por el inversor CMOS, el cual presenta una impedancia de gate muy chica en el instante que se comienza su carga.
+
+Valores de resistencias probados (medidos con ohmetro):
+- 552 (560)
+- 326 (330)
+- 214 (220)
+- 46.4 (47)
+
+Las mediciones del osciloscopio fueron medidos y exportados al Excel donde se midió la corriente exigida. Los valores máximos alcanzados fueron:
+- Para 326ohm: casi 1mA
+- Para 214ohm: 1.5mA
+- Para 46.4ohm: poco más de 5mA
+
+Considerando que se recomienda usar el integrado con una corriente por pin menor a 5mA, decidimos que a partir de 100ohm sería seguro para el integrado. Se tiene en cuenta que a medida que este valor de resistencia aumenta, también aumenta la potencia disipada.

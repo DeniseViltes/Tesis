@@ -22,7 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "mux.h"
+#include "shift_register.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,6 +93,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   SR_Init();
+  MUX_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,11 +101,18 @@ int main(void)
   while (1)
   {
 
-	    SR_WriteByte(0x48); // 01101110
+	    /*SR_WriteByte(0xFF); // 01101110
+	    HAL_Delay(50);
+	    SR_WriteByte(0x00);
+	    HAL_Delay(50);*/
 
 
-
-
+	    MUX_Select(4);   // Y1
+	    HAL_Delay(50);
+	    MUX_Select(6);   // Y6
+	    HAL_Delay(50);
+	    MUX_Select(2);   // Y2
+	    HAL_Delay(50);
 
     /* USER CODE END WHILE */
 
@@ -207,6 +216,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, LATCH_Pin|CLK_Pin|DATA_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, S2_Pin|S0_Pin|S1_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -226,6 +238,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : S2_Pin S0_Pin S1_Pin */
+  GPIO_InitStruct.Pin = S2_Pin|S0_Pin|S1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);

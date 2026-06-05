@@ -3990,7 +3990,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 144.78) (xy 148.59 144.78)
+			(xy 147.32 153.67) (xy 151.13 153.67)
 		)
 		(stroke
 			(width 0)
@@ -4540,6 +4540,16 @@
 	)
 	(wire
 		(pts
+			(xy 149.86 151.13) (xy 151.13 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7ac9fef5-a393-4545-82f1-03cf2ba9bd1e")
+	)
+	(wire
+		(pts
 			(xy 49.53 95.25) (xy 48.26 95.25)
 		)
 		(stroke
@@ -4910,16 +4920,6 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 142.24) (xy 148.59 142.24)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d1162874-3f06-4e3f-a9ee-141cf64d79e0")
-	)
-	(wire
-		(pts
 			(xy 80.01 31.75) (xy 80.01 20.32)
 		)
 		(stroke
@@ -5209,7 +5209,7 @@
 		(uuid "0b2b0924-24cd-47d0-8d0f-b7097ca56e19")
 	)
 	(label "DATA"
-		(at 161.29 147.32 0)
+		(at 163.83 156.21 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5262,7 +5262,7 @@
 		(uuid "1753c489-b1af-4171-be64-6633c2c612d1")
 	)
 	(label "salida_adc"
-		(at 161.29 134.62 0)
+		(at 163.83 143.51 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5312,7 +5312,7 @@
 		(uuid "2802ff0e-9b5c-4a92-817f-86ec58f4ffcf")
 	)
 	(label "bus_pos"
-		(at 161.29 137.16 0)
+		(at 163.83 146.05 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5402,7 +5402,7 @@
 		(uuid "517fd964-65b8-4f16-95bd-1ffc1da9824e")
 	)
 	(label "bus_neg"
-		(at 161.29 139.7 0)
+		(at 163.83 148.59 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5442,7 +5442,7 @@
 		(uuid "61ea528c-f9aa-4e37-82e1-9ef0062e71e3")
 	)
 	(label "clock"
-		(at 144.78 144.78 180)
+		(at 147.32 153.67 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5485,7 +5485,7 @@
 		)
 	)
 	(label "Bit_0"
-		(at 161.29 132.08 0)
+		(at 163.83 140.97 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5495,7 +5495,7 @@
 		(uuid "677c64ad-e034-4c91-9177-aa1e2d9951bf")
 	)
 	(label "latch"
-		(at 161.29 144.78 0)
+		(at 163.83 153.67 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5505,7 +5505,7 @@
 		(uuid "6885897d-0e4b-4854-ae51-c25833d12aed")
 	)
 	(label "Bit_1"
-		(at 148.59 132.08 180)
+		(at 151.13 140.97 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5768,7 +5768,7 @@
 		(uuid "be135347-e250-4a25-991e-aa4504cb68dd")
 	)
 	(label "Bit_2"
-		(at 148.59 134.62 180)
+		(at 151.13 143.51 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5828,7 +5828,7 @@
 		(uuid "df0bd672-c062-426e-a7c0-e09ecb3dc7ca")
 	)
 	(label "Vcc"
-		(at 148.59 147.32 180)
+		(at 151.13 156.21 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5878,7 +5878,7 @@
 		(uuid "e7c99988-195c-4e4d-9b86-dc8eaa200323")
 	)
 	(label "bus_neg"
-		(at 148.59 139.7 180)
+		(at 151.13 148.59 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5888,7 +5888,7 @@
 		(uuid "eaaeccb0-456c-4c57-994a-c3c3d7814526")
 	)
 	(label "bus_pos"
-		(at 148.59 137.16 180)
+		(at 151.13 146.05 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8991,7 +8991,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 132.08 142.24 270)
+		(at 149.86 151.13 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9002,7 +9002,7 @@
 		(fields_autoplaced yes)
 		(uuid "71630ce4-4f73-43ce-a653-9d2d8759ab60")
 		(property "Reference" "#PWR033"
-			(at 125.73 142.24 0)
+			(at 143.51 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9013,7 +9013,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 128.27 142.2399 90)
+			(at 146.05 151.1299 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9024,7 +9024,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 132.08 142.24 0)
+			(at 149.86 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9035,7 +9035,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 132.08 142.24 0)
+			(at 149.86 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9046,7 +9046,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 132.08 142.24 0)
+			(at 149.86 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11332,7 +11332,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_02x07_Odd_Even")
-		(at 153.67 139.7 0)
+		(at 156.21 148.59 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11343,7 +11343,7 @@
 		(fields_autoplaced yes)
 		(uuid "ab08db5a-f0f8-4dc7-aa7a-167bcf47ad3d")
 		(property "Reference" "J2"
-			(at 154.94 125.73 0)
+			(at 157.48 134.62 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11353,7 +11353,7 @@
 			)
 		)
 		(property "Value" "Conn_02x07_Odd_Even"
-			(at 154.94 128.27 0)
+			(at 157.48 137.16 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11363,7 +11363,7 @@
 			)
 		)
 		(property "Footprint" "Connector_IDC:IDC-Header_2x07_P2.54mm_Horizontal"
-			(at 153.67 139.7 0)
+			(at 156.21 148.59 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11374,7 +11374,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 153.67 139.7 0)
+			(at 156.21 148.59 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11385,7 +11385,7 @@
 			)
 		)
 		(property "Description" "Generic connector, double row, 02x07, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 153.67 139.7 0)
+			(at 156.21 148.59 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13107,7 +13107,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 161.29 142.24 90)
+		(at 163.83 151.13 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -13118,7 +13118,7 @@
 		(fields_autoplaced yes)
 		(uuid "dfecae6f-4bd5-4422-9f76-11660f4f8e09")
 		(property "Reference" "#PWR018"
-			(at 167.64 142.24 0)
+			(at 170.18 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13129,7 +13129,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 165.1 142.2399 90)
+			(at 167.64 151.1299 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13140,7 +13140,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 161.29 142.24 0)
+			(at 163.83 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13151,7 +13151,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 161.29 142.24 0)
+			(at 163.83 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13162,7 +13162,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 161.29 142.24 0)
+			(at 163.83 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
