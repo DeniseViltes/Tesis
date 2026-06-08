@@ -4,3 +4,17 @@ Ahora queda el banco.
 
 Se revisó continuidad para ver que no haya cortos raros (índice de componentes quemados) con éxito. Así que se siguió con la prueba del SR, cosa que no se hizo el capítulo pasado. Se usó la configuración de banco 1 con 1 celda y banco, y banco 2 con solo 1 celda (ideal, hecha con la fuente externa).
 Funcionó perfectamente: se podían ver a la salida los 6.35V y 135mA.
+
+Una segunda prueba fue colocar un modulo de celda en vez de la celda ideal, con la cual veiamos un corto en la fuente, luego de muchos intentos testeando nuevamente cada celda, concluimos que el problema fue usar un modulo de celda de banco 1, la cual tiene mosfet de tierra.
+
+Cositas raras que vimos:
+Cuando el banco 1 y celda 1 estan apagados con la celda virtual en bus pos, hay 54 mA en la salida.
+Con todo apagado, sin VCC, los leds quedan prendidos por el controlador.
+
+
+Prueba del MUX
+
+
+Soldamos el mux junto a todos los divisores resistivos (aun falta los capacitores de este y el sr), intentamos una primer prueba de medición con el módulo celda, pero no se puede asegurar el funcionamiento correcto al tratarse del primer banco, ya que idealmente tendriamos 0V con la celda encendide e indefinido con la celda apagada. Probamos sacando la celda y conectando directamente diferentes tensiones en los pines hembra del modulo banco correspondientes a cell_neg. Comprobando de esta forma que funciona de manera exitosa el MUX. Pudimos comprobar que es posible reconstruir la tensión medida correcta del mux luego de pasar por el divisor resistivo, el cual tiene una escala de 1/5.
+
+No se observaron comportamientos inesperados
