@@ -1,0 +1,6 @@
+Debido a la posibilidad de que haya algo quemado (recordar fin del episodio del 5 del 6 (capitulo 5, temporada 6)), se procede a revisar el funcionamiento de todo lo anterior.
+Primero fueron las dos celdas completas: ambas funcionaban perfectamente por su cuenta.
+Ahora queda el banco.
+
+Se revisó continuidad para ver que no haya cortos raros (índice de componentes quemados) con éxito. Así que se siguió con la prueba del SR, cosa que no se hizo el capítulo pasado. Se usó la configuración de banco 1 con 1 celda y banco, y banco 2 con solo 1 celda (ideal, hecha con la fuente externa).
+Funcionó perfectamente: se podían ver a la salida los 6.35V y 135mA.
