@@ -101,19 +101,18 @@ int main(void)
   while (1)
   {
 
-	    /*SR_WriteByte(0xFF); // 01101110
+	    //SR_WriteByte(0x02); // 01101110
+	    //HAL_Delay(50);
+	    SR_WriteByte(0x01); // 01101110
 	    HAL_Delay(50);
-	    SR_WriteByte(0x00);
-	    HAL_Delay(50);*/
-
-
+/*
 	    MUX_Select(4);   // Y1
 	    HAL_Delay(50);
 	    MUX_Select(6);   // Y6
 	    HAL_Delay(50);
 	    MUX_Select(2);   // Y2
 	    HAL_Delay(50);
-
+*/
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
