@@ -3176,6 +3176,16 @@
 		)
 		(uuid "0e7d20e2-88c8-4adb-8fc4-be527606646b")
 	)
+	(label "bus_pos_2"
+		(at 116.84 147.32 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0f8be42b-5ab6-4ee7-b137-d38be309a8c2")
+	)
 	(label "Bit_1"
 		(at 43.18 139.7 180)
 		(effects
@@ -3266,6 +3276,16 @@
 		)
 		(uuid "2ed44f9b-f09e-4956-95af-ec9dc4c881e3")
 	)
+	(label "bus_pos_3"
+		(at 166.37 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2f3e1228-168f-483e-aed6-a64d5bb01371")
+	)
 	(label "Bit_0"
 		(at 166.37 139.7 0)
 		(effects
@@ -3275,16 +3295,6 @@
 			(justify left bottom)
 		)
 		(uuid "328b7a63-d2c4-41e9-b230-134c97439db9")
-	)
-	(label "bus_neg_2"
-		(at 80.01 147.32 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "35cff306-11f7-464f-a3a5-139468bbe067")
 	)
 	(label "bus_pos_1"
 		(at 55.88 107.95 0)
@@ -3416,6 +3426,16 @@
 		)
 		(uuid "60108fbc-a086-4135-953e-d9967c4db972")
 	)
+	(label "bus_pos_1"
+		(at 80.01 147.32 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "605ca57b-d536-4c90-9240-888f369cf9d8")
+	)
 	(label "Bit_1"
 		(at 100.33 72.39 0)
 		(effects
@@ -3505,16 +3525,6 @@
 			(justify right bottom)
 		)
 		(uuid "8b79a5a8-76c4-4f2f-8588-0b951dad1456")
-	)
-	(label "bus_neg_4"
-		(at 153.67 147.32 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "8dd8bf7c-a9f2-40ba-8547-415722ea5be8")
 	)
 	(label "Vcc_out"
 		(at 129.54 72.39 0)
@@ -3606,16 +3616,6 @@
 		)
 		(uuid "a2efb9b7-79f0-4606-9123-879c31460965")
 	)
-	(label "bus_neg_3"
-		(at 129.54 147.32 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a32e0efb-cfbd-4766-bcb5-a7f4238add2a")
-	)
 	(label "bus_pos_salida"
 		(at 147.32 90.17 0)
 		(effects
@@ -3677,16 +3677,6 @@
 		(uuid "b01c89ad-bf89-48da-afe3-54d3df03145e")
 	)
 	(label "bus_neg_2"
-		(at 92.71 147.32 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b3ba079b-b528-41bf-9cb4-5858ebf849cf")
-	)
-	(label "bus_neg_2"
 		(at 55.88 115.57 0)
 		(effects
 			(font
@@ -3705,16 +3695,6 @@
 			(justify right bottom)
 		)
 		(uuid "b5a43899-e5ba-4faa-8fbc-33db2adcc2ad")
-	)
-	(label "bus_neg_3"
-		(at 116.84 147.32 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b60c94df-158b-44c6-8ca5-99e92b832ac6")
 	)
 	(label "reset"
 		(at 166.37 152.4 0)
@@ -3766,6 +3746,26 @@
 		)
 		(uuid "bd994a68-f886-42aa-9e1d-9c27b9bcdf00")
 	)
+	(label "bus_pos_3"
+		(at 153.67 147.32 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "beb92996-223b-4e27-8b4e-9a635ec4901b")
+	)
+	(label "bus_pos_1"
+		(at 92.71 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "beed437f-7602-48b6-8b79-082a1c3bb692")
+	)
 	(label "bus_neg_1"
 		(at 55.88 110.49 0)
 		(effects
@@ -3785,16 +3785,6 @@
 			(justify right bottom)
 		)
 		(uuid "c274cf97-71ae-4055-8374-f2404a35b4eb")
-	)
-	(label "bus_neg_4"
-		(at 166.37 147.32 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "c314d436-f7b8-41d0-a1fa-b797972275d0")
 	)
 	(label "bus_pos_4"
 		(at 166.37 144.78 0)
@@ -3965,6 +3955,16 @@
 			(justify left bottom)
 		)
 		(uuid "f92e923d-a14b-43dd-94d8-a0851956cc6e")
+	)
+	(label "bus_pos_2"
+		(at 129.54 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fbd43b8b-d2c2-41bc-91d6-84aae557af05")
 	)
 	(label "bus_pos_3"
 		(at 129.54 144.78 0)
