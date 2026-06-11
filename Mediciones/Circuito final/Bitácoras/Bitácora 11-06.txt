@@ -1,0 +1,5 @@
+Teniendo tres nuevas celdas disponibles, nos pusimos a soldarlas. Como siempre, primero etapa de control, se la revisa y luego se completa con la etapa de potencia.
+
+La etapa de control dio todo bien pero el problema fue cuando se soldó el MOSFET. Las dos celdas que se probaron no funcionaron bien. En el encendido los 3 test-points estaban a cero y el apagado daban bien salvo el de la base del pnp. Éste, al momento de pinchar con el tester, hacía que el circuito comience a dar los 66mA a la salida para la carga típica de 47ohm, pero estando apagado. La única forma de volver al estado inicial era reiniciando la fuente externa. El patrón era claro: habían 0mA a la salida pero cuando se medía sobre el test-point de base del pnp, pasaba a 66mA y se quedaba ahí fijo incluso cuando se retiraba la punta del tester.
+
+Resulta que el problema era la falta de la tierra. Una vez conectada la celda a una del banco 1 con el MOSFET de tierra anduvo perfectamente.
