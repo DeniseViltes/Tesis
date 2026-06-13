@@ -29,4 +29,17 @@ typedef struct {
 
 void Controlador_init(void);
 void Controlador_AplicarEstados(void);
+
+void Apagar_Banco(uint8_t banco);
+void Encender_Banco(uint8_t banco);
+
+
+void Encender_Celda(uint8_t banco, uint8_t celda);
+void Apagar_Celda(uint8_t banco, uint8_t celda);.
+
+/*
+Controlador_SetBancos(...)
+Controlador_SetCeldasDeBanco(...)*/
+
+
 #endif /* INC_CONTROLADOR_H_ */

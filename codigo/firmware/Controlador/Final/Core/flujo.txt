@@ -33,3 +33,22 @@ controlador
 	|
 	|--cant_bancos
 	|--buses
+	
+	
+Desde cada banco se maneja el shift register, pero las ordenes de latch y clock se envian SI O SI desde el controlador,
+ya que esos pines son compartidos entre todos los bancos.
+Es muy importante cumplir eso ultimo, en caso de configurar el latch desde banco, podemos eliminar la información del 
+resto de los bancos.
+
+**------------------------------------------------------------**
+La idea de los estados, 
+	si actual y prox son iguales : No hay cambios pendientes
+	si actual y prox son distintos: Hay cmabios pendientes
+**------------------------------------------------------------**
+
+
+Controlador manda la instrucción -> banco aplica estados -> se actualiza el estado de celdas
+
+Contralador manda la instruccion de aplicar estados -> banco aplica la logica -> celda actualiza sus estados
+
+

@@ -61,10 +61,10 @@ void Banco_encender(banco_t *banco){
 	    }
 	for (uint8_t i = 0; i < banco->cant_celdas; i++){
 			banco->celdas[i].prox = ON;
-			banco->celdas[i].actual = ON;
+			//banco->celdas[i].actual = ON;
 		}
-	banco->actual=OFF;
-	SR_EscribirByte(banco->sr, BANCO_ON);
+	banco->prox=OFF;
+
 }
 
 void Banco_apagar(banco_t *banco){
@@ -73,11 +73,21 @@ void Banco_apagar(banco_t *banco){
 	    }
 	for (uint8_t i = 0; i < banco->cant_celdas; i++){
 		banco->celdas[i].prox = OFF;
-		banco->celdas[i].actual = OFF;
+		//banco->celdas[i].actual = OFF;
 	}
-	banco->actual=ON;
-	SR_EscribirByte(banco->sr, BANCO_OFF);
+	banco->prox=ON;
+
 }
+
+
+void Banco_EncenderCelda(banco_t *banco, uint8_t celda){
+	Banco_SetCelda(banco, celda, ON);
+	banco->prox=OFF;
+}
+void Banco_ApagarCelda(banco_t *banco, uint8_t celda){
+	Banco_SetCelda(banco, celda, OFF);
+}
+
 
 void Banco_SetCelda(banco_t *banco, uint8_t celda, SW_estado_t estado){
     if (banco == NULL) {
@@ -92,6 +102,11 @@ void Banco_SetCelda(banco_t *banco, uint8_t celda, SW_estado_t estado){
 }
 
 
+SW_estado_t  Banco_GetEstado (banco_t *banco){
+	return banco->actual;
+}
+
+
 
 
 static int HayCambios(const banco_t *banco, uint8_t *celdas_encendidas);
@@ -101,7 +116,7 @@ static uint8_t Actualizar_Data(banco_t *banco);
 
 
 
-
+/*
 void Banco_AplicarEstados(banco_t *banco){
 	if (banco == NULL) {
 	        return;
@@ -122,7 +137,7 @@ void Banco_AplicarEstados(banco_t *banco){
 	uint8_t data = Actualizar_Data(banco);
 	SR_EscribirByte(banco->sr, data);
 
-}
+}*/
 
 
 void Banco_ConfigCelda(banco_t *banco,uint8_t celda,uint8_t pin_sr,uint8_t pin_mux){
@@ -188,13 +203,17 @@ static void ArmarBit(uint8_t *data, uint8_t bit, uint8_t value)
 
 /*
  * Arma el vector de data y actualiza los estados de las celdas
+ * CHEQUEAR QUE ESTE BIEN!!!!!!!!
  */
 static uint8_t Actualizar_Data(banco_t *banco){
 	//parto de tener el pin banco -> 0, o prendo el sw banco, o prendo los sw celdas, ambos no es posible.
 
 	 uint8_t data = 0x00;
-	 ArmarBit(&data, banco->pin_sr , 0);
-
+	 if (banco->prox == ON){
+		 ArmarBit(&data, banco->pin_sr , ON);
+		 return data;
+	 }
+	 ArmarBit(&data, banco->pin_sr , OFF);
 	 for (uint8_t i = 0; i < banco->cant_celdas; i++){
 		 ArmarBit(&data, banco->celdas[i].pin_sr ,banco->celdas[i].prox);
 		 banco->celdas[i].actual = banco->celdas[i].prox;

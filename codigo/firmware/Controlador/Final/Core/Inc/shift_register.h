@@ -59,11 +59,12 @@ uint8_t SR_GetEstadoActual(shift_register_t *sr);
  * hay que tener cuidado en como mando la data, el clock y latch estan compartidos
  */
 
-
+/*
+ * Solo un pin a la vez, y sin clock
+ */
 void SR_SetData(shift_register_t *sr, utin8_t state);
 void SR_PulseClock(shift_register_t *sr);
 void SR_PulseLatch(shift_register_t *sr);
-void SR_PulseLatch(shift_register_t *sr);
-void SR_WriteByte(shift_register_t *sr, uint8_t data);
+//void SR_WriteByte(shift_register_t *sr, uint8_t data);
 
 #endif

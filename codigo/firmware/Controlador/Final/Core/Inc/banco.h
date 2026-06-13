@@ -32,6 +32,7 @@ typedef struct {
 	uint8_t cant_celdas;
 	celda_t *celdas;
 	SW_estado_t actual;
+	SW_estado_t prox;
 	uint8_t pin_sr;
 } banco_t;
 
@@ -54,10 +55,13 @@ void Banco_Apagar(banco_t *banco);
 /*
  * Comanda el proximo estado de la celda, sin cambiarla
  */
-void Banco_SetCelda(banco_t *banco, uint8_t celda, SW_estado_t estado);
+void Banco_EncenderCelda(banco_t *banco, uint8_t celda);
+void Banco_ApagarCelda(banco_t *banco, uint8_t celda);
 
 void Banco_AplicarEstados(banco_t *banco);
 
 void Banco_ConfigCelda(banco_t *banco,uint8_t celda,uint8_t pin_sr,uint8_t pin_mux);
+
+SW_estado_t  Banco_GetEstado (banco_t *banco);
 
 #endif /* INC_BANCO_H_ */
