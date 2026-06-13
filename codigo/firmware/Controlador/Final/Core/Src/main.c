@@ -92,8 +92,8 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  SR_Init();
-  MUX_Init();
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,12 +106,13 @@ int main(void)
 	    //SR_WriteByte(0x01); // 01101110
 	    //HAL_Delay(50);*/
 
-	    MUX_Select(0);   // Y1
+/*	    MUX_Select(0);   // Y1
 		HAL_Delay(50);
 	    MUX_Select(1);   // Y1
 		HAL_Delay(50);
 	    MUX_Select(2);   // Y1
 		HAL_Delay(50);
+		*/
 
     /* USER CODE END WHILE */
 

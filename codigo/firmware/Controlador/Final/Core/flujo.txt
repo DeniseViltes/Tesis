@@ -1,0 +1,35 @@
+Organización del sistema:
+
+
+controlador 
+	|
+	|-----bancos
+	|      |
+	|      |--id
+	|      |--cant_celdas
+	|      |--pos pin sr (siempre cero en principio)
+	|      |
+	|      |------shift register
+	|      |		|
+	|      |		|--data
+	|      |		|--clock
+	|      |		|--latch
+	|      |
+	|      |-------mux
+	|      |		|
+	|      |		|--bit 0
+	|      |		|--bit 1
+	|      |		|--bit 2
+	|      |		|--adc
+	|      |
+	|      |-------Celda
+	|       		|
+	|       		|--id
+	|       		|--estado_actual
+	|       		|--prox_estado
+	|       		|--posición pin mux
+	|       		|--pos pin sr	
+	|
+	|
+	|--cant_bancos
+	|--buses
