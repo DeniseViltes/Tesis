@@ -19,12 +19,20 @@ typedef enum {
   ON  = 1
 } SW_estado_t;
 
+typedef enum {
+  FIJO = 0,
+  SYNCHRO,
+  COMPLEMENTARY
+} celda_modo_t;
+
+
 typedef struct{
 	uint8_t id;
 	uint8_t pin_mux;
 	uint8_t pin_sr;
-	SW_estado_t actual; // necesito?
+	SW_estado_t actual;
 	SW_estado_t prox;
+	celda_modo_t modo;
 }celda_t;
 
 typedef struct {
@@ -36,8 +44,10 @@ typedef struct {
 	SW_estado_t actual;
 	SW_estado_t prox;
 	uint8_t pin_sr;
+	uint8_t contador;
+	float frecuencia;  //si es cero no switchea.
+	uint8_t fase; //fase general del banco
 } banco_t;
-
 
 
 /*
@@ -46,20 +56,33 @@ typedef struct {
 void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_celdas);
 
 /*
- * Enciende todas las celdas del banco
+ * Enciende el switch del banco para mantener la continuidad de la matriz
  */
-void Banco_Encender(banco_t *banco);
+void Banco_EncenderSwitch(banco_t *banco);
 
 /*
- * Apaga todas las celdas del banco
+ * Apaga el switch del banco, para permitir encender una celda
  */
-void Banco_Apagar(banco_t *banco);
-
+void Banco_ApagarSwitch(banco_t *banco);
 
 /*
- * Comanda el proximo estado de la celda, sin cambiarla
+ * Apaga todas las celdas, recordar que luego hay que activar el switch del banco
+ */
+void Banco_ApagarCeldas(banco_t *banco);
+
+/*
+ * Enciende todas las celdas del banco, recordar apagar el switch del banco primero
+ */
+void Banco_EncenderCeldas(banco_t *banco);
+
+/*
+ * Comanda el proximo estado de la celda, sin cambiarla  y pone el modo en simple (sin switching)
  */
 void Banco_EncenderCelda(banco_t *banco, uint8_t celda);
+
+/*
+ * Cambia a apagado una celda y pone el modo en simple (sin switching)
+ */
 void Banco_ApagarCelda(banco_t *banco, uint8_t celda);
 
 void Banco_AplicarEstadoPin(banco_t *banco, uint8_t pin);
@@ -70,7 +93,17 @@ void Banco_ClockPulse(banco_t *banco);
 
 void Banco_LatchPulse(banco_t *banco);
 
+int Banco_HayCambios(banco_t *banco);
+
+void Banco_SetModoCelda(banco_t *banco, uint8_t celda, celda_modo_t modo);
+
+void Banco_SwichingCelda(banco_t *banco, uint8_t celda);
+
+void Banco_ModificarFase(banco_t *banco, uint8_t fase);
+
+void Banco_ActualizarSwitching(banco_t *banco);
 
 SW_estado_t  Banco_GetEstado (banco_t *banco);
+
 
 #endif /* INC_BANCO_H_ */

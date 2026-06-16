@@ -31,8 +31,8 @@ void Controlador_init(void);
 void Controlador_Update(void);
 void Controlador_AplicarEstados(void);
 
-void Controlador_ApagarBanco(uint8_t banco);
-void Controlador_EncenderBanco(uint8_t banco);
+void Controlador_BypassBanco(uint8_t banco);
+void Controlador_ActivarCeldasBanco(uint8_t banco);
 
 
 void Controlador_EncenderCelda(uint8_t banco, uint8_t celda);
