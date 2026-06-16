@@ -15,7 +15,7 @@
 
 
 #define CANT_BANCOS 1
-#define CELDAS_POR_BANCO 3
+
 
 
 
@@ -28,14 +28,15 @@ typedef struct {
 }controlador_t;
 
 void Controlador_init(void);
+void Controlador_Update(void);
 void Controlador_AplicarEstados(void);
 
-void Apagar_Banco(uint8_t banco);
-void Encender_Banco(uint8_t banco);
+void Controlador_ApagarBanco(uint8_t banco);
+void Controlador_EncenderBanco(uint8_t banco);
 
 
-void Encender_Celda(uint8_t banco, uint8_t celda);
-void Apagar_Celda(uint8_t banco, uint8_t celda);.
+void Controlador_EncenderCelda(uint8_t banco, uint8_t celda);
+void Controlador_ApagarCelda(uint8_t banco, uint8_t celda);
 
 /*
 Controlador_SetBancos(...)

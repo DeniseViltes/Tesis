@@ -26,6 +26,25 @@ H	CELDA_7
 #define BANCO_ON 0xFE
 #define RESET 0x00
 
+
+
+static int HayCeldasON(banco_t *banco);
+int HayCambios(banco_t *banco);
+static void Banco_SetCelda(banco_t *banco, uint8_t celda, SW_estado_t estado);
+
+
+
+/*
+ * 0 : CELL_NEG_7 : c = 6
+ * 1 : CELL_NEG_6 : c = 5
+ * 2 : CELL_NEG_5 : c = 4
+ * 3 : GND
+ * 4 : CELL_NEG_2 : c = 1
+ * 5 : CELL_NEG_4 : c = 3
+ * 6 : CELL_NEG_1 : c = 0
+ * 7 : CELL_NEG_3 : c = 2
+ */
+
 static uint8_t Controlador_GetMuxPinCelda(uint8_t celda)
 {
 	switch (celda) {
@@ -36,7 +55,7 @@ static uint8_t Controlador_GetMuxPinCelda(uint8_t celda)
 	case 4: return 2; // CELL_NEG_5
 	case 5: return 1; // CELL_NEG_6
 	case 6: return 0; // CELL_NEG_7
-	default: return 0;
+	default: return 3;
 	}
 }
 
@@ -46,34 +65,42 @@ void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_c
 	banco->cant_celdas = cant_celdas;
 	banco->pin_sr = 0;
 
-
 	for(int c = 0 ; c< cant_celdas; c++){
 		Banco_ConfigCelda(banco,c, c+1, Controlador_GetMuxPinCelda(c));
+		banco->celdas[c].freq = 0;
+		banco->celdas[c].modo = SIMPLE;
+		banco->celdas[c].contador = 0;
 	}
-
-	Banco_Apagar(banco);
-	Banco_AplicarEstados(banco);
 }
 
-void Banco_encender(banco_t *banco){
+
+
+
+void Banco_ConfigCelda(banco_t *banco,uint8_t celda,uint8_t pin_sr,uint8_t pin_mux){
+	banco->celdas[celda].pin_sr = pin_sr;
+	banco->celdas[celda].pin_mux = pin_mux;
+}
+
+void Banco_Encender(banco_t *banco){
 	if (banco == NULL) {
 	        return;
 	    }
 	for (uint8_t i = 0; i < banco->cant_celdas; i++){
 			banco->celdas[i].prox = ON;
-			//banco->celdas[i].actual = ON;
+			banco->celdas[i].modo = SIMPLE;
 		}
 	banco->prox=OFF;
 
 }
 
-void Banco_apagar(banco_t *banco){
+void Banco_Apagar(banco_t *banco){
 	if (banco == NULL) {
 	        return;
 	    }
 	for (uint8_t i = 0; i < banco->cant_celdas; i++){
 		banco->celdas[i].prox = OFF;
-		//banco->celdas[i].actual = OFF;
+		banco->celdas[i].modo = SIMPLE;
+
 	}
 	banco->prox=ON;
 
@@ -83,13 +110,21 @@ void Banco_apagar(banco_t *banco){
 void Banco_EncenderCelda(banco_t *banco, uint8_t celda){
 	Banco_SetCelda(banco, celda, ON);
 	banco->prox=OFF;
+	banco->celdas[celda].modo = SIMPLE;
 }
+/*
+ * Pone el estado proxde la celda en OFF
+ */
 void Banco_ApagarCelda(banco_t *banco, uint8_t celda){
 	Banco_SetCelda(banco, celda, OFF);
+	if (!HayCeldasON(banco)){
+		banco->prox = ON;
+	}
+	banco->celda[celda].modo =SIMPLE;
 }
 
 
-void Banco_SetCelda(banco_t *banco, uint8_t celda, SW_estado_t estado){
+static void Banco_SetCelda(banco_t *banco, uint8_t celda, SW_estado_t estado){
     if (banco == NULL) {
         return;
     }
@@ -106,17 +141,75 @@ SW_estado_t  Banco_GetEstado (banco_t *banco){
 	return banco->actual;
 }
 
+int Banco_HayCambios(banco_t *banco){
+	int cambios = 0;
+	cambios += (banco->actual!= banco->prox)? 1: 0;
+
+	for (uint8_t i = 0;i< banco->cant_celdas;i++){
+		cambios += (banco->celdas[i].actual!= banco->celdas[i].prox)? 1: 0;
+	}
+	return cambios;
+}
+
+
+static void Banco_AplicarEstadosBanco(banco_t *banco){
+
+	SR_SetData(banco->sr, banco->prox);
+	banco->actual = banco->prox;
+}
+
+
+static void Banco_AplicarEstadosCeldas(banco_t *banco, uint8_t celda){
+	if (celda >= banco->cant_celdas){
+		SR_SetData(banco->sr, OFF);
+	}
+	else{
+		SR_SetData(banco->sr, banco->celdas[celda].prox);
+		banco->celdas[celda].actual = banco->celdas[celda].prox;
+	}
+}
 
 
 
-static int HayCambios(const banco_t *banco, uint8_t *celdas_encendidas);
+void Banco_AplicarEstadoPin(banco_t *banco, uint8_t pin){
+	if(pin == 0){
+		Banco_AplicarEstadosBanco(banco);
+	}
+	else {
+		Banco_AplicarEstadosCeldas(banco, pin - 1);
+	}
+	return;
+}
+
+
+
+static int HayCeldasON (banco_t *banco){
+	int celdas = 0;
+	for (uint8_t c = 0; c < banco->cant_celdas; c++){
+		if(banco->celdas[c].prox == ON){
+			celdas ++;
+		}
+	}
+	return (celdas > 0) ? 0 : 1;
+}
+
+void Banco_ClockPulse(banco_t *banco){
+	SR_PulseClock(banco->sr);
+}
+
+
+void Banco_LatchPulse(banco_t *banco){
+	SR_PulseLatch(banco->sr);
+}
+
+/*
 static void ArmarBit(uint8_t *data, uint8_t bit, uint8_t value);
 static uint8_t Actualizar_Data(banco_t *banco);
 
 
 
 
-/*
+
 void Banco_AplicarEstados(banco_t *banco){
 	if (banco == NULL) {
 	        return;
@@ -140,10 +233,7 @@ void Banco_AplicarEstados(banco_t *banco){
 }*/
 
 
-void Banco_ConfigCelda(banco_t *banco,uint8_t celda,uint8_t pin_sr,uint8_t pin_mux){
-	banco->celdas[celda].pin_sr = pin_sr;
-	banco->celdas[celda].pin_mux = pin_mux;
-}
+
 
 /*
  * Casos:
@@ -170,8 +260,8 @@ void Banco_ConfigCelda(banco_t *banco,uint8_t celda,uint8_t pin_sr,uint8_t pin_m
 
 /*
  * Si hay cambios-> 1, si no hay cambios -> 0
- */
-static int HayCambios(const banco_t *banco, uint8_t *celdas_encendidas)
+
+static int HayCambios(banco_t *banco, uint8_t *celdas_encendidas)
 {
 	uint8_t cambios = 0;
 
@@ -195,6 +285,7 @@ static void ArmarBit(uint8_t *data, uint8_t bit, uint8_t value)
         *data &= ~(1u << bit);
     }
 }
+*/
 
 /*
  * el bit más a la izquierda  = bit 7
@@ -205,6 +296,7 @@ static void ArmarBit(uint8_t *data, uint8_t bit, uint8_t value)
  * Arma el vector de data y actualiza los estados de las celdas
  * CHEQUEAR QUE ESTE BIEN!!!!!!!!
  */
+/*
 static uint8_t Actualizar_Data(banco_t *banco){
 	//parto de tener el pin banco -> 0, o prendo el sw banco, o prendo los sw celdas, ambos no es posible.
 
@@ -220,3 +312,4 @@ static uint8_t Actualizar_Data(banco_t *banco){
 	 }
 	 return data;
 }
+*/

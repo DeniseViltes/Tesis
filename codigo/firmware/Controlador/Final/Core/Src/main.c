@@ -22,8 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "mux.h"
-#include "shift_register.h"
+#include "controlador.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,7 +92,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  Controlador_init();
 
   /* USER CODE END 2 */
 
@@ -100,19 +100,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-	    /*SR_WriteByte(0x02); // 01101110
-	    HAL_Delay(50);
-	    //SR_WriteByte(0x01); // 01101110
-	    //HAL_Delay(50);*/
-
-/*	    MUX_Select(0);   // Y1
-		HAL_Delay(50);
-	    MUX_Select(1);   // Y1
-		HAL_Delay(50);
-	    MUX_Select(2);   // Y1
-		HAL_Delay(50);
-		*/
+	  Controlador_EncenderCelda(0,1);
+	  Controlador_Update();
 
     /* USER CODE END WHILE */
 

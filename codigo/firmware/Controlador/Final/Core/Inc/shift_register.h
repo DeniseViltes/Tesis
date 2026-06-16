@@ -27,6 +27,18 @@
            HGFE DCBA
 */
 
+enum SR_PINES{
+	QA,
+	QB,
+	QC,
+	QD,
+	QE,
+	QF,
+	QG,
+	QH,
+	CANT_PINES_SR
+};
+
 
 typedef struct {
     GPIO_TypeDef *data_port;
@@ -62,7 +74,7 @@ uint8_t SR_GetEstadoActual(shift_register_t *sr);
 /*
  * Solo un pin a la vez, y sin clock
  */
-void SR_SetData(shift_register_t *sr, utin8_t state);
+void SR_SetData(shift_register_t *sr, uint8_t state);
 void SR_PulseClock(shift_register_t *sr);
 void SR_PulseLatch(shift_register_t *sr);
 //void SR_WriteByte(shift_register_t *sr, uint8_t data);

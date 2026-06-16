@@ -12,6 +12,8 @@
 #include "mux.h"
 
 
+#define CELDAS_POR_BANCO 3
+
 typedef enum {
   OFF = 0,
   ON  = 1
@@ -30,7 +32,7 @@ typedef struct {
 	shift_register_t *sr;
 	mux_t *mux;
 	uint8_t cant_celdas;
-	celda_t *celdas;
+	celda_t celdas[CELDAS_POR_BANCO];
 	SW_estado_t actual;
 	SW_estado_t prox;
 	uint8_t pin_sr;
@@ -52,15 +54,22 @@ void Banco_Encender(banco_t *banco);
  * Apaga todas las celdas del banco
  */
 void Banco_Apagar(banco_t *banco);
+
+
 /*
  * Comanda el proximo estado de la celda, sin cambiarla
  */
 void Banco_EncenderCelda(banco_t *banco, uint8_t celda);
 void Banco_ApagarCelda(banco_t *banco, uint8_t celda);
 
-void Banco_AplicarEstados(banco_t *banco);
+void Banco_AplicarEstadoPin(banco_t *banco, uint8_t pin);
 
 void Banco_ConfigCelda(banco_t *banco,uint8_t celda,uint8_t pin_sr,uint8_t pin_mux);
+
+void Banco_ClockPulse(banco_t *banco);
+
+void Banco_LatchPulse(banco_t *banco);
+
 
 SW_estado_t  Banco_GetEstado (banco_t *banco);
 

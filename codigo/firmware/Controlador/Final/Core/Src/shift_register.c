@@ -7,7 +7,7 @@
 // --------------------------------------------------
 // Pulso de clock
 // --------------------------------------------------
-static void SR_Clock(shift_register_t *sr)
+void SR_PulseClock(shift_register_t *sr)
 {
     // DATA ya fue seteado antes de llamar a esta función
 	if (sr == NULL ) {
@@ -66,7 +66,7 @@ void SR_Init(shift_register_t *sr,GPIO_TypeDef *data_port,uint16_t data_pin,GPIO
     HAL_GPIO_WritePin(sr->data_port, sr->data_pin,  GPIO_PIN_RESET);
     HAL_GPIO_WritePin(sr->clk_port, sr->clk_pin,   GPIO_PIN_RESET);
     HAL_GPIO_WritePin(sr->latch_port, sr->latch_pin, GPIO_PIN_RESET);
-    SR_EscribirByte(sr, sr->state);
+
 }
 
 
