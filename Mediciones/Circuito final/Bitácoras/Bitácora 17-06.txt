@@ -1,0 +1,1 @@
+Primero se corrigió la celda defectuosa de la última vez (el P-MOSFET del inversor estaba en corto). Funciona ahora "bien". El driver no tiene problemas pero el N-MOSFET está prendido siempre. Como es una celda de banco no 1 (no tiene MOS de tierra), se decidió probarla como tal, usando el banco y las celdas ya soldadas como banco 1.
