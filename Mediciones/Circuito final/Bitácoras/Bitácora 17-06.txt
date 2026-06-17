@@ -13,3 +13,17 @@ p = 2*b + 1 < 14
 donde "b" es el número total de bancos y "p" el número de pines necesarios. El "+1" se debe a que sí es necesario el bus_neg1 (del banco 1) porque éste es el terminal negativo de la salida del sistema. De esta forma se pueden colocar 6 bancos y sobra un pin ADC. Sin embargo, por simplicidad nos quedaremos con 4 bancos de 3 celdas cada uno.
 
 A su vez, para los salida_adc no es necesario los opamps debido a que ya están desacoplados del resto del circuito por el MUX.
+
+Nuevo PROBLEMÓN de los opamps: no sirven. El problema es que cuando no hay celda con MOS de tierra encendida, se pierde la referencia de la malla de salida y pueden llegar a haber valores de tensión negativos en algunos nodos. Si al opamp lo alimentamos con Vcc y GND, esos valores negativos quedan truncados a 0V. Eso quiere decir que habría que alimentarlos con +Vcc y -Vcc, complicando en gran medida al circuito. Se siguen explorando posibilidades.
+
+
+
+Volviendo a la medición:
+Probando como banco 1, la celda con MOS de tierra sola (siempre prendida), y como banco 2, la combineta PCB de banco + celda sin MOS de tierra (la que queremos probar).
+Anduvo todo bien con valores de potencia esperados a la salida con switcheo.
+Se procede con la siguiente prueba: banco 1 con PCB de banco y celda con MOS de tierra, y banco 2 con la celda sin el MOS de tierra. La celda del banco 2 siempre prendida y se vuelve a probar el switcheo.
+Anduvo perfectamente.
+
+
+Que aprendimos hoy:
+Cuando está apagado el banco 1, cell_neg llega a unos -400mV. Una posibilidad es usar un opamp como sumador y desplazar la señar a medir aproximadamente 1V para arriba. Ese nuevo valor se obtiene mediante otro divisor resistivo usando la fuente 3.3V del controlador.
