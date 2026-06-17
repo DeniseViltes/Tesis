@@ -1,1 +1,15 @@
 Primero se corrigió la celda defectuosa de la última vez (el P-MOSFET del inversor estaba en corto). Funciona ahora "bien". El driver no tiene problemas pero el N-MOSFET está prendido siempre. Como es una celda de banco no 1 (no tiene MOS de tierra), se decidió probarla como tal, usando el banco y las celdas ya soldadas como banco 1.
+
+Ante la falla de la medición se decidió seguir con las pruebas del software únicamente para saber si el problema se debe a éste o a la placa.
+
+
+Por otro lado:
+SE PUEDEN CONECTAR 6 BANCOS CON NUESTRA CONFIGURACIÓN
+
+Esto se debe a que el cálculo original era erróneo. En un principio, se dijo que hay 14 pines ADC disponibles y por banco se muestrean bus_pos, bus_neg y salida_adc, por lo que alcanzaría para 4 bancos y sobran dos pines. Pero en realidad no es así: por banco se muestrea únicamente bus_pos y salida_adc, dado que bus_neg corresponde al bus_pos del anterior banco. Entonces el cálculo resulta:
+
+p = 2*b + 1 < 14
+
+donde "b" es el número total de bancos y "p" el número de pines necesarios. El "+1" se debe a que sí es necesario el bus_neg1 (del banco 1) porque éste es el terminal negativo de la salida del sistema. De esta forma se pueden colocar 6 bancos y sobra un pin ADC. Sin embargo, por simplicidad nos quedaremos con 4 bancos de 3 celdas cada uno.
+
+A su vez, para los salida_adc no es necesario los opamps debido a que ya están desacoplados del resto del circuito por el MUX.
