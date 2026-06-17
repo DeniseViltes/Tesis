@@ -29,10 +29,10 @@ H	CELDA_7
 
 
 
-int Banco_HayCeldasON(banco_t *banco);
+int Banco_HayCeldasProxON(banco_t *banco);
 int Banco_HayCambios(banco_t *banco);
 static void Banco_SetCelda(banco_t *banco, uint8_t celda, SW_estado_t estado);
-static SW_estado_t calcular_estado_celda(celda_modo_t modo, uint8_t fase);
+//static SW_estado_t calcular_estado_celda(celda_modo_t modo, uint8_t fase);
 
 
 /*
@@ -46,7 +46,7 @@ static SW_estado_t calcular_estado_celda(celda_modo_t modo, uint8_t fase);
  * 7 : CELL_NEG_3 : c = 2
  */
 
-static uint8_t Controlador_GetMuxPinCelda(uint8_t celda)
+static uint8_t Banco_GetMuxPinCelda(uint8_t celda)
 {
 	switch (celda) {
 	case 0: return 6; // CELL_NEG_1
@@ -66,12 +66,12 @@ void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_c
 	banco->cant_celdas = cant_celdas;
 	banco->pin_sr = 0;
 	banco->contador = 0;
-	banco->frecuencia = 0; //Cero significa constante
+	banco->periodo_ms = 0; //Cero significa constante
 	banco->fase = 0;  //fase de referencia para la celda.
 
 
 	for(int c = 0 ; c< cant_celdas; c++){
-		Banco_ConfigCelda(banco,c, c+1, Controlador_GetMuxPinCelda(c));
+		Banco_ConfigCelda(banco,c, c+1, Banco_GetMuxPinCelda(c));
 
 		banco->celdas[c].modo = FIJO;
 
@@ -109,7 +109,7 @@ void Banco_ApagarSwitch(banco_t *banco){
 void Banco_ApagarCeldas(banco_t *banco){
     for (uint8_t i = 0; i < banco->cant_celdas; i++) {
     	banco->celdas[i].prox = OFF;
-    	banco->celdas[i].modo = FIJO;
+    	//banco->celdas[i].modo = FIJO;
     }
 
 }
@@ -118,14 +118,14 @@ void Banco_ApagarCeldas(banco_t *banco){
 void Banco_EncenderCeldas(banco_t *banco){
     for (uint8_t i = 0; i < banco->cant_celdas; i++) {
     	banco->celdas[i].prox = ON;
-    	banco->celdas[i].modo = FIJO;
+    	//banco->celdas[i].modo = FIJO;
     }
 
 }
 
 void Banco_EncenderCelda(banco_t *banco, uint8_t celda){
 	Banco_SetCelda(banco, celda, ON);
-	banco->prox=OFF;
+	//banco->prox=OFF;
 	banco->celdas[celda].modo = FIJO;
 }
 /*
@@ -133,9 +133,9 @@ void Banco_EncenderCelda(banco_t *banco, uint8_t celda){
  */
 void Banco_ApagarCelda(banco_t *banco, uint8_t celda){
 	Banco_SetCelda(banco, celda, OFF);
-	if (!Banco_HayCeldasON(banco)){
+	/*if (!Banco_HayCeldasProxON(banco)){
 		banco->prox = ON;
-	}
+	}*/
 	banco->celdas[celda].modo =FIJO;
 }
 
@@ -159,10 +159,11 @@ SW_estado_t  Banco_GetEstado (banco_t *banco){
 
 int Banco_HayCambios(banco_t *banco){
 	int cambios = 0;
-	cambios += (banco->actual!= banco->prox)? 1: 0;
-
+	cambios = (banco->actual!= banco->prox)? 1: 0;
+	if (cambios==1) return 1;
 	for (uint8_t i = 0;i< banco->cant_celdas;i++){
-		cambios += (banco->celdas[i].actual!= banco->celdas[i].prox)? 1: 0;
+		cambios = (banco->celdas[i].actual!= banco->celdas[i].prox)? 1: 0;
+		if (cambios==1) return 1;
 	}
 	return cambios;
 }
@@ -197,7 +198,27 @@ void Banco_AplicarEstadoPin(banco_t *banco, uint8_t pin){
 	return;
 }
 
-int Banco_HayCeldasON(banco_t *banco)
+SW_estado_t Banco_GetEstadoPin(banco_t *banco, uint8_t pin)
+{
+	if (banco == NULL) {
+		return OFF;
+	}
+
+	if (pin == 0) {
+		return banco->prox;
+	}
+
+	uint8_t celda = pin - 1;
+	if (celda >= banco->cant_celdas) {
+		return OFF;
+	}
+
+	return banco->celdas[celda].prox;
+}
+
+
+
+int Banco_HayCeldasProxON(banco_t *banco)
 {
     for (uint8_t c = 0; c < banco->cant_celdas; c++) {
         if (banco->celdas[c].prox == ON) {
@@ -207,6 +228,15 @@ int Banco_HayCeldasON(banco_t *banco)
     return 0;
 }
 
+int Banco_HayCeldasActualON(banco_t *banco)
+{
+    for (uint8_t i = 0; i < banco->cant_celdas; i++) {
+        if (banco->celdas[i].actual == ON) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 
 
@@ -235,29 +265,87 @@ void Banco_SetModoCelda(banco_t *banco, uint8_t celda, celda_modo_t modo)
 
 
 
-static SW_estado_t Banco_CalcularEstadoSwitching(celda_modo_t modo, uint8_t fase){
+static SW_estado_t Banco_CalcularEstadoSwitching(celda_t *celda, uint8_t fase){
 
+	celda_modo_t modo = celda->modo;
 	switch (modo) {
+		case FIJO:
+			return celda->prox;
 	    case SYNCHRO:
 	    	return fase ? OFF : ON;
 	    case COMPLEMENTARY:
 	    	return fase ? ON : OFF;
 	    default:
 	    	return OFF;
-}
-
-
-
-void Banco_ActualizarSwitching(banco_t *banco){
-
-	if (!banco->frecuencia) return;
-
-	for (uint8_t c = 0; c < banco->cant_celdas; c++){
-		banco->celdas[c].prox = Banco_CalcularEstadoSwitching(banco->celdas[c].modo, banco->fase);
 	}
 }
 
 
+
+/*static void Banco_CalcularSwitching(banco_t *banco){
+
+	if (!banco->periodo_ms) return;
+
+	for (uint8_t c = 0; c < banco->cant_celdas; c++){
+		banco->celdas[c].prox = Banco_CalcularEstadoSwitching(&banco->celdas[c], banco->fase);
+	}
+}*/
+
+
 void Banco_ModificarFase(banco_t *banco, uint8_t fase){
 	banco->fase = fase ? 1 : 0;
+}
+
+
+void Banco_Tick(banco_t *banco)
+{
+	if (banco->periodo_ms == 0) return;
+
+	banco->contador++;
+	if (banco->contador >= banco->periodo_ms) {
+		banco->contador = 0;
+		banco->fase ^= 1;
+	}
+}
+
+
+
+uint8_t Banco_CalcularPatron(banco_t *banco)
+{
+    uint8_t patron = 0;
+
+    if (banco == NULL) {
+        return 0;
+    }
+
+    for (uint8_t c = 0; c < banco->cant_celdas; c++) {
+        SW_estado_t estado =
+            Banco_CalcularEstadoSwitching(&banco->celdas[c], banco->fase);
+
+        if (estado == ON) {
+            patron |= (1u << c);
+        }
+    }
+
+    return patron;
+}
+
+
+void Banco_SetPatronCeldas(banco_t *banco, uint8_t patron)
+{
+    for (uint8_t c = 0; c < banco->cant_celdas; c++) {
+        banco->celdas[c].prox = (patron & (1u << c)) ? ON : OFF;
+    }
+}
+
+void Banco_ModificarPeriodo(banco_t *banco, uint16_t periodo_ms){
+	banco->periodo_ms = periodo_ms;
+}
+
+
+void Banco_DetenerSwitchingCelda(banco_t *banco, uint8_t celda){
+	if (celda >= banco->cant_celdas) return;
+	banco->celdas[celda].modo = FIJO;
+
+	banco->celdas[celda].prox = banco->celdas[celda].actual; //para que quede en donde esta ahora
 }

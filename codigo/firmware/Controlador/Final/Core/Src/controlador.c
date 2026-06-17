@@ -9,8 +9,11 @@
 #include "main.h"
 
 
-static controlador_t ctrl;
+#define DEADTIME 1
 
+static controlador_t ctrl;
+static volatile uint8_t data_sr_debug[CANT_BANCOS];
+extern volatile uint8_t flag_controlador_update;
 
 
 static shift_register_t sr_bancos[CANT_BANCOS];
@@ -20,11 +23,11 @@ static mux_t mux_bancos[CANT_BANCOS];
 
 //por ahora solo tengo el banco 1
 static GPIO_TypeDef *sr_data_puertos[CANT_BANCOS] = {
-	DATA_GPIO_Port
+	DATA_GPIO_Port,
 };
 
 static uint16_t sr_data_pines[CANT_BANCOS] = {
-	DATA_Pin
+	DATA_Pin,
 };
 
 
@@ -50,12 +53,14 @@ void Controlador_init(void){
 	ctrl.cant_bancos = 1;
 	//apagar_banco
 
-	Controlador_AplicarEstados();
+	//Controlador_AplicarEstados();
 }
 
 
 void Controlador_Update(void){
-	Controlador_AplicarEstados();
+	Controlador_Tick1ms();
+	Controlador_ActualizarEstados();
+
 }
 
 
@@ -71,8 +76,13 @@ static void Controlador_LatchPulse(void){
 
 
 
+uint8_t Controlador_GetEstadoBanco(uint8_t banco){
+	return (uint8_t) Banco_GetEstado(&ctrl.bancos[banco]);
+}
 
-
+uint8_t Controlador_GetEstadoCelda(uint8_t banco, uint8_t celda){
+	return (uint8_t) Banco_GetEstadoPin(&ctrl.bancos[banco], celda);
+}
 
 void Controlador_AplicarEstados(void){
 	//Envio 1 bit a la vez de todos los sr y luego clockeo
@@ -80,14 +90,27 @@ void Controlador_AplicarEstados(void){
 	        return;
 	    }
 
-	for (uint8_t bit = 0; bit < CANT_PINES_SR; bit++){
+	for (uint8_t sr = 0; sr < CANT_BANCOS; sr++){
+		data_sr_debug[sr] = 0;
+	}
+
+	for (uint8_t pin = 0; pin < CANT_PINES_SR; pin++){
 			for (uint8_t sr = 0; sr< CANT_BANCOS; sr++){
-				Banco_AplicarEstadoPin(&ctrl.bancos[sr], bit);
+				if (Banco_GetEstadoPin(&ctrl.bancos[sr], pin) == ON) {
+					data_sr_debug[sr] |= (1u << pin);
+				}
+				Banco_AplicarEstadoPin(&ctrl.bancos[sr], pin);
 			}
 			Controlador_ClockPulse();
 
 	}
 	Controlador_LatchPulse();
+}
+
+uint8_t Controlador_GetDataSR(uint8_t banco)
+{
+	if (verificar_banco(banco) == -1) return 0;
+	return data_sr_debug[banco];
 }
 
 
@@ -120,7 +143,7 @@ void Controlador_EncenderCelda(uint8_t banco, uint8_t celda)
     Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
 
 
-    HAL_Delay(1);
+    HAL_Delay(DEADTIME);
 
 
     // Paso 2: prendo la celda.
@@ -140,8 +163,8 @@ void Controlador_ApagarCelda(uint8_t banco, uint8_t celda)
 
 
 
-    if (Banco_HayCeldasON(&ctrl.bancos[banco])){ //no quedan celdas en ON->enciendo el banco
-    	HAL_Delay(1);
+    if (!Banco_HayCeldasProxON(&ctrl.bancos[banco])){ //no quedan celdas en ON->enciendo el banco
+    	HAL_Delay(DEADTIME);
 
     	// Paso 2: prendo la celda.
     	Banco_EncenderSwitch(&ctrl.bancos[banco]);
@@ -150,19 +173,6 @@ void Controlador_ApagarCelda(uint8_t banco, uint8_t celda)
     }
 }
 
-
-
-
-/*
-void Controlador_EncenderCelda(uint8_t banco, uint8_t celda){
-	if (verificar_banco(banco) == -1) return;
-	Banco_EncenderCelda(&ctrl.bancos[banco],celda );
-}
-
-void Controlador_ApagarCelda(uint8_t banco, uint8_t celda){
-	if (verificar_banco(banco) == -1) return;
-	Banco_ApagarCelda(&ctrl.bancos[banco],celda);
-}*/
 
 
 
@@ -176,13 +186,16 @@ int verificar_banco(uint8_t banco){
 
 void Controlador_BypassBanco(uint8_t banco){
 	if (verificar_banco(banco) == -1) return;
+
+	Banco_ApagarSwitch(&ctrl.bancos[banco]);//solo or si acaso
 	Banco_ApagarCeldas(&ctrl.bancos[banco]);
 	Controlador_AplicarEstados();
 
-	HAL_Delay(1);
+	HAL_Delay(DEADTIME);
 
 	Banco_EncenderSwitch(&ctrl.bancos[banco]);
     Controlador_AplicarEstados();
+
 }
 
 void Controlador_ActivarCeldasBanco(uint8_t banco){
@@ -191,14 +204,145 @@ void Controlador_ActivarCeldasBanco(uint8_t banco){
 	Banco_ApagarSwitch(&ctrl.bancos[banco]);
 	Controlador_AplicarEstados();
 
-	HAL_Delay(1);
+	HAL_Delay(DEADTIME);
 
 	Banco_EncenderCeldas(&ctrl.bancos[banco]);
 	Controlador_AplicarEstados();
+}
 
+
+
+/*
+ * Sirve  para actualizar estados con y sin switching
+ */
+void Controlador_ActualizarEstados(void)
+{
+    uint8_t patron[CANT_BANCOS];
+    uint8_t hayActual[CANT_BANCOS];
+    uint8_t hayProx[CANT_BANCOS];
+    uint8_t necesitaPaso2 = 0;
+
+    if (Controlador_HayCambios() == 0 )	return;
+    // 1. Calculo todo primero
+    for (uint8_t b = 0; b < CANT_BANCOS; b++) {
+
+        patron[b] = Banco_CalcularPatron(&ctrl.bancos[b]);
+        hayActual[b] = Banco_HayCeldasActualON(&ctrl.bancos[b]);
+        hayProx[b] = (patron[b] != 0);
+    }
+
+    // 2. Preparo paso 1 para todos los bancos
+    for (uint8_t b = 0; b < CANT_BANCOS; b++) {
+        if (hayActual[b] && hayProx[b]) {
+            // ON -> ON
+            Banco_ApagarSwitch(&ctrl.bancos[b]);
+            Banco_SetPatronCeldas(&ctrl.bancos[b], patron[b]);
+        }
+        else if (hayActual[b] && !hayProx[b]) {
+            // ON -> OFF
+            Banco_ApagarSwitch(&ctrl.bancos[b]);
+            Banco_ApagarCeldas(&ctrl.bancos[b]);
+            necesitaPaso2 = 1;
+        }
+        else if (!hayActual[b] && !hayProx[b]) {
+            // OFF -> OFF
+            Banco_ApagarCeldas(&ctrl.bancos[b]);
+            Banco_EncenderSwitch(&ctrl.bancos[b]);
+        }
+        else {
+            // OFF -> ON
+            Banco_ApagarSwitch(&ctrl.bancos[b]);
+            Banco_ApagarCeldas(&ctrl.bancos[b]);
+            necesitaPaso2 = 1;
+        }
+    }
+
+    Controlador_AplicarEstados();
+
+    if (!necesitaPaso2) {
+        return;
+    }
+
+    HAL_Delay(DEADTIME);
+
+    // 3. Preparo paso 2 para todos los bancos
+    for (uint8_t b = 0; b < CANT_BANCOS; b++) {
+        if (hayActual[b] && !hayProx[b]) {
+            // ON -> OFF
+            Banco_EncenderSwitch(&ctrl.bancos[b]);
+            Banco_ApagarCeldas(&ctrl.bancos[b]);
+        }
+        else if (!hayActual[b] && hayProx[b]) {
+            // OFF -> ON
+            Banco_ApagarSwitch(&ctrl.bancos[b]);
+            Banco_SetPatronCeldas(&ctrl.bancos[b], patron[b]);
+        }
+    }
+
+    Controlador_AplicarEstados();
 }
 
 
 
 
+void Controlador_Tick1ms(void)
+{
+    for (uint8_t b = 0; b < CANT_BANCOS; b++) {
+        Banco_Tick(&ctrl.bancos[b]);
+    }
 
+    flag_controlador_update = 0;
+}
+
+
+static uint8_t Controlador_GetModoCelda(char modo)
+{
+	switch (modo) {
+	case 's': return SYNCHRO;
+	case 'c': return COMPLEMENTARY;
+	default: return FIJO;
+	}
+}
+
+
+void Controlador_IniciarSwitchingCelda(uint8_t banco, uint8_t celda, char modo){
+	// CAMBIAR ESTO, QUE NO ENTRE DIRECTO A FREQ
+	if (ctrl.bancos[banco].periodo_ms == 0){
+		ctrl.bancos[banco].periodo_ms = FREQ_DEFAULT;
+	}
+
+	Banco_SetModoCelda(&ctrl.bancos[banco], celda, Controlador_GetModoCelda( modo));
+}
+
+void Controlador_ModificarPeriodoBanco(uint8_t banco, uint16_t periodo_ms){
+	Banco_ModificarPeriodo(&ctrl.bancos[banco],  periodo_ms);
+}
+
+
+void Controlador_PararSwitchingCelda(uint8_t banco, uint8_t celda){
+	 if (verificar_banco(banco) == -1) return;
+
+	 Banco_DetenerSwitchingCelda(&ctrl.bancos[banco], celda);
+	 Controlador_ActualizarEstados();
+}
+
+
+void Controlador_DetenerSwitchingBancoBypass(uint8_t banco)
+{
+    if (verificar_banco(banco) == -1) return;
+
+    Banco_ModificarPeriodo(&ctrl.bancos[banco], 0);
+
+    for (uint8_t c = 0; c < CELDAS_POR_BANCO; c++) {
+        Banco_DetenerSwitchingCelda(&ctrl.bancos[banco], c);
+    }
+
+    Controlador_ActualizarEstados();
+}
+
+
+void Controlador_Reiniciar(void){
+	for (uint8_t i = 0; i < CANT_BANCOS; i++){
+		Controlador_BypassBanco(i);
+	}
+}

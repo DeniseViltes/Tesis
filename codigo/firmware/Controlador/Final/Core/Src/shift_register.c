@@ -20,6 +20,7 @@ void SR_PulseClock(shift_register_t *sr)
     HAL_Delay(1);
 
     HAL_GPIO_WritePin(sr->clk_port, sr->clk_pin, GPIO_PIN_RESET);
+    HAL_Delay(1);
 
 }
 

@@ -57,6 +57,8 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
+volatile uint8_t flag_controlador_update = 0;
+static uint32_t controlador_tick_ms = 0;
 
 /* USER CODE END EV */
 
@@ -100,10 +102,12 @@ void MemManage_Handler(void)
 {
   /* USER CODE BEGIN MemoryManagement_IRQn 0 */
 
+
   /* USER CODE END MemoryManagement_IRQn 0 */
   while (1)
   {
     /* USER CODE BEGIN W1_MemoryManagement_IRQn 0 */
+
     /* USER CODE END W1_MemoryManagement_IRQn 0 */
   }
 }
@@ -188,6 +192,12 @@ void SysTick_Handler(void)
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
+  controlador_tick_ms++;
+
+  if (controlador_tick_ms >= 1) {
+      controlador_tick_ms = 0;
+      flag_controlador_update = 1;
+  }
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -206,7 +216,7 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
 
   /* USER CODE END EXTI15_10_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(B1_Pin);
+  HAL_GPIO_EXTI_IRQHandler(Boton_Reinciar_Pin);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */

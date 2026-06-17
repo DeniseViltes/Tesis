@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "controlador.h"
+#include "cli.h"
 
 /* USER CODE END Includes */
 
@@ -45,6 +46,7 @@
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+extern volatile uint8_t flag_controlador_update;
 
 /* USER CODE END PV */
 
@@ -93,16 +95,24 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   Controlador_init();
+  //CLI_Init(&huart2);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  //Controlador_IniciarSwitchingCelda(0,1,'s');
+
   while (1)
   {
-	  Controlador_EncenderCelda(0,1);
-	  Controlador_Update();
 
+	  Controlador_EncenderCelda(0,0);
+
+	    if (flag_controlador_update) {
+	        flag_controlador_update = 0;
+	        Controlador_Update();
+	    }
+	    HAL_Delay(500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -208,11 +218,11 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, S2_Pin|S0_Pin|S1_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
+  /*Configure GPIO pin : Boton_Reinciar_Pin */
+  GPIO_InitStruct.Pin = Boton_Reinciar_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(Boton_Reinciar_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
   GPIO_InitStruct.Pin = LD2_Pin;
@@ -244,8 +254,15 @@ static void MX_GPIO_Init(void)
   /* USER CODE END MX_GPIO_Init_2 */
 }
 
-/* USER CODE BEGIN 4 */
-
+/* USER CODE BEGIN 4 *//*
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  CLI_RxCallback(huart);
+}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  CLI_ButtonReiniciarCallback(GPIO_Pin);
+}*/
 /* USER CODE END 4 */
 
 /**

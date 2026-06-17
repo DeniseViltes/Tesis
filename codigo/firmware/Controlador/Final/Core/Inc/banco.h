@@ -12,7 +12,7 @@
 #include "mux.h"
 
 
-#define CELDAS_POR_BANCO 3
+#define CELDAS_POR_BANCO 7
 
 typedef enum {
   OFF = 0,
@@ -44,8 +44,8 @@ typedef struct {
 	SW_estado_t actual;
 	SW_estado_t prox;
 	uint8_t pin_sr;
-	uint8_t contador;
-	float frecuencia;  //si es cero no switchea.
+	uint16_t contador;
+	uint16_t periodo_ms;  //si es cero no switchea.
 	uint8_t fase; //fase general del banco
 } banco_t;
 
@@ -87,11 +87,15 @@ void Banco_ApagarCelda(banco_t *banco, uint8_t celda);
 
 void Banco_AplicarEstadoPin(banco_t *banco, uint8_t pin);
 
+
 void Banco_ConfigCelda(banco_t *banco,uint8_t celda,uint8_t pin_sr,uint8_t pin_mux);
 
 void Banco_ClockPulse(banco_t *banco);
 
 void Banco_LatchPulse(banco_t *banco);
+
+int Banco_HayCeldasProxON(banco_t *banco);
+int Banco_HayCeldasActualON(banco_t *banco);
 
 int Banco_HayCambios(banco_t *banco);
 
@@ -101,9 +105,23 @@ void Banco_SwichingCelda(banco_t *banco, uint8_t celda);
 
 void Banco_ModificarFase(banco_t *banco, uint8_t fase);
 
-void Banco_ActualizarSwitching(banco_t *banco);
+void Banco_ModificarPeriodo(banco_t *banco, uint16_t periodo_ms);
+
+//void Banco_CalcularSwitching(banco_t *banco);
 
 SW_estado_t  Banco_GetEstado (banco_t *banco);
+SW_estado_t Banco_GetEstadoPin(banco_t *banco, uint8_t pin);
+
+
+uint8_t Banco_CalcularPatron(banco_t *banco);
+void Banco_SetPatronCeldas(banco_t *banco, uint8_t patron);
+void Banco_Tick(banco_t *banco);
+
+
+/*
+ * Detiene el switching y apaga la celda
+ */
+void Banco_DetenerSwitchingCelda(banco_t *banco, uint8_t celda);
 
 
 #endif /* INC_BANCO_H_ */

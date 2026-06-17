@@ -52,3 +52,41 @@ Controlador manda la instrucción -> banco aplica estados -> se actualiza el est
 Contralador manda la instruccion de aplicar estados -> banco aplica la logica -> celda actualiza sus estados
 
 
+
+Para el switching
+
+**------------------------------------------------------------**
+Banco:
+- calcula qué celdas quiere ON/OFF según modo/fase
+- informa si queda alguna celda ON
+
+Controlador:
+- decide transiciones seguras
+- aplica frames completos a todos los SR
+- maneja delay/dead-time
+
+**------------------------------------------------------------**
+
+Casos de switching:
+
+actual 0 celdas ON -> proximo 0 celdas ON
+    sw banco ON, celdas OFF
+    un latch alcanza
+
+actual 0 celdas ON -> proximo alguna celda ON
+    paso 1: sw banco OFF, celdas OFF
+    latch
+    delay
+    paso 2: sw banco OFF, celdas segun switching
+    latch
+    
+actual alguna celda ON -> proximo alguna celda ON
+    sw banco OFF, celdas segun switching
+    un latch alcanza
+
+actual alguna celda ON -> proximo 0 celdas ON
+    paso 1: sw banco OFF, celdas OFF
+    latch
+    delay
+    paso 2: sw banco ON, celdas OFF
+    latch

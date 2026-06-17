@@ -28,7 +28,7 @@
 */
 
 enum SR_PINES{
-	QA,
+	QA = 0,
 	QB,
 	QC,
 	QD,
