@@ -1,0 +1,20 @@
+En primer lugar, se revisó el código y probó nuevamente en la placa del banco para corroborar su funcionamiento. Especial énfasis en la información enviada como "Data" y en la sincronización entre la información, clock de shift y clock de latch.
+
+
+
+Por otro lado, hubo una mesa de debate con Juan acerca del destino de las mediciones y el uso de opamps y valores negativos. La idea original era medir bus_pos, bus_neg y cell_neg para cada celda.
+
+En un principio se tiene el tema de los cell_neg:
+Técnicamente no son necesarios para el funcionamiento del sistema, únicamente se utilizarían para reconocer errores críticos en alguna de las celdas. Sin embargo, dado su valor fundamental para la estimación del SoC (la cual no se va a hacer pero sería interesante en un futuro análisis), se la deja. Se debe analizar si el Mux analógico permite tomar como referencia cell_neg en lugar de GND para no llegar a negativos y procesar el valor por software. O analizar ponerle un jumper para decidir si se referencia a cell_neg o GND según sea el número de banco (recordar que este problema se halla únicamente en el banco 1). El objetivo es cambiar lo menos posible el circuito del banco.
+
+Luego, respecto a los bus_pos y bus_neg, se pueden medir de forma mucho más eficiente. En lugar de medir la tensión de ambos nodos, se puede colocar un opamp (en el circuito central) en modo restador y así medir directamente bus_pos-bus_neg. Esto tiene el beneficio de:
+- Nos ahorramos un pin ADC del controlado
+- Recibimos directamente la medida diferencial en lugar de hacer la resta por código
+- El opamp tiene entrada de alta impedancia, prácticamente eliminando el efecto de carga
+- Como la tensión medida ahora siempre va a estar en torno a 3.3V, se puede minimizar el valor del divisor resistivo, aumentando la resolución (especialmente en bancos bajos)
+
+Como principal desventaja está el hecho de que es necesario el uso de fuente partida para los posibles valores negativos del banco 1. Para esto se investiga sobre integrados que hagan este trabajo.
+
+
+
+Por otro lado, está la búsqueda de la tierra virtual. ¿Qué pasa con la tierra y la referencia de tensión cuando las celdas del banco 1 están apagas? ¿Realmente no hay tierra en la malla de salida?
