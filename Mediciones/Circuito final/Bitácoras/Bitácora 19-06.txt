@@ -1,4 +1,4 @@
-En primer lugar, se revisó el código y probó nuevamente en la placa del banco para corroborar su funcionamiento. Especial énfasis en la información enviada como "Data" y en la sincronización entre la información, clock de shift y clock de latch.
+En primer lugar, se revisó el código y probó nuevamente en la placa del banco para corroborar su funcionamiento. Especial énfasis en la información enviada como "Data" y en la sincronización entre la información, clock de shift y clock de latch. Anduvo perfectamente y se pudo probar con las celdas funcionando (circuito de celdas con las pilas puestas, no fuente externa). También se está implementando una función para modificar la frecuencia de switcheo.
 
 
 
@@ -13,7 +13,7 @@ Luego, respecto a los bus_pos y bus_neg, se pueden medir de forma mucho más efi
 - El opamp tiene entrada de alta impedancia, prácticamente eliminando el efecto de carga
 - Como la tensión medida ahora siempre va a estar en torno a 3.3V, se puede minimizar el valor del divisor resistivo, aumentando la resolución (especialmente en bancos bajos)
 
-Como principal desventaja está el hecho de que es necesario el uso de fuente partida para los posibles valores negativos del banco 1. Para esto se investiga sobre integrados que hagan este trabajo.
+Como principal desventaja está el hecho de que es necesario el uso de fuente partida para los posibles valores negativos del banco 1. Para esto se investiga sobre integrados que hagan este trabajo. Se encontró el integrado SOIC8 ICL7660 que recibe una tensión continua positiva y devuelve su negativa. Cómoda, pequeña, fácil de usar, cumple todos los requisitos buscados.
 
 
 
