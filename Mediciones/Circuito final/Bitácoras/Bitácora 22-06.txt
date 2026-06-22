@@ -1,0 +1,13 @@
+Se hicieron las simulaciones como habíamos dicho del sistema con el barrido de tensiones en funcionamiento normal (2.4V - 3.7V).
+
+Hubieron 2 grandes decubrimientos:
+
+- El sistema siempre referencia todo respecto a cell_neg de las celdas del banco 1. El tema es que en el encendido, cell_neg coincide con GND pero en el apagado no.
+
+- Relacionado con el primer punto, cell_neg de las celdas del banco 1 son negativas porque hay corriente circulando desde GND a través de los MOS de tierra. Esta corriente corresponde a las etapas de control de las celdas de todo el sistema (Ic de los TBJs 1 de cada celda). Sin embargo, mientras más aumentan los bancos, mucho más aumenta esta corriente de fuga. Se graficaron las corrientes de colector solo para el banco 3 vs la corriente que circulan por el MOS de tierra (en apagado las celdas del banco 1) y coincidían casi exactamente. Este problema disminuye en gran medida aumentando los valores de R2 y R3. Pasando R2 de 100k a 500k para el banco 3, la corriente de fuga disminuye al 25% que antes (264uA).
+
+Se deja constancia de esto para la próxima vez probarlo con las celdas que tenemos hechas.
+
+
+
+Por otro lado, se decidió implementar en el circuito central, sumadores no inversores con opamps para tomar las muestras diferenciales de cada banco. Quedan buscar los valores de resistencias para definir cuánto bajar la tensión de salida. Estos valores son necesarios porque nuestras celdas podrían llegar a una tensión de 3.7V pero el controlador solo mide de forma segura hasta 3.3V. Esto quiere decir que habría que reducirlo en un 10%.
