@@ -22,6 +22,6 @@ void CLI_RxCallback(UART_HandleTypeDef *huart);
 
 /* Boton azul para forzar modo manual */
 void CLI_ButtonReiniciarCallback(uint16_t gpio_pin);
-
+void CLI_Process(void);
 
 #endif /* INC_CLI_H_ */

@@ -40,3 +40,4 @@ void MUX_Select(mux_t *mux, uint8_t pin)
     HAL_GPIO_WritePin(mux->s2_port, mux->s2_pin,
                       (pin & 0x04) ? GPIO_PIN_SET : GPIO_PIN_RESET);
 }
+

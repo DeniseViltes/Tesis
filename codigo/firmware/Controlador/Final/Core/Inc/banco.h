@@ -10,6 +10,7 @@
 
 #include "shift_register.h"
 #include "mux.h"
+#include "adc.h"
 
 
 #define CELDAS_POR_BANCO 7
@@ -47,13 +48,14 @@ typedef struct {
 	uint16_t contador;
 	uint16_t periodo_ms;  //si es cero no switchea.
 	uint8_t fase; //fase general del banco
+	adc_node_t canal_adc;
 } banco_t;
 
 
 /*
  * Configura los parametros principales del banco, e inicia el banco apagado (sw banco encendido)
  */
-void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_celdas);
+void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_celdas, adc_node_t nodo);
 
 /*
  * Enciende el switch del banco para mantener la continuidad de la matriz
@@ -110,9 +112,10 @@ void Banco_ModificarPeriodo(banco_t *banco, uint16_t periodo_ms);
 //void Banco_CalcularSwitching(banco_t *banco);
 
 SW_estado_t  Banco_GetEstado (banco_t *banco);
-SW_estado_t Banco_GetEstadoPin(banco_t *banco, uint8_t pin);
+SW_estado_t Banco_GetEstadoCelda(banco_t *banco, uint8_t pin);
+SW_estado_t  Banco_GetEstadoActual (banco_t *banco);
 
-
+SW_estado_t Banco_GetEstadoPin(banco_t *banco, uint8_t celda);
 uint8_t Banco_CalcularPatron(banco_t *banco);
 void Banco_SetPatronCeldas(banco_t *banco, uint8_t patron);
 void Banco_Tick(banco_t *banco);

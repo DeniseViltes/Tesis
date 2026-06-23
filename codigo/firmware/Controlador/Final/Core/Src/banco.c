@@ -60,7 +60,7 @@ static uint8_t Banco_GetMuxPinCelda(uint8_t celda)
 	}
 }
 
-void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_celdas){
+void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_celdas, adc_node_t nodo){
 	banco->sr = sr;
 	banco->mux = mux;
 	banco->cant_celdas = cant_celdas;
@@ -68,10 +68,10 @@ void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_c
 	banco->contador = 0;
 	banco->periodo_ms = 0; //Cero significa constante
 	banco->fase = 0;  //fase de referencia para la celda.
-
+	banco->canal_adc = nodo;
 
 	for(int c = 0 ; c< cant_celdas; c++){
-		Banco_ConfigCelda(banco,c, c+1, Banco_GetMuxPinCelda(c));
+		Banco_ConfigCelda(banco,c, cant_celdas-1, Banco_GetMuxPinCelda(c));
 
 		banco->celdas[c].modo = FIJO;
 
@@ -154,6 +154,10 @@ static void Banco_SetCelda(banco_t *banco, uint8_t celda, SW_estado_t estado){
 
 
 SW_estado_t  Banco_GetEstado (banco_t *banco){
+	return banco->prox;
+}
+
+SW_estado_t  Banco_GetEstadoActual (banco_t *banco){
 	return banco->actual;
 }
 
@@ -213,6 +217,10 @@ SW_estado_t Banco_GetEstadoPin(banco_t *banco, uint8_t pin)
 		return OFF;
 	}
 
+	return banco->celdas[celda].prox;
+}
+
+SW_estado_t Banco_GetEstadoCelda(banco_t *banco, uint8_t celda){
 	return banco->celdas[celda].prox;
 }
 
@@ -348,4 +356,13 @@ void Banco_DetenerSwitchingCelda(banco_t *banco, uint8_t celda){
 	banco->celdas[celda].modo = FIJO;
 
 	banco->celdas[celda].prox = banco->celdas[celda].actual; //para que quede en donde esta ahora
+}
+
+
+//------------------------------MUX---------------------------------------
+
+
+void Banco_MedirCellNeg(banco_t *banco, uint8_t celda){
+	int pin = Banco_GetMuxPinCelda(celda);
+	MUX_Select(banco->mux,pin);
 }

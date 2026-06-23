@@ -9,7 +9,7 @@
 #include "main.h"
 
 
-#define DEADTIME 1
+#define DEADTIME 0
 
 static controlador_t ctrl;
 static volatile uint8_t data_sr_debug[CANT_BANCOS];
@@ -23,11 +23,11 @@ static mux_t mux_bancos[CANT_BANCOS];
 
 //por ahora solo tengo el banco 1
 static GPIO_TypeDef *sr_data_puertos[CANT_BANCOS] = {
-	DATA_GPIO_Port,
+	DATA1_GPIO_Port,
 };
 
 static uint16_t sr_data_pines[CANT_BANCOS] = {
-	DATA_Pin,
+	DATA1_Pin,
 };
 
 
@@ -46,7 +46,9 @@ void Controlador_init(void){
 
 		MUX_Init(&mux_bancos[i], S0_GPIO_Port, S0_Pin,S1_GPIO_Port, S1_Pin,S2_GPIO_Port,S2_Pin);
 
-		Banco_Init(&ctrl.bancos[i],&sr_bancos[i],&mux_bancos[i],CELDAS_POR_BANCO);
+		Banco_Init(&ctrl.bancos[i],&sr_bancos[i],&mux_bancos[i],CELDAS_POR_BANCO, ADC_MUX_BANCO_0);
+
+
 		Controlador_BypassBanco(i);
 	}
 	//harcodeo esto por ahora.
@@ -81,7 +83,7 @@ uint8_t Controlador_GetEstadoBanco(uint8_t banco){
 }
 
 uint8_t Controlador_GetEstadoCelda(uint8_t banco, uint8_t celda){
-	return (uint8_t) Banco_GetEstadoPin(&ctrl.bancos[banco], celda);
+	return (uint8_t) Banco_GetEstadoCelda(&ctrl.bancos[banco], celda);
 }
 
 void Controlador_AplicarEstados(void){
@@ -94,7 +96,7 @@ void Controlador_AplicarEstados(void){
 		data_sr_debug[sr] = 0;
 	}
 
-	for (uint8_t pin = 0; pin < CANT_PINES_SR; pin++){
+	for (int8_t  pin = CANT_PINES_SR-1; pin >=0; pin--){
 			for (uint8_t sr = 0; sr< CANT_BANCOS; sr++){
 				if (Banco_GetEstadoPin(&ctrl.bancos[sr], pin) == ON) {
 					data_sr_debug[sr] |= (1u << pin);
@@ -139,11 +141,13 @@ void Controlador_EncenderCelda(uint8_t banco, uint8_t celda)
 
     // Paso 1: solo modifico el banco objetivo.
     // Los otros bancos quedan con su prox intacto.
-    Banco_ApagarSwitch(&ctrl.bancos[banco]); // sw banco apagado
-    Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
+    if (Banco_GetEstadoActual (&ctrl.bancos[banco]) == ON){
+		Banco_ApagarSwitch(&ctrl.bancos[banco]); // sw banco apagado
+		Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
 
 
-    HAL_Delay(DEADTIME);
+		HAL_Delay(DEADTIME);
+    }
 
 
     // Paso 2: prendo la celda.
@@ -164,6 +168,7 @@ void Controlador_ApagarCelda(uint8_t banco, uint8_t celda)
 
 
     if (!Banco_HayCeldasProxON(&ctrl.bancos[banco])){ //no quedan celdas en ON->enciendo el banco
+
     	HAL_Delay(DEADTIME);
 
     	// Paso 2: prendo la celda.
@@ -222,7 +227,7 @@ void Controlador_ActualizarEstados(void)
     uint8_t hayProx[CANT_BANCOS];
     uint8_t necesitaPaso2 = 0;
 
-    if (Controlador_HayCambios() == 0 )	return;
+    //if (Controlador_HayCambios() == 0 )	return;
     // 1. Calculo todo primero
     for (uint8_t b = 0; b < CANT_BANCOS; b++) {
 
@@ -305,14 +310,20 @@ static uint8_t Controlador_GetModoCelda(char modo)
 }
 
 
-void Controlador_IniciarSwitchingCelda(uint8_t banco, uint8_t celda, char modo){
+void Controlador_IniciarSwitchingCelda(uint8_t banco, uint8_t celda){
 	// CAMBIAR ESTO, QUE NO ENTRE DIRECTO A FREQ
 	if (ctrl.bancos[banco].periodo_ms == 0){
-		ctrl.bancos[banco].periodo_ms = FREQ_DEFAULT;
+		ctrl.bancos[banco].periodo_ms = PERIODO_DEFAULT;
 	}
 
-	Banco_SetModoCelda(&ctrl.bancos[banco], celda, Controlador_GetModoCelda( modo));
+	Banco_SetModoCelda(&ctrl.bancos[banco], celda, SYNCHRO);
 }
+
+void Controlador_ModificarModoCelda(uint8_t banco, uint8_t celda, char modo){
+	Banco_SetModoCelda(&ctrl.bancos[banco], celda, Controlador_GetModoCelda(modo));
+}
+
+
 
 void Controlador_ModificarPeriodoBanco(uint8_t banco, uint16_t periodo_ms){
 	Banco_ModificarPeriodo(&ctrl.bancos[banco],  periodo_ms);
@@ -323,7 +334,7 @@ void Controlador_PararSwitchingCelda(uint8_t banco, uint8_t celda){
 	 if (verificar_banco(banco) == -1) return;
 
 	 Banco_DetenerSwitchingCelda(&ctrl.bancos[banco], celda);
-	 Controlador_ActualizarEstados();
+	 //Controlador_ActualizarEstados(); no hace falta poner al final, simpre se está actualizando
 }
 
 
@@ -337,7 +348,13 @@ void Controlador_DetenerSwitchingBancoBypass(uint8_t banco)
         Banco_DetenerSwitchingCelda(&ctrl.bancos[banco], c);
     }
 
-    Controlador_ActualizarEstados();
+    //Controlador_ActualizarEstados();
+}
+
+void Controlador_IniciarSwitchingBanco(uint8_t banco){
+	for (uint8_t c = 0; c < CELDAS_POR_BANCO; c++){
+		Banco_SetModoCelda(&ctrl.bancos[banco], c, SYNCHRO);
+	}
 }
 
 
@@ -345,4 +362,9 @@ void Controlador_Reiniciar(void){
 	for (uint8_t i = 0; i < CANT_BANCOS; i++){
 		Controlador_BypassBanco(i);
 	}
+}
+
+void Controlador_CargarMediciones(void){
+	uint16_t adc_mux [ADC_NODE_COUNT] = {0};
+	adc_get_buffer(adc_mux,ADC_NODE_COUNT);
 }
