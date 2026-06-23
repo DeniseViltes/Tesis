@@ -13,5 +13,7 @@ Tampoco se descarta el hacer una versión 2.2 de las celdas solo para los bancos
 
 
 
+Otro detalle a destacar es la simulación de un módulo celda sin tierra como banco 1. Se simula para comparar con los resultados de otrs días de medición en los que se testeaba una celda sin mosfet de tierra. Aca se puede comprobar efectivamente porqué fue necesario agregar la tierra virtual, ya que sin la tierra la celda no se apaga. Estos resultados se verifican en la simulación ...\Tesis\Ltspice\proyectos\circuito_modular\version_1x1.asc, donde se observa exactamente lo que se midió el 11/06/2026.
+
 
 Por otro lado, se decidió implementar en el circuito central, sumadores no inversores con opamps para tomar las muestras diferenciales de cada banco. Quedan buscar los valores de resistencias para definir cuánto bajar la tensión de salida. Estos valores son necesarios porque nuestras celdas podrían llegar a una tensión de 3.7V pero el controlador solo mide de forma segura hasta 3.3V. Esto quiere decir que habría que reducirlo en un 10%.
