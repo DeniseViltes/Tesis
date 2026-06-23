@@ -24,3 +24,6 @@ _____________________
 Valores de los resistores R2 y R3 de las celdas:
 
 Manteniendo los valores de 10M y 1M, tenemos 15uA circulando en la malla de control del transistor Q1 npn. La potencia disipada por el resistor de 1M es de 240uW, mientras que en el transistor es de 100nW (estos valores fueron de simulación). Todo esto fue simulado para una calda del banco número 5, el peor caso. Por esto consideramos que no es necesario tener valores diferentes de resistencia, y todas las celdas pueden usar perfectamente 10M y 1M.
+
+
+Mediciones de esta semana en la carpeta "Banco Prueba"

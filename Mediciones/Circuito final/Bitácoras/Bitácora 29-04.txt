@@ -12,3 +12,7 @@ Prueba del nuevo P-MOSFET (IRLML6402):
 - Se repitieron las simulaciones en LTspice con el nuevo nuevo MOSFET y los resultados eran los esperados. Sin embargo, térmicamente no se cumple con la potencia máxima disipada, por lo que se decidió diseñar la placa con dos de estos transistores en paralelo.
 
 - Por último se hicieron mediciones en la plaquita de prueba de todo el circuito para verificar el correcto funcionamiento circuital en todos los nodos.
+
+
+
+Mediciones de esta semana en la carpeta "Banco prueba"

@@ -18,3 +18,7 @@ Configuración de la fuente: 5V y 100mA.
 El problema era que la fuente entró en corto. Se vio en el visor que se emitían unos 4V de tensión y se llegaba al tope de corriente. Se decidió retirar la plaquita adaptadora y probarla por fuera de la placa del banco para descartar que el problema sea el integrado en sí.
 
 Hay altas chances que el integrado se haya quemado debido a que se aprecia un consumo de corriente de unos 30mA cuando está todo apagado. Vcc y GND conectados, clk_shift, clk_latch y Data a tierra, los demás pines abiertos. Se decidió armar otra plaquita de pruebas más robusta y proceder por el momento con otra celda.
+
+
+
+Mediciones de esta semana en la carpeta "Shift Register"

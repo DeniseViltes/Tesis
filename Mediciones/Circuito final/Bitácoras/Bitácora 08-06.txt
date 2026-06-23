@@ -18,3 +18,6 @@ Prueba del MUX
 Soldamos el mux junto a todos los divisores resistivos (aun falta los capacitores de este y el sr), intentamos una primer prueba de medición con el módulo celda, pero no se puede asegurar el funcionamiento correcto al tratarse del primer banco, ya que idealmente tendriamos 0V con la celda encendide e indefinido con la celda apagada. Probamos sacando la celda y conectando directamente diferentes tensiones en los pines hembra del modulo banco correspondientes a cell_neg. Comprobando de esta forma que funciona de manera exitosa el MUX. Pudimos comprobar que es posible reconstruir la tensión medida correcta del mux luego de pasar por el divisor resistivo, el cual tiene una escala de 1/5.
 
 No se observaron comportamientos inesperados
+
+
+Mediciones de esta semana en la carpeta "Banco 2.1"

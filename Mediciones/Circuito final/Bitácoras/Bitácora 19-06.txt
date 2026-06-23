@@ -1,4 +1,4 @@
-En primer lugar, se revisó el código y probó nuevamente en la placa del banco para corroborar su funcionamiento. Especial énfasis en la información enviada como "Data" y en la sincronización entre la información, clock de shift y clock de latch. Anduvo perfectamente y se pudo probar con las celdas funcionando (circuito de celdas con las pilas puestas, no fuente externa). También se está implementando una función para modificar la frecuencia de switcheo.
+En primer lugar, se revisó el código y probó nuevamente en la placa del banco para corroborar su funcionamiento. Especial énfasis en la información enviada como "Data" y en la sincronización entre la información, clock de shift y clock de latch, primero se envían los bits menos significativos hasta el más significativo. Anduvo perfectamente y se pudo probar con las celdas funcionando (circuito de celdas con las pilas puestas, no fuente externa). También se está implementando una función para modificar la frecuencia de switcheo.
 
 
 

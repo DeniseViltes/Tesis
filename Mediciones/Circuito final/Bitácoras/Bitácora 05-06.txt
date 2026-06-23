@@ -23,3 +23,6 @@ Conclusión: EL P-MOSFET ANDA BIEN. Deducimos que cualquier diferencia de tensi�
 Se procede soldando el circuito del LED y el del SR.
 Se eligió un LED amarillo para diferenciarlo del de las celdas y porque es el siguiente que menos tensión de encendido requiere.
 Por último, para probar la estabilidad mecánica se enganchó una celda (con la pila puesta) al banco y pareció haber habido humo. Se revisará la próxima semana.
+
+
+Mediciones de esta semana en la carpeta " Banco 2.1"

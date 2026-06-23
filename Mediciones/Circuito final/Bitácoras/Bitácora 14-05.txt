@@ -18,3 +18,6 @@ Nos queda únicamente revisar:
 - Los valores de R2 y R3 (queremos que sean lo más grande posibles sin afectar la tensión del nodo de base del pnp)
 - Reemplazar el resistor de 0ohm por el fusible de 3A
 - Ver por qué el LED enciende muy despacito (probablemente haya que cambiar el resistor de 1k)
+
+
+Mediciones de esta semana en la carpeta "Celda 2.1"
