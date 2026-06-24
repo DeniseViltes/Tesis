@@ -1,0 +1,19 @@
+Se prosiguió con lo comenzado el 22 de junio:
+
+
+1) Con respecto a la medición diferencial de bus_pos - bus_neg para cada banco, se probó simuló usando un opamp no ideal. Revisando Mercado Libre, se encontró un quad-opamp no muy caro que podría funcionar: el TL084. En un principio la tensión de salida era demasiado alta (en torno a los 4.5V) pero se solucionó multiplicando por 1000 los valores de las resistencias del restador: en lugar de 33ohm y 39ohm se usaron 33k y 39k. Con este cambio, el nuevo opamp funcionó perfectamente. Se llegó a una tensión de salida de 3.13V cuando la celda estaba en su valor máximo de 3.7V.
+Sin embargo, se encontró un inconveniente: en la simulación el ompamp consume 5mA en Vcc. Considerando que se usarán a la vez cuatro opamps, junto con todos los LEDs, junto con el integrado que genera los -5V, junto con los shift-registers, junto con los multiplexores analógicos, hay altas chances que la plaquita controlador no pueda abastecer a todo el sistema.
+Se decidió que en ese caso, se usará una fuente externa (moviendo el jumper correspondiente en el controlador y alimentando mediante el pin E5V para no afectar al ruteo de la placa central externa). Se procede a implementarlo en KiCad.
+Se actualizó el esquemático. Queda revisar si el pinout de los integrados es correcto y hacer el ruteo completo.
+
+
+2) Se midió la corriente recorrida por el resistor R3 en las celdas como estaban hasta ahora (con resistores R2 y R3 de 100k y 10k) para luego reemplazarlos y volver a medir dicha corriente. Con la celda original se obtuvo una corriente de alrededor de ~540uA. Se procedió a cambiar R2 a 560k y R3 a 56k. Con estos valores se obtuvieron corrientes de unos ~95uA. El caso de aumentar estas resistencias ya antes había sido probado pero se lo descartó debido a bajar la tensión de base del PNP peligrosamente cerca de dejarlo encendido con la celda apagada. Todavía no se pudo medir esa tensión en apagado debido a problemas en las celdas actuales que se están resolviendo.
+No se pudo revelar el misterio del circuito que no funciona: a veces parece que sí y a veces que no. Pero en un principio parecería que funciona bien.
+Conectando una celda con MOS de tierra como banco 1 a una celda (sin GND) y un banco como banco 2. Cuando ambas celdas están prendidas, se ve la salida correcta. Pero cuando se apaga la celda del banco 2, hay un cortocircuito en ella. Este corto se debe a que el NMOS de la celda no se apaga. En el apagado, está recibiendo un VGS de 1.8V. El problema fue el cambio de resistores R2 y R3. En la base del PNP hay 2.5V, los cuales junto con los 3.2V de bus_pos, dan un VBE de -0.7V, suficiente para prender el PNP. Esto implica tensión en el gate del NMOS y apertura del mismo. 
+
+
+3) Por otro lado, se diseñó la versión 2.2 del PCB de las celdas. En ella se incorporó la posibilidad de agregar un resistor (R10) en la base del PNP. Ya se comprobó que esto puede ayudar a reducir la corriente quiescent a costas de menor tiempo de switcheo. En caso que no se coloque dicho resistor, también se agregó un jumper soldado para puentearlo. Dado que el problema de la corriente de "fuga" es mucho mayor en las celdas de bancos altos, se consideró que las celdas 2.1 pueden tranquilamente seguir en funcionamiento pero siendo usadas preferentemente en para bancos bajos, dado que el efecto aquí es mucho menor.
+
+
+- Comentario al margen:
+Las celdas son de 3.2V en lugar de 3.3V (Juan nos mintió). Midiendo con dos celdas en serie tenemos a la salida 6.18V, lo cual, respecto de las dos celdas de 3.2V, equivale a una eficiencia energética de 96.56%.
