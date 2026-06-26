@@ -1,6 +1,15 @@
 Contiunuamos con la prueba de resistencias del 24/6,luego de probar que el problema eran las resistencias 560k y 56k, nos proponemos a buscar nuevos valores que permitan que disminuya la corriente en el mos de tierra, pero que permitan el apagado correspondiente del pnp.
 
-A partir de las mediciones podemos suponer que tenemos una fuga de ~1uA, coincide este valor en pruebas de 330k y 33k, y 220k y 22k medido en R3 del driver. 
+Configuración: 2 celdas totales, 1 de banco 1 (con MOS de tierra) y 1 de banco 2 (sin el MOS), junto con el módulo de banco en el 2.
 
-Hasta ahora se testearon las combinaciones: 560k y 56k, 330k y 33k, 220k y 22k sin exito.
+A partir de las mediciones se calcula que tenemos una fuga de ~1uA, coincide este valor en pruebas de 330k y 33k, y 220k y 22k medido en R3 del driver. Queda ver si esa corriente sigue siendo igual para combinación de resistores de 100k y 10k. Esta corriente puede deberse a malas soldaduras, diseño de la placa, calidad del cobre y del proceso de fabricación de la placa, en definitiva, temas que no podemos solucionar.
 
+Hasta ahora se testearon las combinaciones: 560k y 56k, 330k y 33k, 220k y 22k, 100k y 22k sin exito.
+
+La combinación de 100k y 22k fue hecha pensando que, al reducir el valor de R2, se reduce la caída en la base del pnp y no se enciende. Pero no fue el caso, el tbj efectivamente encendió.
+
+Se volvió a los 100k y 10k y NO ANDUVO, sigue habiendo corto. Entonces se probó con otra celda (que tenía los 100k y 10k originales) y la fuga seguía siendo del mismo orden que antes (20mV en el resistor R3 de 10k). Dato de color: en R3 la tensión sube, no baja, por lo que la fuga se corresponde a un ingreso de corriente en lugar de una pérdida de ella.
+
+Se fueron probando varias celdas diferentes sin mucho éxito. Todas tenían corto en la celda. En una de ellas se utilizó una cámara térmica y el N-MOSFET estaba muy caliente (se usó una corriente máxima de celda de 1A).
+
+Para la próxima revisar todas las placas hasta ahora
