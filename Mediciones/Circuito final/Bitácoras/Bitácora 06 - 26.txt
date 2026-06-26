@@ -1,0 +1,6 @@
+Contiunuamos con la prueba de resistencias del 24/6,luego de probar que el problema eran las resistencias 560k y 56k, nos proponemos a buscar nuevos valores que permitan que disminuya la corriente en el mos de tierra, pero que permitan el apagado correspondiente del pnp.
+
+A partir de las mediciones podemos suponer que tenemos una fuga de ~1uA, coincide este valor en pruebas de 330k y 33k, y 220k y 22k medido en R3 del driver. 
+
+Hasta ahora se testearon las combinaciones: 560k y 56k, 330k y 33k, 220k y 22k sin exito.
+
