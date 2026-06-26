@@ -4875,6 +4875,16 @@
 		)
 		(uuid "10ff32cd-fdb4-452a-b725-602b9f845ee5")
 	)
+	(label "banco1_med"
+		(at 43.18 107.95 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "13e8a981-2a8d-4320-b9d1-40d2310831f9")
+	)
 	(label "Bit_1"
 		(at 30.48 139.7 180)
 		(effects
@@ -5005,16 +5015,6 @@
 		)
 		(uuid "328b7a63-d2c4-41e9-b230-134c97439db9")
 	)
-	(label "bus_pos_1_med"
-		(at 43.18 107.95 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "3631fce4-7392-451c-8b74-049413ec9fa1")
-	)
 	(label "bus_pos_3"
 		(at 161.29 113.03 180)
 		(effects
@@ -5064,6 +5064,16 @@
 			(justify left bottom)
 		)
 		(uuid "448319f9-ce28-429b-96da-ed9d20f79b7e")
+	)
+	(label "banco3_med"
+		(at 74.93 90.17 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "4914ee33-2a46-4b58-933c-f4bba21a6d99")
 	)
 	(label "clk_shift"
 		(at 30.48 72.39 180)
@@ -5175,15 +5185,15 @@
 		)
 		(uuid "6927ba15-1bc2-4381-b71e-453beceeeed5")
 	)
-	(label "bus_pos_4_med"
-		(at 74.93 85.09 180)
+	(label "banco2_med"
+		(at 30.48 118.11 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "754e5aa5-eee5-4423-a81b-0c934e5c1c69")
+		(uuid "736d612a-18f1-4a85-bd16-75cf81a383ef")
 	)
 	(label "Bit_0"
 		(at 43.18 139.7 0)
@@ -5395,6 +5405,16 @@
 		)
 		(uuid "a9c0e916-f489-4e71-8116-b8b150b31342")
 	)
+	(label "banco4_med"
+		(at 74.93 85.09 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "aa418f5f-52b0-47f7-aee1-c74abc6f47cc")
+	)
 	(label "bus_pos_3"
 		(at 104.14 144.78 180)
 		(effects
@@ -5455,16 +5475,6 @@
 		)
 		(uuid "b251cec3-1272-487a-a62f-ea04b580bc4b")
 	)
-	(label "bus_pos_3_med"
-		(at 74.93 90.17 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b5a43899-e5ba-4faa-8fbc-33db2adcc2ad")
-	)
 	(label "reset"
 		(at 153.67 152.4 0)
 		(effects
@@ -5505,16 +5515,6 @@
 		)
 		(uuid "b938b132-bd13-4603-8bed-42544bf2833d")
 	)
-	(label "bus_pos_2_med"
-		(at 30.48 118.11 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b9d7d47f-0356-4873-817a-469f8eb5ad98")
-	)
 	(label "bus_pos_3"
 		(at 110.49 121.92 180)
 		(effects
@@ -5544,16 +5544,6 @@
 			(justify left bottom)
 		)
 		(uuid "beed437f-7602-48b6-8b79-082a1c3bb692")
-	)
-	(label "bus_neg_1_med"
-		(at 43.18 110.49 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "bf8b40c8-095e-4386-a6ca-97d4a1d586ed")
 	)
 	(label "Vcc_out"
 		(at 104.14 154.94 180)
