@@ -1,6 +1,7 @@
 Bitácora 11/05:
 
 Oficialmete prueba del nuevo P-MOSFET (IRLML6402):
+Funciona como es esperado, y se continua con el IRLML6402 como switch del banco.
 Hacemos las pruebas con y sin jfet ahora con el pmos correcto.
 Banco de pruebas, ponemos una tensión 13.2V como banco superior, y buscamos medir el vgs del pmos.
 
