@@ -1,0 +1,16 @@
+Se arranca el día con un mate y probando individualmente cada una de las placas. Esta vez, van a ser identificadas con un nombre/pedazo de cinta para asegurarnos que todo funcione desde el principio.
+
+De las 6 celdas, 5 funcionan perfectamente (una tenía corto entre bus_pos y GND).
+
+La restante presenta cortocircuito en el apagado. El prendido también tenía problemas originalmente pero se corrigió al cambiar el N-MOSFET del inversor: había un corto super sutil (tanto que el tester en modo continuidad daba número pero no sonaba) con tierra. La forma de encontrar el problema en el apagado fue similar: se comparó nodo a nodo con el tester en modo continuidad con otra placa que funciona bien. Se encontraron numeritos entre emisor y colector del TBJ PNP que no deberían haber. Esto llevó a reemplazar dicho transistor. Nada. Reemplazar R2. Nada. Hasta que surgió la idea de reemplazar el NPN Q3 (NPN de apagado). Con solo desoldarlo, los numeritos en el PNP desaparecieron. Finalmente, al reemplazarlo, el circuito anduvo perfectamente. Curioso que haya habido un corto (o algún mal funcionamiento) sin que el tester llegue a percibirlo.
+
+El banco de prueba para celdas sin MOS de GND fue: celda con MOS de GND prendida siempre y celda sin dicho MOS, a probar, prendida/apagada según se esté midiendo. Se destaca que en caso de apagado se hace manualmente con un dupont el corto entre su bus_pos y bus_neg.
+
+Con respecto a la placa de banco, hay corto entre Vcc y GND al conectar una celda en paralelo. Se reemplazó el SR pero no solucionó el problema. Se decidió a proceder removiendo todos los componentes activos, testear, e ir progresivamente reincorporándolos.
+
+Podemos afirmar entonces que las 6 placas de las celdas funcionan (por ahora al menos).
+
+
+
+Todo esto fue hecho con la idea de probar la salida del Mux analógico ante una entrada negativa. El dispositivo debería mostrarlo perfectamente, pero en nuestro caso se lo alimentó con Vcc y GND. Esto significa que, ante tensiones negativas, debería truncar la salida a 0V. Con todas las placas funcionando, se las conectó de forma tal que estén en serie, correspondiendo cada una a un banco diferente.
+El agregado de bancos fue progresivo para ver si la tensión cell_neg de la celda del banco 1 se volvía o no más negativa a medida que aumenta la cantidad de bancos.
