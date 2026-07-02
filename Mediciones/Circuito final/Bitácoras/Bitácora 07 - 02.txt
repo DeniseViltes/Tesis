@@ -1,0 +1,9 @@
+Retomando el problema del banco, se descubrió que en modo continuidad del tester, habían números cuando se pinchaba entre GND y Vcc. Lo peculiar es que habían pinchando así pero no a la inversa, por lo que se dedujo que el responsable era algún componente activo. Se eliminaron todos integrados y transistores, hasta que se descubrió que era el SR el responsable de ese "cuasi-cortocircuito".
+En conclusión, el SR sigue andando mal. Se lo reemplazó ya dos veces y sigue sin funcionar. Se seleccionó uno nuevo, cerrado, y se lo probó en la plaquita de prueba de integrados SMD que habíamos armado antes. Nuevamente no funcionó. Se está considerando que quizás todo el batch de componentes es malo. Por esto se probó uno nuevo de otro comprador, otro batch, otra cosa que nada que ver (comprado esta vez de Microelectrónica).
+
+ANDUVO
+
+Todo el batch anterior estaba fallado...
+
+Se realizan pruebas del modulo banco sin el shift register y mux. En una primera instancia encontramos que el tbj npn estaba quemado. Al reemplazarlo e intentar devuelta  vemos bastante humo, por lo que deducimos que el tbj esta nuevamente quemado. Lo cambiamos y probamos otra vez y sigue sin funcionar el encendido el PMOS. La principal sospecha es en el mismo PMOS. Se prueban varias mediciones de continuidad en el PMOS y en varias instancias vemos numeritos.
+
