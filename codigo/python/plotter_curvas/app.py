@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 import numpy as np
 from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtGui import QCursor
@@ -9,9 +10,11 @@ from PyQt6.QtWidgets import (
     QListWidget, QListWidgetItem, QCheckBox
 )
 import json
+import matplotlib as mpl
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+from matplotlib.ticker import ScalarFormatter
 from pathlib import Path
 
 
@@ -55,6 +58,7 @@ class MainWindow(QMainWindow):
         self._line_keys=[]
         self._signal_names = {}
         self._line_name_overrides = {}
+        self._line_transforms = {}
         self.datasets = []
 
         # Probes A/B
@@ -87,6 +91,7 @@ class MainWindow(QMainWindow):
             "visible": True,
         }
         self._curve_color_custom = False
+        self._latex_warning_shown = False
 
         root = QWidget()
         self.setCentralWidget(root)
@@ -137,11 +142,13 @@ class MainWindow(QMainWindow):
         self.cmb_mode.currentIndexChanged.connect(self._sync_plot_selection_ui)
 
         self.cmb_x = QComboBox()
-        self.cmb_x.addItems(["s", "ms"])
-        self.cmb_x.setCurrentText("ms")
+        self.cmb_x.addItems(["x1", "x1e3", "x1e-3", "x1e6", "x1e-6", "x1e9", "x1e-9"])
+        self.cmb_x.setCurrentText("x1")
+        self.cmb_x.currentTextChanged.connect(self._replot_if_data_loaded)
 
         self.cmb_y1 = QComboBox()
         self.cmb_y1.addItems(["Auto"] + list(SCALE_MAP.keys()))
+        self.cmb_y1.currentIndexChanged.connect(self._replot_if_data_loaded)
 
         # info de escala aplicada (SIN notación científica)
         self.lbl_y1_factor = QLabel("x1")
@@ -153,6 +160,8 @@ class MainWindow(QMainWindow):
         self.cmb_legend.addItems(
             ["Auto (best)", "Afuera derecha", "Afuera abajo", "Arriba derecha", "Arriba izquierda", "Abajo derecha", "Abajo izquierda"]
         )
+        self.chk_usetex = QCheckBox("Usar LaTeX")
+        self.chk_usetex.stateChanged.connect(self._on_text_rendering_changed)
 
         self.tit = QLineEdit("LTspice plot")
         self.xlab = QLineEdit("time")
@@ -161,6 +170,23 @@ class MainWindow(QMainWindow):
         # Nombres de curvas (independientes de los labels de ejes)
         self.c1name = QLineEdit("Curva 1")
         self.c1name.editingFinished.connect(self.apply_curve_names_now)
+
+        self.cmb_curve_name = QComboBox()
+        self.cmb_curve_name.currentIndexChanged.connect(self._on_curve_name_selection_changed)
+        self.ed_curve_name = QLineEdit()
+        self.ed_curve_name.editingFinished.connect(self.rename_selected_curve)
+        self.btn_curve_name = QPushButton("Aplicar nombre")
+        self.btn_curve_name.clicked.connect(self.rename_selected_curve)
+
+        self.ed_shift_x = QLineEdit("0")
+        self.ed_shift_points = QLineEdit("0")
+        self.ed_shift_y = QLineEdit("0")
+        self.ed_trim_start = QLineEdit("0")
+        self.ed_trim_end = QLineEdit("0")
+        self.btn_curve_adjust = QPushButton("Aplicar ajuste")
+        self.btn_curve_adjust.clicked.connect(self.apply_selected_curve_adjustment)
+        self.btn_curve_adjust_reset = QPushButton("Reset ajuste")
+        self.btn_curve_adjust_reset.clicked.connect(self.reset_selected_curve_adjustment)
 
         self.lst_signals = QListWidget()
         self.lst_signals.itemChanged.connect(self._on_signal_item_changed)
@@ -176,14 +202,25 @@ class MainWindow(QMainWindow):
 
         form.addRow("Tema:", self.cmb_theme)
         form.addRow("Modo:", self.cmb_mode)
-        form.addRow("X:", self.cmb_x)
+        form.addRow("Escala X:", self.cmb_x)
         form.addRow("Escala Y1:", self.cmb_y1)
         form.addRow("Factor Y1 aplicado:", self.lbl_y1_factor)
         form.addRow("Leyenda:", self.cmb_legend)
+        form.addRow("Texto:", self.chk_usetex)
         form.addRow("Título:", self.tit)
         form.addRow("X label:", self.xlab)
         form.addRow("Y1 label:", self.y1lab)
         form.addRow("Nombre curva:", self.c1name)
+        form.addRow("Curva a renombrar:", self.cmb_curve_name)
+        form.addRow("Nuevo nombre:", self.ed_curve_name)
+        form.addRow(self.btn_curve_name)
+        form.addRow("Mover X:", self.ed_shift_x)
+        form.addRow("Mover X puntos:", self.ed_shift_points)
+        form.addRow("Mover Y:", self.ed_shift_y)
+        form.addRow("Quitar puntos inicio:", self.ed_trim_start)
+        form.addRow("Quitar puntos fin:", self.ed_trim_end)
+        form.addRow(self.btn_curve_adjust)
+        form.addRow(self.btn_curve_adjust_reset)
         form.addRow("Señales a graficar (modo N):", self.lst_signals)
         form.addRow("Curva A:", self.cmb_op_a)
         form.addRow("Operación:", self.cmb_op)
@@ -224,6 +261,7 @@ class MainWindow(QMainWindow):
         controls.addWidget(grp_style)
         self._sync_style_ui_from_curve()
         self._refresh_operation_curve_combos()
+        self._refresh_curve_name_controls()
 
         # Botones
         bp = QPushButton("Graficar")
@@ -279,8 +317,52 @@ class MainWindow(QMainWindow):
     # -------------------------
     # Helpers: escala + estilos
     # -------------------------
+    def _configure_text_rendering(self):
+        use_tex = self.chk_usetex.isChecked()
+        if use_tex and shutil.which("latex") is None:
+            if not self._latex_warning_shown:
+                QMessageBox.warning(
+                    self,
+                    "LaTeX no disponible",
+                    "No encontré una instalación de LaTeX. Podés usar formato tipo LaTeX entre $...$ igualmente.",
+                )
+                self._latex_warning_shown = True
+            self.chk_usetex.blockSignals(True)
+            self.chk_usetex.setChecked(False)
+            self.chk_usetex.blockSignals(False)
+            use_tex = False
+
+        mpl.rcParams["text.usetex"] = use_tex
+
+    def _on_text_rendering_changed(self):
+        self._configure_text_rendering()
+        if self.ax1 is not None:
+            self.refresh_legend()
+            self.canvas.draw_idle()
+
+    def _replot_if_data_loaded(self, *_):
+        if getattr(self, "data1", None) is not None or bool(getattr(self, "steps", None)):
+            self.plot()
+
     def _xscale(self):
-        return 1e3 if self.cmb_x.currentText() == "ms" else 1.0
+        return {
+            "x1": 1.0,
+            "x1e3": 1e3,
+            "x1e-3": 1e-3,
+            "x1e6": 1e6,
+            "x1e-6": 1e-6,
+            "x1e9": 1e9,
+            "x1e-9": 1e-9,
+        }.get(self.cmb_x.currentText(), 1.0)
+
+    def _disable_axis_factor_text(self, ax):
+        if ax is None:
+            return
+        for axis in (ax.xaxis, ax.yaxis):
+            fmt = ScalarFormatter(useOffset=False)
+            fmt.set_scientific(False)
+            axis.set_major_formatter(fmt)
+            axis.get_offset_text().set_visible(False)
 
     def _distinct_colors(self, count: int):
         if count <= 0:
@@ -477,6 +559,203 @@ class MainWindow(QMainWindow):
         self.cmb_op_a.blockSignals(False)
         self.cmb_op_b.blockSignals(False)
 
+    def _refresh_curve_name_controls(self, keep_index: int | None = None):
+        self.cmb_curve_name.blockSignals(True)
+        self.cmb_curve_name.clear()
+
+        lines = [line for line in (self.lines or []) if line is not None]
+        if not lines:
+            self.cmb_curve_name.addItem("(sin curvas)", None)
+            self.cmb_curve_name.setEnabled(False)
+            self.ed_curve_name.setEnabled(False)
+            self.btn_curve_name.setEnabled(False)
+            self.ed_shift_x.setEnabled(False)
+            self.ed_shift_points.setEnabled(False)
+            self.ed_shift_y.setEnabled(False)
+            self.ed_trim_start.setEnabled(False)
+            self.ed_trim_end.setEnabled(False)
+            self.btn_curve_adjust.setEnabled(False)
+            self.btn_curve_adjust_reset.setEnabled(False)
+            self.ed_curve_name.clear()
+            self.cmb_curve_name.blockSignals(False)
+            return
+
+        for i, line in enumerate(lines):
+            label = line.get_label() or f"Curva {i+1}"
+            self.cmb_curve_name.addItem(f"{i+1}: {label}", i)
+
+        self.cmb_curve_name.setEnabled(True)
+        self.ed_curve_name.setEnabled(True)
+        self.btn_curve_name.setEnabled(True)
+        self.ed_shift_x.setEnabled(True)
+        self.ed_shift_points.setEnabled(True)
+        self.ed_shift_y.setEnabled(True)
+        self.ed_trim_start.setEnabled(True)
+        self.ed_trim_end.setEnabled(True)
+        self.btn_curve_adjust.setEnabled(True)
+        self.btn_curve_adjust_reset.setEnabled(True)
+
+        if keep_index is not None and 0 <= keep_index < self.cmb_curve_name.count():
+            self.cmb_curve_name.setCurrentIndex(keep_index)
+        self.cmb_curve_name.blockSignals(False)
+        self._on_curve_name_selection_changed()
+
+    def _on_curve_name_selection_changed(self, *_):
+        idx = self.cmb_curve_name.currentData()
+        if idx is None or not self.lines or int(idx) >= len(self.lines):
+            self.ed_curve_name.clear()
+            self.ed_shift_x.setText("0")
+            self.ed_shift_points.setText("0")
+            self.ed_shift_y.setText("0")
+            self.ed_trim_start.setText("0")
+            self.ed_trim_end.setText("0")
+            return
+        self.ed_curve_name.setText(self.lines[int(idx)].get_label() or f"Curva {int(idx)+1}")
+        tr = self._transform_for_line_index(int(idx))
+        self.ed_shift_x.setText(str(tr.get("dx", 0.0)))
+        self.ed_shift_points.setText(str(tr.get("shift_points", 0)))
+        self.ed_shift_y.setText(str(tr.get("dy", 0.0)))
+        self.ed_trim_start.setText(str(tr.get("trim_start", 0)))
+        self.ed_trim_end.setText(str(tr.get("trim_end", 0)))
+
+    def rename_selected_curve(self):
+        idx = self.cmb_curve_name.currentData()
+        if idx is None or not self.lines or int(idx) >= len(self.lines):
+            return
+
+        idx = int(idx)
+        new_name = self.ed_curve_name.text().strip()
+        if not new_name:
+            new_name = f"Curva {idx+1}"
+
+        self.lines[idx].set_label(new_name)
+        if idx < len(self._line_keys):
+            self._line_name_overrides[self._line_keys[idx]] = new_name
+
+        if idx == 0:
+            self.c1name.setText(new_name)
+
+        self.refresh_legend()
+        self._refresh_operation_curve_combos()
+        self._refresh_curve_name_controls(keep_index=idx)
+        self.canvas.draw_idle()
+
+    def _parse_float_field(self, field: QLineEdit, default: float = 0.0) -> float:
+        txt = field.text().strip().replace(",", ".")
+        if not txt:
+            return default
+        return float(txt)
+
+    def _parse_int_field(self, field: QLineEdit, default: int = 0) -> int:
+        txt = field.text().strip()
+        if not txt:
+            return default
+        return max(0, int(float(txt.replace(",", "."))))
+
+    def _parse_signed_int_field(self, field: QLineEdit, default: int = 0) -> int:
+        txt = field.text().strip()
+        if not txt:
+            return default
+        return int(float(txt.replace(",", ".")))
+
+    def _transform_for_line_index(self, idx: int) -> dict:
+        if idx < len(self._line_keys):
+            return dict(self._line_transforms.get(self._line_keys[idx], {}))
+        return {}
+
+    def _remember_line_base_data(self, line):
+        if line is None:
+            return
+        line._base_xdata = np.asarray(line.get_xdata(orig=False), dtype=float).copy()
+        line._base_ydata = np.asarray(line.get_ydata(orig=False), dtype=float).copy()
+
+    def _apply_transform_to_line(self, line, transform: dict) -> bool:
+        if line is None:
+            return False
+        if not hasattr(line, "_base_xdata") or not hasattr(line, "_base_ydata"):
+            self._remember_line_base_data(line)
+
+        x = np.asarray(line._base_xdata, dtype=float)
+        y = np.asarray(line._base_ydata, dtype=float)
+        trim_start = max(0, int(transform.get("trim_start", 0) or 0))
+        trim_end = max(0, int(transform.get("trim_end", 0) or 0))
+
+        if trim_start + trim_end >= x.size:
+            return False
+
+        dx = float(transform.get("dx", 0.0) or 0.0)
+        shift_points = int(transform.get("shift_points", 0) or 0)
+        if shift_points:
+            diffs = np.diff(x[np.isfinite(x)])
+            diffs = diffs[np.isfinite(diffs) & (diffs != 0)]
+            if diffs.size:
+                dx += shift_points * float(np.median(diffs))
+
+        end = x.size - trim_end if trim_end else x.size
+        x = x[trim_start:end] + dx
+        y = y[trim_start:end] + float(transform.get("dy", 0.0) or 0.0)
+        line.set_data(x, y)
+        return True
+
+    def _apply_line_transforms(self):
+        for i, line in enumerate(getattr(self, "lines", []) or []):
+            self._remember_line_base_data(line)
+            if i < len(self._line_keys):
+                transform = self._line_transforms.get(self._line_keys[i])
+                if transform:
+                    self._apply_transform_to_line(line, transform)
+
+    def _refresh_axes_after_curve_adjustment(self):
+        if self.ax1 is not None:
+            self.ax1.relim()
+            self.ax1.autoscale_view()
+            self._disable_axis_factor_text(self.ax1)
+        self.reset_probes()
+
+    def apply_selected_curve_adjustment(self):
+        idx = self.cmb_curve_name.currentData()
+        if idx is None or not self.lines or int(idx) >= len(self.lines):
+            return
+
+        idx = int(idx)
+        try:
+            transform = {
+                "dx": self._parse_float_field(self.ed_shift_x),
+                "shift_points": self._parse_signed_int_field(self.ed_shift_points),
+                "dy": self._parse_float_field(self.ed_shift_y),
+                "trim_start": self._parse_int_field(self.ed_trim_start),
+                "trim_end": self._parse_int_field(self.ed_trim_end),
+            }
+        except ValueError:
+            QMessageBox.warning(self, "Ajuste de curva", "Revisá los valores: X/Y aceptan decimales y los puntos/recortes son enteros.")
+            return
+
+        if not self._apply_transform_to_line(self.lines[idx], transform):
+            QMessageBox.warning(self, "Ajuste de curva", "El recorte deja la curva sin puntos.")
+            return
+
+        if idx < len(self._line_keys):
+            self._line_transforms[self._line_keys[idx]] = transform
+
+        self._refresh_axes_after_curve_adjustment()
+        self._refresh_operation_curve_combos()
+        self._refresh_curve_name_controls(keep_index=idx)
+        self.canvas.draw_idle()
+
+    def reset_selected_curve_adjustment(self):
+        idx = self.cmb_curve_name.currentData()
+        if idx is None or not self.lines or int(idx) >= len(self.lines):
+            return
+
+        idx = int(idx)
+        if idx < len(self._line_keys):
+            self._line_transforms.pop(self._line_keys[idx], None)
+
+        self._apply_transform_to_line(self.lines[idx], {})
+        self._refresh_axes_after_curve_adjustment()
+        self._refresh_curve_name_controls(keep_index=idx)
+        self.canvas.draw_idle()
+
     def _align_curves(self, a, b):
         xa = np.asarray(a.get_xdata(), dtype=float)
         ya = np.asarray(a.get_ydata(), dtype=float)
@@ -518,23 +797,28 @@ class MainWindow(QMainWindow):
             y = ya - yb
             symbol = "-"
 
+        self._configure_text_rendering()
         label = f"({la.get_label()}) {symbol} ({lb.get_label()})"
         if self.chk_only_result.isChecked():
             # Dejar solo la curva resultante en pantalla
             self.ax1.cla()
             self.ax1.set_title(self.tit.text())
-            self.ax1.set_xlabel(f"{self.xlab.text()} [{self.cmb_x.currentText()}]")
+            self.ax1.set_xlabel(self.xlab.text())
             self.ax1.set_ylabel(self.y1lab.text())
             p = self.ax1.plot(x, y, label=label)
             self.lines = [p[0]]
             self._line_keys = [("OP_ONLY", int(ia), symbol, int(ib))]
+            self._remember_line_base_data(p[0])
         else:
             p = self.ax1.plot(x, y, label=label)
             self.lines.append(p[0])
             self._line_keys.append(("OP", int(ia), symbol, int(ib), len(self.lines)))
+            self._remember_line_base_data(p[0])
 
+        self._disable_axis_factor_text(self.ax1)
         self.refresh_legend()
         self._refresh_operation_curve_combos()
+        self._refresh_curve_name_controls()
         self.canvas.draw_idle()
 
     def _scale(self, combo: QComboBox, y, info_label: QLabel):
@@ -588,6 +872,16 @@ class MainWindow(QMainWindow):
     def _label_for_key(self, key, default_label: str) -> str:
         return self._line_name_overrides.get(key, default_label)
 
+    def _sync_marker_color_to_line(self, line):
+        if line is None:
+            return
+        marker = line.get_marker()
+        if marker in (None, "None", "none", "", " "):
+            return
+        color = line.get_color()
+        line.set_markerfacecolor(color)
+        line.set_markeredgecolor(color)
+
     def _apply_style_dict_to_line(self, line, st: dict, allow_color: bool = True):
         if line is None or not st:
             return
@@ -615,6 +909,7 @@ class MainWindow(QMainWindow):
             line.set_alpha(st["alpha"])
         if st.get("visible") is not None:
             line.set_visible(st["visible"])
+        self._sync_marker_color_to_line(line)
 
     def _apply_line_styles(self, allow_color: bool = True):
         """
@@ -860,8 +1155,12 @@ class MainWindow(QMainWindow):
             return
         if len(self.lines) >= 1:
             self.lines[0].set_label(self.c1name.text().strip() or "Curva 1")
+            if self._line_keys:
+                self._line_name_overrides[self._line_keys[0]] = self.lines[0].get_label()
         # refrescar leyenda para reflejar los nuevos nombres
         self.refresh_legend()
+        self._refresh_operation_curve_combos()
+        self._refresh_curve_name_controls(keep_index=0)
         self.canvas.draw_idle()
 
 
@@ -876,6 +1175,7 @@ class MainWindow(QMainWindow):
             self._commit_signal_names_from_list()
 
         use_theme_style(THEMES[self.cmb_theme.currentText()])
+        self._configure_text_rendering()
 
         y1src = None
         if self.steps:
@@ -930,7 +1230,7 @@ class MainWindow(QMainWindow):
         self.ax2 = None
 
         ax1.set_title(self.tit.text())
-        ax1.set_xlabel(f"{self.xlab.text()} [{self.cmb_x.currentText()}]")
+        ax1.set_xlabel(self.xlab.text())
 
         # IMPORTANTE: el usuario pidió sin notación/escala en el label => SOLO el texto del usuario
         ax1.set_ylabel(self.y1lab.text())
@@ -1015,9 +1315,12 @@ class MainWindow(QMainWindow):
                 self.lines = [p1[0]]
                 self._line_keys = [("SINGLE", self.cmb_file1.currentIndex() + 1)]
         self._apply_line_styles(allow_color=(mode == 0))
+        self._apply_line_transforms()
+        self._disable_axis_factor_text(ax1)
         # Leyenda siempre sincronizada con estilos reales + clickeable
         self.refresh_legend()
         self._refresh_operation_curve_combos()
+        self._refresh_curve_name_controls()
 
         # Crosshairs persistentes (si había probes)
         self._update_crosshairs()
@@ -1272,8 +1575,9 @@ En modo N, cada señal seleccionada se grafica para todos los steps<br><br>
 N curvas mismo eje → múltiples señales de uno o más archivos<br><br>
 
 <b>Escalas</b><br>
-Elegí la escala en “Escala Y1”.<br>
-El <i>factor aplicado</i> se muestra a la izquierda y no modifica el texto del label.<br><br>
+“Escala X” y “Escala Y1” son multiplicadores de datos.<br>
+Las unidades se escriben manualmente en “X label” e “Y1 label”.<br>
+El <i>factor aplicado</i> no modifica el texto del label.<br><br>
 
 <b>Cursores A/B</b><br>
 Click = fija A<br>
