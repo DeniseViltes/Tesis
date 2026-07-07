@@ -1,0 +1,4 @@
+Update de la situación del banco, como se planeo anteriormente, se reemplaza el pmos, se realiza prueba con una celda superior y una celda para el banco y efectivamente se puede observar como prende y apaga el swtich sin problema, en conclusión, el PMOS estaba quemado.
+
+
+
