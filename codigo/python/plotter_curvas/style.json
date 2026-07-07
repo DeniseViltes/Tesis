@@ -1,9 +1,9 @@
 {
   "curve": {
     "color": null,
-    "linewidth": 2.5,
+    "linewidth": 1.0,
     "linestyle": "-",
-    "marker": null,
+    "marker": "o",
     "alpha": 1.0,
     "visible": true
   }
