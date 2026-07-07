@@ -1,4 +1,31 @@
-Update de la situación del banco, como se planeo anteriormente, se reemplaza el pmos, se realiza prueba con una celda superior y una celda para el banco y efectivamente se puede observar como prende y apaga el swtich sin problema, en conclusión, el PMOS estaba quemado.
+Update de la situación del banco, como se planeó anteriormente, se reemplaza el PMOS, se realiza prueba con una celda superior y una celda para el banco y efectivamente se puede observar como prende y apaga el switch sin problema, en conclusión, el PMOS estaba quemado.
+
+Se prosiguió soldando las nuevas placas de celda, las v2.2. También hubo una nueva tirada de dos placas de banco que salieron mal (error al copiar en KiCad componentes bloqueados).
+
+Resultados de la prueba de una celda v2.2 (solo driver sin NMOS):
+ENCENDIDO con R2=10Meg, R3=1Meg, Rbase=10k:
+- bus_pos: 3.17V
+- basePNP: 2.64V
+- tensión nodo R2, R3 y Rbase: 2.61V
+- gateNMOS: 3.17V
+- colectorNPN_ON: 16.2mV
+
+APAGADO:
+- basePNP: 2.63V -> NO FUNCIONA
+Se prueba aumentando Rbase a 100k.
+
+Nueva prueba de solo el driver:
+APAGADO con R2=10Meg, R3=1Meg, Rbase=100k:
+- bus_pos: 3.17V
+- basePNP: 2.71V
+El PNP está border por lo que se aumenta nuevamente Rbase a 1Meg.
+
+Nueva prueba de solo el driver:
+APAGADO con R2=10Meg, R3=1Meg, Rbase=1Meg:
+- bus_pos: 3.17V
+- basePNP: 2.69V
+- tensión nodo R2, R3 y Rbase: 2.50V
+No funcionó, por lo que se decide volver Rbase a 100k y intentar nuevamente bajando R2 y R3.
 
 
-
+Se descubrió por fin el "cortocircuito" de la celda v2.0: nunca hubo corto, el problema era que teníamos R2 y R3 con 10Meg y 1Meg, lo cual hacía que el PNP nunca se apague.
