@@ -1,0 +1,7 @@
+Bitácora 7/8:
+
+Continuando con lo del 7/7, cambiamos las resistencias R2 y R3 a 560k y 56k, manteniendo los 100k de la resistencia de base. El pnp finalmente no se enciendio pero el gate queda siempre en cero. Se avanza con otra celda con la misma configuración para ver si es un problema de la configuración o una mala soldadura.
+
+Volvio a la vida el SR
+
+Queda testear el NMOS con la configuracion mencionada arriba, pero parece en principio que funciona (al testearlo se quemo una celda de banco 1)
