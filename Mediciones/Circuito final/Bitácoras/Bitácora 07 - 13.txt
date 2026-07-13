@@ -1,0 +1,11 @@
+Hoy sí conseguimos finalmente las primeras dos placas de banco versión 2.2. Se procedió a soldar una de ellas, o al menos la parte necesaria para entregar en el congreso de Uruguay, es decir, el circuito by-pass y el SR.
+
+Como siempre, se suelda de a partes y se testea por etapas. El circuito del PMOS anduvo perfectamente, pero no se puede decir lo mismo del SR.
+
+El SR no funciona correctamente. O al menos se cree que es el SR. Hay veces que hay corto a la salida, y a veces funciona bien pero apenas se conecta la punta del tester, enloquece y entra en corto.
+Se lo quitó de la placa, se lo instaló en la placa de prueba y anduvo perfectamente. Conclusión: el SR funciona bien.
+
+Tema aparte, estamos quemando a lo loco los MOSFETs del inversor de las celdas. Son muy sensibles y cualquier fluctuación de Vcc los mata. Hay que comprar más y usarlos con cuidado.
+
+POR FIN ANDUVO.
+Se deja para mañana las mediciones para el paper.
