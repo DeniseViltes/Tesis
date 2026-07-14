@@ -1,0 +1,9 @@
+Matriz de 2x1
+Ambas celdas en 3.2V 
+Módulo de banco + celda con mosfet como banco 1
+Módulo de celda sin mosfet siempre encendida como banco 2 (banco virtual).
+
+
+Frecuencia de 200 ms ->5hz
+Resistencia de carga 47ohm
+

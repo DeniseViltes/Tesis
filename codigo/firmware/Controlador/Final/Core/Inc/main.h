@@ -72,6 +72,8 @@ void Error_Handler(void);
 #define LATCH_GPIO_Port GPIOC
 #define CLK_Pin GPIO_PIN_6
 #define CLK_GPIO_Port GPIOC
+#define DATA2_Pin GPIO_PIN_7
+#define DATA2_GPIO_Port GPIOC
 #define DATA1_Pin GPIO_PIN_8
 #define DATA1_GPIO_Port GPIOC
 #define TMS_Pin GPIO_PIN_13

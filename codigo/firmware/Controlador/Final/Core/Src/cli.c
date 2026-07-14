@@ -225,8 +225,8 @@ static void cli_handle_line(const char *line_in){
 			  celda = (uint8_t)(valor - 1);
 
 			  Controlador_ModificarPeriodoBanco(banco, periodo);
-			  Controlador_ModificarModoCelda(banco,celda, modo);
 			  Controlador_IniciarSwitchingCelda(banco, celda);
+			  Controlador_ModificarModoCelda(banco,celda, modo);
 
 			  cli_print("OK\r\n");
 			  return;
@@ -288,8 +288,9 @@ static void cli_handle_line(const char *line_in){
 			  banco = (uint8_t)(banco_user - 1);
 			  celda = (uint8_t)(valor - 1);
 
-			  Controlador_ModificarModoCelda(banco, celda, modo);
+
 			  Controlador_IniciarSwitchingCelda(banco, celda);
+			  Controlador_ModificarModoCelda(banco, celda, modo);
 
 			  cli_print("OK\r\n");
 			  return;

@@ -28,6 +28,7 @@ static GPIO_TypeDef *sr_data_puertos[CANT_BANCOS] = {
 
 static uint16_t sr_data_pines[CANT_BANCOS] = {
 	DATA1_Pin,
+
 };
 
 

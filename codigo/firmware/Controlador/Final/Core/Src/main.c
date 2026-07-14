@@ -293,7 +293,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LATCH_Pin|CLK_Pin|DATA1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, LATCH_Pin|CLK_Pin|DATA2_Pin|DATA1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, S2_Pin|S0_Pin|S1_Pin, GPIO_PIN_RESET);
@@ -311,8 +311,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LATCH_Pin CLK_Pin DATA1_Pin */
-  GPIO_InitStruct.Pin = LATCH_Pin|CLK_Pin|DATA1_Pin;
+  /*Configure GPIO pins : LATCH_Pin CLK_Pin DATA2_Pin DATA1_Pin */
+  GPIO_InitStruct.Pin = LATCH_Pin|CLK_Pin|DATA2_Pin|DATA1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
