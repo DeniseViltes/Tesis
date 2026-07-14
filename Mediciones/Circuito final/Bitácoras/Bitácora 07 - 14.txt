@@ -1,0 +1,11 @@
+Hoy es día de mediciones: hay que tener resultados para la URUCON.
+
+El banco 2 nuevo no funciona otra vez. Se lo intentó arreglar sin éxito. Se sospecha que puede llegar a ser el SR otra vez pero se priorizan las mediciones para el informe. Más adelante se puede hacer otra vez el testeo de funcionamiento del integrado en la plaquita de prueba.
+
+Ahora sí se procede con las mediciones:
+El banco de medición es:
+
+	  celda 2 1 --- salida+
+			   |
+banco 1 | celda 1 1 --- salida-
+
