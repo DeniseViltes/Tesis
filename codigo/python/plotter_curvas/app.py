@@ -1,6 +1,7 @@
 import os
 import sys
 import shutil
+import ast
 import numpy as np
 from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtGui import QCursor
@@ -181,6 +182,11 @@ class MainWindow(QMainWindow):
         self.ed_shift_x = QLineEdit("0")
         self.ed_shift_points = QLineEdit("0")
         self.ed_shift_y = QLineEdit("0")
+        self.ed_y_expression = QLineEdit("curva")
+        self.ed_y_expression.setPlaceholderText("Ej.: 3 - curva")
+        self.ed_y_expression.setToolTip(
+            "Usá 'curva' o 'y' con +, -, *, /, ** y paréntesis. Ejemplo: 3 - curva"
+        )
         self.ed_trim_start = QLineEdit("0")
         self.ed_trim_end = QLineEdit("0")
         self.btn_curve_adjust = QPushButton("Aplicar ajuste")
@@ -217,6 +223,7 @@ class MainWindow(QMainWindow):
         form.addRow("Mover X:", self.ed_shift_x)
         form.addRow("Mover X puntos:", self.ed_shift_points)
         form.addRow("Mover Y:", self.ed_shift_y)
+        form.addRow("Ecuación Y:", self.ed_y_expression)
         form.addRow("Quitar puntos inicio:", self.ed_trim_start)
         form.addRow("Quitar puntos fin:", self.ed_trim_end)
         form.addRow(self.btn_curve_adjust)
@@ -572,6 +579,7 @@ class MainWindow(QMainWindow):
             self.ed_shift_x.setEnabled(False)
             self.ed_shift_points.setEnabled(False)
             self.ed_shift_y.setEnabled(False)
+            self.ed_y_expression.setEnabled(False)
             self.ed_trim_start.setEnabled(False)
             self.ed_trim_end.setEnabled(False)
             self.btn_curve_adjust.setEnabled(False)
@@ -590,6 +598,7 @@ class MainWindow(QMainWindow):
         self.ed_shift_x.setEnabled(True)
         self.ed_shift_points.setEnabled(True)
         self.ed_shift_y.setEnabled(True)
+        self.ed_y_expression.setEnabled(True)
         self.ed_trim_start.setEnabled(True)
         self.ed_trim_end.setEnabled(True)
         self.btn_curve_adjust.setEnabled(True)
@@ -607,6 +616,7 @@ class MainWindow(QMainWindow):
             self.ed_shift_x.setText("0")
             self.ed_shift_points.setText("0")
             self.ed_shift_y.setText("0")
+            self.ed_y_expression.setText("curva")
             self.ed_trim_start.setText("0")
             self.ed_trim_end.setText("0")
             return
@@ -615,6 +625,7 @@ class MainWindow(QMainWindow):
         self.ed_shift_x.setText(str(tr.get("dx", 0.0)))
         self.ed_shift_points.setText(str(tr.get("shift_points", 0)))
         self.ed_shift_y.setText(str(tr.get("dy", 0.0)))
+        self.ed_y_expression.setText(str(tr.get("y_expression", "curva")))
         self.ed_trim_start.setText(str(tr.get("trim_start", 0)))
         self.ed_trim_end.setText(str(tr.get("trim_end", 0)))
 
@@ -669,6 +680,40 @@ class MainWindow(QMainWindow):
         line._base_xdata = np.asarray(line.get_xdata(orig=False), dtype=float).copy()
         line._base_ydata = np.asarray(line.get_ydata(orig=False), dtype=float).copy()
 
+    def _evaluate_curve_expression(self, expression: str, y: np.ndarray) -> np.ndarray:
+        """Evalúa una expresión aritmética segura usando la curva como variable."""
+        expression = (expression or "curva").strip().replace(",", ".")
+        tree = ast.parse(expression, mode="eval")
+
+        binary_ops = {
+            ast.Add: np.add,
+            ast.Sub: np.subtract,
+            ast.Mult: np.multiply,
+            ast.Div: np.divide,
+            ast.Pow: np.power,
+        }
+        unary_ops = {ast.UAdd: lambda value: value, ast.USub: np.negative}
+
+        def evaluate(node):
+            if isinstance(node, ast.Expression):
+                return evaluate(node.body)
+            if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+                return float(node.value)
+            if isinstance(node, ast.Name) and node.id.lower() in {"curva", "y"}:
+                return y
+            if isinstance(node, ast.BinOp) and type(node.op) in binary_ops:
+                return binary_ops[type(node.op)](evaluate(node.left), evaluate(node.right))
+            if isinstance(node, ast.UnaryOp) and type(node.op) in unary_ops:
+                return unary_ops[type(node.op)](evaluate(node.operand))
+            raise ValueError("Solo se permiten curva/y, números, +, -, *, /, ** y paréntesis.")
+
+        result = np.asarray(evaluate(tree), dtype=float)
+        if result.ndim == 0:
+            result = np.full_like(y, float(result), dtype=float)
+        if result.shape != y.shape:
+            raise ValueError("La ecuación debe producir un valor por cada punto de la curva.")
+        return result
+
     def _apply_transform_to_line(self, line, transform: dict) -> bool:
         if line is None:
             return False
@@ -693,7 +738,9 @@ class MainWindow(QMainWindow):
 
         end = x.size - trim_end if trim_end else x.size
         x = x[trim_start:end] + dx
-        y = y[trim_start:end] + float(transform.get("dy", 0.0) or 0.0)
+        y = y[trim_start:end]
+        y = self._evaluate_curve_expression(transform.get("y_expression", "curva"), y)
+        y = y + float(transform.get("dy", 0.0) or 0.0)
         line.set_data(x, y)
         return True
 
@@ -723,11 +770,13 @@ class MainWindow(QMainWindow):
                 "dx": self._parse_float_field(self.ed_shift_x),
                 "shift_points": self._parse_signed_int_field(self.ed_shift_points),
                 "dy": self._parse_float_field(self.ed_shift_y),
+                "y_expression": self.ed_y_expression.text().strip() or "curva",
                 "trim_start": self._parse_int_field(self.ed_trim_start),
                 "trim_end": self._parse_int_field(self.ed_trim_end),
             }
-        except ValueError:
-            QMessageBox.warning(self, "Ajuste de curva", "Revisá los valores: X/Y aceptan decimales y los puntos/recortes son enteros.")
+            self._evaluate_curve_expression(transform["y_expression"], np.asarray([1.0]))
+        except (ValueError, SyntaxError) as exc:
+            QMessageBox.warning(self, "Ajuste de curva", f"Revisá los valores o la ecuación:\n{exc}")
             return
 
         if not self._apply_transform_to_line(self.lines[idx], transform):
@@ -800,15 +849,25 @@ class MainWindow(QMainWindow):
         self._configure_text_rendering()
         label = f"({la.get_label()}) {symbol} ({lb.get_label()})"
         if self.chk_only_result.isChecked():
-            # Dejar solo la curva resultante en pantalla
-            self.ax1.cla()
-            self.ax1.set_title(self.tit.text())
-            self.ax1.set_xlabel(self.xlab.text())
-            self.ax1.set_ylabel(self.y1lab.text())
+            # Reemplazar solo las curvas involucradas en la operacion. Las demas
+            # curvas seleccionadas deben seguir visibles aunque se pida mostrar
+            # unicamente el resultado de A y B.
+            involved = {int(ia), int(ib)}
+            remaining_lines = []
+            remaining_keys = []
+            for idx, (line, key) in enumerate(zip(self.lines, self._line_keys)):
+                if idx in involved:
+                    line.remove()
+                else:
+                    remaining_lines.append(line)
+                    remaining_keys.append(key)
+
             p = self.ax1.plot(x, y, label=label)
-            self.lines = [p[0]]
-            self._line_keys = [("OP_ONLY", int(ia), symbol, int(ib))]
+            self.lines = remaining_lines + [p[0]]
+            self._line_keys = remaining_keys + [("OP_ONLY", int(ia), symbol, int(ib))]
             self._remember_line_base_data(p[0])
+            self.ax1.relim()
+            self.ax1.autoscale_view()
         else:
             p = self.ax1.plot(x, y, label=label)
             self.lines.append(p[0])
