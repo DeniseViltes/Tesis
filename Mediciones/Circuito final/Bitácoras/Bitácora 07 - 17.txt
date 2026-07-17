@@ -1,0 +1,18 @@
+Se corrigió el banco que no andaba. De paso se probaron todos los SR usados que estaban en dudas. Funcionaron todos menos 1 (nos quedan 2).
+
+Se testó la celda v2.2 que quedaba con 560k y 56k de R2 y R3, y 100k de Rbase. Estos son los resultados obtenidos:
+
+ON:
+Nodo R2 y R3: 1.07V
+Base PNP: 2.61V
+bus_pos: 3.17V
+
+OFF:
+Nodo R2 y R3: 2.97V
+Base PNP: 2.94V
+bus_pos: 3.18V
+
+Nos queda medir cómo afecta esto en la corriente de "fuga" que teníamos, midiendo en R2 en ON. También medir cell_neg.
+Está la posibilidad de chequear si se pueden poner 10M y 1M en R2 y R3.
+
+Al margen, se decidió diseñar el circuito externo base de pruebas, para facilitar el conexionado en el testeo. Se confirmó la idea de conectar todos los bancos en paralelo en la carga (queda simularlo y hablarlo con Ceci).
