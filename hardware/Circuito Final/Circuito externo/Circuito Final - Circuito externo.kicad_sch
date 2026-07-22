@@ -4753,6 +4753,16 @@
 	)
 	(wire
 		(pts
+			(xy 152.4 39.37) (xy 116.84 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a5f0e04c-e2fe-4c71-9c87-47aff5bc9d29")
+	)
+	(wire
+		(pts
 			(xy 182.88 30.48) (xy 175.26 30.48)
 		)
 		(stroke
@@ -5572,7 +5582,7 @@
 		(uuid "8b79a5a8-76c4-4f2f-8588-0b951dad1456")
 	)
 	(label "Vcc_out"
-		(at 129.54 45.72 0)
+		(at 152.4 39.37 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5962,7 +5972,7 @@
 		(uuid "e9545862-3911-4e2d-b7c6-b24d91ae73c2")
 	)
 	(label "Vcc"
-		(at 119.38 43.18 180)
+		(at 106.68 36.83 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7620,7 +7630,7 @@
 	)
 	(symbol
 		(lib_id "Switch:SW_SPDT")
-		(at 124.46 45.72 0)
+		(at 111.76 39.37 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -7632,7 +7642,7 @@
 		(fields_autoplaced yes)
 		(uuid "45ed28b7-21fb-468b-9f48-3183ce5707b8")
 		(property "Reference" "SW1"
-			(at 124.46 36.83 0)
+			(at 111.76 30.48 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7642,7 +7652,7 @@
 			)
 		)
 		(property "Value" "SW_SPDT"
-			(at 124.46 39.37 0)
+			(at 111.76 33.02 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7652,7 +7662,7 @@
 			)
 		)
 		(property "Footprint" "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q"
-			(at 124.46 45.72 0)
+			(at 111.76 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7663,7 +7673,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 124.46 53.34 0)
+			(at 111.76 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7674,7 +7684,7 @@
 			)
 		)
 		(property "Description" "Switch, single pole double throw"
-			(at 124.46 45.72 0)
+			(at 111.76 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11542,7 +11552,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 119.38 48.26 0)
+		(at 106.68 41.91 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -11554,7 +11564,7 @@
 		(fields_autoplaced yes)
 		(uuid "ea0ea158-f7e8-4b55-b650-cead58840283")
 		(property "Reference" "#PWR06"
-			(at 119.38 54.61 0)
+			(at 106.68 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11565,7 +11575,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 119.38 53.34 0)
+			(at 106.68 46.99 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11575,7 +11585,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 119.38 48.26 0)
+			(at 106.68 41.91 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11586,7 +11596,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 119.38 48.26 0)
+			(at 106.68 41.91 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11597,7 +11607,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 119.38 48.26 0)
+			(at 106.68 41.91 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

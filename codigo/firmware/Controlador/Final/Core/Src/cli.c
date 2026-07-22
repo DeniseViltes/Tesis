@@ -82,9 +82,67 @@ static void cli_print_status(void)
 }
 
 
-static void cli_print_help(void){
-	cli_print("\r\n Ayuda en construcción \r\n");
-}
+static void cli_print_help(void)
+{cli_print(
+	    "\r\n"
+	    "========== AYUDA ==========\r\n"
+	    "\r\n"
+	    "Comandos generales:\r\n"
+	    "  help\r\n"
+	    "      Muestra esta ayuda.\r\n"
+	    "\r\n"
+	    "  status\r\n"
+	    "      Muestra el estado de bancos y celdas.\r\n"
+	    "\r\n"
+	    "Control manual:\r\n"
+	    "  c <banco> <celda> on|off\r\n"
+	    "      Ejemplo: c 1 3 on\r\n"
+	    "\r\n"
+	    "  b <banco> on|off\r\n"
+	    "      on  : activa todas las celdas.\r\n"
+	    "      off : deja el banco en bypass.\r\n"
+	    "      Ejemplo: b 1 off\r\n"
+	    "\r\n"
+	    "Switching:\r\n"
+	    "  sw <banco> <modo>\r\n"
+	    "      Inicia todo el banco con el periodo actual.\r\n"
+	    "      Ejemplo: sw 1 s\r\n"
+	    "\r\n"
+	    "  sw <banco> <periodo> <modo>\r\n"
+	    "      Inicia todo el banco y cambia el periodo global.\r\n"
+	    "      Ejemplo: sw 1 500 s\r\n"
+	    "\r\n"
+	    "  sw <banco> <celda> <modo>\r\n"
+	    "      Inicia una celda con el periodo actual.\r\n"
+	    "      Ejemplo: sw 1 3 c\r\n"
+	    "\r\n"
+	    "  sw <banco> <celda> <periodo> <modo>\r\n"
+	    "      Inicia una celda y cambia el periodo global.\r\n"
+	    "      Ejemplo: sw 1 3 500 s\r\n"
+	    "\r\n"
+	    "  sw <banco> [<celda>] off\r\n"
+	    "      Sin celda: detiene todo el banco.\r\n"
+	    "      Con celda: detiene solamente esa celda.\r\n"
+	    "      Ejemplos: sw 1 off | sw 1 3 off\r\n"
+	    "\r\n"
+	    "Modos:\r\n"
+	    "  s : sincrono; fase 0 ON, fase 1 OFF.\r\n"
+	    "  c : complementario; fase 0 OFF, fase 1 ON.\r\n"
+	    "\r\n"
+	    "Rangos:\r\n"
+	    "  Bancos : 1 a 2\r\n"
+	    "  Celdas : 1 a 7\r\n"
+	    "  Periodo minimo: 50 ms\r\n"
+	    "\r\n"
+	    "Bancos intercalados:\r\n"
+	    "  sw 1 500 s\r\n"
+	    "  sw 2 c\r\n"
+	    "\r\n"
+	    "El periodo es global y corresponde a una fase.\r\n"
+	    "El ciclo completo dura dos periodos.\r\n"
+	    "===========================\r\n"
+	    "\r\n"
+	);}
 
 
 /* ===================== MANEJO DE COMANDOS===================== */
@@ -115,12 +173,12 @@ static void cli_handle_line(const char *line_in){
 		  unsigned int b_user, c_user;
 		  char st[8];
 
-		  if (sscanf(line_copy, "celda %u %u %7s", &b_user, &c_user, st) == 3) {
+		  if (sscanf(line_copy, "c %u %u %7s", &b_user, &c_user, st) == 3) {
 			  for (int i = 0; st[i]; i++)
 					  st[i] = (char)tolower((unsigned char)st[i]);
 
 					if (b_user < 1 || b_user > CANT_BANCOS || c_user < 0 || c_user > CELDAS_POR_BANCO) {
-					  cli_print("ERR: celda <bank 1-3> <cell 1-2> on|off\r\n");
+					  cli_print("ERR: c <bank 1-3> <cell 1-2> on|off\r\n");
 					  return;
 					}
 
@@ -148,12 +206,12 @@ static void cli_handle_line(const char *line_in){
 		  unsigned int b_user;
 		  char st[8];
 
-		  if (sscanf(line_copy, "banco %u  %7s", &b_user, st) == 2) {
+		  if (sscanf(line_copy, "b %u  %7s", &b_user, st) == 2) {
 			  for (int i = 0; st[i]; i++)
 					  st[i] = (char)tolower((unsigned char)st[i]);
 
 					if (b_user < 1 || b_user > CANT_BANCOS ) {
-					  cli_print("ERR: banco <bank 1-3> on|off\r\n");
+					  cli_print("ERR: b<bank 1-3> on|off\r\n");
 					  return;
 					}
 
@@ -177,221 +235,249 @@ static void cli_handle_line(const char *line_in){
 		  }
 	  }
 
-	  //switching
 	  /*
-	   * sw <banco>                          // inicia banco
-	   *sw <banco> <periodo>                // inicia banco y cambia período
-	   *sw <banco> <celda>                  // inicia celda
-	   *sw <banco> <celda> <modo>           // inicia/cambia modo
-	   *sw <banco> <celda> <periodo>        // inicia y cambia período
-	   *sw <banco> <celda> <periodo> <modo>
+	   * Formatos admitidos:
+	   *
+	   * sw <banco> <modo>
+	   * sw <banco> <periodo> <modo>
+	   * sw <banco> <celda> <modo>
+	   * sw <banco> <celda> <periodo> <modo>
+	   * sw <banco> [<celda>] off
 	   */
-
 	  {
-		  unsigned int banco_user;
-		  unsigned int valor;
-		  unsigned int periodo;
-		  char modo;
-		  char extra;
+	      unsigned int banco_user;
+	      unsigned int celda_user;
+	      unsigned int valor;
+	      unsigned int periodo;
 
-		  uint8_t banco;
-		  uint8_t celda;
+	      uint8_t banco;
+	      uint8_t celda;
 
-		  /* sw <banco> <celda> <periodo> <modo> */
-		  if (sscanf(line_copy, "sw %u %u %u %c %c",
-					 &banco_user, &valor, &periodo, &modo, &extra) == 4) {
-
-			  if (banco_user < 1 || banco_user > CANT_BANCOS) {
-				  cli_print("ERR: banco fuera de rango\r\n");
-				  return;
-			  }
-
-			  if (valor < 1 || valor > CELDAS_POR_BANCO) {
-				  cli_print("ERR: celda fuera de rango (1-3)\r\n");
-				  return;
-			  }
-
-			  if (periodo < PERIODO_DEFAULT) {
-				  cli_print("ERR: periodo minimo 50 ms\r\n");
-				  return;
-			  }
-
-			  if (modo != 's' && modo != 'c') {
-				  cli_print("ERR: modo invalido (use s o c)\r\n");
-				  return;
-			  }
-
-			  banco = (uint8_t)(banco_user - 1);
-			  celda = (uint8_t)(valor - 1);
-
-			  Controlador_ModificarPeriodoBanco(banco, periodo);
-			  Controlador_IniciarSwitchingCelda(banco, celda);
-			  Controlador_ModificarModoCelda(banco,celda, modo);
-
-			  cli_print("OK\r\n");
-			  return;
-		  }
-
-		  /* sw <banco> <celda> <periodo> */
-		  if (sscanf(line_copy, "sw %u %u %u %c",
-					 &banco_user, &valor, &periodo, &extra) == 3) {
-
-			  if (banco_user < 1 || banco_user > CANT_BANCOS) {
-				  cli_print("ERR: banco fuera de rango\r\n");
-				  return;
-			  }
-
-			  if (valor < 1 || valor > CELDAS_POR_BANCO) {
-				  cli_print("ERR: celda fuera de rango (1-3)\r\n");
-				  return;
-			  }
-
-			  if (periodo < PERIODO_DEFAULT) {
-				  cli_print("ERR: periodo minimo 50 ms\r\n");
-				  return;
-			  }
-
-			  banco = (uint8_t)(banco_user - 1);
-			  celda = (uint8_t)(valor - 1);
-
-			  Controlador_ModificarPeriodoBanco(banco, periodo);
-
-			  /*
-			   * Si la celda conserva su modo actual, conviene tener
-			   * una función de inicio que no reciba el modo.
-			   */
-			  Controlador_IniciarSwitchingCelda(banco, celda);
-
-			  cli_print("OK\r\n");
-			  return;
-		  }
-
-		  /* sw <banco> <celda> <modo> */
-		  if (sscanf(line_copy, "sw %u %u %c %c",
-					 &banco_user, &valor, &modo, &extra) == 3) {
-
-			  if (banco_user < 1 || banco_user > CANT_BANCOS) {
-				  cli_print("ERR: banco fuera de rango\r\n");
-				  return;
-			  }
-
-			  if (valor < 1 || valor > 3) {
-				  cli_print("ERR: celda fuera de rango (1-3)\r\n");
-				  return;
-			  }
-
-			  if (modo != 's' && modo != 'c') {
-				  cli_print("ERR: modo invalido (use s o c)\r\n");
-				  return;
-			  }
-
-			  banco = (uint8_t)(banco_user - 1);
-			  celda = (uint8_t)(valor - 1);
+	      char modo;
+	      char extra;
 
 
-			  Controlador_IniciarSwitchingCelda(banco, celda);
-			  Controlador_ModificarModoCelda(banco, celda, modo);
+	      /* CASO 1: sw <banco> <celda> <periodo> <modo> */
+	      if (sscanf(line_copy,
+	                 "sw %u %u %u %c %c",
+	                 &banco_user,
+	                 &celda_user,
+	                 &periodo,
+	                 &modo,
+	                 &extra) == 4) {
 
-			  cli_print("OK\r\n");
-			  return;
-		  }
+	          if (banco_user < 1 ||
+	              banco_user > CANT_BANCOS) {
 
-		  /*
-		   * sw <banco> <celda>
-		   * sw <banco> <periodo>
-		   *
-		   * Los valores 1-3 representan una celda.
-		   * Los valores >= 50 representan un período.
-		   */
-		  if (sscanf(line_copy, "sw %u %u %c",
-					 &banco_user, &valor, &extra) == 2) {
+	              cli_print("ERR: banco fuera de rango\r\n");
+	              return;
+	          }
 
-			  if (banco_user < 1 || banco_user > CANT_BANCOS) {
-				  cli_print("ERR: banco fuera de rango\r\n");
-				  return;
-			  }
+	          if (celda_user < 1 ||
+	              celda_user > CELDAS_POR_BANCO) {
 
-			  banco = (uint8_t)(banco_user - 1);
+	              cli_print("ERR: celda fuera de rango\r\n");
+	              return;
+	          }
 
-			  if (valor >= 1 && valor <= CELDAS_POR_BANCO) {
-				  celda = (uint8_t)(valor - 1);
+	          if (periodo < PERIODO_DEFAULT) {
+	              cli_print("ERR: periodo minimo 50 ms\r\n");
+	              return;
+	          }
 
-				  Controlador_IniciarSwitchingCelda(banco, celda);
+	          if (modo != 's' && modo != 'c') {
+	              cli_print("ERR: modo invalido (use s o c)\r\n");
+	              return;
+	          }
 
-				  cli_print("OK\r\n");
-				  return;
-			  }
+	          banco = (uint8_t)(banco_user - 1);
+	          celda = (uint8_t)(celda_user - 1);
 
-			  if (valor >= PERIODO_DEFAULT) {
-				  Controlador_ModificarPeriodoBanco(banco, valor);
-				  Controlador_IniciarSwitchingBanco(banco);
+	          Controlador_ModificarPeriodo(
+	              (uint16_t)periodo
+	          );
 
-				  cli_print("OK\r\n");
-				  return;
-			  }
+	          Controlador_IniciarSwitchingCelda(
+	              banco,
+	              celda
+	          );
 
-			  cli_print("ERR: celda invalida o periodo menor a 50 ms\r\n");
-			  return;
-		  }
+	          Controlador_ModificarModoCelda(
+	              banco,
+	              celda,
+	              modo
+	          );
 
-		  /* sw <banco> */
-		  if (sscanf(line_copy, "sw %u %c",
-					 &banco_user, &extra) == 1) {
-
-			  if (banco_user < 1 || banco_user > CANT_BANCOS) {
-				  cli_print("ERR: banco fuera de rango\r\n");
-				  return;
-			  }
-
-			  banco = (uint8_t)(banco_user - 1);
-
-			  Controlador_IniciarSwitchingBanco(banco);
-
-			  cli_print("OK\r\n");
-			  return;
-		  }
-
-		  /* sw <banco> off*/
-		  		  if (sscanf(line_copy, "sw %u off %c",
-		  					 &banco_user, &extra) == 1) {
-
-		  			  if (banco_user < 1 || banco_user > CANT_BANCOS) {
-		  				  cli_print("ERR: banco fuera de rango\r\n");
-		  				  return;
-		  			  }
-
-		  			  banco = (uint8_t)(banco_user - 1);
-
-		  			Controlador_DetenerSwitchingBancoBypass(banco);
-
-		  			  cli_print("OK\r\n");
-		  			  return;
-		  		  }
-
-		/* sw <banco> <celda> off*/
-				  if (sscanf(line_copy, "sw %u %u off %c",
-							 &banco_user, &valor, &extra) == 2) {
-
-					  if (banco_user < 1 || banco_user > CANT_BANCOS) {
-						  cli_print("ERR: banco fuera de rango\r\n");
-						  return;
-					  }
-					  if (valor < 1 || valor > 3) {
-									  cli_print("ERR: celda fuera de rango (1-3)\r\n");
-									  return;
-
-					  banco = (uint8_t)(banco_user - 1);
-					  celda = (uint8_t)(valor - 1);
-
-					  Controlador_PararSwitchingCelda(banco,celda);
-
-					  cli_print("OK\r\n");
-					  return;
-				  }
-			  }
+	          cli_print("OK\r\n");
+	          return;
+	      }
 
 
+	      /* CASO 2: sw <banco> <celda> <modo> o sw <banco> <periodo> <modo> */
+	      if (sscanf(line_copy,
+	                 "sw %u %u %c %c",
+	                 &banco_user,
+	                 &valor,
+	                 &modo,
+	                 &extra) == 3) {
+
+	          if (banco_user < 1 ||
+	              banco_user > CANT_BANCOS) {
+
+	              cli_print("ERR: banco fuera de rango\r\n");
+	              return;
+	          }
+
+	          if (modo != 's' && modo != 'c') {
+	              cli_print("ERR: modo invalido (use s o c)\r\n");
+	              return;
+	          }
+
+	          banco = (uint8_t)(banco_user - 1);
+
+	          /* CASO 2A: sw <banco> <celda> <modo> */
+	          if (valor >= 1 &&
+	              valor <= CELDAS_POR_BANCO) {
+
+	              celda = (uint8_t)(valor - 1);
+
+	              Controlador_IniciarSwitchingCelda(
+	                  banco,
+	                  celda
+	              );
+
+	              Controlador_ModificarModoCelda(
+	                  banco,
+	                  celda,
+	                  modo
+	              );
+
+	              cli_print("OK\r\n");
+	              return;
+	          }
+
+	          /* CASO 2B: sw <banco> <periodo> <modo> */
+	          if (valor >= PERIODO_DEFAULT) {
+
+	              Controlador_ModificarPeriodo(
+	                  (uint16_t)valor
+	              );
+
+	              Controlador_IniciarSwitchingBanco(
+	                  banco
+	              );
+
+	              Controlador_ModificarModo(
+	                  banco,
+	                  modo
+	              );
+
+	              cli_print("OK\r\n");
+	              return;
+	          }
+
+	          cli_print(
+	              "ERR: celda invalida o periodo menor a 50 ms\r\n"
+	          );
+	          return;
+	      }
+
+
+	      /* CASO 3: sw <banco> <celda> off */
+	      if (sscanf(line_copy,
+	                 "sw %u %u off %c",
+	                 &banco_user,
+	                 &celda_user,
+	                 &extra) == 2) {
+
+	          if (banco_user < 1 ||
+	              banco_user > CANT_BANCOS) {
+
+	              cli_print("ERR: banco fuera de rango\r\n");
+	              return;
+	          }
+
+	          if (celda_user < 1 ||
+	              celda_user > CELDAS_POR_BANCO) {
+
+	              cli_print("ERR: celda fuera de rango\r\n");
+	              return;
+	          }
+
+	          banco = (uint8_t)(banco_user - 1);
+	          celda = (uint8_t)(celda_user - 1);
+
+	          Controlador_PararSwitchingCelda(
+	              banco,
+	              celda
+	          );
+
+	          cli_print("OK\r\n");
+	          return;
+	      }
+
+
+	      /* CASO 4: sw <banco> <modo> */
+	      if (sscanf(line_copy,
+	                 "sw %u %c %c",
+	                 &banco_user,
+	                 &modo,
+	                 &extra) == 2) {
+
+	          if (banco_user < 1 ||
+	              banco_user > CANT_BANCOS) {
+
+	              cli_print("ERR: banco fuera de rango\r\n");
+	              return;
+	          }
+
+	          if (modo != 's' && modo != 'c') {
+	              cli_print("ERR: modo invalido (use s o c)\r\n");
+	              return;
+	          }
+
+	          banco = (uint8_t)(banco_user - 1);
+
+	          Controlador_IniciarSwitchingBanco(
+	              banco
+	          );
+
+	          Controlador_ModificarModo(
+	              banco,
+	              modo
+	          );
+
+	          cli_print("OK\r\n");
+	          return;
+	      }
+
+
+	      /* CASO 5: sw <banco> off */
+	      if (sscanf(line_copy,
+	                 "sw %u off %c",
+	                 &banco_user,
+	                 &extra) == 1) {
+
+	          if (banco_user < 1 ||
+	              banco_user > CANT_BANCOS) {
+
+	              cli_print("ERR: banco fuera de rango\r\n");
+	              return;
+	          }
+
+	          banco = (uint8_t)(banco_user - 1);
+
+	          Controlador_DetenerSwitchingBancoBypass(
+	              banco
+	          );
+
+	          cli_print("OK\r\n");
+	          return;
+	      }
 	  }
+	  cli_print(
+	      "ERR: comando invalido. Use help\r\n"
+	  );
 
 }
 

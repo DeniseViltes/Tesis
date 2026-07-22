@@ -45,9 +45,9 @@ typedef struct {
 	SW_estado_t actual;
 	SW_estado_t prox;
 	uint8_t pin_sr;
-	uint16_t contador;
-	uint16_t periodo_ms;  //si es cero no switchea.
-	uint8_t fase; //fase general del banco
+	//uint16_t contador;
+	//uint16_t periodo_ms;  //si es cero no switchea.
+	//uint8_t fase; //fase general del banco
 	adc_node_t canal_adc;
 } banco_t;
 
@@ -102,12 +102,13 @@ int Banco_HayCeldasActualON(banco_t *banco);
 int Banco_HayCambios(banco_t *banco);
 
 void Banco_SetModoCelda(banco_t *banco, uint8_t celda, celda_modo_t modo);
+void Banco_SetModo(banco_t *banco, celda_modo_t modo);
 
 void Banco_SwichingCelda(banco_t *banco, uint8_t celda);
 
-void Banco_ModificarFase(banco_t *banco, uint8_t fase);
 
-void Banco_ModificarPeriodo(banco_t *banco, uint16_t periodo_ms);
+
+
 
 //void Banco_CalcularSwitching(banco_t *banco);
 
@@ -116,9 +117,9 @@ SW_estado_t Banco_GetEstadoCelda(banco_t *banco, uint8_t pin);
 SW_estado_t  Banco_GetEstadoActual (banco_t *banco);
 
 SW_estado_t Banco_GetEstadoPin(banco_t *banco, uint8_t celda);
-uint8_t Banco_CalcularPatron(banco_t *banco);
+uint8_t Banco_CalcularPatron(banco_t *banco, uint8_t fase);
 void Banco_SetPatronCeldas(banco_t *banco, uint8_t patron);
-void Banco_Tick(banco_t *banco);
+
 
 
 /*

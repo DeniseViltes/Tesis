@@ -14,7 +14,7 @@
 #include "mux.h"
 
 
-#define CANT_BANCOS 1
+#define CANT_BANCOS 2
 //#define CELDAS_POR_BANCO 7
 #define PERIODO_DEFAULT 50
 
@@ -49,18 +49,19 @@ void Controlador_Tick1ms(void);
 void Controlador_IniciarSwitchingCelda(uint8_t banco, uint8_t celda);
 
 void Controlador_ModificarModoCelda(uint8_t banco, uint8_t celda, char modo);
-
+void Controlador_ModificarModo(uint8_t banco, char modo);
 
 void Controlador_IniciarSwitchingBanco(uint8_t banco);
 
 
 void Controlador_ActualizarEstados(void);
 
-void Controlador_ModificarPeriodoBanco(uint8_t banco, uint16_t periodo_ms);
-
 
 void Controlador_DetenerSwitchingBancoBypass(uint8_t banco);
 void Controlador_PararSwitchingCelda(uint8_t banco, uint8_t celda);
+
+
+void Controlador_ModificarPeriodo(uint16_t periodo);
 /*
 Controlador_SetBancos(...)
 Controlador_SetCeldasDeBanco(...)*/

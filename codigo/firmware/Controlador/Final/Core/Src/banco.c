@@ -65,9 +65,6 @@ void Banco_Init(banco_t *banco, shift_register_t *sr, mux_t *mux, uint8_t cant_c
 	banco->mux = mux;
 	banco->cant_celdas = cant_celdas;
 	banco->pin_sr = 0;
-	banco->contador = 0;
-	banco->periodo_ms = 0; //Cero significa constante
-	banco->fase = 0;  //fase de referencia para la celda.
 	banco->canal_adc = nodo;
 
 	for(int c = 0 ; c< cant_celdas; c++){
@@ -271,6 +268,12 @@ void Banco_SetModoCelda(banco_t *banco, uint8_t celda, celda_modo_t modo)
 	banco->celdas[celda].modo = modo;
 }
 
+void Banco_SetModo(banco_t *banco, celda_modo_t modo){
+
+	for (int i = 0; i < CELDAS_POR_BANCO; i++){
+		banco->celdas[i].modo = modo;
+	}
+}
 
 
 static SW_estado_t Banco_CalcularEstadoSwitching(celda_t *celda, uint8_t fase){
@@ -290,35 +293,11 @@ static SW_estado_t Banco_CalcularEstadoSwitching(celda_t *celda, uint8_t fase){
 
 
 
-/*static void Banco_CalcularSwitching(banco_t *banco){
-
-	if (!banco->periodo_ms) return;
-
-	for (uint8_t c = 0; c < banco->cant_celdas; c++){
-		banco->celdas[c].prox = Banco_CalcularEstadoSwitching(&banco->celdas[c], banco->fase);
-	}
-}*/
-
-
-void Banco_ModificarFase(banco_t *banco, uint8_t fase){
-	banco->fase = fase ? 1 : 0;
-}
-
-
-void Banco_Tick(banco_t *banco)
-{
-	if (banco->periodo_ms == 0) return;
-
-	banco->contador++;
-	if (banco->contador >= banco->periodo_ms) {
-		banco->contador = 0;
-		banco->fase ^= 1;
-	}
-}
 
 
 
-uint8_t Banco_CalcularPatron(banco_t *banco)
+
+uint8_t Banco_CalcularPatron(banco_t *banco, uint8_t fase)
 {
     uint8_t patron = 0;
 
@@ -328,7 +307,7 @@ uint8_t Banco_CalcularPatron(banco_t *banco)
 
     for (uint8_t c = 0; c < banco->cant_celdas; c++) {
         SW_estado_t estado =
-            Banco_CalcularEstadoSwitching(&banco->celdas[c], banco->fase);
+            Banco_CalcularEstadoSwitching(&banco->celdas[c], fase);
 
         if (estado == ON) {
             patron |= (1u << c);
@@ -346,9 +325,7 @@ void Banco_SetPatronCeldas(banco_t *banco, uint8_t patron)
     }
 }
 
-void Banco_ModificarPeriodo(banco_t *banco, uint16_t periodo_ms){
-	banco->periodo_ms = periodo_ms;
-}
+
 
 
 void Banco_DetenerSwitchingCelda(banco_t *banco, uint8_t celda){

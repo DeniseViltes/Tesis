@@ -21,14 +21,20 @@ static mux_t mux_bancos[CANT_BANCOS];
 
 
 
+static uint16_t periodo_ms = 0;
+static uint16_t contador = 0;
+static uint8_t fase = 0;
+
+
 //por ahora solo tengo el banco 1
 static GPIO_TypeDef *sr_data_puertos[CANT_BANCOS] = {
 	DATA1_GPIO_Port,
+	DATA2_GPIO_Port,
 };
 
 static uint16_t sr_data_pines[CANT_BANCOS] = {
 	DATA1_Pin,
-
+	DATA2_Pin,
 };
 
 
@@ -232,7 +238,7 @@ void Controlador_ActualizarEstados(void)
     // 1. Calculo todo primero
     for (uint8_t b = 0; b < CANT_BANCOS; b++) {
 
-        patron[b] = Banco_CalcularPatron(&ctrl.bancos[b]);
+        patron[b] = Banco_CalcularPatron(&ctrl.bancos[b],fase);
         hayActual[b] = Banco_HayCeldasActualON(&ctrl.bancos[b]);
         hayProx[b] = (patron[b] != 0);
     }
@@ -290,16 +296,19 @@ void Controlador_ActualizarEstados(void)
 
 
 
-
 void Controlador_Tick1ms(void)
 {
-    for (uint8_t b = 0; b < CANT_BANCOS; b++) {
-        Banco_Tick(&ctrl.bancos[b]);
+    if (periodo_ms == 0) {
+        return;
     }
 
-    flag_controlador_update = 0;
-}
+    contador++;
 
+    if (contador >= periodo_ms) {
+        contador = 0;
+        fase ^= 1;
+    }
+}
 
 static uint8_t Controlador_GetModoCelda(char modo)
 {
@@ -313,10 +322,16 @@ static uint8_t Controlador_GetModoCelda(char modo)
 
 void Controlador_IniciarSwitchingCelda(uint8_t banco, uint8_t celda){
 	// CAMBIAR ESTO, QUE NO ENTRE DIRECTO A FREQ
-	if (ctrl.bancos[banco].periodo_ms == 0){
-		ctrl.bancos[banco].periodo_ms = PERIODO_DEFAULT;
+    if (verificar_banco(banco) == -1) return;
+    if (celda >= CELDAS_POR_BANCO) return;
+	if (periodo_ms == 0){
+		periodo_ms = PERIODO_DEFAULT;
+		contador = 0;
+		fase = 0;
 	}
-
+	for (int i = 0; i < CANT_BANCOS; i++){
+		fase = 1;
+	}
 	Banco_SetModoCelda(&ctrl.bancos[banco], celda, SYNCHRO);
 }
 
@@ -325,9 +340,14 @@ void Controlador_ModificarModoCelda(uint8_t banco, uint8_t celda, char modo){
 }
 
 
+void Controlador_ModificarModo(uint8_t banco, char modo){
+	Banco_SetModo(&ctrl.bancos[banco], Controlador_GetModoCelda(modo));
+}
 
-void Controlador_ModificarPeriodoBanco(uint8_t banco, uint16_t periodo_ms){
-	Banco_ModificarPeriodo(&ctrl.bancos[banco],  periodo_ms);
+void Controlador_ModificarPeriodo(uint16_t periodo)
+{
+    periodo_ms = periodo;
+    contador = 0;
 }
 
 
@@ -343,11 +363,9 @@ void Controlador_DetenerSwitchingBancoBypass(uint8_t banco)
 {
     if (verificar_banco(banco) == -1) return;
 
-    Banco_ModificarPeriodo(&ctrl.bancos[banco], 0);
+    Banco_SetModo(&ctrl.bancos[banco], FIJO);
 
-    for (uint8_t c = 0; c < CELDAS_POR_BANCO; c++) {
-        Banco_DetenerSwitchingCelda(&ctrl.bancos[banco], c);
-    }
+
 
     //Controlador_ActualizarEstados();
 }
@@ -359,9 +377,13 @@ void Controlador_IniciarSwitchingBanco(uint8_t banco){
 }
 
 
+
+
 void Controlador_Reiniciar(void){
 	for (uint8_t i = 0; i < CANT_BANCOS; i++){
-		Controlador_BypassBanco(i);
+		Banco_ApagarSwitch(&ctrl.bancos[i]);
+		Banco_ApagarCeldas(&ctrl.bancos[i]);
+		Controlador_AplicarEstados();
 	}
 }
 
