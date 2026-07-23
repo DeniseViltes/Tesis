@@ -1,0 +1,18 @@
+Se hace la primera prueba con dos circuitos de banco:
+- Caso 1: B1-C1:ON  / B2-C1:OFF --> 60mA y 2.9V a la salida
+- Caso 2: B1-C1:OFF / B2-C1:ON  --> 59mA y 2.87V a la salida
+- Caso 3: B1-C1:ON  / B2-C1:OF  --> 121mA y 5.74V a la salida
+
+Al margen de eso, se quitaron NMOS de switcheo del prototipo para arrancar a ponerlos en las celdas.
+
+El circuito funciona correctamente con los dos bancos coordinados. Se procede con el código para que el switcheo sea correcto.
+
+Por último se midió el switcheo entre los dos bancos (cada uno con una celda) y dio casi perfecto. En el instante donde se da el switcheo, la salida va a 0V. Esta salida se da durante 50ms, tiempo demasiado largo para nuestro sistema. Es llamativo que esta señal es un escalón casi perfecto: vale 3V, luego 0, luego 3V nuevamente sin intermedios.
+
+Se vio que esos 50ms corresponden a la señal correspondiente de apagar todas las celdas antes de encender el sw del banco. Se deja para la próxima probar qué pasa si no hay delay y si se elimina este período extra (que apaguen celdas a la vez que se enciende el sw de banco)
+
+
+
+Por otro lado, la placa central está en desarrollo, al igual que la plaquita central de pruebas.
+
+La placa de pruebas ya está terminada. La próxima estará lista e impresa.
