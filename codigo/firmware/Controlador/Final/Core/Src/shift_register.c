@@ -3,45 +3,51 @@
 #include "shift_register.h"
 
 
-#define DELAY 1
 
 // --------------------------------------------------
 // Pulso de clock
 // --------------------------------------------------
+/*
 void SR_PulseClock(shift_register_t *sr)
 {
     // DATA ya fue seteado antes de llamar a esta función
 	if (sr == NULL ) {
 			return;
 		}
-    HAL_Delay(DELAY); // tiempo para que DATA quede estable
+
 
     HAL_GPIO_WritePin(sr->clk_port, sr->clk_pin, GPIO_PIN_SET);
-
-    HAL_Delay(DELAY);
-
     HAL_GPIO_WritePin(sr->clk_port, sr->clk_pin, GPIO_PIN_RESET);
-    HAL_Delay(DELAY); //lo puse ahora
 
+
+}*/
+
+
+static inline void SR_PulseClock(shift_register_t *sr)
+{
+    sr->clk_port->BSRR = sr->clk_pin;                 // CLK = 1
+    sr->clk_port->BSRR = (uint32_t)sr->clk_pin << 16; // CLK = 0
 }
 
 
 // --------------------------------------------------
 // Pulso de latch
 // --------------------------------------------------
-
+/*
 void SR_PulseLatch(shift_register_t *sr){
 
 	if (sr == NULL ) {
 			return;
 		}
-    HAL_Delay(DELAY);
 
     HAL_GPIO_WritePin(sr->latch_port, sr->latch_pin, GPIO_PIN_SET);
-
-    HAL_Delay(DELAY);
-
     HAL_GPIO_WritePin(sr->latch_port, sr->latch_pin, GPIO_PIN_RESET);
+}*/
+
+static inline void SR_PulseLatch(shift_register_t *sr)
+{
+    sr->latch_port->BSRR = sr->latch_pin;                 // latch = 1
+    sr->latch_port->BSRR = (uint32_t)sr->latch_pin << 16; // latch = 0
 }
 
 // --------------------------------------------------

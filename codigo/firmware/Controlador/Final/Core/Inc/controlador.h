@@ -28,7 +28,7 @@ typedef struct {
 void Controlador_init(void);
 void Controlador_Update(void);
 void Controlador_AplicarEstados(void);
-uint8_t Controlador_GetDataSR(uint8_t banco);
+
 
 void Controlador_BypassBanco(uint8_t banco);
 void Controlador_ActivarCeldasBanco(uint8_t banco);

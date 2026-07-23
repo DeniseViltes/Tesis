@@ -12,7 +12,7 @@
 #define DEADTIME 0
 
 static controlador_t ctrl;
-static volatile uint8_t data_sr_debug[CANT_BANCOS];
+
 extern volatile uint8_t flag_controlador_update;
 
 
@@ -99,15 +99,9 @@ void Controlador_AplicarEstados(void){
 	        return;
 	    }
 
-	for (uint8_t sr = 0; sr < CANT_BANCOS; sr++){
-		data_sr_debug[sr] = 0;
-	}
 
 	for (int8_t  pin = CANT_PINES_SR-1; pin >=0; pin--){
 			for (uint8_t sr = 0; sr< CANT_BANCOS; sr++){
-				if (Banco_GetEstadoPin(&ctrl.bancos[sr], pin) == ON) {
-					data_sr_debug[sr] |= (1u << pin);
-				}
 				Banco_AplicarEstadoPin(&ctrl.bancos[sr], pin);
 			}
 			Controlador_ClockPulse();
@@ -116,11 +110,6 @@ void Controlador_AplicarEstados(void){
 	Controlador_LatchPulse();
 }
 
-uint8_t Controlador_GetDataSR(uint8_t banco)
-{
-	if (verificar_banco(banco) == -1) return 0;
-	return data_sr_debug[banco];
-}
 
 
 
