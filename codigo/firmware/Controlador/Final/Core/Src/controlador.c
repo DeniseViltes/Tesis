@@ -9,7 +9,7 @@
 #include "main.h"
 
 
-#define DEADTIME 0
+
 
 static controlador_t ctrl;
 
@@ -142,7 +142,7 @@ void Controlador_EncenderCelda(uint8_t banco, uint8_t celda)
 		Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
 
 
-		HAL_Delay(DEADTIME);
+
     }
 
 
@@ -165,7 +165,7 @@ void Controlador_ApagarCelda(uint8_t banco, uint8_t celda)
 
     if (!Banco_HayCeldasProxON(&ctrl.bancos[banco])){ //no quedan celdas en ON->enciendo el banco
 
-    	HAL_Delay(DEADTIME);
+
 
     	// Paso 2: prendo la celda.
     	Banco_EncenderSwitch(&ctrl.bancos[banco]);
@@ -192,7 +192,7 @@ void Controlador_BypassBanco(uint8_t banco){
 	Banco_ApagarCeldas(&ctrl.bancos[banco]);
 	Controlador_AplicarEstados();
 
-	HAL_Delay(DEADTIME);
+
 
 	Banco_EncenderSwitch(&ctrl.bancos[banco]);
     Controlador_AplicarEstados();
@@ -205,7 +205,7 @@ void Controlador_ActivarCeldasBanco(uint8_t banco){
 	Banco_ApagarSwitch(&ctrl.bancos[banco]);
 	Controlador_AplicarEstados();
 
-	HAL_Delay(DEADTIME);
+
 
 	Banco_EncenderCeldas(&ctrl.bancos[banco]);
 	Controlador_AplicarEstados();
@@ -264,7 +264,7 @@ void Controlador_ActualizarEstados(void)
         return;
     }
 
-    HAL_Delay(DEADTIME);
+
 
     // 3. Preparo paso 2 para todos los bancos
     for (uint8_t b = 0; b < CANT_BANCOS; b++) {
