@@ -14,6 +14,6 @@ Aunque a la salida está muchísimo mejor, quedan corroborar dos cosas ahora que
 
 - Que no haya pico de corriente en la celda (prendidos a la par NMOS y PMOS de switcheo). ---> Listo, poniendo una resistencia de shunt de R=3.4ohm antes de la celda del banco 1, no aparece ningún pico. En continuo, con el banco 2 encendido y el banco 2 apagado, caen 1.1mV en el shunt, es decir una corriente 324uA. En otra prueba, con ambos bancos intercaladas y midiendo en el shunt, se ven unos picos  de tension en el switching, pero no se observan picos de corriente.
 
-
-
 Por otro lado, también se planchó la placa de pruebas de circuito externo.
+
+Además, se probó una de las celdas  2.2v, la configuración de las resistencias era 560k y 56k, con Rb=100k. La celda efectivamente funciona y reduce el cell neg a -480mV.
