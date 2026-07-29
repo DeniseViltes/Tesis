@@ -23,9 +23,14 @@ void SR_PulseClock(shift_register_t *sr)
 }*/
 
 
-static inline void SR_PulseClock(shift_register_t *sr)
+void SR_PulseClock(shift_register_t *sr)
 {
+    if (sr == NULL) {
+        return;
+    }
+
     sr->clk_port->BSRR = sr->clk_pin;                 // CLK = 1
+    //__NOP();
     sr->clk_port->BSRR = (uint32_t)sr->clk_pin << 16; // CLK = 0
 }
 
@@ -44,8 +49,12 @@ void SR_PulseLatch(shift_register_t *sr){
     HAL_GPIO_WritePin(sr->latch_port, sr->latch_pin, GPIO_PIN_RESET);
 }*/
 
-static inline void SR_PulseLatch(shift_register_t *sr)
+void SR_PulseLatch(shift_register_t *sr)
 {
+    if (sr == NULL) {
+        return;
+    }
+
     sr->latch_port->BSRR = sr->latch_pin;                 // latch = 1
     sr->latch_port->BSRR = (uint32_t)sr->latch_pin << 16; // latch = 0
 }
@@ -71,9 +80,9 @@ void SR_Init(shift_register_t *sr,GPIO_TypeDef *data_port,uint16_t data_pin,GPIO
 	sr->latch_pin= latch_pin;
 	sr->latch_port = latch_port;
 
-    HAL_GPIO_WritePin(sr->data_port, sr->data_pin,  GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(sr->clk_port, sr->clk_pin,   GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(sr->latch_port, sr->latch_pin, GPIO_PIN_RESET);
+	sr->data_port->BSRR  = (uint32_t)sr->data_pin  << 16U;
+	sr->clk_port->BSRR   = (uint32_t)sr->clk_pin   << 16U;
+	sr->latch_port->BSRR = (uint32_t)sr->latch_pin << 16U;
 
 }
 
@@ -83,7 +92,7 @@ void SR_SetData(shift_register_t *sr, uint8_t bit){
 	if (sr == NULL ) {
 			return;
 		}
-	HAL_GPIO_WritePin(sr->data_port, sr->data_pin, bit ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	sr->data_port->BSRR = (uint32_t)sr->data_pin << (bit ? 0U : 16U);
 }
 
 

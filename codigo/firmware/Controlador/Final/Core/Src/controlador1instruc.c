@@ -5,7 +5,8 @@
  *      Author: ---
  */
 
-#include "controlador.h"
+
+#include "controlador1instruc.h"
 #include "main.h"
 
 
@@ -125,9 +126,7 @@ int Controlador_HayCambios(void)
 }
 
 
-// Control individual
-
-
+/*-------------------------Control individual---------------------------------*/
 
 
 void Controlador_EncenderCelda(uint8_t banco, uint8_t celda)
@@ -135,18 +134,9 @@ void Controlador_EncenderCelda(uint8_t banco, uint8_t celda)
     if (verificar_banco(banco) == -1) return;
 
 
-    // Paso 1: solo modifico el banco objetivo.
-    // Los otros bancos quedan con su prox intacto.
     if (Banco_GetEstadoActual (&ctrl.bancos[banco]) == ON){
-		Banco_ApagarSwitch(&ctrl.bancos[banco]); // sw banco apagado
-		Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
-
-
-
-    }
-
-
-    // Paso 2: prendo la celda.
+		Banco_ApagarSwitch(&ctrl.bancos[banco]);
+		}
     Banco_EncenderCelda(&ctrl.bancos[banco], celda);
     Controlador_AplicarEstados(); // otra vez frame completo + latch comun
 }
@@ -157,27 +147,20 @@ void Controlador_ApagarCelda(uint8_t banco, uint8_t celda)
 {
     if (verificar_banco(banco) == -1) return;
 
-    //Paso 1: Apago la celda
+
     Banco_ApagarCelda(&ctrl.bancos[banco],celda);
-    Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
 
 
-
-    if (!Banco_HayCeldasProxON(&ctrl.bancos[banco])){ //no quedan celdas en ON->enciendo el banco
-
-
-
-    	// Paso 2: prendo la celda.
+    if (!Banco_HayCeldasProxON(&ctrl.bancos[banco])){
     	Banco_EncenderSwitch(&ctrl.bancos[banco]);
-    	Controlador_AplicarEstados(); // otra vez frame completo + latch comun
-
     }
+    Controlador_AplicarEstados();
 }
 
 
 
 
-//Control por bancos
+/*-------------------------Control por bancos---------------------------------*/
 
 int verificar_banco(uint8_t banco){
 	if (banco >= CANT_BANCOS || banco < 0 )
@@ -188,11 +171,7 @@ int verificar_banco(uint8_t banco){
 void Controlador_BypassBanco(uint8_t banco){
 	if (verificar_banco(banco) == -1) return;
 
-	Banco_ApagarSwitch(&ctrl.bancos[banco]);//solo or si acaso
 	Banco_ApagarCeldas(&ctrl.bancos[banco]);
-	Controlador_AplicarEstados();
-
-
 
 	Banco_EncenderSwitch(&ctrl.bancos[banco]);
     Controlador_AplicarEstados();
@@ -203,9 +182,6 @@ void Controlador_ActivarCeldasBanco(uint8_t banco){
 	if (verificar_banco(banco) == -1) return;
 
 	Banco_ApagarSwitch(&ctrl.bancos[banco]);
-	Controlador_AplicarEstados();
-
-
 
 	Banco_EncenderCeldas(&ctrl.bancos[banco]);
 	Controlador_AplicarEstados();
@@ -213,18 +189,14 @@ void Controlador_ActivarCeldasBanco(uint8_t banco){
 
 
 
-/*
- * Sirve  para actualizar estados con y sin switching
- */
 void Controlador_ActualizarEstados(void)
 {
     uint8_t patron[CANT_BANCOS];
     uint8_t hayActual[CANT_BANCOS];
     uint8_t hayProx[CANT_BANCOS];
-    uint8_t necesitaPaso2 = 0;
 
-    //if (Controlador_HayCambios() == 0 )	return;
-    // 1. Calculo todo primero
+
+
     for (uint8_t b = 0; b < CANT_BANCOS; b++) {
 
         patron[b] = Banco_CalcularPatron(&ctrl.bancos[b],fase);
@@ -232,7 +204,7 @@ void Controlador_ActualizarEstados(void)
         hayProx[b] = (patron[b] != 0);
     }
 
-    // 2. Preparo paso 1 para todos los bancos
+
     for (uint8_t b = 0; b < CANT_BANCOS; b++) {
         if (hayActual[b] && hayProx[b]) {
             // ON -> ON
@@ -241,9 +213,8 @@ void Controlador_ActualizarEstados(void)
         }
         else if (hayActual[b] && !hayProx[b]) {
             // ON -> OFF
-            Banco_ApagarSwitch(&ctrl.bancos[b]);
+            Banco_EncenderSwitch(&ctrl.bancos[b]);
             Banco_ApagarCeldas(&ctrl.bancos[b]);
-            necesitaPaso2 = 1;
         }
         else if (!hayActual[b] && !hayProx[b]) {
             // OFF -> OFF
@@ -253,32 +224,10 @@ void Controlador_ActualizarEstados(void)
         else {
             // OFF -> ON
             Banco_ApagarSwitch(&ctrl.bancos[b]);
-            Banco_ApagarCeldas(&ctrl.bancos[b]);
-            necesitaPaso2 = 1;
-        }
-    }
-
-    Controlador_AplicarEstados();
-
-    if (!necesitaPaso2) {
-        return;
-    }
-
-
-
-    // 3. Preparo paso 2 para todos los bancos
-    for (uint8_t b = 0; b < CANT_BANCOS; b++) {
-        if (hayActual[b] && !hayProx[b]) {
-            // ON -> OFF
-            Banco_EncenderSwitch(&ctrl.bancos[b]);
-            Banco_ApagarCeldas(&ctrl.bancos[b]);
-        }
-        else if (!hayActual[b] && hayProx[b]) {
-            // OFF -> ON
-            Banco_ApagarSwitch(&ctrl.bancos[b]);
             Banco_SetPatronCeldas(&ctrl.bancos[b], patron[b]);
         }
     }
+
 
     Controlador_AplicarEstados();
 }
@@ -318,7 +267,9 @@ void Controlador_IniciarSwitchingCelda(uint8_t banco, uint8_t celda){
 		contador = 0;
 		fase = 0;
 	}
-
+	for (int i = 0; i < CANT_BANCOS; i++){
+		fase = 1;
+	}
 	Banco_SetModoCelda(&ctrl.bancos[banco], celda, SYNCHRO);
 }
 
