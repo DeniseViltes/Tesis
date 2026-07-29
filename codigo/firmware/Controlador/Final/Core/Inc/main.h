@@ -68,10 +68,6 @@ void Error_Handler(void);
 #define CeldasBanco1_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
-#define LATCH_Pin GPIO_PIN_5
-#define LATCH_GPIO_Port GPIOC
-#define DATA2_Pin GPIO_PIN_11
-#define DATA2_GPIO_Port GPIOB
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
@@ -80,8 +76,10 @@ void Error_Handler(void);
 #define CLK_GPIO_Port GPIOC
 #define DATA1_Pin GPIO_PIN_11
 #define DATA1_GPIO_Port GPIOC
-#define LATCHC12_Pin GPIO_PIN_12
-#define LATCHC12_GPIO_Port GPIOC
+#define LATCH_Pin GPIO_PIN_12
+#define LATCH_GPIO_Port GPIOC
+#define DATA2_Pin GPIO_PIN_2
+#define DATA2_GPIO_Port GPIOD
 #define S2_Pin GPIO_PIN_3
 #define S2_GPIO_Port GPIOB
 #define S0_Pin GPIO_PIN_4

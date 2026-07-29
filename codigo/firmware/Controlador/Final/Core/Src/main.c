@@ -293,10 +293,13 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LATCH_Pin|CLK_Pin|DATA1_Pin|LATCHC12_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, CLK_Pin|DATA1_Pin|LATCH_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, DATA2_Pin|S2_Pin|S0_Pin|S1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(DATA2_GPIO_Port, DATA2_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, S2_Pin|S0_Pin|S1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : Boton_Reinciar_Pin */
   GPIO_InitStruct.Pin = Boton_Reinciar_Pin;
@@ -311,15 +314,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LATCH_Pin CLK_Pin DATA1_Pin LATCHC12_Pin */
-  GPIO_InitStruct.Pin = LATCH_Pin|CLK_Pin|DATA1_Pin|LATCHC12_Pin;
+  /*Configure GPIO pins : CLK_Pin DATA1_Pin LATCH_Pin */
+  GPIO_InitStruct.Pin = CLK_Pin|DATA1_Pin|LATCH_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : DATA2_Pin S2_Pin S0_Pin S1_Pin */
-  GPIO_InitStruct.Pin = DATA2_Pin|S2_Pin|S0_Pin|S1_Pin;
+  /*Configure GPIO pin : DATA2_Pin */
+  GPIO_InitStruct.Pin = DATA2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(DATA2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : S2_Pin S0_Pin S1_Pin */
+  GPIO_InitStruct.Pin = S2_Pin|S0_Pin|S1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
