@@ -1,0 +1,21 @@
+Se prueba la nueva plaquita externa provisoria. Anduvo bien y efectivamente simplifica el cableado. Sin embargo, no hay una mejoría significativa en la tensión de salida como se esperaba. Es más, parecería que no hay ninguna mejoría: se sigue viendo a la salida una corriente de hasta 64mA.
+
+Por otro lado, con la misma configuración (2 bancos, 1 celda cada uno) se midió el tiempo de encendido y apagado del PNP de las celdas. Esto fue porque la celda del banco 1 era una v2.1 mientras que la del banco 2 era una v2.2 (con 100k de Rbase). Con esta medición se esperaba ver si era posible aumentar esta misma resistencia en la base, sabiendo que también aumenta el tiempo de switcheo.
+
+Los resultados obtenidos fueron:
+- Sin Rbase: tiempo de encendido del PNP de 210us
+- Con 100k de Rbase: tiempo de encendido del PNP de 240us.
+
+Viendo que la diferencia es tan chica, se concluyó que se puede sin problemas seguir aumentando dicha resistencia.
+
+Se decidió seguir experimentando con los valores de los 3 resistores en cuestión: R2, R3 y Rbase.
+Antes de eso, se hicieron algunas mediciones para tener valores para comparar antes y después del cambio:
+
+- V_cell_neg_1: -466mV ---> Con celda11 apagada y celda21 prendida
+
+Celda21:
+- V_bus_pos2: 5.85V
+- V_basePNP: 5.25V
+- V_R2: V
+- V_R3: V
+- V_Rbase: V
