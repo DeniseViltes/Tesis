@@ -13,9 +13,25 @@ Antes de eso, se hicieron algunas mediciones para tener valores para comparar an
 
 - V_cell_neg_1: -466mV ---> Con celda11 apagada y celda21 prendida
 
-Celda21:
+Celda21 (R2 = 560k, R3 = 56k, Rbase = 100k):
 - V_bus_pos2: 5.85V
 - V_basePNP: 5.25V
-- V_R2: V
-- V_R3: V
-- V_Rbase: V
+- V_R2: 3.67V
+- V_R3: 2.07V
+- V_Rbase: 3.07V
+
+Cambiando el valor de Rbase a 560k:
+
+- V_cell_neg_1: -420mV ---> Con celda11 apagada y celda21 prendida
+Celda21 (R2 = 560k, R3 = 56k, Rbase = 560k):
+- V_bus_pos2: 5.84V
+- V_basePNP: 5.25V
+- V_R2: 4.85V
+- V_R3: 0.92V
+- V_Rbase: 3.07V
+
+Y... otra vez se quemaron los MOSFETs del inversor de la celda que se estaba usando.
+Sobre esto hay una teoría: durante el switcheo, hay un instante en el que uno no se terminó de apagar y el otro ya encendió. Esto produciría un camino de baja impedancia entre Vcc y GND, quemando uno o ambos transistores del inversor. Para solucionarlo se propone poner un resistor en el camino pero no se sabe bien dónde para evitar hacer otra versión de las celdas.
+
+Después de charlarlo con Ceci, llegamos a la siguiente conclusión:
+Dado que es algo que ocurre (creemos) siempre cuando se testea a mano, no es un problema recurrente por lo que no es necesario hacer una versión 2.3 de las celdas. Para las próximas se propone poner un resistor en el camino de Vcc y/o poner un límite de corriente a la fuente.
