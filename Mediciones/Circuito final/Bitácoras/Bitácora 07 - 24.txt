@@ -1,0 +1,19 @@
+Se creó otra versión del código del controlador sin ningún tipo de delay presente. De esta forma, se busca eliminar el tiempo muerto que había en la salida en el instante de switcheo de bancos. Recordar que la última vez, este tiempo era de 50ms, tiempo excesivo.
+
+Ahora sin delays, este tiempo es muchísimo menor, de aproximadamente 1.5ms. Este cambio se hizo cambiando:
+Antes: escritura de pines mediante HAL_GPIO_WritePin.
+Ahora: se escribe directamente en el pin (BSRR).
+Con esto, cada pulso de clock pasa de 1ms a menos de 2us.
+
+Se puso un capacitor a la salida para terminar de matar este mini valle que llega a 0V. Sin capacitor, el tiempo medido era de unos 920us. Con uno de 10uF, tiempo muerto de 830us. Con un capacitor de 470uF, este tiempo muerto se eliminó completamente.
+
+
+Aunque a la salida está muchísimo mejor, quedan corroborar dos cosas ahora que se eliminaron los delays:
+
+- Que las señales de data, clk_shift y clk_latch estén bien coordinadas (ver el peor caso, donde las celdas están ON y OFF, 1 y 1). ---> Listo, no se ve el pulso de clock centrado a data, pero se ven siempre coordinados.
+
+- Que no haya pico de corriente en la celda (prendidos a la par NMOS y PMOS de switcheo). ---> Listo, poniendo una resistencia de shunt de R=3.4ohm antes de la celda del banco 1, no aparece ningún pico. En continuo, con el banco 2 encendido y el banco 2 apagado, caen 1.1mV en el shunt, es decir una corriente 324uA. En otra prueba, con ambos bancos intercaladas y midiendo en el shunt, se ven unos picos  de tension en el switching, pero no se observan picos de corriente.
+
+Por otro lado, también se planchó la placa de pruebas de circuito externo.
+
+Además, se probó una de las celdas  2.2v, la configuración de las resistencias era 560k y 56k, con Rb=100k. La celda efectivamente funciona y reduce el cell neg a -480mV.

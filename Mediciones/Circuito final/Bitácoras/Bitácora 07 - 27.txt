@@ -1,0 +1,6 @@
+Primero se perforó y soldó la plaquita central de prueba que se había planchado la última vez.
+
+Luego se probaron las celdas actuales. Una que tenía cartel de "Probar NMOS". No se podía apagar hasta que efectivamente el NMOS se quemó (humo y calor). Cabe destacar que esta es una de las celdas v2.2.
+
+Curiosamente, había corto en algunas celdas entre Vcc y la salida del inversor. Sin embargo, funcionaban correctamente.
+Una hipótesis es que el PMOS siempre emite los 5V, entonces cuando se prende el NMOS (se apaga la celda), en éste caen los 5V directamente
