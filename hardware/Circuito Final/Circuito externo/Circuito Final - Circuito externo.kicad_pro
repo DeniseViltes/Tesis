@@ -507,10 +507,10 @@
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 1.5,
+        "track_width": 0.4,
         "tuning_profile": "",
-        "via_diameter": 2.0,
-        "via_drill": 1.0,
+        "via_diameter": 1.5,
+        "via_drill": 0.8,
         "wire_width": 6
       },
       {
@@ -709,7 +709,7 @@
         "uuid": "f0782466-24b0-4466-90f1-cde2f15c75b0"
       }
     ],
-    "used_designators": "",
+    "used_designators": "#PWR30-32,C5-8",
     "variants": []
   },
   "sheets": [
