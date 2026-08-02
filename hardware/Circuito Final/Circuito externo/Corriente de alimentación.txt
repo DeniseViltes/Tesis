@@ -1,0 +1,16 @@
++--------------------------------------+----------+--------------------------+--------------------------+
+| Bloque                               | Cantidad | Corriente por unidad     | Corriente máxima total   |
++--------------------------------------+----------+--------------------------+--------------------------+
+| Circuito de celda encendida + LED    | 28       | ≈ 3,2 mA                 | ≈ 90 mA                  |
+| Circuito de banco + LED              | 4        | ≈ 3,2 mA                 | ≈ 13 mA                  |
+| 74HC595, consumo interno             | 4        | ≈ 0,25 a 0,5 mA          | ≈ 1 a 2 mA               |
+| 74HC4051                             | 4        | < 0,25 mA                | < 1 mA                   |
+| INA180                               | 1        | ≈ 0,3 mA                 | ≈ 0,3 mA                 |
+| Operacional cuádruple                | 1        | ≈ 2 a 8 mA               | ≈ 2 a 8 mA               |
+| ICL7660 + alimentación negativa      | 1        | ≈ 3 a 10 mA              | ≈ 3 a 10 mA              |
+| Inversores AO3400/AO3401             | 28       | Casi cero en continua     | Picos al conmutar         |
++--------------------------------------+----------+--------------------------+--------------------------+
+| Consumo máximo normal estimado       |          |                          | ≈ 115 a 125 mA           |
+| Corriente recomendada de diseño      |          |                          | ≈ 150 a 200 mA           |
+| Fuente recomendada                   |          |                          | 5 V, 500 mA              |
++--------------------------------------+----------+--------------------------+--------------------------+---------------------------------+----------+--------------------------+--------------------------+
