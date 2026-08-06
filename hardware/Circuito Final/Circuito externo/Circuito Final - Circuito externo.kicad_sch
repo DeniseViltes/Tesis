@@ -5541,6 +5541,12 @@
 		(uuid "cbaa00f0-1cdf-4cf9-aa15-5e9e4006fa34")
 	)
 	(junction
+		(at 240.03 83.82)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1dfcc397-b2e8-4e8d-afb0-975ff25ac4d9")
+	)
+	(junction
 		(at 41.91 146.05)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5767,6 +5773,16 @@
 			(type default)
 		)
 		(uuid "056923b9-4790-4a52-9aba-75b684712e48")
+	)
+	(wire
+		(pts
+			(xy 250.19 83.82) (xy 250.19 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "06d45264-18fc-4ad3-9379-a3a14774a438")
 	)
 	(wire
 		(pts
@@ -6590,6 +6606,16 @@
 	)
 	(wire
 		(pts
+			(xy 240.03 83.82) (xy 250.19 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e78cbe2-a5b6-4180-9ce4-93c6340394f2")
+	)
+	(wire
+		(pts
 			(xy 208.28 21.59) (xy 213.36 21.59)
 		)
 		(stroke
@@ -6860,6 +6886,16 @@
 	)
 	(wire
 		(pts
+			(xy 250.19 92.71) (xy 252.73 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1d70dc6-fb8d-452e-aa96-ebf8d80aaae1")
+	)
+	(wire
+		(pts
 			(xy 41.91 146.05) (xy 41.91 148.59)
 		)
 		(stroke
@@ -7007,6 +7043,16 @@
 			(type default)
 		)
 		(uuid "dc15ce54-fb19-407b-9189-e88f8f834366")
+	)
+	(wire
+		(pts
+			(xy 260.35 92.71) (xy 265.43 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dc557491-2fe5-4c5b-8b9f-8ab45591591a")
 	)
 	(wire
 		(pts
@@ -7167,6 +7213,16 @@
 			(type default)
 		)
 		(uuid "fcd9054b-d088-47be-bd4a-573614cd2cb7")
+	)
+	(label "Bit_1"
+		(at 135.89 24.13 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "01e0430c-7351-4218-9b4a-d67299393615")
 	)
 	(label "bus_neg_salida"
 		(at 83.82 142.24 0)
@@ -7339,6 +7395,16 @@
 		(uuid "277b591b-e2cb-4c65-b353-df1392898a37")
 	)
 	(label "Bit_2"
+		(at 121.92 24.13 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2cb67006-34bc-44e1-8709-9236a28d61ac")
+	)
+	(label "Bit_2"
 		(at 102.87 177.8 180)
 		(effects
 			(font
@@ -7498,6 +7564,16 @@
 		)
 		(uuid "4fddf230-be4a-4b67-a5e3-69d419c59719")
 	)
+	(label "Bit_2"
+		(at 114.3 24.13 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "521c958b-19ee-4524-8847-1bc846b82638")
+	)
 	(label "bus_pos_4"
 		(at 26.67 148.59 180)
 		(effects
@@ -7507,6 +7583,16 @@
 			(justify right bottom)
 		)
 		(uuid "535402dd-c4bb-4ec1-b334-a5f4f7bb7d90")
+	)
+	(label "Bit_1"
+		(at 143.51 24.13 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "539a916b-7875-42df-9703-832aedda6ce5")
 	)
 	(label "clock"
 		(at 139.7 187.96 180)
@@ -7547,16 +7633,6 @@
 			(justify right bottom)
 		)
 		(uuid "59b2e49f-1f2f-4a45-bf5a-bcbe9a899dca")
-	)
-	(label "Bit_0"
-		(at 62.23 35.56 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "5f8f090a-dc80-45fd-9358-b463101622ea")
 	)
 	(label "salida_adc_4"
 		(at 74.93 40.64 0)
@@ -7919,14 +7995,14 @@
 		(uuid "a2eede72-a6ce-47ce-ba51-c6a8ac4ec53f")
 	)
 	(label "Bit_2"
-		(at 74.93 38.1 0)
+		(at 62.23 35.56 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "a85c5654-b2de-4128-8bfa-6b3f1d723eff")
+		(uuid "a46945ae-b73e-44ae-b3bf-a4840e8cd0c4")
 	)
 	(label "bus_neg_1"
 		(at 180.34 39.37 180)
@@ -7967,6 +8043,16 @@
 			(justify right bottom)
 		)
 		(uuid "ac7a9dc5-8305-4f6a-be05-2960f9f6f032")
+	)
+	(label "Vcc_out"
+		(at 265.43 92.71 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "acb83d2f-2b1b-409d-947c-7dbfe744c05f")
 	)
 	(label "source"
 		(at 62.23 106.68 180)
@@ -8118,6 +8204,16 @@
 		)
 		(uuid "c5d169dd-b4c3-4420-bdfa-580c58f16957")
 	)
+	(label "Bit_0"
+		(at 74.93 38.1 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c801ad44-3a55-4108-ba0c-729c6f219c2b")
+	)
 	(label "salida_adc_2"
 		(at 25.4 78.74 180)
 		(effects
@@ -8188,6 +8284,16 @@
 		)
 		(uuid "d978b86c-b540-400c-81bd-5375c34668f1")
 	)
+	(label "Bit_0"
+		(at 114.3 29.21 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "da7ca1cd-d753-467b-bd29-96e900ca4d8b")
+	)
 	(label "Data_3"
 		(at 74.93 50.8 0)
 		(effects
@@ -8227,16 +8333,6 @@
 			(justify right bottom)
 		)
 		(uuid "e6713da2-5dae-4fac-8c57-d9ccaeba3e93")
-	)
-	(label "Vcc_out"
-		(at 240.03 83.82 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "e9545862-3911-4e2d-b7c6-b24d91ae73c2")
 	)
 	(label "Vcc_out"
 		(at 182.88 104.14 180)
@@ -8317,6 +8413,16 @@
 			(justify left bottom)
 		)
 		(uuid "f92e923d-a14b-43dd-94d8-a0851956cc6e")
+	)
+	(label "Bit_0"
+		(at 121.92 29.21 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fbbc7f4a-9a7b-457b-8e4d-21f43c763004")
 	)
 	(label "bus_neg_3"
 		(at 115.57 182.88 0)
@@ -11296,6 +11402,86 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_US")
+		(at 118.11 24.13 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4e5190c9-be14-49dd-84ee-0dc5726bcc5c")
+		(property "Reference" "R34"
+			(at 118.11 17.78 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 118.11 20.32 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 118.364 23.114 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 118.11 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 118.11 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e1d78d4d-8fe8-4808-9692-c90abae719a9")
+		)
+		(pin "2"
+			(uuid "8e57f942-a30f-4207-b51c-b6d35b5e0586")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "R34")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 74.93 58.42 90)
 		(unit 1)
@@ -12548,6 +12734,86 @@
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "U1")
 					(unit 4)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 139.7 24.13 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7a1720df-c4d5-4194-b3f7-9f266eab6a6e")
+		(property "Reference" "R36"
+			(at 139.7 17.78 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 139.7 20.32 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 139.954 23.114 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 139.7 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 139.7 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b76face6-6718-43d6-85ad-39f5ad92a227")
+		)
+		(pin "2"
+			(uuid "c690fe1a-02af-46ec-907e-b5935f212cbd")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "R36")
+					(unit 1)
 				)
 			)
 		)
@@ -15795,6 +16061,88 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_US")
+		(at 256.54 92.71 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e773736b-82b7-4359-bba3-58015b6dd30c")
+		(property "Reference" "R33"
+			(at 255.2699 90.17 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "0"
+			(at 257.8099 90.17 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 256.286 93.726 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 256.54 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 256.54 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3923d569-23f2-45fd-a998-396abd353757")
+		)
+		(pin "2"
+			(uuid "95816b4c-d140-4402-b49d-ccbab19e6a56")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "R33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 222.25 88.9 180)
 		(unit 1)
@@ -15871,6 +16219,86 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "C7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 118.11 29.21 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "eefcb56e-c14a-49f9-b31c-a1459336cdf6")
+		(property "Reference" "R35"
+			(at 118.11 22.86 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 118.11 25.4 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 118.364 28.194 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 118.11 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 118.11 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "156e9c83-9bd3-457b-bcb8-8812038c6ada")
+		)
+		(pin "2"
+			(uuid "71e436cf-e183-4e72-91bd-6a32639ab118")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "R35")
 					(unit 1)
 				)
 			)

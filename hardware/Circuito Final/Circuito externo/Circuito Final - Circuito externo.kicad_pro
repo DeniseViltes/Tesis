@@ -709,7 +709,7 @@
         "uuid": "f0782466-24b0-4466-90f1-cde2f15c75b0"
       }
     ],
-    "used_designators": "#PWR30-32,C5-8",
+    "used_designators": "R33-40",
     "variants": []
   },
   "sheets": [
