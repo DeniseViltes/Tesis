@@ -5786,16 +5786,6 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 113.03) (xy 105.41 113.03)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0722e45c-c67e-47e3-bd37-d87698f51fe2")
-	)
-	(wire
-		(pts
 			(xy 138.43 107.95) (xy 140.97 107.95)
 		)
 		(stroke
@@ -6226,6 +6216,16 @@
 	)
 	(wire
 		(pts
+			(xy 93.98 115.57) (xy 92.71 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4ad49804-db8b-488a-aaa9-9de89757e7ad")
+	)
+	(wire
+		(pts
 			(xy 251.46 120.65) (xy 248.92 120.65)
 		)
 		(stroke
@@ -6436,7 +6436,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 107.95) (xy 129.54 107.95)
+			(xy 127 107.95) (xy 129.54 107.95)
 		)
 		(stroke
 			(width 0)
@@ -6683,6 +6683,16 @@
 			(type default)
 		)
 		(uuid "7f1972be-9a26-4831-9ae2-20f6a0707a99")
+	)
+	(wire
+		(pts
+			(xy 102.87 115.57) (xy 101.6 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f5d9113-0d14-4cf1-98e6-8174c90d31c5")
 	)
 	(wire
 		(pts
@@ -7196,6 +7206,16 @@
 	)
 	(wire
 		(pts
+			(xy 113.03 113.03) (xy 116.84 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db60a2f1-3b71-4dd8-be31-66d87a1bd3e2")
+	)
+	(wire
+		(pts
 			(xy 62.23 104.14) (xy 62.23 106.68)
 		)
 		(stroke
@@ -7236,7 +7256,7 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 110.49) (xy 92.71 110.49)
+			(xy 91.44 110.49) (xy 102.87 110.49)
 		)
 		(stroke
 			(width 0)
@@ -8235,7 +8255,7 @@
 		(uuid "8b79a5a8-76c4-4f2f-8588-0b951dad1456")
 	)
 	(label "Vcc_out"
-		(at 105.41 113.03 0)
+		(at 116.84 113.03 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8725,12 +8745,12 @@
 		(uuid "df098b09-5768-468d-bdbe-34b05414c5d0")
 	)
 	(label "llave_de_emergencia"
-		(at 128.27 107.95 180)
+		(at 127 107.95 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "e6713da2-5dae-4fac-8c57-d9ccaeba3e93")
 	)
@@ -10629,6 +10649,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 97.79 115.57 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2602126e-783d-4d94-b7a6-438a479e3f05")
+		(property "Reference" "R6"
+			(at 98.044 111.76 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10k"
+			(at 98.044 113.538 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 97.79 113.792 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 97.79 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "14a1dac3-e133-497e-9cae-6e68c94cfdf2")
+		)
+		(pin "2"
+			(uuid "a2cffea3-7507-418a-a63a-956ebafb1780")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector_Generic:Conn_02x07_Odd_Even")
 		(at 34.29 182.88 0)
 		(mirror x)
@@ -11559,7 +11658,7 @@
 	)
 	(symbol
 		(lib_id "Switch:SW_SPDT")
-		(at 97.79 113.03 0)
+		(at 107.95 113.03 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -11571,7 +11670,7 @@
 		(fields_autoplaced yes)
 		(uuid "45ed28b7-21fb-468b-9f48-3183ce5707b8")
 		(property "Reference" "SW1"
-			(at 97.79 104.14 0)
+			(at 107.95 104.14 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11581,7 +11680,7 @@
 			)
 		)
 		(property "Value" "SW_SPDT"
-			(at 97.79 106.68 0)
+			(at 107.95 106.68 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11591,7 +11690,7 @@
 			)
 		)
 		(property "Footprint" "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q"
-			(at 97.79 113.03 0)
+			(at 107.95 113.03 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11602,7 +11701,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 97.79 120.65 0)
+			(at 107.95 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11613,7 +11712,7 @@
 			)
 		)
 		(property "Description" "Switch, single pole double throw"
-			(at 97.79 113.03 0)
+			(at 107.95 113.03 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14875,6 +14974,85 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 92.71 115.57 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9a636fdc-12a4-4842-bc61-99a4ca945a2f")
+		(property "Reference" "#PWR013"
+			(at 86.36 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 88.9 115.5699 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 92.71 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 92.71 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 92.71 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d1e15284-f806-48b1-8c6a-8835da4814ee")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "#PWR013")
 					(unit 1)
 				)
 			)
