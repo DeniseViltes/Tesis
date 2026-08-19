@@ -1,0 +1,13 @@
+Se prueban todas las seis plaquitas v2.2 para asegurarse que funcionan bien. Cabe destacar que a una le falta el N-MOSFET switch (se nos acabaron) y que ahora se usa otra fuente controlada para el Vcc (5V y 10mA) para asegurarse de no quemar nada en los inversores.
+
+Todas las celdas funcionan bien. Una tenía un resistor mal soldado (muy raro, uno de los extremos del resistor 563 no se quedaba adherido a la pista, se lo descartó y usó uno nuevo). La celda que tenía el sticker de no funciona tenía en corto bus_neg y tierra, eliminado el corto anda bien.
+
+Se midió la corriente en la malla de los resistores R2 y R3 según su valor. Se obtuvo:
+- Sin Rbase: R3=10k -> V_R3 = 5.5V
+- Rbase=100k: R3=56k -> V_R3 = 2.25V
+- Rbase=564k: R3=56k -> V_R3 = 0.97V
+Cabe destacar que en el peor caso, el segundo, en apagado Vbe del PNP era de 0V por lo que no hay riesgo alguno de que no se apague nunca el módulo.
+
+Por ende, se recomienda utilizar el último caso: R2=560k, R3=56k y Rbase=560k.
+
+A la celda que no tenía N-MOSFET, se la probó sola con cables con la conexión que tendría si fuera celda del banco 1. Funciona perfectamente, le queda solamente soldarle el MOSFET.
