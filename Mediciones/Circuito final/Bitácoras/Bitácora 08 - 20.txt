@@ -1,0 +1,30 @@
+Se prueba la corriente en la tierra. Se analiza el peor caso posible: banco 1 apagado, y bancos 2 a 4 prendidos. De forma comparativa, se compara el resultado cuando Rbase es 100k y cuando es 560k, y cuando no hay. El banco de pruebas consiste en: Banco 1 (1 celda + sw de banco) + Banco 2 (1 celda) + Banco 3 (1 celda) + Banco 4 (1 celda). Cabe destacar que en la celda del banco 1 se usó una celda real, mientras que en todo el resto, se usaron fuentes controladas como celdas.
+
+- Rbase = 0:
+Vout = 8.70V
+Iout = 184mA
+cell_neg (banco 1): -0.510V
+bus_pos (banco 4): 11.60V
+bus_neg (banco 1): 2.90V
+
+Se encontró un cuasi-corto (daban números del tester en modo continuidad) entre el pin de Data y de Vcc del módulo de banco que se estaba usando. Eso hay que revisarlo, pero se siguen con las pruebas usando la otra placa de banco.
+
+- Rbase = 100k:
+Vout = 8.37V
+Iout = 174mA
+cell_neg (banco 1): -0.428V
+bus_pos (banco 4): 2.97V
+bus_neg (banco 1): 11.30V
+
+- Rbase = 560k:
+Vout = 8.60V
+Iout = 181mA
+cell_neg (banco 1): -0.280V
+bus_pos (banco 4): 11.60V
+bus_neg (banco 1): 3.02V
+
+En conclusión, el mejor caso es con R2=560k, R3=56k y Rbase=560k.
+
+Parece que el problema del banco era (sorprendentemente) el SR otra vez. Nos dimos cuenta porque había numeritos del tester en continuidad entre Vcc y GND. Ahora queda cambiarlo y reemplazar todos los Rbase de 100k por otros de 560k. También se instalaron los capacitores de 100nF en los integrados del banco.
+
+Lo que queda finalmente es terminar de soldar el último módulo de banco.
