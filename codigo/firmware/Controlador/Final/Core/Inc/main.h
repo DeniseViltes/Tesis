@@ -60,14 +60,22 @@ void Error_Handler(void);
 #define Boton_Reinciar_Pin GPIO_PIN_13
 #define Boton_Reinciar_GPIO_Port GPIOC
 #define Boton_Reinciar_EXTI_IRQn EXTI15_10_IRQn
+#define Salida_adc_2_Pin GPIO_PIN_0
+#define Salida_adc_2_GPIO_Port GPIOA
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
-#define CeldasBanco1_Pin GPIO_PIN_4
-#define CeldasBanco1_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
+#define Salida_adc_1_Pin GPIO_PIN_5
+#define Salida_adc_1_GPIO_Port GPIOC
+#define S2_Pin GPIO_PIN_6
+#define S2_GPIO_Port GPIOC
+#define S1_Pin GPIO_PIN_8
+#define S1_GPIO_Port GPIOC
+#define S0_Pin GPIO_PIN_9
+#define S0_GPIO_Port GPIOC
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
@@ -80,12 +88,6 @@ void Error_Handler(void);
 #define LATCH_GPIO_Port GPIOC
 #define DATA2_Pin GPIO_PIN_2
 #define DATA2_GPIO_Port GPIOD
-#define S2_Pin GPIO_PIN_3
-#define S2_GPIO_Port GPIOB
-#define S0_Pin GPIO_PIN_4
-#define S0_GPIO_Port GPIOB
-#define S1_Pin GPIO_PIN_5
-#define S1_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

@@ -15,6 +15,15 @@ typedef enum
 {
   ADC_MUX_BANCO_0 = 0,
   ADC_MUX_BANCO_1,
+  ADC_NODE_COUNT
+} adc_node_t;
+
+
+/*
+ *typedef enum
+{
+  ADC_MUX_BANCO_0 = 0,
+  ADC_MUX_BANCO_1,
   ADC_MUX_BANCO_2,
   ADC_MUX_BANCO_3,
   ADC_BANCO_0,
@@ -23,9 +32,9 @@ typedef enum
   ADC_BANCO_3,
   ADC_NODE_COUNT
 } adc_node_t;
-
+ */
 void adc_init(void);
 void adc_update(void);
-void adc_get_buffer(uint16_t *buffer, uint16_t len);
-
+void adc_get_voltages_mV(uint16_t *buffer, uint16_t len);
+uint16_t adc_get_node_voltage_mV(adc_node_t node);
 #endif /* INC_ADC_H_ */

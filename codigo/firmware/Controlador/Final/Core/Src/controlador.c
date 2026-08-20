@@ -374,7 +374,13 @@ void Controlador_Reiniciar(void){
 	}
 }
 
+void Controlador_Medir_cellneg(uint8_t banco, uint8_t celda){
+	MUX_Select(&mux_bancos[banco],celda);
+	adc
+}
+
+
 void Controlador_CargarMediciones(void){
 	uint16_t adc_mux [ADC_NODE_COUNT] = {0};
-	adc_get_buffer(adc_mux,ADC_NODE_COUNT);
+	adc_get_voltages_mV(adc_mux,ADC_NODE_COUNT);
 }

@@ -35,6 +35,7 @@ typedef struct {
     uint16_t      s2_pin;
 
     uint8_t canal_seleccionado;
+    adc_node_t nodo;//VER OTRA ALTERNATIVA
 } mux_t;
 
 
