@@ -15,12 +15,12 @@ typedef enum
 {
   ADC_MUX_BANCO_0 = 0,
   ADC_MUX_BANCO_1,
-  ADC_MUX_BANCO_2,
-  ADC_MUX_BANCO_3,
-  ADC_BANCO_0,
-  ADC_BANCO_1,
-  ADC_BANCO_2,
-  ADC_BANCO_3,
+ // ADC_MUX_BANCO_2,
+  //ADC_MUX_BANCO_3,
+  //ADC_BANCO_0,
+  //ADC_BANCO_1,
+  //ADC_BANCO_2,
+  //ADC_BANCO_3,
   ADC_NODE_COUNT
 } adc_node_t;
 

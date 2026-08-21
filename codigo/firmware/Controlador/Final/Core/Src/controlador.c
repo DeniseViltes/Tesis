@@ -375,6 +375,6 @@ void Controlador_Reiniciar(void){
 }
 
 void Controlador_CargarMediciones(void){
-	uint16_t adc_mux [ADC_NODE_COUNT] = {0};
-	adc_get_buffer(adc_mux,ADC_NODE_COUNT);
+
+	adc_get_buffer(ctrl.mediciones,ADC_NODE_COUNT);
 }

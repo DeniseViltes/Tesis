@@ -22,6 +22,7 @@
 typedef struct {
 	banco_t bancos[CANT_BANCOS];
 	uint8_t cant_bancos;
+	uint16_t mediciones[ADC_NODE_COUNT];
 //acá tendrian que ir las mediciones de los buses
 }controlador_t;
 

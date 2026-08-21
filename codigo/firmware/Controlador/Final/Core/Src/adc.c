@@ -8,7 +8,7 @@
 #include "main.h"
 
 #define ADC_VREF_mV 3300u
-#define ADC_SETS   16
+#define ADC_SETS   128u
 #define ADC_BUF_LEN (ADC_NODE_COUNT * ADC_SETS)
 
 extern ADC_HandleTypeDef hadc1;
