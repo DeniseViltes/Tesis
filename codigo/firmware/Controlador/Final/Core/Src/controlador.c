@@ -379,6 +379,7 @@ void Controlador_SeleccionarCellNeg(uint8_t banco, uint8_t celda){
 	MUX_Select(&mux_bancos[banco],celda);
 }
 
+
 uint16_t Controlador_MedirCellNeg(uint8_t banco){
 	return adc_get_node_voltage_mV(mux_bancos[banco].nodo);
 }

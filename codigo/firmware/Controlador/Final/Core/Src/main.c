@@ -116,7 +116,7 @@ int main(void)
 
 	  //Controlador_EncenderCelda(0,0);
 	   CLI_Process();
-	   //adc_update();
+	   adc_update();
 	    if (flag_controlador_update) {
 	        flag_controlador_update = 0;
 	        Controlador_Update();
@@ -211,7 +211,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_15;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();

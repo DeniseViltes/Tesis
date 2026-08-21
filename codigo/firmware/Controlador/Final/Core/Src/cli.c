@@ -40,6 +40,18 @@ void str_to_lower(char *s) {
     }
 }
 
+static void cli_print_voltage(uint16_t voltage_mV)
+{
+    char buffer[16];
+
+    snprintf(buffer, sizeof(buffer),
+             "%u.%03u V\r\n",
+             (unsigned int)(voltage_mV / 1000u),
+             (unsigned int)(voltage_mV % 1000u));
+
+    cli_print(buffer);
+}
+
 
 
 
@@ -166,6 +178,59 @@ static void cli_handle_line(const char *line_in){
 	  if (strcmp(line_copy, "status") == 0) {
 	    cli_print_status();
 	    return;
+	  }
+
+
+	  /* MUX Y MEDICIONES */
+	  {
+	      unsigned int b_user;
+	      unsigned int c_user;
+	      char extra;
+
+	      if (sscanf(line_copy,
+	                 "mux %u %u %c",
+	                 &b_user,
+	                 &c_user,
+	                 &extra) == 2)
+	      {
+	          if (b_user < 1u || b_user > CANT_BANCOS ||
+	              c_user < 1u || c_user > CELDAS_POR_BANCO)
+	          {
+	              cli_print("ERR: mux <banco> <celda>\r\n");
+	              return;
+	          }
+
+	          uint8_t b = (uint8_t)(b_user - 1u);
+	          uint8_t c = (uint8_t)(c_user - 1u);
+
+	          Controlador_SeleccionarCellNeg(b, c);
+
+	          cli_print("MUX seleccionado\r\n");
+	          return;
+	      }
+
+
+	      if (sscanf(line_copy,
+	                 "medir %u %c",
+	                 &b_user,
+	                 &extra) == 1)
+	      {
+	          if (b_user < 1u || b_user > CANT_BANCOS)
+	          {
+	              cli_print("ERR: medir <banco>\r\n");
+	              return;
+	          }
+
+	          uint8_t b = (uint8_t)(b_user - 1u);
+
+	          uint16_t medicion_mV =
+	              Controlador_MedirCellNeg(b);
+
+	          cli_print("Tension medida: ");
+	          cli_print_voltage(medicion_mV);
+
+	          return;
+	      }
 	  }
 
 	  // CELDA <bank 1-3> <cell 1-2> on|off
