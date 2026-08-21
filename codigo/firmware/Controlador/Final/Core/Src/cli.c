@@ -494,6 +494,7 @@ void CLI_Init(UART_HandleTypeDef *huart)
 
 void CLI_RxCallback(UART_HandleTypeDef *huart)
 {
+	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 	if (rx_ch == '\r' || rx_ch == '\n') {
 	  if (line_len > 0) {
 	    line_buf[line_len] = '\0';
@@ -522,13 +523,20 @@ void CLI_ButtonReiniciarCallback(uint16_t gpio_pin)
 
 void CLI_Process(void)
 {
-  if (!cli_line_ready) return;
+    if (!cli_line_ready)
+    {
+        return;
+    }
 
-  cli_line_ready = 0;
-  cli_handle_line(cli_cmd_buf);
-  cli_print("> ");
+    cli_line_ready = 0u;
+
+    cli_print("Procesando: [");
+    cli_print(cli_cmd_buf);
+    cli_print("]\r\n");
+
+    cli_handle_line(cli_cmd_buf);
+    cli_print("> ");
 }
-
 
 
 

@@ -23,7 +23,14 @@ void MUX_Init(mux_t *mux, GPIO_TypeDef *s0_port, uint16_t s0_pin,
 	mux->s2_pin = s2_pin;
 
 	mux->canal_seleccionado = 0;
+
+
 }
+
+void MUX_SetNodo (mux_t *mux,adc_node_t nodo){
+	mux->nodo = nodo;
+}
+
 
 
 

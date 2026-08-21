@@ -126,8 +126,8 @@ void adc_get_voltages_mV(uint16_t *buffer, uint16_t len)
     }
 }
 
-uint16_t adc_get_node_voltage_mV(adc_node_t node){
-	return adc_get_raw(node) * ADC_VREF_mV) / 4095u;
+uint16_t adc_get_node_voltage_mV (adc_node_t node){
+	return adc_get_raw(node) * ( ADC_VREF_mV) / 4095u;
 }
 
 

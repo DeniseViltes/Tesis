@@ -62,6 +62,14 @@ void Controlador_PararSwitchingCelda(uint8_t banco, uint8_t celda);
 
 
 void Controlador_ModificarPeriodo(uint16_t periodo);
+void Controlador_SeleccionarCellNeg(uint8_t banco, uint8_t celda);
+
+/*
+ * Mide el canal de mux previamente seleccionado
+ * Primero es necesario seleccionar un canal de mux (una celda)
+ */
+uint16_t Controlador_MedirCellNeg(uint8_t banco);
+
 /*
 Controlador_SetBancos(...)
 Controlador_SetCeldasDeBanco(...)*/

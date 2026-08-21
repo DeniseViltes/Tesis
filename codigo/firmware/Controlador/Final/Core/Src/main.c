@@ -116,7 +116,7 @@ int main(void)
 
 	  //Controlador_EncenderCelda(0,0);
 	   CLI_Process();
-	   adc_update();
+	   //adc_update();
 	    if (flag_controlador_update) {
 	        flag_controlador_update = 0;
 	        Controlador_Update();

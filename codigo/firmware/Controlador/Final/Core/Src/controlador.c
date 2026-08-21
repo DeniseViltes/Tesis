@@ -52,6 +52,7 @@ void Controlador_init(void){
 		SR_Init(&sr_bancos[i],sr_data_puertos[i],sr_data_pines[i],CLK_GPIO_Port, CLK_Pin,LATCH_GPIO_Port, LATCH_Pin);
 
 		MUX_Init(&mux_bancos[i], S0_GPIO_Port, S0_Pin,S1_GPIO_Port, S1_Pin,S2_GPIO_Port,S2_Pin);
+		MUX_SetNodo(&mux_bancos[i],ADC_MUX_BANCO_0+i);
 
 		Banco_Init(&ctrl.bancos[i],&sr_bancos[i],&mux_bancos[i],CELDAS_POR_BANCO, ADC_MUX_BANCO_0);
 
@@ -374,9 +375,12 @@ void Controlador_Reiniciar(void){
 	}
 }
 
-void Controlador_Medir_cellneg(uint8_t banco, uint8_t celda){
+void Controlador_SeleccionarCellNeg(uint8_t banco, uint8_t celda){
 	MUX_Select(&mux_bancos[banco],celda);
-	adc
+}
+
+uint16_t Controlador_MedirCellNeg(uint8_t banco){
+	return adc_get_node_voltage_mV(mux_bancos[banco].nodo);
 }
 
 

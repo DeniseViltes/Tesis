@@ -9,7 +9,7 @@
 #define INC_MUX_H_
 
 #include "main.h"
-
+#include "adc.h"
 
 /*
  * A0->cell_neg7
@@ -44,6 +44,7 @@ void MUX_Init(mux_t *mux, GPIO_TypeDef *s0_port, uint16_t s0_pin,
 			 GPIO_TypeDef *s2_port, uint16_t  s2_pin);
 void MUX_Select(mux_t *mux, uint8_t pin);
 
+void MUX_SetNodo (mux_t *mux,adc_node_t nodo);
 
 
 #endif /* INC_MUX_H_ */
