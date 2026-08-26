@@ -226,10 +226,15 @@ static void cli_handle_line(const char *line_in){
 	          uint16_t medicion_mV =
 	              Controlador_MedirCellNeg(b);
 
+
 	          cli_print("Tension medida: ");
 	          cli_print_voltage(medicion_mV);
 
+
+
 	          return;
+
+
 	      }
 	  }
 

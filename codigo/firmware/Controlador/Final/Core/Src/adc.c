@@ -11,6 +11,11 @@
 #define ADC_SETS   128u
 #define ADC_BUF_LEN (ADC_NODE_COUNT * ADC_SETS)
 
+
+#define DIV_R1_OHM 33000u
+#define DIV_R2_OHM  8200u
+
+
 extern ADC_HandleTypeDef hadc1;
 
 
@@ -38,12 +43,19 @@ void adc_init(void)
         return;
     }
 
-    if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_dma_buf, ADC_BUF_LEN) == HAL_OK)
+    if (HAL_ADCEx_Calibration_Start(&hadc1) != HAL_OK)
+    {
+        return;
+    }
+
+    if (HAL_ADC_Start_DMA(
+            &hadc1,
+            (uint32_t *)adc_dma_buf,
+            ADC_BUF_LEN) == HAL_OK)
     {
         g_adc_dma_started = 1u;
     }
 }
-
 
 
 void adc_update(void)
@@ -112,6 +124,12 @@ uint8_t adc_is_dma_started(void)
   return g_adc_dma_started;
 }
 
+uint32_t adc_to_cell_neg_mV(uint32_t adc_mV)
+{
+    return (adc_mV * (DIV_R1_OHM + DIV_R2_OHM)/ DIV_R2_OHM);
+}
+
+
 
 void adc_get_voltages_mV(uint16_t *buffer, uint16_t len)
 {
@@ -126,12 +144,16 @@ void adc_get_voltages_mV(uint16_t *buffer, uint16_t len)
     }
 }
 
-uint16_t adc_get_node_voltage_mV (adc_node_t node){
-	return (uint16_t)(
-	        ((uint32_t)adc_get_raw(node) * ADC_VREF_mV + 2047u) / 4095u
-	    );
-}
+uint16_t adc_get_node_voltage_mV(adc_node_t node)
+{
+    uint16_t raw = adc_get_raw(node);
 
+    uint16_t medicion = (uint16_t)(
+        ((uint32_t)raw * ADC_VREF_mV + 2047u) / 4095u
+    );
+
+    return adc_to_cell_neg_mV(medicion);
+}
 
 
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc)

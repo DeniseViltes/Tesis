@@ -34,17 +34,52 @@ void MUX_SetNodo (mux_t *mux,adc_node_t nodo){
 
 
 
-void MUX_Select(mux_t *mux, uint8_t pin)
+/*
+ * Celda lógica -> canal físico del MUX
+ *
+ * celda 0 (cell_neg1) -> A6
+ * celda 1 (cell_neg2) -> A4
+ * celda 2 (cell_neg3) -> A7
+ * celda 3 (cell_neg4) -> A5
+ * celda 4 (cell_neg5) -> A2
+ * celda 5 (cell_neg6) -> A1
+ * celda 6 (cell_neg7) -> A0
+ *
+ * A3 -> GND
+ */
+
+void MUX_Select(mux_t *mux, uint8_t cell)
 {
-    pin &= 0x07; // limita de 0 a 7
+    static const uint8_t mux_map[7] = {
+        6,  // cell 0 -> cell_neg1 -> A6
+        4,  // cell 1 -> cell_neg2 -> A4
+        7,  // cell 2 -> cell_neg3 -> A7
+        5,  // cell 3 -> cell_neg4 -> A5
+        2,  // cell 4 -> cell_neg5 -> A2
+        1,  // cell 5 -> cell_neg6 -> A1
+        0   // cell 6 -> cell_neg7 -> A0
+    };
 
-    HAL_GPIO_WritePin(mux->s0_port, mux->s0_pin,
-                      (pin & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    if (cell >= 7)
+        return;
 
-    HAL_GPIO_WritePin(mux->s1_port, mux->s1_pin,
-                      (pin & 0x02) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    uint8_t pin = mux_map[cell];
 
-    HAL_GPIO_WritePin(mux->s2_port, mux->s2_pin,
-                      (pin & 0x04) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(
+        mux->s0_port,
+        mux->s0_pin,
+        (pin & 0x01u) ? GPIO_PIN_SET : GPIO_PIN_RESET
+    );
+
+    HAL_GPIO_WritePin(
+        mux->s1_port,
+        mux->s1_pin,
+        (pin & 0x02u) ? GPIO_PIN_SET : GPIO_PIN_RESET
+    );
+
+    HAL_GPIO_WritePin(
+        mux->s2_port,
+        mux->s2_pin,
+        (pin & 0x04u) ? GPIO_PIN_SET : GPIO_PIN_RESET
+    );
 }
-

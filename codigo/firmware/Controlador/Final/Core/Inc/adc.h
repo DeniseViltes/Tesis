@@ -19,6 +19,9 @@ typedef enum
 } adc_node_t;
 
 
+
+
+
 /*
  *typedef enum
 {
@@ -37,4 +40,5 @@ void adc_init(void);
 void adc_update(void);
 void adc_get_voltages_mV(uint16_t *buffer, uint16_t len);
 uint16_t adc_get_node_voltage_mV(adc_node_t node);
+uint16_t adc_get_raw(adc_node_t node);
 #endif /* INC_ADC_H_ */
