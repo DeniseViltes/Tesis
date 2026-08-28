@@ -117,7 +117,7 @@
         "too_many_vias": "error",
         "track_angle": "error",
         "track_dangling": "warning",
-        "track_not_centered_on_via": "ignore",
+        "track_not_centered_on_via": "error",
         "track_on_post_machined_layer": "error",
         "track_segment_length": "error",
         "track_width": "error",
@@ -195,12 +195,11 @@
       ],
       "track_widths": [
         0.0,
-        0.3,
-        0.35,
         0.4,
         0.5,
         0.6,
         0.8,
+        1.5,
         1.5
       ],
       "tuning_pattern_settings": {
@@ -742,7 +741,7 @@
         "uuid": "f0782466-24b0-4466-90f1-cde2f15c75b0"
       }
     ],
-    "used_designators": "",
+    "used_designators": "R51-53",
     "variants": []
   },
   "sheets": [

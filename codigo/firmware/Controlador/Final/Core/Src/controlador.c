@@ -17,7 +17,7 @@ extern volatile uint8_t flag_controlador_update;
 
 
 static shift_register_t sr_bancos[CANT_BANCOS];
-static mux_t mux_bancos[CANT_BANCOS];
+static mux_t mux_bancos[CANT_BANCOS]; //TODO pasar el manejo de mux a un unico mux
 
 
 
@@ -375,8 +375,8 @@ void Controlador_Reiniciar(void){
 	}
 }
 
-void Controlador_SeleccionarCellNeg(uint8_t banco, uint8_t celda){
-	MUX_Select(&mux_bancos[banco],celda);
+void Controlador_SeleccionarCellNeg(uint8_t celda){
+	MUX_Select(&mux_bancos[0],celda);
 }
 
 
@@ -386,6 +386,18 @@ uint16_t Controlador_MedirCellNeg(uint8_t banco){
 
 
 void Controlador_CargarMediciones(void){
-	uint16_t adc_mux [ADC_NODE_COUNT] = {0};
-	adc_get_voltages_mV(adc_mux,ADC_NODE_COUNT);
+	for (uint8_t i = 0; i < ADC_NODE_COUNT; i++){
+		ctrl.mediciones_anteriores[i] = ctrl.mediciones[i];
+	}
+	adc_get_voltages_mV(ctrl.mediciones,ADC_NODE_COUNT);
+}
+
+uint16_t Controlador_GetMedicion(adc_node_t nodo)
+{
+    if (nodo >= ADC_NODE_COUNT)
+    {
+        return 0u;
+    }
+
+    return ctrl.mediciones[nodo];
 }

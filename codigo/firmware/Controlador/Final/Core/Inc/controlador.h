@@ -22,7 +22,8 @@
 typedef struct {
 	banco_t bancos[CANT_BANCOS];
 	uint8_t cant_bancos;
-//acá tendrian que ir las mediciones de los buses
+	uint16_t mediciones[ADC_NODE_COUNT];
+	uint16_t mediciones_anteriores[ADC_NODE_COUNT];
 }controlador_t;
 
 void Controlador_init(void);
@@ -62,7 +63,7 @@ void Controlador_PararSwitchingCelda(uint8_t banco, uint8_t celda);
 
 
 void Controlador_ModificarPeriodo(uint16_t periodo);
-void Controlador_SeleccionarCellNeg(uint8_t banco, uint8_t celda);
+void Controlador_SeleccionarCellNeg(uint8_t celda);
 
 /*
  * Mide el canal de mux previamente seleccionado
@@ -70,9 +71,7 @@ void Controlador_SeleccionarCellNeg(uint8_t banco, uint8_t celda);
  */
 uint16_t Controlador_MedirCellNeg(uint8_t banco);
 
-/*
-Controlador_SetBancos(...)
-Controlador_SetCeldasDeBanco(...)*/
-
+uint16_t Controlador_GetMedicion(adc_node_t nodo);
+void Controlador_CargarMediciones(void);
 
 #endif /* INC_CONTROLADOR_H_ */

@@ -139,8 +139,8 @@ void adc_get_voltages_mV(uint16_t *buffer, uint16_t len)
     }
 
     for (uint8_t i = 0; i < ADC_NODE_COUNT; i++)
-    {
-        buffer[i] = (uint16_t)(((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u);
+    { //DEJO TODOS LOS NODOS CON EL MISMO DIVISOR RESISTIVO
+        buffer[i] =(uint16_t) (((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u);
     }
 }
 

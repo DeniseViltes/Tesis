@@ -94,6 +94,45 @@ static void cli_print_status(void)
 }
 
 
+/*
+static const char *const adc_nombres[ADC_NODE_COUNT] =
+{
+    [ADC_MUX_BANCO_0] = "MUX banco 0",
+    [ADC_MUX_BANCO_1] = "MUX banco 1",
+    [ADC_MUX_BANCO_2] = "MUX banco 2",
+    [ADC_MUX_BANCO_3] = "MUX banco 3",
+    [ADC_BANCO_0]     = "Banco 0",
+    [ADC_BANCO_1]     = "Banco 1",
+    [ADC_BANCO_2]     = "Banco 2",
+    [ADC_BANCO_3]     = "Banco 3"
+};*/
+
+
+static const char *const adc_nombres[ADC_NODE_COUNT] =
+{
+    [ADC_MUX_BANCO_0] = "MUX banco 0",
+    [ADC_MUX_BANCO_1] = "MUX banco 1"
+};
+
+
+void cli_print_mediciones(void)
+{
+    char mensaje[64];
+
+    for (adc_node_t nodo = ADC_MUX_BANCO_0;
+         nodo < ADC_NODE_COUNT;
+         nodo++)
+    {
+
+        snprintf(mensaje, sizeof(mensaje),
+                 "%s: %u mV\r\n",
+                 adc_nombres[nodo],
+                 (unsigned)Controlador_GetMedicion(nodo));
+
+        cli_print(mensaje);
+    }
+}
+
 static void cli_print_help(void)
 {cli_print(
 	    "\r\n"
@@ -183,52 +222,35 @@ static void cli_handle_line(const char *line_in){
 
 	  /* MUX Y MEDICIONES */
 	  {
-	      unsigned int b_user;
 	      unsigned int c_user;
 	      char extra;
 
 	      if (sscanf(line_copy,
-	                 "mux %u %u %c",
-	                 &b_user,
+	                 "mux %u  %c",
 	                 &c_user,
-	                 &extra) == 2)
+	                 &extra) == 1)
 	      {
-	          if (b_user < 1u || b_user > CANT_BANCOS ||
-	              c_user < 1u || c_user > CELDAS_POR_BANCO)
+	          if (c_user < 1u || c_user > CELDAS_POR_BANCO)
 	          {
 	              cli_print("ERR: mux <banco> <celda>\r\n");
 	              return;
 	          }
 
-	          uint8_t b = (uint8_t)(b_user - 1u);
+
 	          uint8_t c = (uint8_t)(c_user - 1u);
 
-	          Controlador_SeleccionarCellNeg(b, c);
+	          Controlador_SeleccionarCellNeg(c);
 
 	          cli_print("MUX seleccionado\r\n");
 	          return;
 	      }
 
 
-	      if (sscanf(line_copy,
-	                 "medir %u %c",
-	                 &b_user,
-	                 &extra) == 1)
+	      if (strcmp(line_copy, "medir") == 0)
 	      {
-	          if (b_user < 1u || b_user > CANT_BANCOS)
-	          {
-	              cli_print("ERR: medir <banco>\r\n");
-	              return;
-	          }
 
-	          uint8_t b = (uint8_t)(b_user - 1u);
-
-	          uint16_t medicion_mV =
-	              Controlador_MedirCellNeg(b);
-
-
-	          cli_print("Tension medida: ");
-	          cli_print_voltage(medicion_mV);
+		  Controlador_CargarMediciones();
+		  cli_print_mediciones();
 
 
 
