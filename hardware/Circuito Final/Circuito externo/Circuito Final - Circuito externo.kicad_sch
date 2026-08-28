@@ -5890,10 +5890,6 @@
 		(uuid "3a480ed0-a04d-431f-9a67-8765b9bdfdc2")
 	)
 	(no_connect
-		(at 62.23 76.2)
-		(uuid "3b374748-0ce5-4ff3-8686-dd74c1a60253")
-	)
-	(no_connect
 		(at 62.23 66.04)
 		(uuid "3c607870-1e9b-41d4-ab54-e3e47a8c876a")
 	)
@@ -8433,16 +8429,6 @@
 		)
 		(uuid "55d83670-49a0-4724-ae24-3f99a7bcf10f")
 	)
-	(label "llave_de_emergencia"
-		(at 74.93 63.5 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "58fb3689-f407-4da4-a30d-cabd0149a72a")
-	)
 	(label "Bit_1"
 		(at 66.04 175.26 180)
 		(effects
@@ -9422,6 +9408,16 @@
 			(justify left bottom)
 		)
 		(uuid "fec99de4-9b86-4823-9f77-9afdc1f05cbe")
+	)
+	(label "llave_de_emergencia"
+		(at 62.23 76.2 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "ff41e789-c363-4947-9bf9-bae253a799ad")
 	)
 	(label "Data_2"
 		(at 25.4 63.5 180)
