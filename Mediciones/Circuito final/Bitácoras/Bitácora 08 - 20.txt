@@ -13,8 +13,8 @@ Se encontró un cuasi-corto (daban números del tester en modo continuidad) entr
 Vout = 8.37V
 Iout = 174mA
 cell_neg (banco 1): -0.428V
-bus_pos (banco 4): 2.97V
-bus_neg (banco 1): 11.30V
+bus_pos (banco 4): 11.30V
+bus_neg (banco 1): 2.97V
 
 - Rbase = 560k:
 Vout = 8.60V
