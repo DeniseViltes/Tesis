@@ -124,7 +124,7 @@ uint8_t adc_is_dma_started(void)
   return g_adc_dma_started;
 }
 
-uint32_t adc_to_cell_neg_mV(uint32_t adc_mV)
+uint32_t cell_neg_voltage_divider(uint32_t adc_mV)
 {
     return (adc_mV * (DIV_R1_OHM + DIV_R2_OHM)/ DIV_R2_OHM);
 }
@@ -140,7 +140,7 @@ void adc_get_voltages_mV(uint16_t *buffer, uint16_t len)
 
     for (uint8_t i = 0; i < ADC_NODE_COUNT; i++)
     { //DEJO TODOS LOS NODOS CON EL MISMO DIVISOR RESISTIVO
-        buffer[i] =(uint16_t) (((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u);
+        buffer[i] =(uint16_t) cell_neg_voltage_divider((((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u));
     }
 }
 
@@ -152,7 +152,7 @@ uint16_t adc_get_node_voltage_mV(adc_node_t node)
         ((uint32_t)raw * ADC_VREF_mV + 2047u) / 4095u
     );
 
-    return adc_to_cell_neg_mV(medicion);
+    return cell_neg_voltage_divider(medicion);
 }
 
 

@@ -1,0 +1,46 @@
+\section{Marco teórico}
+\begin{comment}
+    
+
+-->Ver propuesta, baterias, ecualizacion pasiva y activa
+
+1) QUE ES UNA BATERIA
+2) QUE ES UN BMS -> FUNCIONES DEL BMS
+3) ECUALIZACION-> PASIVA VS ACTIVA
+4) SOLUCION PROPUESTA (breve porque se desarrolla bien en diseño del circuito)
+\end{comment}
+En la actualidad, con la creciente demanda energética, sumado a la reducción progresiva de la generación de electricidad mediante combustibles fósiles, son necesarias más y mejores forma de almacenar energía eléctrica. Las baterías de litio recargables como  Li-Ion, Li-Po, LiFePO4, etc,  demostraron ser una forma eficiente de almacenamiento.
+
+Generalmente en la mayoría de aplicaciones en las que se requiere una bateriía, se necesita más de lo que puede suministrar una única celda. Por lo tanto, una batería es formada por un grupo de celdas, las cuales se conectan conformando una matriz que cumple con los requerimientos necesarios para el dispositivo en cuestión. Debido a variaciones en las condiciones de fabricación de cada celda, una única batería puede contener celdas con diferentes capacidades \cite{chen2015system}, distintos coeficientes térmicos o, incluso distinto envejecimiento . En cada carga y descarga, estas diferencias provocan desbalances en las carga almacenada en cada celda, parámetro conocido como SoC (\textit{State of Charge}) provocando \cite{rumpf2018influence}:
+
+\begin{itemize}
+    \item Disminución de la eficiencia,
+    \item Reducción en la vida útil,
+    \item Sobrecalentamiento,
+    \item Riesgo de cortocircuitos por formación de filamentos de litio metálico.
+\end{itemize}
+
+
+
+Para mitigar estas complicaciones, el BMS, \textit{Battery Management System}\cite{quinones2019estudio}, debe cumplir el rol de garantizar un funcionamiento seguro de la batería protegiendo las celdas de sobrecarga, sobredescarga y sobrecorriente, asimismo mantener las condiciones seguras de operación dentro de los rangos adecuados de tensión y  temperatura y asi  prolongar la vida útil de las baterías todo lo posible,  En este contexto surge la necesidad de distribuir la energía de forma equitativa en toda la batería y así aprovechar la capacidad total de la misma \cite{lu2013review}. Para ello, la técnica de ecualización resulta una herramienta necesaria, y se puede clasificar en dos tipos de métodos, pasivos o activos, basándose en la topología del sistema. Se ecualiza a partir de una de las características de la batería como, el Soc, la tensión o la capacidad \cite{hua2020comprehensive}.
+
+\begin{comment}
+    cuadrito de metodos de ecualización?
+\end{comment}
+
+Los métodos pasivos son los más ampliamente difundidos por su simplicidad, fiabilidad y bajo costo. Suele tratarse de un \textit{shunt} resistivo conectado en paralelo a la batería para disipar el exceso de energía de las celdas. Este método aunque es simple y de baja complejidad, trae como desventaja una gran duración de ecualización debido a la baja energía de ecualización y también una corriente de balanceo restringida a los limites de disipación de calor del propio hardware , limitando el uso de este tipo de ecualización, principalmente en baterías de gran capacidad\cite{hua2020comprehensive}.Muchos de estos inconvenientes son posibles solucionar mediante ecualización activo pero aumentando la complejidad de y costo del circuito \cite{pericsoarua2018passive}.
+
+\begin{comment}
+    agregar imagen como ejemplo de la conexión del shunt
+\end{comment}
+
+Los circuitos de ecualización activa tienen una topología que no utiliza la disipación de la energía sobrante de una celda en su lugar, se transfiere la energía sobrante de una celda a otra celda del circuito o módulos utilizando componentes capaces de almacenar energía como, capacitores, inductores, transformadores, y convertidores,
+
+
+
+%se requiere contar con un sistema de control que se encargue de medir el estado de cada celda y del balance de cargas para optimizar el desempeño general del sistema. A este controlador se lo denomina BMS, \textit{Battery Management System}, cuya tarea principal es la ecualización de las cargas . De esta forma se logran diversas estrategias como un \textit{shunt} resitivo para disipar la energía sobrante (balanceo pasivo \cite{li2023active}), convertidores DC-DC, capacitores conmutativos (balanceo activo \cite{li2023active}), entre otras tecnologías \cite{chen2015system}.
+
+
+
+
+

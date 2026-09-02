@@ -1,0 +1,486 @@
+\section{Circuito final}
+
+Con la confirmación de funcionamiento del prototipo, se prosiguió al diseño del sistema final. La principal premisa del trabajo es que sea modular, por lo que se optó por numerosos circuitos pequeños en lugar de uno solo grande como fue el prototipo. En un principio se pensó en mantener las celdas con los portapilas en una placa por separado del resto del circuito dado el tamaño que le agrega a cada módulo. Sin embargo, finalmente se descartó esa idea, resultando en tres circuitos diferentes:
+
+\begin{enumerate}
+    \item Circuito de celdas: cada una es un módulo que alberga el portapilas, con su \textit{switch}, LED e inversor.
+    \item Circuito de bancos: con el \textit{switch by-pass} de las celdas y desde donde se envían las señales de control a todas las celdas del mismo banco.
+    \item Circuito central: donde se inserta el controlador y desde donde parten las señales de control a todo el sistema, y a donde llegan las señales de censado de las celdas.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Imágenes/Diseño final/Esquema de envío de señales de control.png}
+    \caption{Diagrama de transporte de señales de control entre los módulos.}
+    \label{fig:esquema_seniales_control}
+\end{figure}
+
+De esta forma, se armaron doce circuitos de celdas, cuatro circuitos de banco y un circuito central.
+
+Al margen de los cambios de diseño del \textit{hardware}, también sufrió cambios el controlador. Debido a la mayor cantidad de celdas en comparación con el prototipo, son necesarios muchos más pines del controlador, más de los disponibles. Esto implica un cambio de lógica al momento de enviar las señales para maximizar el uso de cada pin de salida de la placa programable.
+
+Al no alcanzan los pines del controlador para todas las señales que debe enviar si fuera una por cada celda, se optó por enviar la información en serie para todas las celdas de un banco. Para este rol fue que se utilizó un \textit{shift-register} con \textit{latch} (SR). Más información sobre este componente se provee en la sección del diseño de circuito de banco.
+
+Por otro lado, otro objetivo que se planteó fue el de armar todos los circuitos, siempre que sea posible, con componentes SMD. De esta forma, buscamos:
+\begin{itemize}
+    \item Minimizar el área de placa de cobre usada,
+    \item Facilitar el planchado y perforado de las placas,
+    \item Identificar de forma clara qué corresponde a una entrada y/o salida, y qué al circuito propio de cada módulo,
+    \item Aprender a soldar componentes SMD.
+\end{itemize}
+
+Otro punto a destacar fue que se decidió acerca de qué topología conformarían los módulos conectados. Ya haciendo pruebas y mediciones con el prototipo mismo, rápidamente se mostró la incomodidad al tener que usar cables \textit{dupont} para todo el conexionado. Cables demasiado largos, fácil de enredarse y que no enganchan con firmeza, complican mucho la instalación del banco de prueba. Para esto es que se decidió eliminar el uso de cables individuales y utilizar más que nada pines que encastren entre los módulo para conectarlos.
+
+A la primera configuración planteada se la denominó "tren". Consistía en usar pines $90^\circ$ macho a un lado de la placa y hembra en el extremo opuesto. De esta forma, podrían conectarse de costado cada módulo. Sin embargo, esta configuración tenía tres grandes problemas. Por un lado, los pines hembra y macho $90^\circ$ no están a la misma altura, por lo que se tendría que soldar de forma muy cuidadosa para garantizar un encastre correcto. A su vez, el hecho que haya señales compartidas entre todas las celdas de un mismo banco implicaría que la señal entra por un costado de la placa y tendría que trasladarse a través de todo el circuito hasta la salida en el otro extremo para que el siguiente módulo reciba la señal correcta. Esto complicaría enormemente el ruteo de la placa. Por último, si se tuviera un banco con varias placas de celda, sería necesario mucho espacio en una mesa y sería complicado moverlas sin necesidad de desconectarlas. Por todo esto fue que se decidió optar por la segunda configuración.
+
+La otra opción era la configuración "torre". Este caso era mucho más simple: los módulos de celdas se montarían uno encima de otro mediante pines y, abajo de todo como si fueran los cimientos, estaría el módulo del banco. Esto facilitaba en gran medida el ruteo (no hace falta trasladar la señal de entrada de un lado a otro de la placa), el transporte y el espacio necesario. La única condición estrictamente necesaria es que el pin macho que recibe las entradas desde el "piso de abajo" tenga un equivalente hembra apuntando hacia arriba para transmitirlas hacia el siguiente módulo. Para esto se usaron los pines hembra-macho o también llamados pines hembra largos de la figura \ref{fig:pin_hembra_largo}. Otro inconveniente menor es la poca rigidez estructural de la torre, pero se asumió que los pines tienen un agarre suficientemente fuerte como para mantener a las placas en pie. Con todos los problemas solucionados, esta configuración torre fue la elegida.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{Imágenes/Diseño final/Celda/Pines macho largos.jpg}
+    \caption{Tira de diez pines hembra-macho utilizados.}
+    \label{fig:pin_hembra_largo}
+\end{figure}
+
+\subsection{Diseño del circuito de las celdas}
+
+%OPCIONES PARA LAS ENTRADAS A LAS CELDAS:
+%- MULTIPLEXOR
+%- SHIFT REGISTER CON LATCH
+%- MICRO EN CADA CELDA
+
+El principal problema a tratar fue el de los pocos pines del controlador. Antes de utilizar el \textit{shift-register}, se pensó en colocar un microcontrolador en cada módulo de celda. De esta forma, mediante comunicación I2C se podría enviar la señal de encendido o apagado a cada módulo utilizando solo dos vías. Esto permitiría conectar la cantidad de celdas que se deseen por banco. Sin embargo, se descartó esta idea debido al aumento de precio que implica y su complejidad de implementación. Finalmente se terminó optando por el envío de información en serie en una etapa anterior, y que cada módulo de celda simplemente reciba como entrada su señal de control.
+
+\subsubsection{Versión 2.0}
+
+El circuito, en grandes rasgos, se mantuvo como en el prototipo, al menos en cuanto a su funcionamiento. Sin embargo, sí hubieron diferencias constructivas en pos de la modularidad del sistema. El circuito propiamente dicho fue igual salvo por la incorporación de un inversor para la señal de control negada, como entrada en la base del transistor $Q_3$.
+
+En el prototipo, para las señales negadas se utilizó el integrado \textbf{CD40106} que contenía seis inversores. En este caso, sería un desperdicio de recursos y espacio montar uno de esos por módulo, por lo que se identificaron dos opciones: tener tanto señal de control como señal negada como entradas, o incorporar un inversor más simple por módulo. Se optó por la segunda opción, y, ante la imposibilidad de conseguir inversores individuales, se implementó un inversor CMOS discreto. Para esto se utilizaron los MOSFETS \textbf{AO3400} (canal N) y \textbf{AO3401} (canal P), como se muestra en la figura \ref{fig:inversor_cmos}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{Imágenes/Diseño final/Celda/Diagrama inversor CMOS.png}
+    \caption{Diagrama del inversor CMOS discreto implementado.}
+    \label{fig:inversor_cmos}
+\end{figure}
+
+Al igual que en el prototipo, se implementó un pequeño circuito con un LED. Mediante un TBJ NPN, se abre o cierra la malla del dispositivo según sea la señal de control del \textit{switch} de la celda. De esta forma, se puede ver claramente cuándo es que cada celda está encendida.
+
+Cada módulo tiene una cantidad de entradas definidas para poder funcionar correctamente. En un principio están $Vcc$ y $GND$. Por un lado, necesarios para la etapa de control del módulo, la malla del LED y el inversor CMOS, y por otro para que las tierras de todos los circuitos estén acopladas. A su vez están los buses positivo y negativo de cada banco ($bus\_pos$ y $bus\_neg$). Éstos son tanto entrada como salida: si la celda está prendida, ésta impone su diferencia de tensión entre estos buses, pero a la vez, también deben coincidir con los buses de todas las celdas del banco dado que están en paralelo. Finalmente se tiene el control global. Éste es una señal de control separada de las individuales para cada celda. Con el objetivo de simplificar la comunicación, se decidió enviar, además de las señales de control individuales para cada módulo, una señal compartida para todas ellas. Dado que el control se hace por banco y no por celda, éste sería el control utilizado en el funcionamiento normal del sistema. Para poder seleccionar entre esta señal global y la individual, se usa un \textit{jumper}.
+
+Con respecto a la entrada de control individual, se hicieron varias consideraciones. En un principio, como cada módulo envía al siguiente exactamente la misma información que recibe, cada módulo necesariamente tiene que recibir las señales de control de todas las celdas individuales del banco. Para esto se utilizó una tira de siete pines hembra-macho, uno por módulo de celda en el banco. La tarea de asignar qué señal se corresponde a qué módulo se dejó para hacerse a mano. Esto se hizo mediante una tira de pines macho dobles y un \textit{jumper}. El sistema montado se muestra en la figura \ref{fig:pines_control_celda}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Imágenes/Diseño final/Celda/Boceto pines de control celdas.png}
+    \caption{Configuración realizada para la entrada de las señales de control en cada módulo de celda.}
+    \label{fig:pines_control_celda}
+\end{figure}
+
+En celeste está diagramado el conexionado entre las dos tiras de pines. Importante destacar que el lado izquierdo de la tira de pines macho doble no está conectado con el lado derecho. Pero los pines del lado izquierdo sí están conectados todos entre sí, los cuales son la señal de entrada al módulo en cuestión. De esta forma, mediante un \textit{jumper} puede seleccionarse cuál de las siete entradas termina siendo la que realmente controla la celda.
+
+Por otro lado, también se tienen las salidas de censado. Se decidió tomar el valor de tensión de cada módulo de celda el valor de $cell\_neg$, es decir, el nodo entre el terminal negativo del portapilas y el \textit{drain} del N-MOSFET. Se utilizó un sistema igual que para las entradas de control: cada módulo tiene las tensiones de todos los módulos del banco. Mediante un \textit{jumper} es que se le asigna a cada módulo su salida correspondiente de entre los siete posibles. Para colocarlo se usa otra tira de siete pines macho dobles.
+
+Con todo esto ya quedan definidas las entradas y salidas de cada módulo de celda. Se tienen veinte pines dobles hembra-macho de entrada/salida:
+\begin{itemize}
+    \item Pin Vcc.
+    \item Dos pines GND. Son dos para facilitar el ruteo (si no habría que usar más vías).
+    \item $bus\_pos$.
+    \item $bus\_neg$.
+    \item Pin de control para todos los módulos del banco $Vcontrol\_global$.
+    \item Siete pines de control individual (uno por módulo de celda en el banco).
+    \item Siete pines de censado de $cell\_neg$ (uno por módulo).
+\end{itemize}
+
+Luego está el tema de la estabilidad mecánica de la torre. Ya se mencionó que el agarre de los pines hembra-macho es fuerte. Sin embargo, para mayor seguridad, se tomaron dos medidas. En un principio, en cada ocasión que se utilizaron dichos pines, se tomaron siempre tiras dobles. De esta forma, la cantidad de pines que se conectan entre un módulo y el siguiente se duplica. El único problema de esto es que no se venden en el país pines hembra-macho dobles, por lo que se utilizaron en cada instancia dos tiras simples (salvo en un caso por temas de espacio en la placa). Por otro lado, la otra medida para hacer más robusta la torre fue colocar los pines en diferentes lados de la placa. Con estas dos medidas, la torre debería mantenerse firme incluso si se conectara la máxima cantidad de celdas posibles por banco.
+
+Existe otro inconveniente del que hasta ahora no se habló: la altura de cada módulo. Para ser más específico, la altura del portapilas. El problema reside en que los pines, a pesar de ser mucho más largos que unos hembra comunes, aún así no son más largos que el alto del portapilas. Esto significaría que una celda no podría conectarse con otra por encima. Para solucionar esto se decidió usar otra iteración de los mismos pines. Es decir, entre módulo y módulo hay otras tiras de pines como se ve en la figura \ref{fig:celda_stackeada}. De esta forma, hay un muy pequeño espacio entre cada módulo, por donde entran sin problema los componentes SMD del circuito.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Imágenes/Diseño final/Celda/Celdas stackeadas.jpg}
+    \caption{Dos módulos de celdas (versión 2.1), una por encima de otra, con los pines de conexión.}
+    \label{fig:celda_stackeada}
+\end{figure}
+
+Como datos de color, se menciona que el MOSFET de canal N que enciende y apaga cada celda se colocó con la cara metálica del encapsulado apuntando hacia afuera de la placa. Esto permite que tenga lugar disponible en caso que se desee incorporar un disipador. No es necesario para esta topología pero, en caso de querer aumentar la corriente a la salida, puede hacer falta. Por otro lado, también se utilizó, como en el prototipo, un fusible de \SI{3}{\ampere} en cada celda en la malla de salida. Además, se creó una pequeña zona libre de cobre en torno a los tornillos sujetadores del portapilas. Esto se hizo para que las tuercas que ajustan no estén en contacto con el plano de tierra del circuito.
+
+En cuanto al ancho de las pistas, se tomó para las pistas de la malla de potencia \SI{1.5}{\milli\meter} y para las pistas de la etapa de control, \SI{0.4}{\milli\meter}. Ambas fueron elegidas de forma tal que puedan sin problemas tolerar la corriente máxima que puede atravesar cada pista. Los valores fueron seleccionados con la tabla dada por Peterson (2025) \cite{peterson2025pcb}.
+
+Finalmente, para facilitar el \textit{debuggeo} se instalaron tres \textit{test-points}: uno en la base del TBJ PNP, otro en el nodo de \textit{gate} del \textit{switch} N-MOSFET y el último a la salida del inversor.
+
+Con todo esto, el circuito resultó como se ve en las figuras \ref{fig:pcb_celda_v20} y \ref{fig:modelo3d_celda_v20}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Imágenes/Diseño final/Celda/PCB Celda final v20.png}
+    \caption{PCB diseñado en \textit{KiCad} del módulo de una celda, versión 2.0.}
+    \label{fig:pcb_celda_v20}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño final/Celda/Modelo 3D - Celda 2.0 - Front.png}
+        \caption{Modelo 3D del frente.}
+        \label{fig:modelo3d_celda_v20_f}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño final/Celda/Modelo 3D - Celda 2.0 - Back.png}
+        \caption{Modelo 3D del reverso.}
+        \label{fig:modelo3d_celda_v20_r}
+    \end{subfigure}
+
+    \caption{Modelos 3D del módulo de una celda, versión 2.0.}
+    \label{fig:modelo3d_celda_v20}
+\end{figure}
+
+
+
+\subsubsection{Versión 2.1}
+
+La versión 2.0 del módulo de celdas tuvo una vida muy corta. Por un lado, debido a un error de cálculos, se diseñó el módulo para que sea parte de un banco de hasta seis celdas. Sin embargo, el máximo real de módulos conectados que permite el SR es siete. A su vez, hubo un problema mucho más grave: la celda nunca se apagaba. Incluso cuando su señal de control era de apagado, el PNP se mantenía encendido. Esto provocaba un camino de baja impedancia entre el bus positivo y la tierra, mediante los transistores $Q_2$ y $Q_3$ de la figura \ref{fig:circuito_original}. Este problema ya había sido detectado en el prototipo pero se lo había descartado como una falla en la impresión de la placa. Finalmente se encontró la verdadera respuesta, y era efectivamente un problema de diseño. Los resistores $R_2$ y $R_3$, al ser tan grandes ($\SI{10}{\mega\ohm}$ y $\SI{1}{\mega\ohm}$ respectivamente), provocaban una significativa caída de tensión ante cualquier diminuta corriente parásita o de fuga que los atraviesen. Dicha caída era suficientemente alta como para encender el PNP, por ende, encendiendo el N-MOSFET de \textit{switcheo}. Reemplazándolos por resistores de $\SI{100}{\kilo\ohm}$ y $\SI{10}{\kilo\ohm}$ se solucionó el problema. Es curioso notar que este efecto no se veía en simulaciones, dado que era causado por corriente parásitas que el motor del \textit{LTspice} no simula.
+
+Dado que el diseño estaba claramente incorrecto, se creó una nueva versión del módulo de celdas, corrigiendo algunos de los errores encontrados y aplicando otras tantas mejoras.
+
+En un principio, se decidió eliminar el control global de todo el banco del diseño. Se lo consideró innecesario y que agregaba pines y \textit{jumpers} excesivos. Ahora, si se desea apagar o prender todas las celdas de un mismo banco, simplemente se le envía a todas señales iguales en lugar de decidir de qué forma tomar la entrada de control. Esto permitió eliminar el pin de $Vcontrol\_global$ y la tira de tres pines macho con el \textit{jumper} de selección de entrada de control. A su vez, al eliminar este pin de las entradas se simplificó el ruteo, lo cual también se eliminó la necesidad de que hayan dos pines de GND separados.
+
+Por otro lado, hubieron mejoras en cuanto a la estabilidad mecánica de cada torre. En lugar de usar tiras de pines hembra-macho dobles, se instalaron orificios para una varilla roscada de \SI{3}{\milli\meter} en cada esquina de la placa. Así se reemplazaron las tiras dobles por simples, ahorrando en tiras de pines a comprar y espacio en la placa. De esta forma, se tiene ahora certeza absoluta de la robustez de la instalación por las varillas.
+
+Por último, en lugar de una vía se utilizó un resistor SMD de \SI{0}{\ohm}. Éste cumple la misma función pero ocupando menos espacio y sin la necesidad de hacer orificios en la placa.
+
+Con todos los cambios mencionados, también se pudo achicar ligeramente el tamaño de cada módulo (unos pocos milímetros por lado). De este modo, el PCB resultó como se muestra en las figuras \ref{fig:pcb_celda_v21} y \ref{fig:modelo3d_celda_v21}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Imágenes/Diseño final/Celda/PCB Celda final v2.1.png}
+    \caption{PCB diseñado en \textit{KiCad} del módulo de una celda, versión 2.1.}
+    \label{fig:pcb_celda_v21}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño final/Celda/Modelo 3D - Celda 2.1 - Front.png}
+        \caption{Modelo 3D del frente.}
+        \label{fig:modelo3d_celda_v21_f}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño final/Celda/Modelo 3D - Celda 2.1 - Back.png}
+        \caption{Modelo 3D del reverso.}
+        \label{fig:modelo3d_celda_v21_r}
+    \end{subfigure}
+
+    \caption{Modelos 3D del módulo de una celda, versión 2.1.}
+    \label{fig:modelo3d_celda_v21}
+\end{figure}
+
+A diferencia de la versión anterior, esta sí funcionó como era esperado y se cumplieron exitosamente las pruebas básicas de funcionamiento del módulo. Sin embargo, unos resultados fueron algo alarmantes.
+
+\subsubsection{Versión 2.2}
+
+Mientras se realizaban las pruebas de funcionamiento en los módulos de celda v2.1, se descubrió que el valor de tensión de $cell\_neg_1$, el nodo del terminal negativo de las celdas del banco 1, era negativo. Este valor se volvía más negativo a medida que se agregaban más bancos en serie, llegando a unos \SI{-500}{\milli\volt} cuando se tenían cuatro bancos instalados. Esto es alarmante porque ese mismo nodo es el que se censa mediante del multiplexor analógico, el cual, para no dañarse, puede recibir tensiones menores a medio volt negativo. Dado que se está alcanzando dicho umbral, era necesario reducir (en módulo) dicha tensión. Cabe destacar que este fenómeno se da solamente en los nodos $cell\_neg$ de las celdas del banco 1.
+
+\begin{wrapfigure}{l}{0.55\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{Imágenes/Diseño final/Celda/Esquema explicación cell_neg negativo.png}
+    \caption{Esquema simplificado de un sistema de tres bancos de una celda cada uno.}
+    \label{fig:cell_neg_negativo}
+\end{wrapfigure}
+
+La causa del problema mencionado se puede analizar de forma más visual mediante el diagrama de la figura \ref{fig:cell_neg_negativo}. El inconveniente radica en que las mallas de control de cada módulo reciben corriente de la misma celda a la que están conectadas y cierran por tierra. 
+
+Esto quiere decir que la única forma en la que la malla se cierra y la corriente regresa a las celdas es mediante la tierra. Cuando el N-MOSFET de GND está cerrado, o lo que es equivalente, cuando la celda del banco 1 está prendida, la corriente retorna sin problema alguno. Sin embargo, cuando dicha celda se encuentra apagada, el MOSFET está abierto. Mediante pruebas empíricas se descubrió que la corriente de todas formas circula a través del transistor, pero con un valor de impedancia significativo. Esto implica una caída de tensión, lo que conlleva a que el nodo $cell\_neg_1$ adquiera un valor de tensión negativo.
+
+Otro dato a destacar es que las corrientes mostradas en el diagrama no son iguales. Su magnitud respeta el ordenamiento $Ic_3 > Ic_2 > Ic_1$ debido a que la caída de tensión en cada etapa de control aumenta a medida que aumenta el número de banco.
+
+Este efecto se tornó mucho más notorio al disminuir las resistencias de $R_2$ y $R_3$. Éstas están relacionadas con la corriente consumida en la etapa de control durante el encendido. La solución no era trivial: se podrían aumentar nuevamente dichas impedancias pero eso significaría regresar el problema que tuvo el módulo v2.0, donde era imposible apagar la celda.
+
+Finalmente se descubrió otra alternativa. Mediante la colocación de un tercer resistor entre $R_2$, $R_3$ y la base del PNP como se muestra en la figura [FIGURA].
+
+% Ton PNP sin Rbase: 210us - Ton PNP con Rbase=100k: 240us
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccc@{}}
+\toprule
+$R_2\ [\Omega]$ & $R_3\ [\Omega]$ & $R_{\text{base}}\ [\Omega]$ & $cell\_neg_1\ [\text{V}]$ \\ \midrule
+\SI{100}{k}     & \SI{10}{k}      & 0                           & \SI{-0.510}{} \\
+\SI{560}{k}     & \SI{56}{k}      & \SI{100}{k}                 & \SI{-0.428}{} \\
+\SI{560}{k}     & \SI{56}{k}      & \SI{560}{k}                 & \SI{-0.280}{} \\ \bottomrule
+\end{tabular}
+\caption{Comparación de valores de resistencias con su respectivo valor de tensión del nodo $cell\_neg_1$.}
+\label{tab:cell_neg}
+\end{table}
+
+[SEGUIR]
+
+De esta forma, se diseñó la tercera y última variante del módulo de celda, la versión 2.2 como se aprecia en las figuras \ref{fig:pcb_celda_v22} y \ref{fig:modelo3d_celda_v22}. Como este efecto ya se descubrió que \textit{LTspice} no lo simula, los valores exactos de los resistores no se encontraron hasta que se implementó físicamente el circuito. A su vez, como una alternativa, se instaló un \textit{jumper} soldado para poder cortocircuitar el nuevo resistor $R_{base}$ en caso que se desee regresar a la topología de los módulos v2.1.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Imágenes/Diseño final/Celda/PCB Celda final v22.png}
+    \caption{PCB de la versión 2.2 del módulo de celda.}
+    \label{fig:pcb_celda_v22}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño final/Celda/Modelo 3D - Celda 2.2 - Front.png}
+        \caption{Modelo 3D del frente.}
+        \label{fig:modelo3d_celda_v22_f}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Imágenes/Diseño final/Celda/Modelo 3D - Celda 2.2 - Back.png}
+        \caption{Modelo 3D del reverso.}
+        \label{fig:modelo3d_celda_v22_r}
+    \end{subfigure}
+
+    \caption{Modelos 3D del módulo de una celda, versión 2.2.}
+    \label{fig:modelo3d_celda_v22}
+\end{figure}
+
+\subsection{Diseño del circuito de los bancos}
+
+Se comienza con la problemática inicial, el switch de bypass, como se menciona anteriormente el P-MOSFET utilizado en el prototipo, no cumplia con el comportamiento esperado, se vuelve al panorama inicial en la búsqueda de componentes, resultando en dos opciones:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccc@{}}
+\toprule
+P-MOSFET  & $V_{GS(TH)}\ [\si{\volt}]$ & $R_{DS(on)}\ [\si{\ohm}]$ & $R_{\theta JA}\ [\si{\celsius \per \watt}] $ \\ \midrule
+IRLML6402 & -1.2         & 0.065        & 100             \\
+AO3401    & -1.3         & 0.085        & 125             \\ \bottomrule
+\end{tabular}
+\caption{Comparación de criterios para la selección del MOSFET de canal P.}
+\label{tab:nuevo_pmos}
+\end{table}
+
+
+ Ambos muy similares pero siendo el \textbf{IRLML6401} con ventaja. Al cambiar a un dispositivo de baja potencia es necesario analizar a la potencia que se verá exigido dicho componente. En este caso se supone una temperatura de funcionamiento  de $\SI{60}{\celsius}$ y del datasheet del componentes se obtiene que $T_{j} = \SI{150}{\celsius}$, se calcula la potencia máxima permitida para el componente con \eqref{eq:potencia_disipada}, obteniendo $P_{permitida} = \SI{900}{\milli \watt}$
+
+
+\begin{gather}
+    P_{permitida} = \frac{T_{jmax} - T_{funcionamiento}}{R_{\theta JA}}
+    \label{eq:potencia_disipada}
+\end{gather}
+
+
+A continuación se realiza analiza la potencia en el P-MOSFET del banco 1, aumentando la cantidad de bancos totales, dicho switch siempre encendido y los bancos superiores siempre apagados de forma tal de exponer el switch al caso de mayor exigencia de corriente. Debe destacarse que la carga del sistema se modifica para mantener la corriente constante en la salida en \SI{3}{\ampere} para todas las matrices.
+
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+Cantidad de bancos & $V_{gs} [\si{\volt}]$ & $V_{ds} [\si{\volt}]$ & $I_d  [\si{\ampere}]$ & $Potencia [\si{\milli \watt}[$ \\ \midrule
+2                  & -1.86               & -134.6              & -1.5               & 202.8                        \\
+3                  & -1.79               & -221.4              & -2.03              & 450.7                        \\
+4                  & -1.78               & -250.2              & -2.3               & 577.3                        \\
+5                  & -1.767              & -268.0              & -2.47              & 662.47                       \\
+6                  & -1.75               & -280.3              & -2.58              & 723.7                        \\ \bottomrule
+\end{tabular}
+\caption{Potencia en el P-MOSFET en el banco 1 para distinta cantidad de bancos en la matriz.}
+\label{tab:potencia}
+\end{table}
+ 
+
+
+
+Como se ve en la tabla (\ref{tab:potencia}) este dispositivo disipa energía dentro de los limites establecidos en el datasheet, por lo tanto, para la cantidad de bancos fabricados se cumple con no necesitar disipador. 
+De todas formas a modo preventivo en caso de resultar en una potencia mayor en el circuito físico se conecta un segundo P-MOSFET quedando ambos en paralelo. Esto logra dividir la corriente entre ambos MOSFETS, disminuyendo la potencia que disipa cada uno significativamente, en este caso no es de interés que sea una división simétrica de corriente, el único objetivo es no trabajar cerca de la potencia limite. Cabe aclarar que se analiza el caso del bypass del banco 1 ya que es que disipa la mayor cantidad de potencia, en los bancos superiores, la potencia disipada en los bancos superiores resulta menor a los \SI{300}{\milli \watt}.
+
+
+
+Ya que el $V_{GS}$ logrado se encuentra cerca del umbral de encendido, el MOSFET opera en una región para la cual el fabricante no especifica el valor de $R_{DSon}$ de funcionamiento. A partir de los valores de la tabla \ref{tab:potencia}, se puede estimar que $R_{DS} = \frac{V_{DS}}{I_D} \simeq \SI{100}{\milli \ohm}$. Por lo tanto al utilizar el esquema de doble P-MOSFET (fig. \ref{fig:doble_pmos}), la resistencia equivalente resulta $R_{DSeq} = \frac{R_{DSon}}{2}$. Por lo tanto no solo  se observa una mejora en cuanto a potencia, al dividirse la corriente en ambos P-MOSFETS, si no que al reducir $R_{DSeq}$, reduce $V_{DS}$ y por consecuencia incrementa ligeramente el $V_{GS}$. Esto significa una menor caida de tensión entre $bus_pos$ y $bus_neg$, resultando en un mejor bypass.  Por otro lado, como buena práctica \cite{ti_mosfet_parallel}, se agrega una pequeña resistencia en el gate de cada MOSFET, asimismo, se busca una conexión simétrica en las pistas que unen a los MOSFETS en el PCB.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Imágenes//Diseño final/solo_banco-doble_pmos.png}
+    \caption{Conexión del P-MOSFET en paralelo}
+    \label{fig:doble_pmos}
+\end{figure}
+
+
+
+Asimismo se ve en la figura \ref{fig:doble_pmos},  se agrega una resistencia en el gate de cada MOSFET como buena práctica indicada en \cite{ti_mosfet_parallel} y luego en el diseño de PCB se busca asegurar una conexión simetrica en las pistas que unen a los MOSFETS.
+
+Para este modulo, se evalúa la necesidad de utilizar el jfet, se realizan pruebas con solo los elementos del banco en una placa (fig. \ref{fig:placa_de_prueba_banco}).
+El principal motivo para agregarlo es para mejorar el apagado del PMOS, un apagado más veloz ayuda a evitar solapamientos entre el PMOS del módulo banco y el NMOS del módulo celda.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Imágenes//Diseño final/placa_de_prueba_banco.jpeg}
+    \caption{Placa de pruebas de P-MOSFET y JFET.}
+    \label{fig:placa_de_prueba_banco}
+\end{figure}
+
+Se obtienen as siguientes mediciones:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Imágenes//Diseño final/vgs comparacion con y sin fet.png}
+    \caption{Medición en banco de prueba del $V_{GS}$ del PMOS.}
+    \label{fig:vgs comparacion con y sin fet}
+\end{figure}
+
+
+Como se puede observar, es claro el beneficio del JFET. Agregarlo permite que el PMOS pueda efectivamente apagarse, l caso sin JFET se queda en el limite entre el encendido y apagado. En cuanto a la velocidad, son unos pocos \si{\micro \second} de diferencia, pero son los suficientes para provocar un solapamiento con el NMOS del modulo celda. Por lo tanto el módulo banco, continua con JFET.
+
+
+
+
+
+El modulo banco es el encargado de distribuir las señales de control a las celdas en su dominio. Como se menciona anteriormente, el encargado de realizar esta tarea es el SR, no se exigen criterios exigentes para seleccionar un componente, el componente que más se ajusta al proyecto es el \textbf{74HC595}. Como característica a destacar es que tiene registro de almacenamiento (latch). Este se trata de un componente de 8-bits, el cual permite manejar 8 salidas a partir de 3 señales de entrada. Al enviar la información de las 8 salidas en serie por un solo pin se logra reducir la cantidad de pines de forma significativa. 
+
+
+Su funcionamiento se basa en dos registros, \textit{registro de desplazamiento}, el cual recibe la información en serie y el registro de almacenamiento, este guarda toda la información y la envía de forma paralela a sus 8 salidas de forma simultanea.
+Las señales de control se envían por el pin SERIAL DATA INPUT (DATA), un bit a la vez, de forma simultanea, se  envía un pulso por el pin SHIFT CLOCK. Este último pin al recibir un pulso se encarga de desplazar todos los pines una posición ingresando el bit al registro de desplazamiento. En este estado en las salidas del SR no es posible ver los bits enviados, es necesario enviar un pulso en LATCH CLOCK (LATCH) para enviar todos los bits almacenados.
+
+En cuanto los pines OUTPUT ENABLE (OE) y RESET se conectan directamente a GND y VCC. El primero se encarga de habilitar las salidas en paralelo, esta pin es active-low (entrada negada), por lo tanto se enciende un cero lógico, al colocarlo a GND, las salidas quedan siempre habilitadas. La situación es similar con el pin RESET, es una entrada active-low, por lo tanto un cero lógico resetea el registro de desplazamiento sin modificar las salidas actuales. El pin SERIAL DATA OUTPUT sirve para conectar otros SR en serie, y como las salidas son de alta impedancia, es seguro dejarlo desconectado.
+
+
+
+
+
+Por lo tanto, para cada banco se necesitan 3 pines para manejar el SR, DATA, CLOCK y LATCH. Para no utilizar pines o señales de control adicionales, se aprovecha  el SR para enviar la señal de control del banco, resultando en 7 salidas paralelas restantes. Este valor es el que se toma como limite de celdas por banco. Como se ve en la figura \ref{fig:sr_conexion}  la primer salida se designa al control del banco y el resto de forma ordenada ascendente a las celdas. A cada salida se le colocan un resistor en serie como protección ante los picos de corriente que se pueden generar debido al inversor en el módulo celda. Para estos resistores se busca que sean valores menores a \SI{500}{\ohm}, su único objetivo es evitar el pico de corriente, no debería haber una gran caída de tensión debido a este.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Imágenes//Diseño final/sr_conexion.png}
+    \caption{Diagrama de conexión del SR.}
+    \label{fig:sr_conexion}
+\end{figure}
+
+En el caso de las mediciones, esta instancia solo se encarga de recolectar las mediciones del terminal negativo de la celda. Este valor no será utilizado en el controlador, pero si debe estar para cumplir con las funcionalidades de la plataforma experimental. Para el presente informe esta medición se encuentra solo como una posibilidad más de medición. Como instrumento de medición se utiliza el \textit{Multiplexor analógico}, \textbf{74HC4051} (MUX). Este componente permite conectar una salida común a uno de los 8 canales analógicos a partir de tres entradas selectoras (S0, S1 y S2). Para este caso, se utiliza como multiplexor, por lo tanto los 8 canales actuan como entradas, y el pin común como salida. La entrada de tensión negativa y el pin que habilita el dispositivo (active-low), se conectan a tierra, permitiendo un rango de tensión para los canales entre $GND$ y $V_{cc}$,y, como en el caso del SR queda constantemente habilitado. 
+
+
+La entrada del \textit{gpi}o del controlador admite como máximo \SI{3.3}{\volt}, por lo tanto se aprovecha en esta etapa a colocar un divisor resistivo en las canales del MUX. La tensión máxima permitida por el dispositivo es $V_{cc}$ por lo tanto es divisor esta para establecer que la tensión máxima sea  \SI{3.3}{\volt} obteniendo así una tensión que también cumpla con el \textit{gpio} del controlador, La conexión de pines se observa en la figura \ref{fig:diagrama_mux}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Imágenes//Diseño final/diagrama_mux.png}
+    \caption{Diagrama de conexión del MUX.}
+    \label{fig:diagrama_mux}
+\end{figure}
+
+Para ambos integrados usados en este módulo se coloca un capacitor de desacople entre $V_{cc}$ y $GND$ para mantener la estabilidad en la alimentación y filtrar ruidos de alta frecuencia. 
+
+
+Luego para completar el PCB, se coloca el LED correspondiente al banco y los pines  coincidiendo con los pines de la celda. Para la conexión con las celdas se utilizan pines hembra simples. En el caso de las entradas, se busca mejor robustez mecánica por lo tanto se decide utilizar cable plano. Se utilizan pines hembra para cable plano de 14 pines, repitiéndose tan solo $GND$ en dos pines.
+
+El resultado final del PCB se encuentra en la figura\ref{fig:pcb_modulo_banco} El tamaño final resulta por poco un poco más ancho que el modulo celda. Esto incluso resulta favorable para la estructura de torre, ya que proporciona más estabilidad al modulo de celdas cuando la celda ya se encuentra colocada.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Imágenes//Diseño final/pcb_modulo_banco.png}
+    \caption{Diseño del PCB del módulo banco,}
+    \label{fig:pcb_modulo_banco}
+\end{figure}
+
+
+
+Para llegar al diseño final del pcb, es decir la \textbf{versión 2.2} (fig. \ref{fig:pcb_modulo_banco}) se realizaron los siguientes cambios:
+
+\begin{enumerate}
+    \item Cambio de huellas: El primer error durante la elaboración fue utilizar huellas \textit{DIP-16}, que luego se modificaron por huellas \textit{SOIC-16}. Dando origen a la\textbf{ versión 2.1}. Para esta versión se agregan test points en la salida del mux, y en los pines de control del SR.
+
+    \item El siguiente cambio fue eliminar resistencias de pull down en el shift register, En una versión inicial, se utilizaba el pin $OE$ del SR para la llave maestra por lo cual resultaba necesario que los pines de salida no queden en alta impedancia en caso de deshabilitar las salidas. Dicha idea se decartó y los resistores se eliminaron para una mejor eficiencia del SR en la \textbf{versión 2.2}.
+\end{enumerate}
+
+
+\begin{comment}
+    poner imagen del resultado final del banco
+\end{comment}
+
+
+\subsection{Diseño del circuito central}
+
+Como se mencionó previamente, como placa controladora se utilizó una \textbf{STM32 NUCLEO-F103RB}. Haciendo mediciones de testeo, rápidamente se hizo notoria la necesidad de simplificar el conexionado entre controlador y módulos de banco al igual que entre los mismos bancos entre sí. Al haber tantas señales que debían enviarse, muchas digitales y otras analógicas que debían conectarse en pines específicos, se tornaba una tarea muy tediosa cada vez se armaba y desarmaba el sistema. Para esto es que se diseñó el llamado \enquote*{circuito central}. Su tarea era ser simplemente una placa con pines hembra donde se montara la STM32, y tenga salidas mediante conectores de cable plano para enviar a cada módulo de banco. De esta forma, se reemplazaría todo el cableado por ruteo de la placa y las conexiones serían mediante tiras de catorce cables planos.
+
+Originalmente se decidió que la placa no tenga ningún tipo de lógica circuital. Es decir, su rol es únicamente de soporte mecánico y de envío de información mediante buses.
+
+Sin embargo, a medida que se hacían mediciones de pruebas sobre las demás placas, fueron surgiendo la necesidad (e ideas nuevas) con funciones para implementar. Para cuando se diseñó efectivamente la placa, lejos estaba de esa propuesta original muy simple de ser únicamente para simplificar el conexionado. Estas nuevas funciones agregadas fueron:
+\begin{enumerate}
+    \item Una llave de apagado manual y otra automática.
+    \item \textit{Switches} entre cada banco y la salida, y entre bancos.
+    \item Un medidor de corriente a la salida.
+    \item La creación de una tensión $-Vcc$ de \SI{-5}{\volt}.
+    \item Amplificadores operacionales para proteger los pines del controlador que censan tensión.
+\end{enumerate}
+
+Con respecto a los \textit{switches}, como se mencionó, hubieron uno manual y otro controlado. Ambos funcionan cortando la llegada de $Vcc$ a los módulos, y de esta forma, evitando cualquier tipo de control sobre las celdas. El manual se implementó con un pulsador y funciona simplemente como un botón de prendido y apagado de todo el sistema. A su vez, el automático se implementó, con la topología mostrada en la figura [FIG], con el objetivo de apagar todo el sistema ante la detección de una falla crítica (como puede serlo, un pico demasiado alto de corriente).
+
+[AGREGAR DIAGRAMA DEL SWITCH PMOS]
+
+[COMPLETAR]
+
+\subsection{Problemas de diseño} 
+
+Uno de los principales problemas durante el diseño del circuito inicial fue la tierra, colocando una tierra virtual en el terminal negativo se logra que funcione el sistema, pero se encontraron algunos inconvenientes. Se utiliza como banco de prueba una matriz de $2x1$, dos bancos de una celda y se observaron los siguientes resultados:
+
+
+\begin{itemize}
+    \item Banco 1 OFF, Banco 2 ON,
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{Imágenes//Diseño final/banco1_off_b2on.png}
+        \caption{ Análisis de corriente para la configuración: \textit{Banco 1 OFF, Banco 2 ON}}
+        \label{fig:banco1_off_b2on}
+    \end{figure}
+    
+
+    \item Banco 1 ON, Banco 2 OFF,
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{Imágenes//Diseño final/banco1_on_b2off.png}
+        \caption{Análisis de corriente para la configuración: \textit{ Banco 1 ON, Banco 2 OFF}}
+        \label{fig:banco1_on_b2off}
+    \end{figure}
+    \item Banco 1 ON, Banco 2 ON,
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{Imágenes//Diseño final/banco1_on_b2on.png}
+        \caption{Análisis de corriente para la configuración: \textit{Banco 1 ON, Banco 2 ON}}
+        \label{fig:banco1_on_b2on}
+    \end{figure}
+    
+\end{itemize}
+Lo primero en notar de esta situación (fig. \ref{fig:banco1_off_b2on}) es la corriente en el MOSFET de tierra, esto provoca una tensión negativa en el terminal negativo de la celda. Analizando la corriente en cada componente del circuito de la celda, es posible notar que dicha corriente se genera en el driver del banco 2. Al encender la celda del banco 2, es decir encender el TBJ NPN $Q_{2j2}$, el colector queda a tierra, cerrando la malla atraves de la tierra virtual del MOSFET de tierra. Como no hay una referencia a GND para cada banco, al agregar bancos aumenta la tensión que percibe el driver de dicho banco, resultando en un aumento de corriente en el colector del TBJ de encendido.
+
+Como se ve en (fig. \ref{fig:banco1_on_b2off}), y en (fig. \ref{fig:banco1_on_b2on}), este efecto ocurre incluso en caso de estar el banco 1 encendido. Al estar la celda del banco 1 encendida, se produce el efecto de la tierra virtual obteniendo que la celda tenga su terminal negativo a GND, pero al medir la corriente que circula en el MOSFET de tierra, se sigue viendo lo descripto anteriormente. Esto principalmente ocurre por que hay un único GND global para todo el circuito y la tierra virtual resulta ser el mismo. 
+
+
+
+
+
+\subsection{Diseño del controlador}
+
+Para el controlador de este diseño modular, no es posible partir del controlador del prototipo, es necesario un nuevo planteo. Los principales cambios son debido al \textit{hardware}, los cuales afectan a la lógica del software. 
+
+Toda la lógica de encendido ahora depende del SR, a diferencia del controlador del prototipo donde cada switch era un pin del \textit{GPIO}. acá solo hay un pin de \textit{Data} y es el SR el que se encarga de seleccionar el switch a accionar. A cada banco le corresponde un switch, y a modo de mantener todo sincronizado y ahorrar pines \textit{GPIO}, se decide que los pines del SR \textit{Latch} y \textit{Clock} serán los mismo para toda la matriz. Esto implica que cada vez se envía un pulso de \textit{clock} el bit actual en data de todos los bancos será desplazado, de igual manera con un pulso de \textit{latch}. Por lo tanto hay que tener precaución  al enviar los pulsos de \textit{latch} y \textit{clock} para evitar enviar información basura a los \textit{switches}.
+
+Por lo tanto, ahora se organiza el controlador por jerarquías. Se siguen mandando las instrucciones por \textit{USART}, y el que las maneja es el \textbf{controlador} el cual tiene un conjunto de bancos, a cada banco le asigna un SR. Desde el banco solo se va a poder enviar un '1' o un '0', pero sin activar el \textit{clock}, es el controlador el que se va a encargar de los mandar pulsos de \textit{clock} y \textit{latch} solo cuando todos los pines de data

@@ -64,3 +64,24 @@ Release/
 **/*_autosave-*
 **/*.tmp
 **/.cache/
+
+
+# =========================
+# Archivos auxiliares de LaTeX
+# =========================
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Carpeta de compilación
+build/

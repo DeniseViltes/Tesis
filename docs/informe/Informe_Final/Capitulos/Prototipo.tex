@@ -1,0 +1,62 @@
+\section{Prototipo}
+
+[Matriz $3\times2$, uso de celdas 18650 de \SI{3.2}{\volt}]
+
+[PONER LAS MEDICIONES Y EL TESTEO COMO OTRA SECCION]
+
+[AGREGAR UN APENDICE CON UN PEQUEÑO MANUAL DE USO DEL CIRCUITO]
+
+\subsection{Diseño del prototipo}
+
+[Uso de una fuente externa para los LEDs e inversores]
+[ejamos el capatitor en una bornera en la salida para  ver cual sirve en la realidad]
+
+\subsubsection{Diseño del esquemático}
+
+[LEDs, portapilas, fusibles, \textit{test points}, \textit{jumpers}]
+
+[POR QUÉ DISEÑAMOS ASÍ LA PLACA, ESPACIO, DISPOSICIÓN, ETCÉTERA]
+
+\subsubsection{Diseño del PCB}
+
+[Placa de $\SI{20}{\centi\meter}\times\SI{20}{\centi\meter}$ bifásica]
+
+
+
+
+
+////////////
+
+
+\subsection{Controlador para el prototipo}
+
+[Selección de microcontrolador]
+
+
+
+\subsubsection{Diseño del controlador para el prototipo}
+
+[Primero se apaga lo que se deba apagar y después se enciende lo que se deba encender]
+ 
+Para programar el controlador se utiliza la aplicación \textbf{\textit{STM32CubeIDE}}, este entorno permite desarrollar, compilar y depurar el código del microcontrolado, en este caso, \textbf{STM32 NUCLEO-F103RB}. Para la configuración inicial de la placa se utiliza la aplicación \textbf{\textit{STM32CubeMX}}, con la cual se crea el archivo \textit{.ioc}, almacenando toda la información de la configuración de los pines, y todos los archivos necesarios para el funcionamiento de la placa. En la STM32CubeMX
+se configura la función de los pines, se habilitan los pines necesarios y se configura de ser necesario el clock, DMA, interrupciones, etc. Uno de los archivos que se generan, es el \textit{main.c}, donde se inicializan todos los periféricos, también proporciona el bucle principal \textit{while(1)}, en donde se pueden agregar las tareas principales.
+
+ En el prototipo, el enfoque principal es diseñar el control manual para probar cada configuración de la matriz. Se utiliza el control manual para poder acceder y probar cada celda, este modo sirve para imitar las simulaciones en \textit{LTSpice} y evaluar el comportamiento del prototipo. 
+ En una primera instancia se simplifica el diseño del controlador a determinar el estado de cada celda mediante linea de comandos (CLI), y a partir del estado de todas las celdas del banco, el controlador actualiza el estado del switch del banco según corresponda.
+ 
+ Para este diseño cada switch es un pin distinto del microcontrolador, esto significa que se deben reservar 1 pin para switch del banco y 1 pin para el switch de la celda, resultando en 9 pines \textit{gpio} en modo salida para el prototipo. Cada pin se enciende o se apaga determinando su estado a través del HAL.
+ 
+
+Otro requerimiento es la posibilidad de probar el \textit{modo de switching}, en este estado se espera poder encender y apagar los apagar los pines de forma alternada, permitiendo evaluar la conmutación entre celdas y entre bancos. No se espera que el sistema conmute a altas frecuencias en condiciones normales, pero si es necesario verificar como responde el sistema ante este caso. Por lo tanto, el programa del controlador debe tener la posibilidad de asignar el estado \textbf{\textit{switching}} a una celda, siempre actualizando de forma acorde el switch del banco. Se proponen dos opciones, switching sincronizado y complementario, para lograr esto se asignan flags a cada celda seleccionada y se actualiza de forma simultanea todos los pines. Al mismo tiempo, desde el CLI, se le asigna un grupo a cada celda, cada grupo responde a la frecuencia elegida. De esta forma se permite testear conmutación entre celdas, entre bancos, el sistema a distintas frecuencias, y grupos de celdas a distintas frecuencias, así como encontrar los limites en frecuencia del sistema.
+
+Cabe destacar que para obtener una representación fiel de la frecuencia pedida, es necesario actualizar el estado según una base temporal constante. Para ese se puede utilizar el \textit{\textbf{SysTick}}, un temporizador integrado, el cual genera interrupciones periódicas cada \SI{1}{\milli \second}. Para utilizar esta base, se coloca la función correspondiente a la actualización de los pines dentro de la rutina de interrupciones, \textbf{$SysTick_Handler()$} así actualizando el estado de la matriz de forma regular. En caso de utilizar el bucle principal en \textit{main.c}, no se obtendría una base temporal constante, ya que la duración de una iteración depende de la duración del resto de las tareas.
+
+
+[AGREGAR FOTITO DEL PUTTY]
+
+
+
+
+\subsection{Implementación}
+
+[DECIR QUE ESTABA \enquote*{MAL} LA HUELLA DEL PMOS]
