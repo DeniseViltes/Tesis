@@ -1,0 +1,3 @@
+Simulo el archivo version1.0.asc
+
+Y mido la corriente en la celda contra el nodo de salida

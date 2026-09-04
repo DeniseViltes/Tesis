@@ -3,12 +3,13 @@ import sys
 import shutil
 import ast
 import numpy as np
+import pickle
 from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QFileDialog, QVBoxLayout, QHBoxLayout,
     QPushButton, QLabel, QComboBox, QMessageBox, QLineEdit, QGroupBox, QFormLayout, QFrame, QScrollArea, QColorDialog,
-    QListWidget, QListWidgetItem, QCheckBox
+    QListWidget, QListWidgetItem, QCheckBox, QDialog, QDialogButtonBox, QTabWidget
 )
 import json
 import matplotlib as mpl
@@ -73,6 +74,9 @@ class MainWindow(QMainWindow):
         # Axes references
         self.ax1 = None
         self.ax2 = None
+        self.axes = []
+        self.legends = []
+        self.secondary_axes = {}
 
         # Crosshairs A/B
         self.crossA = {"v": None, "h": None}
@@ -93,6 +97,8 @@ class MainWindow(QMainWindow):
         }
         self._curve_color_custom = False
         self._latex_warning_shown = False
+        self._theme_change_pending = False
+        self._manual_panel_assignments = {}
 
         root = QWidget()
         self.setCentralWidget(root)
@@ -113,9 +119,17 @@ class MainWindow(QMainWindow):
         b1 = QPushButton("Abrir archivo(s)…")
         b1.clicked.connect(self.open1)
 
+        btn_save_project = QPushButton("Guardar proyecto...")
+        btn_save_project.clicked.connect(self.save_project)
+
+        btn_open_project = QPushButton("Abrir proyecto...")
+        btn_open_project.clicked.connect(self.open_project)
+
         self.l1 = QLabel("Archivos: (ninguno seleccionado)")
 
         fl.addWidget(b1)
+        fl.addWidget(btn_save_project)
+        fl.addWidget(btn_open_project)
         fl.addWidget(self.l1)
 
         self.cmb_file1 = QComboBox()
@@ -134,6 +148,7 @@ class MainWindow(QMainWindow):
         self.cmb_theme = QComboBox()
         self.cmb_theme.addItems(list(THEMES.keys()))
         self.cmb_theme.setCurrentText("ggplot")
+        self.cmb_theme.currentTextChanged.connect(self._on_theme_changed)
 
 
         self.cmb_mode = QComboBox()
@@ -141,6 +156,18 @@ class MainWindow(QMainWindow):
             ["1 curva", "N curvas (mismo eje Y)"]
         )
         self.cmb_mode.currentIndexChanged.connect(self._sync_plot_selection_ui)
+
+        self.cmb_subplot_layout = QComboBox()
+        self.cmb_subplot_layout.addItems(["1x1", "1x2", "2x1", "2x2"])
+        self.cmb_subplot_layout.currentTextChanged.connect(self._replot_if_data_loaded)
+
+        self.ed_subplot_titles = QLineEdit()
+        self.ed_subplot_titles.setPlaceholderText("Panel 1; Panel 2; Panel 3; Panel 4")
+
+        self.chk_manual_panels = QCheckBox("Asignación manual de paneles")
+        self.chk_manual_panels.stateChanged.connect(self._on_manual_panels_toggled)
+        self.btn_panel_assignments = QPushButton("Seleccionar curvas por panel...")
+        self.btn_panel_assignments.clicked.connect(self.edit_panel_assignments)
 
         self.cmb_x = QComboBox()
         self.cmb_x.addItems(["x1", "x1e3", "x1e-3", "x1e6", "x1e-6", "x1e9", "x1e-9"])
@@ -151,8 +178,24 @@ class MainWindow(QMainWindow):
         self.cmb_y1.addItems(["Auto"] + list(SCALE_MAP.keys()))
         self.cmb_y1.currentIndexChanged.connect(self._replot_if_data_loaded)
 
+        self.chk_y2 = QCheckBox("Usar eje Y derecho")
+        self.chk_y2.stateChanged.connect(self._replot_if_data_loaded)
+        self.chk_y2.stateChanged.connect(self._sync_y2_ui)
+
+        self.cmb_y2_signal = QComboBox()
+        self.cmb_y2_signal.addItem("(ninguna)", None)
+        self.cmb_y2_signal.currentIndexChanged.connect(self._replot_if_data_loaded)
+
+        self.cmb_y2 = QComboBox()
+        self.cmb_y2.addItems(["Auto"] + list(SCALE_MAP.keys()))
+        self.cmb_y2.currentIndexChanged.connect(self._replot_if_data_loaded)
+        self.cmb_y2.currentTextChanged.connect(self._update_factor_labels)
+
+        self.y2lab = QLineEdit("Y2")
+
         # info de escala aplicada (SIN notación científica)
         self.lbl_y1_factor = QLabel("x1")
+        self.lbl_y2_factor = QLabel("x1")
 
         # actualizar factor mostrado al cambiar selección
         self.cmb_y1.currentTextChanged.connect(self._update_factor_labels)
@@ -161,6 +204,15 @@ class MainWindow(QMainWindow):
         self.cmb_legend.addItems(
             ["Auto (best)", "Afuera derecha", "Afuera abajo", "Arriba derecha", "Arriba izquierda", "Abajo derecha", "Abajo izquierda"]
         )
+        self.cmb_legend.currentTextChanged.connect(self._replot_if_data_loaded)
+
+        self.btn_best_legend = QPushButton("Ubicar leyenda automaticamente")
+        self.btn_best_legend.clicked.connect(self._set_best_legend_location)
+
+        self.chk_cursors = QCheckBox("Habilitar cursores A/B")
+        self.chk_cursors.setChecked(True)
+        self.chk_cursors.stateChanged.connect(self._on_cursors_toggled)
+
         self.chk_usetex = QCheckBox("Usar LaTeX")
         self.chk_usetex.stateChanged.connect(self._on_text_rendering_changed)
 
@@ -208,10 +260,21 @@ class MainWindow(QMainWindow):
 
         form.addRow("Tema:", self.cmb_theme)
         form.addRow("Modo:", self.cmb_mode)
+        form.addRow("Subfiguras:", self.cmb_subplot_layout)
+        form.addRow("Titulos de paneles:", self.ed_subplot_titles)
+        form.addRow(self.chk_manual_panels)
+        form.addRow(self.btn_panel_assignments)
         form.addRow("Escala X:", self.cmb_x)
         form.addRow("Escala Y1:", self.cmb_y1)
         form.addRow("Factor Y1 aplicado:", self.lbl_y1_factor)
+        form.addRow(self.chk_y2)
+        form.addRow("Señal Y2:", self.cmb_y2_signal)
+        form.addRow("Escala Y2:", self.cmb_y2)
+        form.addRow("Factor Y2 aplicado:", self.lbl_y2_factor)
+        form.addRow("Y2 label:", self.y2lab)
         form.addRow("Leyenda:", self.cmb_legend)
+        form.addRow(self.btn_best_legend)
+        form.addRow(self.chk_cursors)
         form.addRow("Texto:", self.chk_usetex)
         form.addRow("Título:", self.tit)
         form.addRow("X label:", self.xlab)
@@ -267,12 +330,16 @@ class MainWindow(QMainWindow):
 
         controls.addWidget(grp_style)
         self._sync_style_ui_from_curve()
+        self._sync_y2_ui()
         self._refresh_operation_curve_combos()
         self._refresh_curve_name_controls()
 
         # Botones
         bp = QPushButton("Graficar")
         bp.clicked.connect(self.plot)
+
+        bs_editable = QPushButton("Guardar figura editable…")
+        bs_editable.clicked.connect(self.save_editable)
 
         bs_png = QPushButton("Guardar PNG…")
         bs_png.clicked.connect(self.save_png)
@@ -289,10 +356,12 @@ class MainWindow(QMainWindow):
         bh = QPushButton("Ayuda")
         bh.clicked.connect(self.show_help)
 
+
         controls.addWidget(bp)
         controls.addWidget(bs_png)
         controls.addWidget(bs_svg)
         controls.addWidget(bs_pdf)
+        controls.addWidget(bs_editable)
         controls.addWidget(br)
         controls.addWidget(bh)
         controls.addStretch(1)
@@ -351,6 +420,11 @@ class MainWindow(QMainWindow):
         if getattr(self, "data1", None) is not None or bool(getattr(self, "steps", None)):
             self.plot()
 
+    def _on_theme_changed(self, *_):
+        """Descarta colores automáticos anteriores y aplica la nueva paleta."""
+        self._theme_change_pending = True
+        self._replot_if_data_loaded()
+
     def _xscale(self):
         return {
             "x1": 1.0,
@@ -402,6 +476,8 @@ class MainWindow(QMainWindow):
         # Por ahora sólo refleja lo que diga el combo si no hay datos aún
         y1_txt = self.cmb_y1.currentText()
         self.lbl_y1_factor.setText("Auto" if y1_txt.startswith("Auto") else self._factor_str(SCALE_MAP.get(y1_txt, 1.0)))
+        y2_txt = self.cmb_y2.currentText()
+        self.lbl_y2_factor.setText("Auto" if y2_txt.startswith("Auto") else self._factor_str(SCALE_MAP.get(y2_txt, 1.0)))
 
     def _populate_column_combo(self, combo: QComboBox, colnames: tuple[str, ...] | None):
         """
@@ -463,6 +539,25 @@ class MainWindow(QMainWindow):
 
         self.lst_signals.setEnabled(True)
         self.lst_signals.blockSignals(False)
+        self._refresh_y2_signal_combo()
+
+    def _refresh_y2_signal_combo(self):
+        """Actualiza las señales disponibles para el eje Y derecho."""
+        previous = self.cmb_y2_signal.currentData()
+        self.cmb_y2_signal.blockSignals(True)
+        self.cmb_y2_signal.clear()
+        self.cmb_y2_signal.addItem("(ninguna)", None)
+        restore_index = 0
+        for ds_idx, ds in enumerate(self.datasets):
+            colnames = ds.get("colnames") or ()
+            for col_idx, name in enumerate(colnames[1:], start=1):
+                key = (ds_idx, col_idx)
+                display_name = self._signal_names.get(key, name)
+                self.cmb_y2_signal.addItem(f"[{ds.get('name', 'archivo')}] {display_name}", key)
+                if previous is not None and tuple(previous) == key:
+                    restore_index = self.cmb_y2_signal.count() - 1
+        self.cmb_y2_signal.setCurrentIndex(restore_index)
+        self.cmb_y2_signal.blockSignals(False)
 
     def _on_signal_item_changed(self, item: QListWidgetItem):
         payload = item.data(Qt.ItemDataRole.UserRole)
@@ -753,10 +848,10 @@ class MainWindow(QMainWindow):
                     self._apply_transform_to_line(line, transform)
 
     def _refresh_axes_after_curve_adjustment(self):
-        if self.ax1 is not None:
-            self.ax1.relim()
-            self.ax1.autoscale_view()
-            self._disable_axis_factor_text(self.ax1)
+        for ax in dict.fromkeys(line.axes for line in self.lines if line is not None):
+            ax.relim()
+            ax.autoscale_view()
+            self._disable_axis_factor_text(ax)
         self.reset_probes()
 
     def apply_selected_curve_adjustment(self):
@@ -836,6 +931,7 @@ class MainWindow(QMainWindow):
 
         la = self.lines[int(ia)]
         lb = self.lines[int(ib)]
+        target_ax = la.axes
         x, ya, yb = self._align_curves(la, lb)
 
         op = self.cmb_op.currentText()
@@ -862,19 +958,20 @@ class MainWindow(QMainWindow):
                     remaining_lines.append(line)
                     remaining_keys.append(key)
 
-            p = self.ax1.plot(x, y, label=label)
+            p = target_ax.plot(x, y, label=label)
             self.lines = remaining_lines + [p[0]]
             self._line_keys = remaining_keys + [("OP_ONLY", int(ia), symbol, int(ib))]
             self._remember_line_base_data(p[0])
-            self.ax1.relim()
-            self.ax1.autoscale_view()
+            for ax in dict.fromkeys(line.axes for line in self.lines if line is not None):
+                ax.relim()
+                ax.autoscale_view()
         else:
-            p = self.ax1.plot(x, y, label=label)
+            p = target_ax.plot(x, y, label=label)
             self.lines.append(p[0])
             self._line_keys.append(("OP", int(ia), symbol, int(ib), len(self.lines)))
             self._remember_line_base_data(p[0])
 
-        self._disable_axis_factor_text(self.ax1)
+        self._disable_axis_factor_text(target_ax)
         self.refresh_legend()
         self._refresh_operation_curve_combos()
         self._refresh_curve_name_controls()
@@ -902,7 +999,11 @@ class MainWindow(QMainWindow):
             if line is None:
                 continue
 
-            key = line.get_label() or f"__idx_{i}"
+            key = (
+                repr(self._line_keys[i])
+                if i < len(self._line_keys)
+                else (line.get_label() or f"__idx_{i}")
+            )
             st = {
                 "color": line.get_color(),
                 "linestyle": line.get_linestyle(),
@@ -981,11 +1082,16 @@ class MainWindow(QMainWindow):
             if line is None:
                 continue
 
+            line_key = repr(self._line_keys[i]) if i < len(self._line_keys) else None
             key = line.get_label() or f"__idx_{i}"
             st = None
 
             if self._style_cache:
-                st = self._style_cache.get(key) or self._style_cache.get(f"__idx_{i}")
+                st = (
+                    self._style_cache.get(line_key)
+                    or self._style_cache.get(key)
+                    or self._style_cache.get(f"__idx_{i}")
+                )
 
             if st is None:
                 st = self._curve_style
@@ -1048,6 +1154,268 @@ class MainWindow(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
 
+    def _load_project_datasets(self, paths):
+        """Carga los archivos de datos referenciados por un proyecto."""
+        self.datasets = []
+        for p in paths:
+            _, cols, steps = read_ltspice_steps(p, "auto")
+            if steps:
+                self.datasets.append({
+                    "path": p, "name": os.path.basename(p), "data": None,
+                    "steps": steps, "colnames": cols,
+                })
+            else:
+                data, _, cols = read_ltspice_table(p, "auto")
+                self.datasets.append({
+                    "path": p, "name": os.path.basename(p), "data": data,
+                    "steps": None, "colnames": cols,
+                })
+
+        if not self.datasets:
+            raise ValueError("El proyecto no contiene archivos de datos.")
+
+        first = self.datasets[0]
+        self.file1_path = first["path"]
+        self.steps = first["steps"]
+        self.data1 = first["data"]
+        self.colnames1 = first["colnames"]
+        self._populate_column_combo(self.cmb_file1, self.colnames1)
+        self._on_file1_column_changed()
+        if self.colnames1:
+            self.xlab.setText(self.colnames1[0])
+        if len(self.datasets) == 1:
+            self.l1.setText(f"Archivo: {first['name']}")
+        else:
+            self.l1.setText(f"Archivos: {len(self.datasets)} cargados")
+        self._refresh_signal_list()
+
+    def save_project(self):
+        """Guarda las fuentes y la configuracion editable de la figura."""
+        if not self.datasets:
+            QMessageBox.warning(self, "Sin datos", "Primero tenes que cargar algun archivo.")
+            return
+
+        self._commit_signal_names_from_list()
+        self._persist_line_name_overrides()
+        self._capture_line_styles()
+        p, _ = QFileDialog.getSaveFileName(
+            self, "Guardar proyecto", "proyecto.ltplot.json",
+            "Proyecto LTspice Plotter (*.ltplot.json)",
+        )
+        if not p:
+            return
+        if not p.lower().endswith(".ltplot.json"):
+            p += ".ltplot.json"
+
+        project_dir = os.path.dirname(os.path.abspath(p))
+        dataset_paths = []
+        for ds in self.datasets:
+            try:
+                dataset_paths.append(os.path.relpath(ds["path"], project_dir))
+            except ValueError:
+                dataset_paths.append(os.path.abspath(ds["path"]))
+
+        selected_signals = []
+        for i in range(self.lst_signals.count()):
+            item = self.lst_signals.item(i)
+            payload = item.data(Qt.ItemDataRole.UserRole)
+            if payload and payload[0] == "DSCOL" and item.checkState() == Qt.CheckState.Checked:
+                selected_signals.append({"dataset": int(payload[1]), "column": int(payload[2])})
+
+        project = {
+            "format": "ltspice-plotter-project",
+            "version": 1,
+            "datasets": dataset_paths,
+            "controls": {
+                "theme": self.cmb_theme.currentText(),
+                "mode": self.cmb_mode.currentIndex(),
+                "subplot_layout": self.cmb_subplot_layout.currentText(),
+                "subplot_titles": self.ed_subplot_titles.text(),
+                "manual_panels": self.chk_manual_panels.isChecked(),
+                "x_scale": self.cmb_x.currentText(),
+                "y_scale_index": self.cmb_y1.currentIndex(),
+                "use_y2": self.chk_y2.isChecked(),
+                "y2_signal": list(self.cmb_y2_signal.currentData()) if self.cmb_y2_signal.currentData() is not None else None,
+                "y2_scale_index": self.cmb_y2.currentIndex(),
+                "y2_label": self.y2lab.text(),
+                "legend": self.cmb_legend.currentText(),
+                "cursors_enabled": self.chk_cursors.isChecked(),
+                "use_tex": self.chk_usetex.isChecked(),
+                "title": self.tit.text(),
+                "x_label": self.xlab.text(),
+                "y_label": self.y1lab.text(),
+                "single_curve_column": self.cmb_file1.currentIndex(),
+                "single_curve_name": self.c1name.text(),
+                "operation": self.cmb_op.currentText(),
+                "only_operation_result": self.chk_only_result.isChecked(),
+            },
+            "selected_signals": selected_signals,
+            "panel_assignments": [
+                {
+                    "panel": panel_index,
+                    "signals": [list(key) for key in sorted(signals)],
+                }
+                for panel_index, signals in sorted(self._manual_panel_assignments.items())
+            ],
+            "signal_names": [
+                {"dataset": key[0], "column": key[1], "name": name}
+                for key, name in self._signal_names.items()
+            ],
+            "curve_style": self._curve_style,
+            "curve_color_custom": self._curve_color_custom,
+            "style_cache": self._style_cache,
+            "line_names": [
+                {"key": list(key), "name": name}
+                for key, name in self._line_name_overrides.items()
+            ],
+            "line_transforms": [
+                {"key": list(key), "transform": transform}
+                for key, transform in self._line_transforms.items()
+            ],
+        }
+        try:
+            with open(p, "w", encoding="utf-8") as archivo:
+                json.dump(project, archivo, indent=2, ensure_ascii=False)
+            QMessageBox.information(self, "Proyecto guardado", "El proyecto se guardo correctamente.")
+        except Exception as exc:
+            QMessageBox.critical(self, "Error al guardar", str(exc))
+
+    def open_project(self):
+        """Recarga los datos y reconstruye una figura desde un proyecto JSON."""
+        p, _ = QFileDialog.getOpenFileName(
+            self, "Abrir proyecto", "",
+            "Proyecto LTspice Plotter (*.ltplot.json);;JSON (*.json)",
+        )
+        if not p:
+            return
+        try:
+            with open(p, "r", encoding="utf-8") as archivo:
+                project = json.load(archivo)
+            if project.get("format") != "ltspice-plotter-project":
+                raise ValueError("El archivo seleccionado no es un proyecto de LTspice Plotter.")
+            if project.get("version") != 1:
+                raise ValueError("La version del proyecto no es compatible.")
+
+            project_dir = os.path.dirname(os.path.abspath(p))
+            paths = [
+                os.path.normpath(saved if os.path.isabs(saved) else os.path.join(project_dir, saved))
+                for saved in project.get("datasets", [])
+            ]
+            missing = [path for path in paths if not os.path.isfile(path)]
+            if missing:
+                QMessageBox.critical(
+                    self, "Archivos no encontrados",
+                    "No se encontraron estos archivos:\n\n" + "\n".join(missing),
+                )
+                return
+
+            self._signal_names = {}
+            self._line_name_overrides = {}
+            self._line_transforms = {}
+            self._style_cache = {}
+            self.lines = []
+            self._line_keys = []
+            self.canvas.fig.clear()
+            self._load_project_datasets(paths)
+
+            controls = project.get("controls", {})
+            widgets = [
+                self.cmb_theme, self.cmb_mode, self.cmb_subplot_layout, self.cmb_x, self.cmb_y1,
+                self.cmb_legend, self.cmb_file1, self.chk_usetex,
+                self.cmb_op, self.chk_only_result, self.chk_y2,
+                self.cmb_y2_signal, self.cmb_y2, self.chk_cursors,
+                self.chk_manual_panels,
+            ]
+            for widget in widgets:
+                widget.blockSignals(True)
+            try:
+                self.cmb_theme.setCurrentText(controls.get("theme", "ggplot"))
+                self.cmb_mode.setCurrentIndex(int(controls.get("mode", 0)))
+                self.cmb_subplot_layout.setCurrentText(controls.get("subplot_layout", "1x1"))
+                self.chk_manual_panels.setChecked(bool(controls.get("manual_panels", False)))
+                self.cmb_x.setCurrentText(controls.get("x_scale", "x1"))
+                self.cmb_y1.setCurrentIndex(int(controls.get("y_scale_index", 0)))
+                self.chk_y2.setChecked(bool(controls.get("use_y2", False)))
+                saved_y2 = controls.get("y2_signal")
+                y2_index = 0
+                if saved_y2 is not None:
+                    saved_y2 = tuple(saved_y2)
+                    for index in range(self.cmb_y2_signal.count()):
+                        value = self.cmb_y2_signal.itemData(index)
+                        if value is not None and tuple(value) == saved_y2:
+                            y2_index = index
+                            break
+                self.cmb_y2_signal.setCurrentIndex(y2_index)
+                self.cmb_y2.setCurrentIndex(int(controls.get("y2_scale_index", 0)))
+                self.cmb_legend.setCurrentText(controls.get("legend", "Auto (best)"))
+                self.chk_cursors.setChecked(bool(controls.get("cursors_enabled", True)))
+                self.chk_usetex.setChecked(bool(controls.get("use_tex", False)))
+                self.cmb_file1.setCurrentIndex(int(controls.get("single_curve_column", 0)))
+                self.cmb_op.setCurrentText(controls.get("operation", "Suma (+)"))
+                self.chk_only_result.setChecked(bool(controls.get("only_operation_result", False)))
+            finally:
+                for widget in widgets:
+                    widget.blockSignals(False)
+
+            self._on_file1_column_changed()
+            self.tit.setText(controls.get("title", "LTspice plot"))
+            self.ed_subplot_titles.setText(controls.get("subplot_titles", ""))
+            self.xlab.setText(controls.get("x_label", "time"))
+            self.y1lab.setText(controls.get("y_label", "Y1"))
+            self.y2lab.setText(controls.get("y2_label", "Y2"))
+            self.c1name.setText(controls.get("single_curve_name", "Curva 1"))
+            self._signal_names = {
+                (int(item["dataset"]), int(item["column"])): item["name"]
+                for item in project.get("signal_names", [])
+            }
+            self._manual_panel_assignments = {
+                int(item["panel"]): {tuple(signal) for signal in item.get("signals", [])}
+                for item in project.get("panel_assignments", [])
+            }
+            self._line_name_overrides = {
+                tuple(item["key"]): item["name"] for item in project.get("line_names", [])
+            }
+            self._line_transforms = {
+                tuple(item["key"]): item["transform"]
+                for item in project.get("line_transforms", [])
+            }
+            self._curve_style = project.get("curve_style") or self._curve_style
+            self._curve_color_custom = bool(project.get("curve_color_custom", False))
+            saved_style_cache = project.get("style_cache", {})
+
+            self._refresh_signal_list()
+            selected = {
+                (int(item["dataset"]), int(item["column"]))
+                for item in project.get("selected_signals", [])
+            }
+            self.lst_signals.blockSignals(True)
+            try:
+                for i in range(self.lst_signals.count()):
+                    item = self.lst_signals.item(i)
+                    payload = item.data(Qt.ItemDataRole.UserRole)
+                    if payload and payload[0] == "DSCOL":
+                        item.setCheckState(
+                            Qt.CheckState.Checked
+                            if (payload[1], payload[2]) in selected
+                            else Qt.CheckState.Unchecked
+                        )
+            finally:
+                self.lst_signals.blockSignals(False)
+
+            self._sync_style_ui_from_curve()
+            self._sync_plot_selection_ui()
+            self._sync_y2_ui()
+            self._configure_text_rendering()
+            self.plot()
+            self._style_cache = saved_style_cache
+            self._apply_line_styles(allow_color=True)
+            self.refresh_legend()
+            self.canvas.draw_idle()
+            self._capture_line_styles()
+            QMessageBox.information(self, "Proyecto abierto", "El proyecto se restauro correctamente.")
+        except Exception as exc:
+            QMessageBox.critical(self, "Error al abrir", str(exc))
+
     def _apply_legend(self, ax, handles=None, labels=None):
         mode = self.cmb_legend.currentText()
         if mode == "Auto (best)":
@@ -1080,25 +1448,54 @@ class MainWindow(QMainWindow):
         """Recrea la leyenda usando los Line2D actuales, para que copie color/estilo real."""
         if self.ax1 is None:
             return
-
-        # limpiar mapping de leyenda anterior (artistas viejos)
         self.leg_map = {}
-
-        # borrar leyenda previa
-        if self.legend is not None:
+        for legend in getattr(self, "legends", []) or ([self.legend] if self.legend else []):
             try:
-                self.legend.remove()
+                legend.remove()
             except Exception:
                 pass
-            self.legend = None
+        self.legend = None
+        self.legends = []
 
-        handles = [l for l in (self.lines or []) if l is not None]
-        if not handles:
-            return
-        labels = [h.get_label() for h in handles]
+        axes = self.axes or [self.ax1]
+        for ax in axes:
+            panel_axes = {ax}
+            if ax in self.secondary_axes:
+                panel_axes.add(self.secondary_axes[ax])
+            handles = [
+                line for line in (self.lines or [])
+                if line is not None and line.axes in panel_axes
+            ]
+            if not handles:
+                continue
+            labels = [line.get_label() for line in handles]
+            legend = self._apply_legend(ax, handles, labels)
+            self.legends.append(legend)
+            if self.legend is None:
+                self.legend = legend
 
-        self.legend = self._apply_legend(self.ax1, handles, labels)
-        self._enable_legend_picking()
+            for artist, line in zip(legend.get_lines(), handles):
+                artist.set_picker(True)
+                artist.set_pickradius(5)
+                artist.set_alpha(1.0 if line.get_visible() else 0.25)
+                self.leg_map[artist] = line
+            for artist, line in zip(legend.get_texts(), handles):
+                artist.set_picker(True)
+                artist.set_alpha(1.0 if line.get_visible() else 0.25)
+                self.leg_map[artist] = line
+
+    def _set_best_legend_location(self):
+        """Vuelve a calcular automaticamente la mejor ubicacion de la leyenda."""
+        self.cmb_legend.blockSignals(True)
+        self.cmb_legend.setCurrentText("Auto (best)")
+        self.cmb_legend.blockSignals(False)
+        if self.lines:
+            self.refresh_legend()
+            if len(self.axes) == 1:
+                apply_layout(self.canvas.fig, "Auto (best)")
+            else:
+                self.canvas.fig.tight_layout(rect=(0, 0, 1, 0.96))
+            self.canvas.draw_idle()
 
     def _enable_legend_picking(self):
         """Hace la leyenda clickeable (texto y handle) para ocultar/mostrar curvas."""
@@ -1155,7 +1552,19 @@ class MainWindow(QMainWindow):
                     pass
                 store[k] = None
 
+    def _on_cursors_toggled(self, *_):
+        if not self.chk_cursors.isChecked():
+            self.fbox.hide()
+            self.reset_probes()
+        else:
+            self._update_crosshairs()
+            self.canvas.draw_idle()
+
     def _update_crosshairs(self):
+        if not self.chk_cursors.isChecked():
+            self._remove_cross(self.crossA)
+            self._remove_cross(self.crossB)
+            return
         # crosshair vertical en ax1 (común), horizontal en el eje de la curva (ax1 o ax2)
         if self.ax1 is None:
             return
@@ -1167,7 +1576,7 @@ class MainWindow(QMainWindow):
             x, y = probe["x"], probe["y"]
             axh = probe.get("ax", self.ax1)
 
-            store["v"] = self.ax1.axvline(x, linestyle="--", alpha=0.7, linewidth=1.0)
+            store["v"] = axh.axvline(x, linestyle="--", alpha=0.7, linewidth=1.0)
             store["h"] = axh.axhline(y, linestyle="--", alpha=0.7, linewidth=1.0)
 
         draw_for(self.probeA, self.crossA)
@@ -1223,6 +1632,109 @@ class MainWindow(QMainWindow):
         self.canvas.draw_idle()
 
 
+    def _subplot_shape(self):
+        return {
+            "1x1": (1, 1), "1x2": (1, 2),
+            "2x1": (2, 1), "2x2": (2, 2),
+        }.get(self.cmb_subplot_layout.currentText(), (1, 1))
+
+    def _on_manual_panels_toggled(self, *_):
+        if self.chk_manual_panels.isChecked() and not any(self._manual_panel_assignments.values()):
+            return
+        self._replot_if_data_loaded()
+
+    def edit_panel_assignments(self):
+        """Permite repetir libremente una señal en uno o más paneles."""
+        if not self.datasets:
+            QMessageBox.warning(self, "Sin datos", "Primero tenés que cargar algún archivo.")
+            return
+
+        rows, cols = self._subplot_shape()
+        panel_count = rows * cols
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Seleccionar curvas por panel")
+        dialog.resize(520, 480)
+        layout = QVBoxLayout(dialog)
+        tabs = QTabWidget(dialog)
+        panel_lists = []
+
+        for panel_index in range(panel_count):
+            signal_list = QListWidget()
+            assigned = self._manual_panel_assignments.get(panel_index, set())
+            for ds_idx, ds in enumerate(self.datasets):
+                colnames = ds.get("colnames") or ()
+                for col_idx, name in enumerate(colnames[1:], start=1):
+                    key = (ds_idx, col_idx)
+                    display_name = self._signal_names.get(key, name)
+                    item = QListWidgetItem(f"[{ds.get('name', 'archivo')}] {display_name}")
+                    item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                    item.setData(Qt.ItemDataRole.UserRole, key)
+                    item.setCheckState(
+                        Qt.CheckState.Checked if key in assigned else Qt.CheckState.Unchecked
+                    )
+                    signal_list.addItem(item)
+            panel_lists.append(signal_list)
+            tabs.addTab(signal_list, f"Panel {panel_index + 1}")
+
+        layout.addWidget(tabs)
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
+        buttons.accepted.connect(dialog.accept)
+        buttons.rejected.connect(dialog.reject)
+        layout.addWidget(buttons)
+
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return
+
+        assignments = {}
+        for panel_index, signal_list in enumerate(panel_lists):
+            selected = set()
+            for item_index in range(signal_list.count()):
+                item = signal_list.item(item_index)
+                if item.checkState() == Qt.CheckState.Checked:
+                    selected.add(tuple(item.data(Qt.ItemDataRole.UserRole)))
+            assignments[panel_index] = selected
+
+        self._manual_panel_assignments = assignments
+        self.chk_manual_panels.blockSignals(True)
+        self.chk_manual_panels.setChecked(True)
+        self.chk_manual_panels.blockSignals(False)
+        self.plot()
+
+    def _panel_plot_requests(self, selected):
+        """Retorna pares (panel, señal), admitiendo la misma señal más de una vez."""
+        rows, cols = self._subplot_shape()
+        panel_count = rows * cols
+        if self.chk_manual_panels.isChecked():
+            requests = []
+            for panel_index in range(panel_count):
+                for ds_idx, col_idx in sorted(self._manual_panel_assignments.get(panel_index, set())):
+                    ds = self.datasets[ds_idx]
+                    colnames = ds.get("colnames") or ()
+                    name = colnames[col_idx] if col_idx < len(colnames) else f"Columna {col_idx}"
+                    requests.append((panel_index, ("DSCOL", ds_idx, col_idx, name)))
+            return requests
+        return [
+            (index % panel_count, payload)
+            for index, payload in enumerate(selected)
+            if payload and payload[0] == "DSCOL"
+        ]
+
+    def _dataset_column_values(self, ds_idx, col_idx):
+        ds = self.datasets[ds_idx]
+        if ds.get("steps"):
+            values = [
+                step["data"][:, col_idx]
+                for step in ds["steps"]
+                if col_idx < step["data"].shape[1]
+            ]
+            return np.concatenate(values) if values else None
+        data = ds.get("data")
+        if data is not None and col_idx < data.shape[1]:
+            return data[:, col_idx]
+        return None
+
     def plot(self):
         if self.data1 is None and not self.steps:
             QMessageBox.warning(self, "Falta", "Cargá un archivo")
@@ -1232,6 +1744,8 @@ class MainWindow(QMainWindow):
         mode = self.cmb_mode.currentIndex()
         if mode == 1:
             self._commit_signal_names_from_list()
+        selected = self._selected_columns() if mode == 1 else []
+        panel_requests = self._panel_plot_requests(selected) if mode == 1 else []
 
         use_theme_style(THEMES[self.cmb_theme.currentText()])
         self._configure_text_rendering()
@@ -1277,34 +1791,73 @@ class MainWindow(QMainWindow):
                         ys1.append(ds["data"][:, col_idx])
                 y1src = np.concatenate(ys1) if ys1 else None
 
+        y2_key = self.cmb_y2_signal.currentData() if self.chk_y2.isChecked() else None
+        y2_key = tuple(y2_key) if y2_key is not None else None
+        y2src = self._dataset_column_values(*y2_key) if y2_key is not None else None
+
+        # En modo N se escala según las señales realmente asignadas a paneles.
+        # Las repeticiones no afectan el resultado y Y2 se calcula por separado.
+        if mode == 1:
+            y1_values = []
+            seen_y1 = set()
+            for _, (kind, ds_idx, col_idx, _) in panel_requests:
+                if kind == "DSCOL" and (ds_idx, col_idx) != y2_key:
+                    if (ds_idx, col_idx) in seen_y1:
+                        continue
+                    seen_y1.add((ds_idx, col_idx))
+                    values = self._dataset_column_values(ds_idx, col_idx)
+                    if values is not None:
+                        y1_values.append(values)
+            y1src = np.concatenate(y1_values) if y1_values else None
+
         y1sc = self._scale(self.cmb_y1, y1src, self.lbl_y1_factor) if y1src is not None else 1.0
+        y2sc = self._scale(self.cmb_y2, y2src, self.lbl_y2_factor) if y2src is not None else 1.0
 
         # Guardar estilos actuales antes de borrar el figure (para no perder cambios)
         self._persist_line_name_overrides()
         self._capture_line_styles()
+        if self._theme_change_pending:
+            self._style_cache = {}
+            self._theme_change_pending = False
 
         self.canvas.fig.clear()
-        ax1 = self.canvas.fig.add_subplot(111)
+        rows, cols = self._subplot_shape()
+        axes_grid = self.canvas.fig.subplots(rows, cols, squeeze=False)
+        self.axes = list(axes_grid.flat)
+        ax1 = self.axes[0]
         self.ax1 = ax1
         self.ax2 = None
+        self.secondary_axes = {}
+        if y2_key is not None:
+            self.ax2 = ax1.twinx()
+            self.ax2.set_ylabel(self.y2lab.text())
+            self.secondary_axes[ax1] = self.ax2
+        self.legends = []
 
-        ax1.set_title(self.tit.text())
-        ax1.set_xlabel(self.xlab.text())
+        panel_titles = [title.strip() for title in self.ed_subplot_titles.text().split(";")]
+        if len(self.axes) == 1:
+            ax1.set_title(self.tit.text())
+        else:
+            self.canvas.fig.suptitle(self.tit.text())
+        for index, ax in enumerate(self.axes):
+            if len(self.axes) > 1 and index < len(panel_titles) and panel_titles[index]:
+                ax.set_title(panel_titles[index])
+            ax.set_xlabel(self.xlab.text())
 
         # IMPORTANTE: el usuario pidió sin notación/escala en el label => SOLO el texto del usuario
-        ax1.set_ylabel(self.y1lab.text())
+        for ax in self.axes:
+            ax.set_ylabel(self.y1lab.text())
 
         self.lines = []
         self._line_keys = []
 
         if mode == 1:
-            selected = self._selected_columns()
-            if not selected:
+            if not panel_requests:
                 QMessageBox.warning(self, "Falta", "Seleccioná al menos una señal en modo N.")
                 return
 
             total = 0
-            for kind, ds_idx, col_idx, _ in selected:
+            for _, (kind, ds_idx, col_idx, _) in panel_requests:
                 if kind != "DSCOL":
                     continue
                 ds = self.datasets[ds_idx]
@@ -1318,9 +1871,12 @@ class MainWindow(QMainWindow):
 
             colors = self._distinct_colors(total)
             color_idx = 0
-            for kind, ds_idx, col_idx, name in selected:
+            for panel_index, (kind, ds_idx, col_idx, name) in panel_requests:
                 if kind != "DSCOL":
                     continue
+                if y2_key is not None and (ds_idx, col_idx) == y2_key:
+                    continue
+                target_ax = self.axes[panel_index]
                 ds = self.datasets[ds_idx]
                 base_name = self._signal_names.get((ds_idx, col_idx), name)
                 file_name = ds.get("name", f"archivo_{ds_idx+1}")
@@ -1334,9 +1890,11 @@ class MainWindow(QMainWindow):
                         y = arr[:, col_idx]
                         step_label = st.get("label", "Step")
                         key = ("DSCOL_STEP", ds_idx, col_idx, step_label)
+                        if self.chk_manual_panels.isChecked():
+                            key = ("PANEL", panel_index) + key
                         default_label = f"[{file_name}] {base_name} | {step_label}"
                         label = self._label_for_key(key, default_label)
-                        p = ax1.plot(x * xsc, y * y1sc, label=label)
+                        p = target_ax.plot(x * xsc, y * y1sc, label=label)
                         if colors:
                             p[0].set_color(colors[color_idx])
                         color_idx += 1
@@ -1347,9 +1905,11 @@ class MainWindow(QMainWindow):
                     x = arr[:, 0]
                     y = arr[:, col_idx]
                     key = ("DSCOL", ds_idx, col_idx)
+                    if self.chk_manual_panels.isChecked():
+                        key = ("PANEL", panel_index) + key
                     default_label = f"[{file_name}] {base_name}"
                     label = self._label_for_key(key, default_label)
-                    p = ax1.plot(x * xsc, y * y1sc, label=label)
+                    p = target_ax.plot(x * xsc, y * y1sc, label=label)
                     if colors:
                         p[0].set_color(colors[color_idx])
                     color_idx += 1
@@ -1373,9 +1933,63 @@ class MainWindow(QMainWindow):
                 p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
                 self.lines = [p1[0]]
                 self._line_keys = [("SINGLE", self.cmb_file1.currentIndex() + 1)]
+
+        # La señal Y2 se superpone en el primer panel usando un eje derecho.
+        if y2_key is not None and self.ax2 is not None:
+            ds_idx, col_idx = y2_key
+            ds = self.datasets[ds_idx]
+            colnames = ds.get("colnames") or ()
+            raw_name = colnames[col_idx] if col_idx < len(colnames) else f"Columna {col_idx}"
+            base_name = self._signal_names.get((ds_idx, col_idx), raw_name)
+            file_name = ds.get("name", f"archivo_{ds_idx+1}")
+            if ds.get("steps"):
+                for step in ds["steps"]:
+                    arr = step["data"]
+                    if col_idx >= arr.shape[1]:
+                        continue
+                    step_label = step.get("label", "Step")
+                    key = ("Y2_STEP", ds_idx, col_idx, step_label)
+                    default_label = f"[Y2] [{file_name}] {base_name} | {step_label}"
+                    line = self.ax2.plot(
+                        arr[:, 0] * xsc, arr[:, col_idx] * y2sc,
+                        label=self._label_for_key(key, default_label),
+                    )[0]
+                    self.lines.append(line)
+                    self._line_keys.append(key)
+            else:
+                arr = ds.get("data")
+                if arr is not None and col_idx < arr.shape[1]:
+                    key = ("Y2", ds_idx, col_idx)
+                    default_label = f"[Y2] [{file_name}] {base_name}"
+                    line = self.ax2.plot(
+                        arr[:, 0] * xsc, arr[:, col_idx] * y2sc,
+                        label=self._label_for_key(key, default_label),
+                    )[0]
+                    self.lines.append(line)
+                    self._line_keys.append(key)
+        # Un único ciclo de color para todos los ejes evita que twinx() vuelva
+        # a empezar por el primer color del tema.
+        color_identities = []
+        for index, line in enumerate(self.lines):
+            key = self._line_keys[index] if index < len(self._line_keys) else ("LINE", index)
+            # Copias de la misma señal en distintos paneles conservan el mismo color.
+            identity = key[2:] if key and key[0] == "PANEL" else key
+            color_identities.append(identity)
+        unique_identities = list(dict.fromkeys(color_identities))
+        identity_colors = dict(zip(unique_identities, self._distinct_colors(len(unique_identities))))
+        for line, identity in zip(self.lines, color_identities):
+            color = identity_colors.get(identity)
+            if color is None:
+                continue
+            line.set_color(color)
+            self._sync_marker_color_to_line(line)
+
         self._apply_line_styles(allow_color=(mode == 0))
         self._apply_line_transforms()
-        self._disable_axis_factor_text(ax1)
+        for ax in self.axes:
+            self._disable_axis_factor_text(ax)
+        if self.ax2 is not None:
+            self._disable_axis_factor_text(self.ax2)
         # Leyenda siempre sincronizada con estilos reales + clickeable
         self.refresh_legend()
         self._refresh_operation_curve_combos()
@@ -1384,13 +1998,19 @@ class MainWindow(QMainWindow):
         # Crosshairs persistentes (si había probes)
         self._update_crosshairs()
 
-        apply_layout(self.canvas.fig, self.cmb_legend.currentText())
+        if len(self.axes) == 1:
+            apply_layout(self.canvas.fig, self.cmb_legend.currentText())
+        else:
+            self.canvas.fig.tight_layout(rect=(0, 0, 1, 0.96))
         self.canvas.draw()
 
     # -------------------------
     # Probe UI
     # -------------------------
     def on_move(self, event):
+        if not self.chk_cursors.isChecked():
+            self.fbox.hide()
+            return
         if event.inaxes is None or event.xdata is None:
             self.fbox.hide()
             return
@@ -1419,6 +2039,8 @@ class MainWindow(QMainWindow):
         self.fbox.show()
 
     def on_click(self, event):
+        if not self.chk_cursors.isChecked():
+            return
         if event.button != 1 or event.inaxes is None or event.xdata is None:
             return
 
@@ -1464,6 +2086,38 @@ class MainWindow(QMainWindow):
         if not p.lower().endswith(".png"):
             p += ".png"
         self.canvas.fig.savefig(p, dpi=200, bbox_inches="tight")
+
+    def save_editable(self):
+        if not self.canvas.fig.axes:
+            QMessageBox.warning(
+                self,
+                "Sin figura",
+                "Primero tenés que generar una figura."
+            )
+            return
+
+        p, _ = QFileDialog.getSaveFileName(
+            self,
+            "Guardar figura editable",
+            "ltspice_plot.mplfig",
+            "Figura Matplotlib (*.mplfig)"
+        )
+
+        if not p:
+            return
+
+        if not p.lower().endswith(".mplfig"):
+            p += ".mplfig"
+
+        with open(p, "wb") as archivo:
+            pickle.dump(self.canvas.fig, archivo)
+
+        QMessageBox.information(
+            self,
+            "Figura guardada",
+            "La figura editable se guardó correctamente."
+        )
+
 
     def save_svg(self):
         p, _ = QFileDialog.getSaveFileName(self, "Guardar", "ltspice_plot.svg", "SVG (*.svg)")
@@ -1603,6 +2257,13 @@ class MainWindow(QMainWindow):
             if has_data:
                 self._refresh_signal_list()
 
+    def _sync_y2_ui(self, *_):
+        enabled = self.chk_y2.isChecked()
+        self.cmb_y2_signal.setEnabled(enabled)
+        self.cmb_y2.setEnabled(enabled)
+        self.y2lab.setEnabled(enabled)
+        self.lbl_y2_factor.setEnabled(enabled)
+
     # -------------------------
     # Help
     # -------------------------
@@ -1633,12 +2294,26 @@ En modo N, cada señal seleccionada se grafica para todos los steps<br><br>
 1 curva → una sola señal<br>
 N curvas mismo eje → múltiples señales de uno o más archivos<br><br>
 
+<b>Subfiguras</b><br>
+Elegí 1x1, 1x2, 2x1 o 2x2.<br>
+En modo N las señales se distribuyen sucesivamente entre los paneles.<br>
+Los títulos de panel se separan con punto y coma.<br><br>
+Para decidir manualmente qué aparece en cada panel, usá
+"Seleccionar curvas por panel". La misma señal puede marcarse en varios paneles.<br>
+Desactivá "Asignación manual de paneles" para volver a la distribución automática.<br><br>
+
+<b>Dos ejes Y</b><br>
+Activá "Usar eje Y derecho" y elegí la señal Y2.<br>
+Y1 e Y2 tienen escala y etiqueta independientes.<br>
+Con subfiguras, el eje Y2 se superpone en el primer panel.<br><br>
+
 <b>Escalas</b><br>
 “Escala X” y “Escala Y1” son multiplicadores de datos.<br>
 Las unidades se escriben manualmente en “X label” e “Y1 label”.<br>
 El <i>factor aplicado</i> no modifica el texto del label.<br><br>
 
 <b>Cursores A/B</b><br>
+El control "Habilitar cursores A/B" permite activarlos o desactivarlos.<br>
 Click = fija A<br>
 Shift + Click = fija B<br>
 Muestra ΔX y ΔY automáticamente<br><br>
@@ -1647,6 +2322,7 @@ Muestra ΔX y ΔY automáticamente<br><br>
 Doble click sobre una curva<br><br>
 
 <b>Leyenda interactiva</b><br>
+"Ubicar leyenda automáticamente" busca la zona con menor superposición.<br>
 Click en la leyenda para ocultar/mostrar curvas<br>
 Se puede arrastrar<br><br>
 

@@ -1,0 +1,8 @@
+Simulo el archivo version2.6.asc  (matriz 2x2)
+
+Se realiza las simulaciones con mosfet con drain a tierra y con source a tierra.
+
+Se muestra que funciona la opción source a tierra.
+ Usar los archivos 1MAS-2MENOS_tensión_de_salida de ambas configuraciones para demostrar esto.
+
+Y luego sumar el archivo de corriente en la celda  (source a tierra) para mostrar que efectivamente se apaga la celda, mostrar en config bancos sincronizados y desincronizados

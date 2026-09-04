@@ -1,0 +1,9 @@
+Simulo el archivo version2.0-sweep_de_resistecia.asc  (matriz 2x2)
+
+Realizo un .STEP PARAM R LIST 1k 100k 500k  con R como resistencia de base.
+
+Mido tension en la salida
+Corriente en la celda
+Corriente en la resistencia de tierra
+
+Para los bancos sincronizados y desincronizados
