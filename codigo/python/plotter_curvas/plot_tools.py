@@ -71,7 +71,14 @@ def use_theme_style(theme: Theme):
     plt.style.use(theme.plt_style)
 
 def theme_curve_colors(theme: Theme, count: int) -> list[str]:
+    """Devuelve el ciclo de colores real definido por el estilo seleccionado."""
+    if count <= 0:
         return []
+    with plt.style.context(theme.plt_style):
+        colors = plt.rcParams["axes.prop_cycle"].by_key().get("color", [])
+    if not colors:
+        return []
+    return [colors[index % len(colors)] for index in range(count)]
 
 
 def apply_layout(fig, legend_mode: str):

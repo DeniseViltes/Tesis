@@ -1,0 +1,108 @@
+{
+  "format": "ltspice-plotter-project",
+  "version": 1,
+  "datasets": [
+    "Diseño del circuito\\resultado de primera simulacion funcional\\version1.0.txt"
+  ],
+  "controls": {
+    "theme": "pitayasmoothie-light",
+    "mode": 0,
+    "subplot_layout": "1x1",
+    "subplot_titles": "",
+    "x_scale": "x1e3",
+    "y_scale_index": 2,
+    "use_y2": true,
+    "y2_signal": [
+      0,
+      2
+    ],
+    "y2_scale_index": 0,
+    "y2_label": "Corriente [ms]",
+    "legend": "Auto (best)",
+    "cursors_enabled": false,
+    "use_tex": true,
+    "title": "",
+    "x_label": "Tiempo [ms]",
+    "y_label": "Tensión [V]",
+    "single_curve_column": 0,
+    "single_curve_name": "$V_{out}$",
+    "operation": "Suma (+)",
+    "only_operation_result": false
+  },
+  "selected_signals": [
+    {
+      "dataset": 0,
+      "column": 1
+    }
+  ],
+  "signal_names": [
+    {
+      "dataset": 0,
+      "column": 1,
+      "name": "V(n001)"
+    },
+    {
+      "dataset": 0,
+      "column": 2,
+      "name": "I(Cij)"
+    }
+  ],
+  "curve_style": {
+    "color": null,
+    "linewidth": 2.5,
+    "linestyle": "-",
+    "marker": null,
+    "alpha": 1.0,
+    "visible": true
+  },
+  "curve_color_custom": false,
+  "style_cache": {
+    "$V_{out}$": {
+      "color": "#7A76C2",
+      "linestyle": "-",
+      "linewidth": 2.5,
+      "marker": "None",
+      "markersize": 6.0,
+      "markerfacecolor": "#7A76C2",
+      "markeredgecolor": "#7A76C2",
+      "alpha": 1.0,
+      "visible": true
+    },
+    "$I_{Cij}$": {
+      "color": "#ff6e9c98",
+      "linestyle": "-",
+      "linewidth": 2.5,
+      "marker": "None",
+      "markersize": 6.0,
+      "markerfacecolor": "#ff6e9c98",
+      "markeredgecolor": "#ff6e9c98",
+      "alpha": 1.0,
+      "visible": true
+    }
+  },
+  "line_names": [
+    {
+      "key": [
+        "SINGLE",
+        1
+      ],
+      "name": "$V_{out}$"
+    },
+    {
+      "key": [
+        "Y2",
+        0,
+        2
+      ],
+      "name": "$I_{Cij}$"
+    },
+    {
+      "key": [
+        "SINGLE",
+        2
+      ],
+      "name": "V_{out}"
+    }
+  ],
+  "line_transforms": []
+}

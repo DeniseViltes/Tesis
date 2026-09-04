@@ -1,0 +1,5 @@
+Simulo el archivo version2.6.asc  (matriz 2x2)
+
+Se utilizan dos bancos desincronizados. En este caso use una RL de 100ohms para encontrar un capacitor más chico. 
+
+Se hace la simulación sin capacitor y luego con un capacitor de 10u. En ambas se mide la tensión de salida

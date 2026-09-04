@@ -1,0 +1,106 @@
+{
+  "format": "ltspice-plotter-project",
+  "version": 1,
+  "datasets": [
+    "salida_sin_cap.txt",
+    "salida_con_cap.txt"
+  ],
+  "controls": {
+    "theme": "pitayasmoothie-light",
+    "mode": 1,
+    "subplot_layout": "1x1",
+    "subplot_titles": "",
+    "manual_panels": false,
+    "x_scale": "x1e3",
+    "y_scale_index": 1,
+    "use_y2": false,
+    "y2_signal": null,
+    "y2_scale_index": 0,
+    "y2_label": "Y2",
+    "legend": "Auto (best)",
+    "cursors_enabled": true,
+    "use_tex": false,
+    "title": "",
+    "x_label": "Tiempo [ms]",
+    "y_label": "Tensión [V]",
+    "single_curve_column": 0,
+    "single_curve_name": "$V_{out}$ sin capacitor en la salida",
+    "operation": "Suma (+)",
+    "only_operation_result": false
+  },
+  "selected_signals": [
+    {
+      "dataset": 0,
+      "column": 1
+    },
+    {
+      "dataset": 1,
+      "column": 1
+    }
+  ],
+  "panel_assignments": [],
+  "signal_names": [
+    {
+      "dataset": 1,
+      "column": 1,
+      "name": "V(out_pos,out_neg)"
+    },
+    {
+      "dataset": 0,
+      "column": 1,
+      "name": "V(out_pos,out_neg)"
+    }
+  ],
+  "curve_style": {
+    "color": null,
+    "linewidth": 2.5,
+    "linestyle": "-",
+    "marker": null,
+    "alpha": 1.0,
+    "visible": true
+  },
+  "curve_color_custom": false,
+  "style_cache": {
+    "('DSCOL', 0, 1)": {
+      "color": "#7A76C2",
+      "linestyle": "-",
+      "linewidth": 2.5,
+      "marker": "None",
+      "markersize": 6.0,
+      "markerfacecolor": "#7A76C2",
+      "markeredgecolor": "#7A76C2",
+      "alpha": 1.0,
+      "visible": true
+    },
+    "('DSCOL', 1, 1)": {
+      "color": "#ff6e9c98",
+      "linestyle": "-",
+      "linewidth": 2.5,
+      "marker": "None",
+      "markersize": 6.0,
+      "markerfacecolor": "#ff6e9c98",
+      "markeredgecolor": "#ff6e9c98",
+      "alpha": 1.0,
+      "visible": true
+    }
+  },
+  "line_names": [
+    {
+      "key": [
+        "DSCOL",
+        0,
+        1
+      ],
+      "name": "$V_{out}$ sin capacitor en la salida"
+    },
+    {
+      "key": [
+        "DSCOL",
+        1,
+        1
+      ],
+      "name": "$V_{out}$ con capacitor en la salida"
+    }
+  ],
+  "line_transforms": []
+}

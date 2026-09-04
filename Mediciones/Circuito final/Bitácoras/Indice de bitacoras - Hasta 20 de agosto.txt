@@ -1,0 +1,417 @@
+ÍNDICE DE BITÁCORAS - CIRCUITO FINAL
+Año: 2026
+Formato de archivos: Bitácora mm - dd
+Formato de lectura: dd/mm/2026
+
+
+========================
+ÍNDICE CRONOLÓGICO
+========================
+
+29/04/2026 - Bitácora 04 - 29.txt
+Tema principal:
+Prueba del P-MOSFET IRLML6402 y comparación con AO3401.
+
+Resumen:
+Se probó el supuesto IRLML6402, pero seguía generando cortocircuitos. Al reemplazarlo por el AO3401, el circuito funcionó correctamente. Por eso se validó el uso del AO3401 y se repitieron las simulaciones en LTspice con ese MOSFET. También se observó que térmicamente convenía usar dos transistores en paralelo.
+
+Buscar detalle sobre:
+IRLML6402, AO3401, P-MOSFET, cortocircuitos, mini PCB, simulaciones LTspice, disipación térmica.
+
+
+11/05/2026 - Bitácora 05 - 11.txt
+Tema principal:
+Prueba del P-MOSFET correcto con y sin JFET. Análisis de cantidad posible de bancos y resistencias R2/R3.
+
+Resumen:
+Se probó el circuito del PMOS con JFET y sin JFET. Con JFET, el gate del PMOS se descargaba mucho más rápido y el VGS quedaba cerca de 0 V al apagar, por lo que se concluyó que el JFET conviene. También se analizó cuántos bancos podían conectarse usando los pines ADC disponibles de la STM32. Además, se revisaron los valores de R2 y R3 de las celdas.
+
+Buscar detalle sobre:
+JFET, apagado del PMOS, VGS, bancos máximos, pines ADC STM32, R2/R3, corriente de polarización.
+
+
+14/05/2026 - Bitácora 05 - 14.txt
+Tema principal:
+Primera prueba de la celda v2.1.
+
+Resumen:
+Se soldó y probó primero la etapa de control de la celda v2.1. Las mediciones iniciales dieron bien, pero se observó que la base del PNP en apagado quedaba en 2.73 V en lugar de 3.27 V. Se encontró que la causa eran los resistores R2 y R3 de 10 MΩ y 1 MΩ, que generaban una caída de tensión importante. Se cambiaron a valores de prototipo de 10 kΩ y 1 kΩ. Luego se soldó el resto del módulo, incluyendo los N-MOSFET, y el funcionamiento se verificó correctamente.
+
+Pendientes anotados:
+- Revisar valores de R2 y R3.
+- Reemplazar el resistor de 0 Ω por el fusible de 3 A.
+- Ver por qué el LED enciende muy despacio.
+
+Buscar detalle sobre:
+Celda v2.1, etapa de control, base PNP, R2/R3, LED lento, fusible 3 A, carpeta Celda 2.1.
+
+
+15/05/2026 - Bitácora 05 - 15.txt
+Tema principal:
+Problema con las huellas de los integrados en la PCB del banco.
+
+Resumen:
+Se detectó que la huella de los integrados en la placa del banco era más grande de lo que debería. Se intentó soldar el shift-register, pero no se logró correctamente. Se decidió hacer una plaquita adaptadora para la próxima prueba. También se confirmó la lista de materiales y los lugares de compra.
+
+Buscar detalle sobre:
+Huella incorrecta, shift-register, plaquita adaptadora, lista de materiales, proveedores.
+
+
+20/05/2026 - Bitácora 05 - 20.txt
+Tema principal:
+Pruebas del shift-register con plaquita adaptadora.
+
+Resumen:
+Se probaron plaquitas adaptadoras para el shift-register y el MUX analógico. Con el shift-register se midió en osciloscopio la instrucción 10010001 y los resultados fueron los esperados. Se midió una duración aproximada de 6 ms por bit y 48 ms por byte. Luego apareció un problema: una salida encendida del SR daba aproximadamente 4 V en lugar de 5 V. Al alimentarlo con fuente externa, la fuente entraba en corto, por lo que se sospechó que el SR podía estar quemado.
+
+Buscar detalle sobre:
+74HC595, shift-register, data, clock, latch, instrucción 10010001, tiempos de bit y byte, salida de 4 V, posible SR quemado.
+
+
+22/05/2026 - Bitácora 05 - 22.txt
+Tema principal:
+Prueba del driver de la celda 2 y testeo del shift-register.
+
+Resumen:
+Se probó el driver de la celda 2 en ON. También se armó una nueva plaquita adaptadora SOIC16-DIP16 para probar el shift-register. El primer integrado no funcionó, pero al cambiarlo por uno nuevo, la salida apareció correctamente. Luego se soldó y testeó la celda 2 completa. En ON entregó aproximadamente 3.20 V y 65 mA con carga de 47 Ω. En OFF quedó en 0 V y 0 mA.
+
+Buscar detalle sobre:
+Celda 2, driver, test-points, gate, base, inversor, shift-register fallado, orden de bits HGFE DCBA.
+
+
+03/06/2026 - Bitácora 06 - 03.txt
+Tema principal:
+Prueba de resistencias serie en la salida del shift-register.
+
+Resumen:
+Se probaron distintas resistencias a la salida del shift-register para medir el pico de corriente demandado por el circuito de las celdas, principalmente por el inversor CMOS. Se probaron resistencias de aproximadamente 560 Ω, 330 Ω, 220 Ω y 47 Ω. Con 47 Ω la corriente superaba los 5 mA. Se concluyó que, a partir de 100 Ω, el valor sería seguro para proteger el integrado.
+
+Buscar detalle sobre:
+Corriente de salida del shift-register, resistencias serie, inversor CMOS, picos de corriente, límite de 5 mA.
+
+
+05/06/2026 - Bitácora 06 - 05.txt
+Tema principal:
+Soldadura y prueba del switch de banco en PCB de banco 2.1.
+
+Resumen:
+Se soldó la parte del switch del banco y los pines de la placa 2.1 del PCB del banco. La primera prueba falló: con el banco apagado se observó una corriente de 120 mA y una salida de unos 5.8 V; al intentar apagar la celda en serie al banco hubo cortocircuito. Luego se probó usando una celda virtual con fuente externa y se verificó que el P-MOSFET del banco funcionaba correctamente. Se concluyó que la diferencia de tensión respecto a la ideal probablemente se debía al cableado primitivo y a los cables Dupont.
+
+Buscar detalle sobre:
+PCB banco 2.1, switch de banco, P-MOSFET, celda virtual, cableado Dupont, LED del banco, SR.
+
+
+08/06/2026 - Bitácora 06 - 08.txt
+Tema principal:
+Revisión posterior al posible humo del 05/06. Prueba del SR, banco y MUX.
+
+Resumen:
+Se revisó el funcionamiento de lo armado previamente por la posibilidad de que algo se hubiera quemado. Las dos celdas completas funcionaban correctamente. Se probó el SR con configuración de banco 1 con una celda y banco, y banco 2 con una celda ideal hecha con fuente externa; funcionó correctamente. Luego se soldó el MUX junto con los divisores resistivos y se comprobó que era posible reconstruir la tensión medida luego del divisor resistivo de escala 1/5.
+
+Buscar detalle sobre:
+Revisión post humo, SR, banco 1, banco 2 virtual, MUX, divisores resistivos, escala 1/5.
+
+
+11/06/2026 - Bitácora 06 - 11.txt
+Tema principal:
+Soldadura de nuevas celdas y problema de falta de tierra.
+
+Resumen:
+Se soldaron nuevas celdas. La etapa de control daba correctamente, pero al soldar el MOSFET aparecieron problemas. En apagado, al medir el test-point de la base del PNP con el tester, la celda comenzaba a conducir y quedaba entregando corriente a la salida. Finalmente se concluyó que el problema era la falta de tierra. Al conectar la celda a una del banco 1 con MOSFET de tierra, funcionó correctamente.
+
+Buscar detalle sobre:
+Nuevas celdas, etapa de control, MOSFET, base PNP, falso encendido, falta de tierra, tierra virtual.
+
+
+17/06/2026 - Bitácora 06 - 17.txt
+Tema principal:
+Corrección de celda defectuosa, pruebas de medición y análisis de cantidad de bancos.
+
+Resumen:
+Se corrigió una celda defectuosa cuyo P-MOSFET del inversor estaba en corto. Luego se hicieron pruebas como banco 1 y banco 2. Se corrigió el cálculo de pines ADC necesarios y se concluyó que podrían conectarse hasta 6 bancos con la configuración disponible, aunque por simplicidad se mantendrían 4 bancos de 3 celdas. También se detectó un problema con los opamps: alimentados con Vcc y GND no sirven si aparecen valores negativos, porque truncan la señal a 0 V.
+
+Buscar detalle sobre:
+Celda defectuosa, P-MOSFET del inversor, 6 bancos, pines ADC, opamps, valores negativos, cell_neg.
+
+
+19/06/2026 - Bitácora 06 - 19.txt
+Tema principal:
+Revisión del código, sincronización del SR y discusión sobre mediciones diferenciales.
+
+Resumen:
+Se revisó el código y se probó nuevamente en la placa del banco, prestando atención a la información enviada como Data y a la sincronización entre data, clock de shift y clock de latch. Funcionó correctamente con celdas reales. También se discutió el destino de las mediciones. Se propuso medir bus_pos - bus_neg con un opamp restador en el circuito central. Además, se investigó el integrado ICL7660 para generar una tensión negativa y poder alimentar opamps con fuente partida.
+
+Buscar detalle sobre:
+Código, data, clock, latch, shift-register, medición diferencial, opamp restador, ICL7660, tierra virtual.
+
+
+22/06/2026 - Bitácora 06 - 22.txt
+Tema principal:
+Simulaciones del sistema y análisis de cell_neg del banco 1.
+
+Resumen:
+Se hicieron simulaciones con barrido de tensiones en funcionamiento normal, entre 2.4 V y 3.7 V. Se descubrió que el sistema referencia todo respecto a cell_neg de las celdas del banco 1. En apagado, cell_neg del banco 1 puede volverse negativo por la corriente que circula a través de los MOS de tierra, asociada a las etapas de control de las celdas de bancos superiores. Se observó que aumentar R2 y R3 reduce la corriente de fuga, aunque puede debilitar la polarización del PNP. También se decidió implementar sumadores no inversores con opamps para medir señales diferenciales y adaptarlas al ADC.
+
+Buscar detalle sobre:
+Simulaciones, barrido 2.4 V a 3.7 V, cell_neg banco 1, corrientes de fuga, R2/R3, opamps, acondicionamiento ADC.
+
+
+24/06/2026 - Bitácora 06 - 24.txt
+Tema principal:
+Medición diferencial con opamp TL084, cambios en R2/R3 y diseño de celda v2.2.
+
+Resumen:
+Se continuó con la medición diferencial de bus_pos - bus_neg. Se simuló con un opamp no ideal y se encontró el TL084 como opción. Inicialmente la salida era demasiado alta, pero se corrigió aumentando los valores de las resistencias del restador de 33 Ω y 39 Ω a 33 kΩ y 39 kΩ. Con eso se obtuvo una salida de 3.13 V para una celda de 3.7 V. Se detectó que el consumo de cuatro opamps, LEDs, ICL7660, SR y MUX podía superar lo que entrega la placa controladora, por lo que se decidió prever fuente externa mediante E5V.
+
+También se midió la corriente por R3. Con R2=100 kΩ y R3=10 kΩ se obtuvo alrededor de 540 µA. Al cambiar a R2=560 kΩ y R3=56 kΩ, se bajó a unos 95 µA. Sin embargo, esa configuración hizo que en apagado apareciera un VGS de 1.8 V en el NMOS, por lo que la celda no apagaba correctamente. Se diseñó la versión v2.2 de la celda, incorporando una resistencia Rbase opcional en la base del PNP y un jumper para puentearla.
+
+Buscar detalle sobre:
+TL084, opamp restador, 33 kΩ y 39 kΩ, consumo de opamps, E5V, R2/R3, VGS en apagado, Rbase, celda v2.2.
+
+
+26/06/2026 - Bitácora 06 - 26.txt
+Tema principal:
+Pruebas de combinaciones de R2/R3 para reducir fuga sin impedir apagado.
+
+Resumen:
+Se continuó con las pruebas iniciadas el 24/06. El objetivo era encontrar valores de R2 y R3 que redujeran la corriente en el MOS de tierra, pero permitieran apagar correctamente el PNP. Se probaron varias combinaciones: 560 kΩ/56 kΩ, 330 kΩ/33 kΩ, 220 kΩ/22 kΩ y 100 kΩ/22 kΩ, sin éxito. También se volvió a 100 kΩ/10 kΩ y siguieron apareciendo problemas. Se probaron varias celdas y en una de ellas se usó una cámara térmica, observando que el N-MOSFET estaba muy caliente.
+
+Buscar detalle sobre:
+R2/R3, fuga, PNP que no apaga, NMOS caliente, cámara térmica, revisión de placas.
+
+
+29/06/2026 - Bitácora 06 - 29.txt
+Tema principal:
+Prueba individual y reparación de las 6 placas de celda.
+
+Resumen:
+Se probaron individualmente las 6 placas de celda, identificándolas con cinta. Cinco funcionaban correctamente y una tenía problemas. En la placa defectuosa se corrigió primero un problema de encendido cambiando el N-MOSFET del inversor. Luego, para el problema de apagado, se comparó nodo a nodo con una placa sana y se terminó reemplazando el NPN Q3 de apagado. Con eso la placa funcionó. Se concluyó que las 6 placas de celda funcionaban. Luego se prepararon pruebas para observar la salida del MUX ante entradas negativas y analizar cómo cell_neg del banco 1 se volvía más negativo al agregar bancos.
+
+Buscar detalle sobre:
+Prueba de 6 celdas, identificación con cinta, N-MOSFET inversor, NPN Q3, reparación de celda, MUX con tensión negativa, cell_neg.
+
+
+02/07/2026 - Bitácora 07 - 02.txt
+Tema principal:
+Diagnóstico del banco y problema de batch fallado de shift-registers.
+
+Resumen:
+Se retomó el problema del banco. En continuidad del tester aparecían valores entre GND y Vcc, pero no al invertir las puntas, por lo que se sospechó de un componente activo. Se removieron integrados y transistores hasta encontrar que el responsable era el SR. Se habían reemplazado SR varias veces sin éxito, por lo que se sospechó de un batch defectuoso. Al probar un SR de otro batch comprado en Microelectrónica, funcionó. Luego se siguieron haciendo pruebas del módulo de banco sin SR ni MUX; apareció un TBJ NPN quemado y luego humo, por lo que se sospechó también del PMOS.
+
+Buscar detalle sobre:
+SR, batch defectuoso, Microelectrónica, cuasi-corto Vcc-GND, banco, TBJ NPN quemado, PMOS sospechoso.
+
+
+07/07/2026 - Bitácora 07 - 07.txt
+Tema principal:
+Reemplazo del PMOS del banco y pruebas de celda v2.2.
+
+Resumen:
+Se reemplazó el PMOS del banco y se verificó que el switch prendía y apagaba correctamente. Se concluyó que el PMOS estaba quemado. Luego se soldaron nuevas placas de celda v2.2. Se probaron configuraciones con R2=10 MΩ, R3=1 MΩ y distintos valores de Rbase. Ninguna solución con esos valores altos funcionó bien. También se descubrió que el supuesto cortocircuito de la celda v2.0 no era realmente un corto, sino que el PNP nunca se apagaba por los valores altos de R2 y R3.
+
+Buscar detalle sobre:
+PMOS banco quemado, celda v2.2, Rbase, R2/R3 altos, PNP que no apaga, celda v2.0.
+
+
+08/07/2026 - Bitácora 07 - 08.txt
+Tema principal:
+Continuación de pruebas de R2/R3/Rbase en celda v2.2.
+
+Resumen:
+Se cambiaron R2 y R3 a 560 kΩ y 56 kΩ, manteniendo Rbase en 100 kΩ. Con esta configuración el PNP finalmente no se encendió, pero el gate quedó siempre en cero. Se decidió probar otra celda con la misma configuración para determinar si el problema era la configuración o una mala soldadura. También se menciona que volvió a la vida el SR. Quedó pendiente testear el NMOS con esa configuración.
+
+Buscar detalle sobre:
+R2=560 kΩ, R3=56 kΩ, Rbase=100 kΩ, gate en cero, SR, NMOS, celda quemada.
+
+
+13/07/2026 - Bitácora 07 - 13.txt
+Tema principal:
+Soldadura de banco v2.2 para URUCON.
+
+Resumen:
+Se obtuvieron las primeras dos placas de banco versión 2.2. Se soldó una de ellas parcialmente, priorizando lo necesario para el congreso URUCON: circuito by-pass y SR. El circuito del PMOS funcionó correctamente, pero el SR volvió a generar dudas. Se lo quitó de la placa y se probó por separado, donde funcionó bien. También se observó que se estaban quemando muchos MOSFETs del inversor de las celdas, probablemente por fluctuaciones de Vcc. Finalmente el circuito funcionó y se dejaron las mediciones para el paper.
+
+Buscar detalle sobre:
+Banco v2.2, URUCON, circuito by-pass, SR, PMOS, MOSFETs del inversor, Vcc, mediciones para paper.
+
+
+14/07/2026 - Bitácora 07 - 14.txt
+Tema principal:
+Mediciones para URUCON.
+
+Resumen:
+Se priorizaron las mediciones para obtener resultados para URUCON. El banco 2 nuevo volvió a fallar y no se logró arreglar en ese momento, por lo que se siguió con las mediciones para el informe. Se definió el banco de medición usando celda 2.1 y celda 1.1.
+
+Buscar detalle sobre:
+Mediciones URUCON, banco 2 fallando, banco de medición, celda 2.1, celda 1.1.
+
+
+17/07/2026 - Bitácora 07 - 17.txt
+Tema principal:
+Corrección de banco, test de SR y mediciones de celda v2.2.
+
+Resumen:
+Se corrigió el banco que no funcionaba. También se probaron todos los SR que estaban en duda: todos funcionaron menos uno. Luego se testeó una celda v2.2 con R2=560 kΩ, R3=56 kΩ y Rbase=100 kΩ. Se midieron nodos en ON y OFF. Quedó pendiente medir cómo afecta esa configuración en la corriente de fuga y en cell_neg. Además, se decidió diseñar el circuito externo base de pruebas para facilitar el conexionado.
+
+Buscar detalle sobre:
+Banco corregido, SR dudosos, celda v2.2, R2/R3/Rbase, corriente de fuga, cell_neg, circuito externo de pruebas.
+
+
+22/07/2026 - Bitácora 07 - 22.txt
+Tema principal:
+Primera prueba con dos circuitos de banco coordinados.
+
+Resumen:
+Se hizo la primera prueba con dos circuitos de banco. Se midieron tres casos de combinación ON/OFF entre banco 1 y banco 2, obteniendo tensiones y corrientes de salida coherentes. El circuito funcionó correctamente con ambos bancos coordinados. Luego se midió el switcheo entre dos bancos, cada uno con una celda, y se observó que durante el cambio la salida caía a 0 V durante aproximadamente 50 ms. Ese tiempo era demasiado largo y correspondía a la señal de apagar todas las celdas antes de encender el switch del banco.
+
+Buscar detalle sobre:
+Dos bancos coordinados, switcheo, salida a 0 V, delay de 50 ms, código, placa central.
+
+
+24/07/2026 - Bitácora 07 - 24.txt
+Tema principal:
+Nueva versión de código sin delays y uso de BSRR.
+
+Resumen:
+Se creó una nueva versión del código del controlador sin delays para eliminar el tiempo muerto de salida durante el switcheo de bancos. Antes se usaba HAL_GPIO_WritePin y luego se pasó a escritura directa mediante BSRR. Con esto, cada pulso de clock pasó de 1 ms a menos de 2 µs. El tiempo muerto bajó mucho: sin capacitor era de unos 920 µs, con 10 µF era de 830 µs y con 470 µF desapareció completamente. También se verificó que data, clk_shift y clk_latch estuvieran coordinadas, y que no aparecieran picos de corriente relevantes. Además, se probó una celda v2.2 con R2=560 kΩ, R3=56 kΩ y Rbase=100 kΩ, observando que cell_neg se redujo a -480 mV.
+
+Buscar detalle sobre:
+Código sin delays, BSRR, HAL_GPIO_WritePin, clock, tiempo muerto, capacitor 10 µF, capacitor 470 µF, picos de corriente, cell_neg.
+
+
+27/07/2026 - Bitácora 07 - 27.txt
+Tema principal:
+Soldadura de plaquita central de prueba y revisión de celdas.
+
+Resumen:
+Se perforó y soldó la plaquita central de prueba que se había planchado previamente. Luego se probaron las celdas actuales. Una celda v2.2 marcada como “Probar NMOS” no se podía apagar y finalmente el NMOS se quemó, con humo y calor. También se encontraron casos de corto entre Vcc y la salida del inversor en algunas celdas, aunque funcionaban correctamente. Se planteó como hipótesis que el PMOS del inversor siempre entrega 5 V y cuando se enciende el NMOS, esos 5 V caen directamente sobre él.
+
+Buscar detalle sobre:
+Plaquita central de prueba, celda v2.2, NMOS quemado, humo, inversor CMOS, Vcc, salida del inversor.
+
+
+29/07/2026 - Bitácora 07 - 29.txt
+Tema principal:
+Prueba de plaquita externa provisoria y medición de tiempos del PNP.
+
+Resumen:
+Se probó la nueva plaquita externa provisoria. Funcionó y simplificó el cableado, aunque no mejoró significativamente la tensión de salida. Con la configuración de dos bancos y una celda por banco, se midió el tiempo de encendido y apagado del PNP. Sin Rbase, el encendido del PNP fue de 210 µs; con Rbase=100 kΩ, fue de 240 µs. Como la diferencia fue pequeña, se concluyó que se podía seguir aumentando Rbase. Luego se probó Rbase=560 kΩ y cell_neg mejoró de -466 mV a -420 mV. También se volvieron a quemar MOSFETs del inversor. Se planteó que durante el switcheo puede haber un instante donde un transistor no terminó de apagarse y el otro ya encendió, generando un camino de baja impedancia entre Vcc y GND.
+
+Buscar detalle sobre:
+Plaquita externa provisoria, tiempos del PNP, Rbase 100 kΩ, Rbase 560 kΩ, cell_neg, MOSFETs quemados, conducción simultánea, limitación de corriente.
+
+
+19/08/2026 - Bitácora 08 - 19.txt
+Tema principal:
+Prueba de las seis plaquitas v2.2 y definición de valores recomendados.
+
+Resumen:
+Se probaron las seis plaquitas v2.2 para verificar que funcionaran bien. Una no tenía N-MOSFET de switch porque se habían acabado. Se usó otra fuente controlada para Vcc, configurada en 5 V y 10 mA, para evitar quemar inversores. Todas las celdas funcionaron bien luego de corregir detalles menores. Se midió la corriente en la malla de R2 y R3 con distintas configuraciones. Se concluyó que la mejor configuración era R2=560 kΩ, R3=56 kΩ y Rbase=560 kΩ, ya que reducía la corriente y no comprometía el apagado del PNP.
+
+Buscar detalle sobre:
+Seis celdas v2.2, fuente Vcc 5 V 10 mA, R2/R3, Rbase, corriente de malla, VBE del PNP, configuración recomendada.
+
+
+20/08/2026 - Bitácora 08 - 20.txt
+Tema principal:
+Prueba de corriente en tierra en el peor caso del sistema.
+
+Resumen:
+Se probó la corriente en la tierra considerando el peor caso posible: banco 1 apagado y bancos 2 a 4 prendidos. Se compararon tres configuraciones: sin Rbase, con Rbase=100 kΩ y con Rbase=560 kΩ. Con Rbase=560 kΩ se obtuvo el mejor resultado: cell_neg del banco 1 llegó a -0.280 V, menor en módulo que en los otros casos. Se concluyó nuevamente que la mejor configuración es R2=560 kΩ, R3=56 kΩ y Rbase=560 kΩ. También se detectó un problema de cuasi-corto asociado al SR y se instalaron capacitores de 100 nF en los integrados del banco.
+
+Buscar detalle sobre:
+Corriente en tierra, peor caso, banco 1 apagado, bancos 2 a 4 prendidos, Rbase 560 kΩ, cell_neg, SR, capacitores de 100 nF.
+
+
+========================
+ÍNDICE POR TEMA
+========================
+
+P-MOSFET / switch de banco:
+Buscar en:
+29/04, 11/05, 05/06, 02/07, 07/07, 13/07.
+
+Incluye:
+Validación del AO3401, pruebas con JFET, funcionamiento del PMOS del banco, diagnóstico de PMOS quemados y banco v2.2.
+
+
+Shift-register 74HC595:
+Buscar en:
+15/05, 20/05, 22/05, 03/06, 08/06, 19/06, 02/07, 13/07, 17/07, 20/08.
+
+Incluye:
+Problemas de huella, plaquitas adaptadoras, SR posiblemente quemados, batch defectuoso, pruebas de data/clock/latch, resistencias serie de protección y capacitores de 100 nF.
+
+
+Celdas v2.1 / v2.2:
+Buscar en:
+14/05, 22/05, 11/06, 17/06, 24/06, 29/06, 07/07, 08/07, 17/07, 19/08.
+
+Incluye:
+Primera celda v2.1, validación de celda 2, problemas de tierra, diseño de celda v2.2, agregado de Rbase, reparación de celdas y prueba de las seis placas.
+
+
+R2, R3 y Rbase:
+Buscar en:
+14/05, 22/06, 24/06, 26/06, 07/07, 08/07, 17/07, 29/07, 19/08, 20/08.
+
+Conclusión importante:
+La configuración recomendada al final es:
+R2 = 560 kΩ
+R3 = 56 kΩ
+Rbase = 560 kΩ
+
+
+Tierra virtual / cell_neg / corrientes de fuga:
+Buscar en:
+11/06, 17/06, 19/06, 22/06, 24/06, 26/06, 29/06, 24/07, 29/07, 19/08, 20/08.
+
+Incluye:
+Falta de referencia de las celdas sin MOS de tierra, cell_neg del banco 1 con valores negativos, corrientes de fuga de los drivers y efecto de R2/R3/Rbase sobre esas fugas.
+
+
+Opamps / medición diferencial / acondicionamiento ADC:
+Buscar en:
+17/06, 19/06, 22/06, 24/06.
+
+Incluye:
+Problema de opamps con alimentación simple, necesidad de fuente partida o desplazamiento de señal, uso de opamp restador, TL084, ICL7660 y adaptación al rango seguro del ADC.
+
+
+Código de switcheo / delays / BSRR:
+Buscar en:
+19/06, 22/07, 24/07.
+
+Incluye:
+Sincronización data/clock/latch, coordinación de bancos, valle de salida de 50 ms, eliminación de delays, uso de BSRR y reducción del tiempo muerto a menos de 1 ms.
+
+
+Placa central / placa externa de pruebas:
+Buscar en:
+17/07, 22/07, 24/07, 27/07, 29/07.
+
+Incluye:
+Diseño del circuito externo base de pruebas, placa central, plaquita provisoria para simplificar cableado y pruebas de conexionado.
+
+
+Inversor CMOS / MOSFETs quemados:
+Buscar en:
+13/07, 24/07, 27/07, 29/07.
+
+Incluye:
+MOSFETs del inversor quemados, sensibilidad a fluctuaciones de Vcc, posible conducción simultánea PMOS/NMOS y recomendación de limitar corriente al testear.
+
+
+========================
+RESUMEN GENERAL
+========================
+
+La primera etapa del trabajo se centró en validar el switch de banco, el P-MOSFET, el shift-register, el MUX y las primeras celdas. Durante esta etapa se descartó el supuesto IRLML6402 y se validó el AO3401. También se verificó que el JFET ayuda al apagado del PMOS y se comenzaron a resolver problemas de soldadura, huellas y componentes defectuosos.
+
+Luego, el problema principal pasó a ser la referencia de tierra. Las celdas sin MOSFET de tierra no funcionaban correctamente si no tenían una referencia adecuada. A partir de las pruebas y simulaciones se descubrió que cell_neg del banco 1 podía volverse negativo por corrientes de fuga asociadas a las etapas de control de bancos superiores.
+
+A partir del 24/06, el trabajo se enfocó en reducir esas fugas y mejorar el apagado de las celdas. Se probaron múltiples combinaciones de R2 y R3, y finalmente se incorporó Rbase en la versión v2.2 de las celdas. Tras varias pruebas, reparaciones y mediciones, la configuración recomendada quedó como R2=560 kΩ, R3=56 kΩ y Rbase=560 kΩ.
+
+En paralelo se trabajó sobre la medición diferencial y el acondicionamiento para el ADC, evaluando el uso de opamps, TL084 e ICL7660. También se avanzó en la placa central y placas externas de prueba para simplificar el conexionado.
+
+Finalmente, a nivel de firmware, se mejoró el switcheo entre bancos. El tiempo muerto de salida era de unos 50 ms, pero al eliminar delays y reemplazar HAL_GPIO_WritePin por escritura directa mediante BSRR, se redujo a menos de 1 ms. Con un capacitor de 470 µF, el valle de salida prácticamente desapareció.
