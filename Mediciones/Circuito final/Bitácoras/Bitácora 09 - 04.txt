@@ -1,0 +1,18 @@
+Se repiten las mediciones del 20/08 pero ahora también tomando los valores de corriente (caída de tensión en R3) para cada banco variando Rbase:
+
+Banco de mediciones: 4 bancos de 1 celda c/u --> Todos los bancos prendidos salvo el primero apagado --> Todas las celdas son fuentes salvo la primera que es celda posta
+El orden de los resistores es R2, R3 y Rbase.
+
+Caso 1: 100k, 10k, 0:
+- cell_neg1 = -0.53V
+- VR3(103) = 0 banco 1
+- VR3(103) = 4.98V banco 2
+- VR3(103) = 7.98V banco 3
+- VR3(103) = 11.00V banco 4
+
+Caso 2: 560k, 56k, 560k:
+- cell_neg1 = -0.445V
+- VR3(103) = 0 banco 1
+- VR3(563) = 0.923V banco 2
+- VR3(563) = 1.440V banco 3
+- VR3(563) = 1.948V banco 4
