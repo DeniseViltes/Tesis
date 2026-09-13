@@ -1,4 +1,5 @@
 import pandas as pd
+from unidades_resultados import unidades_originales
 import matplotlib.pyplot as plt
 from pathlib import Path
 from rich.console import Console
@@ -6,6 +7,13 @@ from rich.prompt import Prompt
 
 console = Console()
 RESULT_DIR = Path("resultados")
+
+
+def _mostrar():
+    # Mostrar las coordenadas originales, sin offset ni factor científico.
+    for ax in plt.gcf().axes:
+        ax.ticklabel_format(axis="both", style="plain", useOffset=False)
+    plt.show()
 
 # ------------------------------------------------------------
 # Cargar CSVs
@@ -18,7 +26,7 @@ def cargar_csvs():
     dfs = []
     for f in csv_files:
         try:
-            df = pd.read_csv(f)
+            df = unidades_originales(pd.read_csv(f))
             df["config"] = f.stem
             dfs.append(df)
         except Exception as e:
@@ -31,10 +39,10 @@ def cargar_csvs():
 def graficar_corriente_tension(df):
     plt.figure(figsize=(10, 4))
     plt.subplot(1, 2, 1)
-    if "I_RL_mA" in df:
-        plt.plot(df["t_s"], df["I_RL_mA"], label="I_RL [mA]")
+    if "I_RL_A" in df:
+        plt.plot(df["t_s"], df["I_RL_A"], label="I_RL [A]")
         plt.xlabel("Tiempo [s]")
-        plt.ylabel("Corriente [mA]")
+        plt.ylabel("Corriente [A]")
         plt.title("Corriente de carga")
         plt.grid(True)
         plt.legend()
@@ -50,20 +58,20 @@ def graficar_corriente_tension(df):
 
     plt.suptitle(f"Configuración: {df['config'].iloc[0]}")
     plt.tight_layout()
-    plt.show()
+    _mostrar()
 
 def graficar_energia(df):
-    if "E_out_mJ" not in df:
+    if "E_out_J" not in df:
         console.print("[yellow]⚠️ Este archivo no contiene datos de energía.[/yellow]")
         return
     plt.figure(figsize=(6, 4))
-    plt.plot(df["t_s"], df["E_out_mJ"], label="Energía [mJ]", color="green")
+    plt.plot(df["t_s"], df["E_out_J"], label="Energía [J]", color="green")
     plt.xlabel("Tiempo [s]")
-    plt.ylabel("Energía [mJ]")
+    plt.ylabel("Energía [J]")
     plt.title(f"Energía acumulada — {df['config'].iloc[0]}")
     plt.grid(True)
     plt.legend()
-    plt.show()
+    _mostrar()
 
 def graficar_corrientes_celdas(df):
     cols = [c for c in df.columns if c.startswith("Icell")]
@@ -94,12 +102,12 @@ def graficar_corrientes_celdas(df):
     for c in elegidas:
         plt.plot(df["t_s"], df[c], label=c)
     plt.xlabel("Tiempo [s]")
-    plt.ylabel("Corriente [mA]")
+    plt.ylabel("Corriente [A]")
     plt.title(f"Corrientes de celdas — {df['config'].iloc[0]}")
     plt.grid(True)
     plt.legend(ncol=3, fontsize=8)
     plt.tight_layout()
-    plt.show()
+    _mostrar()
 
 
 # ------------------------------------------------------------
@@ -108,9 +116,9 @@ def graficar_corrientes_celdas(df):
 def comparar_configuraciones(dfs):
     console.print("\n[cyan]Elegí qué magnitud comparar:[/cyan]")
     opciones = {
-        "1": ("I_RL_mA", "Corriente de carga [mA]"),
+        "1": ("I_RL_A", "Corriente de carga [A]"),
         "2": ("V_out_diff_V", "Tensión diferencial [V]"),
-        "3": ("E_out_mJ", "Energía [mJ]")
+        "3": ("E_out_J", "Energía [J]")
     }
     for k, (_, label) in opciones.items():
         console.print(f" {k}. {label}")
@@ -128,7 +136,7 @@ def comparar_configuraciones(dfs):
     plt.grid(True)
     plt.legend(fontsize=8)
     plt.tight_layout()
-    plt.show()
+    _mostrar()
 
 # ------------------------------------------------------------
 # Menú principal

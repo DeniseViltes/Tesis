@@ -122,30 +122,36 @@ def apply_mapping(
 def build_full_mapping(mapping_1: Dict[str, str]) -> Dict[str, str]:
     """
     A partir del mapeo de RXY_1:
-      - RXY_6 = opuesta de RXY_1
-      - R{r}_9 = opuesta de R{r}{y}_1 (por fila)
+      - RXY_1 controla individualmente el N-MOS de cada celda.
+      - R{r}_9 controla el P-MOS compartido por la fila.
+
+    Prioridad de seguridad para R{r}_9:
+      1) Si alguna celda está en VcON, el banco queda en VcOFF.
+      2) Si no hay VcON pero alguna está en VcMAS, queda en VcMENOS.
+      3) Si hay celdas VcOFF, el banco queda en VcON.
+      4) Si todas están en VcMENOS, el banco queda en VcMAS.
+
+    RXY_6 no se modifica: en version3.3 no es una entrada de control
+    directa y buscarle el FLAG más cercano puede sobrescribir RXY_1.
     """
     mapping_total = mapping_1.copy()
 
-    # Asignar opuestas en RXY_6
-    for k, v in list(mapping_1.items()):
-        opp = OPPOSITE.get(v)
-        if opp:
-            mapping_total[k.replace("_1", "_6")] = opp
-
-    # Asignar opuestas en R{r}_9
     filas: Dict[int, List[str]] = {}
-    for k in mapping_1.keys():
-        m = re.match(r"R(\d+)\d+_1", k)
+    for k, value in mapping_1.items():
+        m = re.match(r"R(\d+)(\d+)_1$", k)
         if m:
             fila = int(m.group(1))
-            filas.setdefault(fila, []).append(k)
+            filas.setdefault(fila, []).append(value)
 
-    for fila, resistencias in filas.items():
-        if resistencias:
-            first = resistencias[0]
-            v = mapping_1[first]
-            opp = OPPOSITE.get(v, ROW9_DEFAULT)
-            mapping_total[f"R{fila}_9"] = opp
+    for fila, estados in filas.items():
+        if "VcON" in estados:
+            banco = "VcOFF"
+        elif "VcMAS" in estados:
+            banco = "VcMENOS"
+        elif "VcOFF" in estados:
+            banco = "VcON"
+        else:
+            banco = "VcMAS"
+        mapping_total[f"R{fila}_9"] = banco
 
     return mapping_total

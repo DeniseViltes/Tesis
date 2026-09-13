@@ -719,7 +719,7 @@
       {
         "filename": "prototipo.kicad_sch",
         "name": "prototipo",
-        "uuid": "00000000-0000-0000-0000-000000000000"
+        "uuid": "c9225433-a7fd-41e8-8162-e91e829dcb79"
       }
     ],
     "used_designators": "",
@@ -728,7 +728,7 @@
   "sheets": [
     [
       "c9225433-a7fd-41e8-8162-e91e829dcb79",
-      "Root"
+      "prototipo"
     ],
     [
       "6883bdf6-06e3-408b-a2b6-79a0e0cc9199",

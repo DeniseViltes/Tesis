@@ -1,0 +1,35 @@
+* ------------------------------------------------------------
+* Modelo equivalente LTspice para FDMS6681Z (No oficial)
+* Version 1.0 — Ajustado a Rds, Qgs, Ciss, Vth del datasheet
+* ------------------------------------------------------------
+
+.SUBCKT FDMS6681Z D G S
+
+* MOSFET principal (nivel 3 simplificado)
+M1 D G S S PMOS_EQ W=100u L=100n
+
+* Resistencias parásitas (extraídas a partir del datasheet)
+Rd D Dx 2.0m
+Rs S Sx 2.0m
+Rg G Gx 1.0
+
+* Capacitancias aproximadas
+Cgs G S 1500p
+Cgd G D 150p
+Cds D S 300p
+
+* Diodo cuerpo
+Db D S Dbody
+
+.MODEL Dbody D(IS=5e-9 RS=0.005 N=1 CJO=1e-9 M=0.5 TT=50n)
+
+* MOSFET simplificado para Vth ≈ -2.2 V
+.MODEL PMOS_EQ PMOS
++ LEVEL=3 VTO=-2.2
++ KP=20
++ LAMBDA=0.03
++ RS=0.001 RD=0.001
++ CGSO=5e-10 CGDO=3e-10
++ PB=1.0 CBD=1e-10 CBS=1e-10
+
+.ENDS FDMS6681Z_EQ

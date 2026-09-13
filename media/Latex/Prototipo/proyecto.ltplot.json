@@ -1,0 +1,321 @@
+{
+  "format": "ltspice-plotter-project",
+  "version": 1,
+  "datasets": [
+    "..\\..\\..\\codigo\\python\\simulador_config\\resultados\\version3.3 seleccionadas\\vout-mas-mas-mas.txt",
+    "..\\..\\..\\codigo\\python\\simulador_config\\resultados\\version3.3 seleccionadas\\vout-mas-mas-menos.txt",
+    "..\\..\\..\\codigo\\python\\simulador_config\\resultados\\version3.3 seleccionadas\\vout-mas-menos-mas.txt",
+    "..\\..\\..\\codigo\\python\\simulador_config\\resultados\\version3.3 seleccionadas\\vout-mas-menos-menos.txt"
+  ],
+  "controls": {
+    "theme": "pacoty",
+    "mode": 1,
+    "subplot_layout": "1x1",
+    "subplot_titles": "",
+    "manual_panels": false,
+    "x_scale": "x1e3",
+    "x_signal": null,
+    "y_scale_index": 1,
+    "use_y2": false,
+    "y2_signal": null,
+    "y2_scale_index": 0,
+    "y2_label": "Y2",
+    "legend": "Arriba derecha",
+    "cursors_enabled": true,
+    "use_tex": false,
+    "title": "",
+    "x_label": "Tiempo [ms]",
+    "y_label": "Tensión [V]",
+    "single_curve_column": 0,
+    "single_curve_name": "Bancos Sincronizados",
+    "operation": "Suma (+)",
+    "only_operation_result": false
+  },
+  "selected_signals": [
+    {
+      "dataset": 0,
+      "column": 1
+    },
+    {
+      "dataset": 1,
+      "column": 1
+    },
+    {
+      "dataset": 2,
+      "column": 1
+    },
+    {
+      "dataset": 3,
+      "column": 1
+    }
+  ],
+  "panel_assignments": [],
+  "signal_names": [
+    {
+      "dataset": 3,
+      "column": 1,
+      "name": "V(out_pos,out_neg)"
+    },
+    {
+      "dataset": 0,
+      "column": 1,
+      "name": "Icell11_A"
+    },
+    {
+      "dataset": 0,
+      "column": 2,
+      "name": "Icell12_A"
+    },
+    {
+      "dataset": 0,
+      "column": 3,
+      "name": "Icell21_A"
+    },
+    {
+      "dataset": 0,
+      "column": 4,
+      "name": "Icell22_A"
+    },
+    {
+      "dataset": 0,
+      "column": 5,
+      "name": "Icell31_A"
+    },
+    {
+      "dataset": 0,
+      "column": 6,
+      "name": "Icell32_A"
+    },
+    {
+      "dataset": 0,
+      "column": 7,
+      "name": "I_RL_A"
+    },
+    {
+      "dataset": 0,
+      "column": 8,
+      "name": "V_out_diff_V"
+    },
+    {
+      "dataset": 0,
+      "column": 9,
+      "name": "E_out_J"
+    },
+    {
+      "dataset": 1,
+      "column": 1,
+      "name": "Icell11_A"
+    },
+    {
+      "dataset": 1,
+      "column": 2,
+      "name": "Icell12_A"
+    },
+    {
+      "dataset": 1,
+      "column": 3,
+      "name": "Icell21_A"
+    },
+    {
+      "dataset": 1,
+      "column": 4,
+      "name": "Icell22_A"
+    },
+    {
+      "dataset": 1,
+      "column": 5,
+      "name": "Icell31_A"
+    },
+    {
+      "dataset": 1,
+      "column": 6,
+      "name": "Icell32_A"
+    },
+    {
+      "dataset": 1,
+      "column": 7,
+      "name": "I_RL_A"
+    },
+    {
+      "dataset": 1,
+      "column": 8,
+      "name": "V_out_diff_V"
+    },
+    {
+      "dataset": 1,
+      "column": 9,
+      "name": "E_out_J"
+    },
+    {
+      "dataset": 2,
+      "column": 1,
+      "name": "Icell11_A"
+    },
+    {
+      "dataset": 2,
+      "column": 2,
+      "name": "Icell12_A"
+    },
+    {
+      "dataset": 2,
+      "column": 3,
+      "name": "Icell21_A"
+    },
+    {
+      "dataset": 2,
+      "column": 4,
+      "name": "Icell22_A"
+    },
+    {
+      "dataset": 2,
+      "column": 5,
+      "name": "Icell31_A"
+    },
+    {
+      "dataset": 2,
+      "column": 6,
+      "name": "Icell32_A"
+    },
+    {
+      "dataset": 2,
+      "column": 7,
+      "name": "I_RL_A"
+    },
+    {
+      "dataset": 2,
+      "column": 8,
+      "name": "V_out_diff_V"
+    },
+    {
+      "dataset": 2,
+      "column": 9,
+      "name": "E_out_J"
+    },
+    {
+      "dataset": 0,
+      "column": 10,
+      "name": "E_out_J"
+    }
+  ],
+  "curve_style": {
+    "color": null,
+    "linewidth": 2.5,
+    "linestyle": "-",
+    "marker": "None",
+    "alpha": 1.0,
+    "visible": true
+  },
+  "curve_color_custom": false,
+  "style_cache": {
+    "('DSCOL', 0, 1)": {
+      "color": "#5A5B9F",
+      "linestyle": "-",
+      "linewidth": 2.5,
+      "marker": "None",
+      "markersize": 6.0,
+      "markerfacecolor": "#5A5B9F",
+      "markeredgecolor": "#5A5B9F",
+      "alpha": 1.0,
+      "visible": true
+    },
+    "('DSCOL', 1, 1)": {
+      "color": "#D94F70",
+      "linestyle": "-",
+      "linewidth": 2.5,
+      "marker": "None",
+      "markersize": 6.0,
+      "markerfacecolor": "#D94F70",
+      "markeredgecolor": "#D94F70",
+      "alpha": 1.0,
+      "visible": true
+    },
+    "('DSCOL', 2, 1)": {
+      "color": "#009473",
+      "linestyle": "-",
+      "linewidth": 2.5,
+      "marker": "None",
+      "markersize": 6.0,
+      "markerfacecolor": "#009473",
+      "markeredgecolor": "#009473",
+      "alpha": 1.0,
+      "visible": true
+    },
+    "('DSCOL', 3, 1)": {
+      "color": "#F0C05A",
+      "linestyle": "-",
+      "linewidth": 2.5,
+      "marker": "None",
+      "markersize": 6.0,
+      "markerfacecolor": "#F0C05A",
+      "markeredgecolor": "#F0C05A",
+      "alpha": 1.0,
+      "visible": true
+    }
+  },
+  "line_names": [
+    {
+      "key": [
+        "SINGLE",
+        1
+      ],
+      "name": "t_s"
+    },
+    {
+      "key": [
+        "DSCOL",
+        3,
+        1
+      ],
+      "name": "Banco 2 y 3 Sincronizados"
+    },
+    {
+      "key": [
+        "DSCOL",
+        0,
+        8
+      ],
+      "name": "Banco 1 y 2 Sincronizados"
+    },
+    {
+      "key": [
+        "DSCOL",
+        1,
+        8
+      ],
+      "name": "Banco 1 y 3 Sincronizados"
+    },
+    {
+      "key": [
+        "DSCOL",
+        2,
+        8
+      ],
+      "name": "Bancos Sincronizados"
+    },
+    {
+      "key": [
+        "DSCOL",
+        0,
+        1
+      ],
+      "name": "Bancos Sincronizados"
+    },
+    {
+      "key": [
+        "DSCOL",
+        2,
+        1
+      ],
+      "name": "Banco 1 y 3 Sincronizados"
+    },
+    {
+      "key": [
+        "DSCOL",
+        1,
+        1
+      ],
+      "name": "Banco 1 y 2 Sincronizados"
+    }
+  ],
+  "line_transforms": []
+}

@@ -169,6 +169,17 @@ class MainWindow(QMainWindow):
         self.btn_panel_assignments = QPushButton("Seleccionar curvas por panel...")
         self.btn_panel_assignments.clicked.connect(self.edit_panel_assignments)
 
+        self.cmb_x_signal = QComboBox()
+        self.cmb_x_signal.addItem("Automático (primera columna)", None)
+        self.cmb_x_signal.setEnabled(False)
+        self.cmb_x_signal.setToolTip(
+            "Elegí la columna usada como X en cada archivo y step. "
+            "Con varios archivos se muestran las columnas comunes."
+        )
+        self.cmb_x_signal.currentIndexChanged.connect(self._on_x_signal_changed)
+        self.btn_auto_x = QPushButton("Restaurar X automático")
+        self.btn_auto_x.clicked.connect(lambda: self.cmb_x_signal.setCurrentIndex(0))
+
         self.cmb_x = QComboBox()
         self.cmb_x.addItems(["x1", "x1e3", "x1e-3", "x1e6", "x1e-6", "x1e9", "x1e-9"])
         self.cmb_x.setCurrentText("x1")
@@ -264,6 +275,8 @@ class MainWindow(QMainWindow):
         form.addRow("Titulos de paneles:", self.ed_subplot_titles)
         form.addRow(self.chk_manual_panels)
         form.addRow(self.btn_panel_assignments)
+        form.addRow("Curva del eje X:", self.cmb_x_signal)
+        form.addRow(self.btn_auto_x)
         form.addRow("Escala X:", self.cmb_x)
         form.addRow("Escala Y1:", self.cmb_y1)
         form.addRow("Factor Y1 aplicado:", self.lbl_y1_factor)
@@ -423,6 +436,30 @@ class MainWindow(QMainWindow):
     def _on_theme_changed(self, *_):
         """Descarta colores automáticos anteriores y aplica la nueva paleta."""
         self._theme_change_pending = True
+        self._replot_if_data_loaded()
+
+    def _refresh_x_signal_combo(self):
+        self.cmb_x_signal.blockSignals(True)
+        self.cmb_x_signal.clear()
+        self.cmb_x_signal.addItem("Automático (primera columna)", None)
+        if self.datasets:
+            names = self.datasets[0].get("colnames") or ()
+            for name in dict.fromkeys(names):
+                if all(name in (ds.get("colnames") or ()) for ds in self.datasets):
+                    self.cmb_x_signal.addItem(name, name)
+        self.cmb_x_signal.setEnabled(self.cmb_x_signal.count() > 1)
+        self.cmb_x_signal.blockSignals(False)
+
+    def _x_values(self, arr, colnames):
+        name = self.cmb_x_signal.currentData()
+        index = list(colnames).index(name) if name is not None else 0
+        return arr[:, index]
+
+    def _on_x_signal_changed(self, *_):
+        name = self.cmb_x_signal.currentData()
+        if self.colnames1:
+            self.xlab.setText(name if name is not None else self.colnames1[0])
+        self.reset_probes()
         self._replot_if_data_loaded()
 
     def _xscale(self):
@@ -1137,6 +1174,7 @@ class MainWindow(QMainWindow):
             self.steps = first["steps"]
             self.data1 = first["data"]
             self.colnames1 = first["colnames"]
+            self._refresh_x_signal_combo()
 
             self._populate_column_combo(self.cmb_file1, self.colnames1)
             self._on_file1_column_changed()
@@ -1179,6 +1217,7 @@ class MainWindow(QMainWindow):
         self.steps = first["steps"]
         self.data1 = first["data"]
         self.colnames1 = first["colnames"]
+        self._refresh_x_signal_combo()
         self._populate_column_combo(self.cmb_file1, self.colnames1)
         self._on_file1_column_changed()
         if self.colnames1:
@@ -1233,6 +1272,7 @@ class MainWindow(QMainWindow):
                 "subplot_titles": self.ed_subplot_titles.text(),
                 "manual_panels": self.chk_manual_panels.isChecked(),
                 "x_scale": self.cmb_x.currentText(),
+                "x_signal": self.cmb_x_signal.currentData(),
                 "y_scale_index": self.cmb_y1.currentIndex(),
                 "use_y2": self.chk_y2.isChecked(),
                 "y2_signal": list(self.cmb_y2_signal.currentData()) if self.cmb_y2_signal.currentData() is not None else None,
@@ -1320,7 +1360,7 @@ class MainWindow(QMainWindow):
 
             controls = project.get("controls", {})
             widgets = [
-                self.cmb_theme, self.cmb_mode, self.cmb_subplot_layout, self.cmb_x, self.cmb_y1,
+                self.cmb_theme, self.cmb_mode, self.cmb_subplot_layout, self.cmb_x, self.cmb_x_signal, self.cmb_y1,
                 self.cmb_legend, self.cmb_file1, self.chk_usetex,
                 self.cmb_op, self.chk_only_result, self.chk_y2,
                 self.cmb_y2_signal, self.cmb_y2, self.chk_cursors,
@@ -1334,6 +1374,7 @@ class MainWindow(QMainWindow):
                 self.cmb_subplot_layout.setCurrentText(controls.get("subplot_layout", "1x1"))
                 self.chk_manual_panels.setChecked(bool(controls.get("manual_panels", False)))
                 self.cmb_x.setCurrentText(controls.get("x_scale", "x1"))
+                self.cmb_x_signal.setCurrentIndex(max(0, self.cmb_x_signal.findData(controls.get("x_signal"))))
                 self.cmb_y1.setCurrentIndex(int(controls.get("y_scale_index", 0)))
                 self.chk_y2.setChecked(bool(controls.get("use_y2", False)))
                 saved_y2 = controls.get("y2_signal")
@@ -1886,7 +1927,7 @@ class MainWindow(QMainWindow):
                         arr = st["data"]
                         if col_idx >= arr.shape[1]:
                             continue
-                        x = arr[:, 0]
+                        x = self._x_values(arr, ds["colnames"])
                         y = arr[:, col_idx]
                         step_label = st.get("label", "Step")
                         key = ("DSCOL_STEP", ds_idx, col_idx, step_label)
@@ -1902,7 +1943,7 @@ class MainWindow(QMainWindow):
                         self._line_keys.append(key)
                 elif ds.get("data") is not None and col_idx < ds["data"].shape[1]:
                     arr = ds["data"]
-                    x = arr[:, 0]
+                    x = self._x_values(arr, ds["colnames"])
                     y = arr[:, col_idx]
                     key = ("DSCOL", ds_idx, col_idx)
                     if self.chk_manual_panels.isChecked():
@@ -1923,14 +1964,14 @@ class MainWindow(QMainWindow):
                 if col1 >= arr.shape[1]:
                     QMessageBox.warning(self, "Falta", "Seleccioná una columna válida.")
                     return
-                x = arr[:, 0]
+                x = self._x_values(arr, self.colnames1)
                 y = arr[:, col1]
                 label = f"{base1} | {self.steps[0].get('label','Step')}"
                 p = ax1.plot(x * xsc, y * y1sc, label=label)
                 self.lines.append(p[0])
                 self._line_keys.append(("SINGLE_STEP", col1, 0))
             else:
-                p1 = ax1.plot(self.x1 * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
+                p1 = ax1.plot(self._x_values(self.data1, self.colnames1) * xsc, self.y1 * y1sc, label=(self.c1name.text().strip() or "Curva 1"))
                 self.lines = [p1[0]]
                 self._line_keys = [("SINGLE", self.cmb_file1.currentIndex() + 1)]
 
@@ -1951,7 +1992,7 @@ class MainWindow(QMainWindow):
                     key = ("Y2_STEP", ds_idx, col_idx, step_label)
                     default_label = f"[Y2] [{file_name}] {base_name} | {step_label}"
                     line = self.ax2.plot(
-                        arr[:, 0] * xsc, arr[:, col_idx] * y2sc,
+                        self._x_values(arr, colnames) * xsc, arr[:, col_idx] * y2sc,
                         label=self._label_for_key(key, default_label),
                     )[0]
                     self.lines.append(line)
@@ -1962,7 +2003,7 @@ class MainWindow(QMainWindow):
                     key = ("Y2", ds_idx, col_idx)
                     default_label = f"[Y2] [{file_name}] {base_name}"
                     line = self.ax2.plot(
-                        arr[:, 0] * xsc, arr[:, col_idx] * y2sc,
+                        self._x_values(arr, colnames) * xsc, arr[:, col_idx] * y2sc,
                         label=self._label_for_key(key, default_label),
                     )[0]
                     self.lines.append(line)
@@ -2306,6 +2347,11 @@ Desactivá "Asignación manual de paneles" para volver a la distribución autom�
 Activá "Usar eje Y derecho" y elegí la señal Y2.<br>
 Y1 e Y2 tienen escala y etiqueta independientes.<br>
 Con subfiguras, el eje Y2 se superpone en el primer panel.<br><br>
+
+<b>Curva del eje X</b><br>
+Elegí una columna en "Curva del eje X" para graficar las señales en función de ella.<br>
+Con varios archivos se ofrecen las columnas comunes y se usan los datos de cada archivo y step.<br>
+"Restaurar X automático" vuelve a usar la primera columna.<br><br>
 
 <b>Escalas</b><br>
 “Escala X” y “Escala Y1” son multiplicadores de datos.<br>
