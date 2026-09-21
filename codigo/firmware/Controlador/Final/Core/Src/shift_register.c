@@ -56,6 +56,7 @@ void SR_PulseLatch(shift_register_t *sr)
     }
 
     sr->latch_port->BSRR = sr->latch_pin;                 // latch = 1
+   //HAL_Delay(1);
     sr->latch_port->BSRR = (uint32_t)sr->latch_pin << 16; // latch = 0
 }
 

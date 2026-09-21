@@ -1,0 +1,25 @@
+Mediciones para ver si es necesario o no MOS_GND. Banco de mediociones: 4 bancos de 1 celda c/u. Solo el banco 1 tiene módulo de banco. Para conectar la placa se usó el circuito cental provisorio.
+
+			celda 4 --- bus_pos
+			  |		|
+			celda 3		|
+			  |		|
+			celda 2		47 Ohm // 10uF
+			  |		|
+central --- banco 1 --- celda 1		|
+   |					|
+   |------------------------------- bus_neg
+
+Rshunt1 = 3 Ohm --> En la salida de la celda 1 (entre cable coco y el borne + del portapilas)
+Rshunt2 = 3 Ohm --> En cell_neg1 (entre GND y el borne - del portapilas)
+
+El banco 1 está alternando ON/OFF.
+Se van a realizar 6 mediciones con osciloscopio:
+- cell_pos1 (Rshunt1 -) y latch
+- bus_pos1 (Rshunt1 +) y latch
+- cell_neg1 (Rshunt2 +) y latch
+- GND (Rshunt2 -) y latch
+- salida + y latch
+- salida - y latch
+Básicamente se miden ambos bornes de los dos shunts y latch para que haya una referencia unificadora para todos, mientras se alterna el banco 1 entre prendido y apagado.
+
