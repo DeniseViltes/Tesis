@@ -8,7 +8,7 @@
 #include "main.h"
 
 #define ADC_VREF_mV 3300u
-#define ADC_SETS   128u
+#define ADC_SETS   2u
 #define ADC_BUF_LEN (ADC_NODE_COUNT * ADC_SETS)
 
 
@@ -138,10 +138,11 @@ void adc_get_voltages_mV(uint16_t *buffer, uint16_t len)
         return;
     }
 
-    for (uint8_t i = 0; i < ADC_NODE_COUNT; i++)
+    for (uint8_t i = 0; i < ADC_NODE_COUNT-1; i++)
     { //DEJO TODOS LOS NODOS CON EL MISMO DIVISOR RESISTIVO
         buffer[i] =(uint16_t) cell_neg_voltage_divider((((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u));
     }
+    buffer[ADC_CORRIENTE] = g_adc_raw[ADC_CORRIENTE];
 }
 
 uint16_t adc_get_node_voltage_mV(adc_node_t node)

@@ -30,11 +30,15 @@ static uint8_t fase = 0;
 static GPIO_TypeDef *sr_data_puertos[CANT_BANCOS] = {
 	DATA1_GPIO_Port,
 	DATA2_GPIO_Port,
+	DATA3_GPIO_Port,
+	DATA4_GPIO_Port,
 };
 
 static uint16_t sr_data_pines[CANT_BANCOS] = {
 	DATA1_Pin,
 	DATA2_Pin,
+	DATA3_Pin,
+	DATA4_Pin,
 };
 
 
@@ -52,9 +56,12 @@ void Controlador_init(void){
 		SR_Init(&sr_bancos[i],sr_data_puertos[i],sr_data_pines[i],CLK_GPIO_Port, CLK_Pin,LATCH_GPIO_Port, LATCH_Pin);
 
 		MUX_Init(&mux_bancos[i], S0_GPIO_Port, S0_Pin,S1_GPIO_Port, S1_Pin,S2_GPIO_Port,S2_Pin);
-		MUX_SetNodo(&mux_bancos[i],ADC_MUX_BANCO_0+i);
 
-		Banco_Init(&ctrl.bancos[i],&sr_bancos[i],&mux_bancos[i],CELDAS_POR_BANCO, ADC_MUX_BANCO_0);
+		adc_node_t nodo_medicion = ADC_MUX_BANCO_0;
+
+		MUX_SetNodo(&mux_bancos[i],nodo_medicion+i);
+
+		Banco_Init(&ctrl.bancos[i],&sr_bancos[i],&mux_bancos[i],CELDAS_POR_BANCO, nodo_medicion+1);
 
 
 		Controlador_BypassBanco(i);

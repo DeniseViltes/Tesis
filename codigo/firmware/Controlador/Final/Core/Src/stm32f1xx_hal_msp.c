@@ -99,19 +99,29 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     /* Peripheral clock enable */
     __HAL_RCC_ADC1_CLK_ENABLE();
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
     /**ADC1 GPIO Configuration
+    PC0     ------> ADC1_IN10
+    PC2     ------> ADC1_IN12
+    PC3     ------> ADC1_IN13
     PA0-WKUP     ------> ADC1_IN0
+    PA1     ------> ADC1_IN1
+    PA5     ------> ADC1_IN5
+    PA6     ------> ADC1_IN6
+    PA7     ------> ADC1_IN7
+    PC4     ------> ADC1_IN14
     PC5     ------> ADC1_IN15
     */
-    GPIO_InitStruct.Pin = Salida_adc_2_Pin;
+    GPIO_InitStruct.Pin = medicion_corriente_de_carga_Pin|salida_adc_2_Pin|banco2_med_Pin|salida_adc_3_Pin
+                          |Salida_adc_4_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-    HAL_GPIO_Init(Salida_adc_2_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = Salida_adc_1_Pin;
+    GPIO_InitStruct.Pin = Salida_adc_1_Pin|banco1_med_Pin|banco4_med_Pin|medicion_corriente_descarga_Pin
+                          |banco3_med_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-    HAL_GPIO_Init(Salida_adc_1_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     /* ADC1 DMA Init */
     /* ADC1 Init */
@@ -158,12 +168,22 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     __HAL_RCC_ADC1_CLK_DISABLE();
 
     /**ADC1 GPIO Configuration
+    PC0     ------> ADC1_IN10
+    PC2     ------> ADC1_IN12
+    PC3     ------> ADC1_IN13
     PA0-WKUP     ------> ADC1_IN0
+    PA1     ------> ADC1_IN1
+    PA5     ------> ADC1_IN5
+    PA6     ------> ADC1_IN6
+    PA7     ------> ADC1_IN7
+    PC4     ------> ADC1_IN14
     PC5     ------> ADC1_IN15
     */
-    HAL_GPIO_DeInit(Salida_adc_2_GPIO_Port, Salida_adc_2_Pin);
+    HAL_GPIO_DeInit(GPIOC, medicion_corriente_de_carga_Pin|salida_adc_2_Pin|banco2_med_Pin|salida_adc_3_Pin
+                          |Salida_adc_4_Pin);
 
-    HAL_GPIO_DeInit(Salida_adc_1_GPIO_Port, Salida_adc_1_Pin);
+    HAL_GPIO_DeInit(GPIOA, Salida_adc_1_Pin|banco1_med_Pin|banco4_med_Pin|medicion_corriente_descarga_Pin
+                          |banco3_med_Pin);
 
     /* ADC1 DMA DeInit */
     HAL_DMA_DeInit(hadc->DMA_Handle);

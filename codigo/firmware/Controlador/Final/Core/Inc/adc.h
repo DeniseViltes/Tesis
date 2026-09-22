@@ -11,31 +11,32 @@
 
 
 //acá pongo los nodos a medir
-typedef enum
+/*typedef enum
 {
-  ADC_MUX_BANCO_0 = 0,
+  ADC_MUX_BANCO_1 = 0,
   ADC_MUX_BANCO_1,
   ADC_NODE_COUNT
 } adc_node_t;
 
+*/
 
 
-
-
-/*
- *typedef enum
+ typedef enum
 {
-  ADC_MUX_BANCO_0 = 0,
-  ADC_MUX_BANCO_1,
+  ADC_MUX_BANCO_1 = 0,
   ADC_MUX_BANCO_2,
   ADC_MUX_BANCO_3,
-  ADC_BANCO_0,
+  ADC_MUX_BANCO_4,
   ADC_BANCO_1,
   ADC_BANCO_2,
   ADC_BANCO_3,
+  ADC_BANCO_4,
+  ADC_CORRIENTE,
   ADC_NODE_COUNT
 } adc_node_t;
- */
+
+
+
 void adc_init(void);
 void adc_update(void);
 void adc_get_voltages_mV(uint16_t *buffer, uint16_t len);

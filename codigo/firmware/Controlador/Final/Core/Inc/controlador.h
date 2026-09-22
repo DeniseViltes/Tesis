@@ -14,7 +14,7 @@
 #include "mux.h"
 
 
-#define CANT_BANCOS 2
+#define CANT_BANCOS 4
 //#define CELDAS_POR_BANCO 7
 #define PERIODO_DEFAULT 50
 
