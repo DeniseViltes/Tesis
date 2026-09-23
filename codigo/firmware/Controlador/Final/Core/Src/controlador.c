@@ -10,7 +10,6 @@
 
 
 
-
 static controlador_t ctrl;
 
 extern volatile uint8_t flag_controlador_update;
@@ -40,7 +39,6 @@ static uint16_t sr_data_pines[CANT_BANCOS] = {
 	DATA3_Pin,
 	DATA4_Pin,
 };
-
 
 
 
@@ -362,8 +360,6 @@ void Controlador_DetenerSwitchingBancoBypass(uint8_t banco)
     Banco_SetModo(&ctrl.bancos[banco], FIJO);
 
 
-
-
 }
 
 void Controlador_IniciarSwitchingBanco(uint8_t banco){
@@ -371,8 +367,6 @@ void Controlador_IniciarSwitchingBanco(uint8_t banco){
 		Banco_SetModoCelda(&ctrl.bancos[banco], c, SYNCHRO);
 	}
 }
-
-
 
 
 void Controlador_Reiniciar(void){

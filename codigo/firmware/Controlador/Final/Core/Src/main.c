@@ -362,18 +362,17 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, DATA2_Pin|S2_Pin|S1_Pin|S0_Pin
-                          |CLK_Pin|LATCH_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, S2_Pin|S1_Pin|S0_Pin|CLK_Pin
+                          |LATCH_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, llave_de_emergencia_Pin|DATA3_Pin|DATA4_Pin|DATA1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, llave_de_emergencia_Pin|DATA2_Pin|DATA1_Pin|DATA1A15_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : DATA2_Pin */
-  GPIO_InitStruct.Pin = DATA2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  /*Configure GPIO pin : Boton_Reinciar_Pin_Pin */
+  GPIO_InitStruct.Pin = Boton_Reinciar_Pin_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(DATA2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(Boton_Reinciar_Pin_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : S2_Pin S1_Pin S0_Pin CLK_Pin
                            LATCH_Pin */
@@ -384,8 +383,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : llave_de_emergencia_Pin DATA3_Pin DATA4_Pin DATA1_Pin */
-  GPIO_InitStruct.Pin = llave_de_emergencia_Pin|DATA3_Pin|DATA4_Pin|DATA1_Pin;
+  /*Configure GPIO pins : llave_de_emergencia_Pin DATA2_Pin DATA1_Pin DATA1A15_Pin */
+  GPIO_InitStruct.Pin = llave_de_emergencia_Pin|DATA2_Pin|DATA1_Pin|DATA1A15_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -403,7 +402,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 }
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  //CLI_ButtonReiniciarCallback(GPIO_Pin);
+  CLI_ButtonReiniciarCallback(GPIO_Pin);
 }
 /* USER CODE END 4 */
 

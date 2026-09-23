@@ -107,18 +107,18 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     PC3     ------> ADC1_IN13
     PA0-WKUP     ------> ADC1_IN0
     PA1     ------> ADC1_IN1
+    PA4     ------> ADC1_IN4
     PA5     ------> ADC1_IN5
-    PA6     ------> ADC1_IN6
     PA7     ------> ADC1_IN7
     PC4     ------> ADC1_IN14
     PC5     ------> ADC1_IN15
     */
     GPIO_InitStruct.Pin = medicion_corriente_de_carga_Pin|salida_adc_2_Pin|banco2_med_Pin|salida_adc_3_Pin
-                          |Salida_adc_4_Pin;
+                          |salida_adc_4_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = Salida_adc_1_Pin|banco1_med_Pin|banco4_med_Pin|medicion_corriente_descarga_Pin
+    GPIO_InitStruct.Pin = Salida_adc_1_Pin|banco1_med_Pin|medicion_corriente_descarga_Pin|banco4_med_Pin
                           |banco3_med_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -173,16 +173,16 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     PC3     ------> ADC1_IN13
     PA0-WKUP     ------> ADC1_IN0
     PA1     ------> ADC1_IN1
+    PA4     ------> ADC1_IN4
     PA5     ------> ADC1_IN5
-    PA6     ------> ADC1_IN6
     PA7     ------> ADC1_IN7
     PC4     ------> ADC1_IN14
     PC5     ------> ADC1_IN15
     */
     HAL_GPIO_DeInit(GPIOC, medicion_corriente_de_carga_Pin|salida_adc_2_Pin|banco2_med_Pin|salida_adc_3_Pin
-                          |Salida_adc_4_Pin);
+                          |salida_adc_4_Pin);
 
-    HAL_GPIO_DeInit(GPIOA, Salida_adc_1_Pin|banco1_med_Pin|banco4_med_Pin|medicion_corriente_descarga_Pin
+    HAL_GPIO_DeInit(GPIOA, Salida_adc_1_Pin|banco1_med_Pin|medicion_corriente_descarga_Pin|banco4_med_Pin
                           |banco3_med_Pin);
 
     /* ADC1 DMA DeInit */
