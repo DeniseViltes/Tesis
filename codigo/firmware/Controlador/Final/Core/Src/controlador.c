@@ -57,7 +57,7 @@ void Controlador_init(void){
 
 		MUX_Init(&mux_bancos[i], S0_GPIO_Port, S0_Pin,S1_GPIO_Port, S1_Pin,S2_GPIO_Port,S2_Pin);
 
-		adc_node_t nodo_medicion = ADC_MUX_BANCO_0;
+		adc_node_t nodo_medicion = ADC_MUX_BANCO_1;
 
 		MUX_SetNodo(&mux_bancos[i],nodo_medicion+i);
 
@@ -71,6 +71,7 @@ void Controlador_init(void){
 	//apagar_banco
 
 	//Controlador_AplicarEstados();
+	HAL_GPIO_WritePin(llave_de_emergencia_GPIO_Port, llave_de_emergencia_Pin, GPIO_PIN_SET);
 }
 
 

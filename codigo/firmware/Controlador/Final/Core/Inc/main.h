@@ -57,9 +57,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Boton_Reinciar_Pin GPIO_PIN_13
-#define Boton_Reinciar_GPIO_Port GPIOC
-#define Boton_Reinciar_EXTI_IRQn EXTI15_10_IRQn
+#define DATA2_Pin GPIO_PIN_13
+#define DATA2_GPIO_Port GPIOC
 #define medicion_corriente_de_carga_Pin GPIO_PIN_0
 #define medicion_corriente_de_carga_GPIO_Port GPIOC
 #define salida_adc_2_Pin GPIO_PIN_2
@@ -100,14 +99,12 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define DATA2_Pin GPIO_PIN_15
-#define DATA2_GPIO_Port GPIOA
+#define DATA1_Pin GPIO_PIN_15
+#define DATA1_GPIO_Port GPIOA
 #define CLK_Pin GPIO_PIN_10
 #define CLK_GPIO_Port GPIOC
 #define LATCH_Pin GPIO_PIN_11
 #define LATCH_GPIO_Port GPIOC
-#define DATA1_Pin GPIO_PIN_12
-#define DATA1_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 

@@ -1,0 +1,24 @@
+Montaje del circuito central
+
+Conectado hasta ahora y funcionando, llave maestra e inversor de corriente
+
+Probando opamp:  
+
+- Con solo estos 3 bloques conectados, al encender vcc (y solo vcc) tenemos un consumo de 11mA.
+
+Fuente de prueba ->1V 
+
+Voy midiendo cada opam individual con fuente de prueba en el bus más positivo y GND en el más negativo
+
+Para banco1_med mido 0,851V
+
+Para banco2_med mido 0,838V
+
+Para banco3_med mido 0,849V
+
+Para banco3_med mido 0,850V
+
+Pruebas del INA:
+-1 Ina conectado, fuente de prueba de 3,17V con resistencia de carga de 47ohm. Se conectan el terminal positivo de la fuente a bus_pos y el terminal negativo a la carga, el otro extremo de la carga a el borne de shunt en la bornera. Caida de tension en el shunt de 3,3mV y medicion del pin de salida de 67,2mA. Al conectar este dispositivo no se observan cambios en la corriente entregada por la fuente de vcc.
+
+- 2 Ina conectados, fuente de prueba de 3,17V resistencia de carga de 47 ohm. Misma prueba que en el caso anterior se observan 3.3mV en el shunt de carga. Se realiza la prueba de carga poniendo el terminal positivo de la fuente al terminal del shunt. y bus_pos a gnd, se mide 66,7mV en la salida del INA de carga, y 2.4mV en la salida del de descarga.

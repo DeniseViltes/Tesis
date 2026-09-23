@@ -94,32 +94,28 @@ static void cli_print_status(void)
 }
 
 
-/*
-static const char *const adc_nombres[ADC_NODE_COUNT] =
-{
-    [ADC_MUX_BANCO_0] = "MUX banco 0",
-    [ADC_MUX_BANCO_1] = "MUX banco 1",
-    [ADC_MUX_BANCO_2] = "MUX banco 2",
-    [ADC_MUX_BANCO_3] = "MUX banco 3",
-    [ADC_BANCO_0]     = "Banco 0",
-    [ADC_BANCO_1]     = "Banco 1",
-    [ADC_BANCO_2]     = "Banco 2",
-    [ADC_BANCO_3]     = "Banco 3"
-};*/
-
 
 static const char *const adc_nombres[ADC_NODE_COUNT] =
 {
-    [ADC_MUX_BANCO_0] = "MUX banco 0",
-    [ADC_MUX_BANCO_1] = "MUX banco 1"
+    [ADC_MUX_BANCO_1] = "MUX banco 0",
+    [ADC_MUX_BANCO_2] = "MUX banco 1",
+    [ADC_MUX_BANCO_3] = "MUX banco 2",
+    [ADC_MUX_BANCO_4] = "MUX banco 3",
+    [ADC_BANCO_1]     = "Banco 0",
+    [ADC_BANCO_2]     = "Banco 1",
+    [ADC_BANCO_3]     = "Banco 2",
+    [ADC_BANCO_4]     = "Banco 3",
+    [ADC_CORRIENTE] = "corriente a la salida"
 };
+
+
 
 
 void cli_print_mediciones(void)
 {
     char mensaje[64];
 
-    for (adc_node_t nodo = ADC_MUX_BANCO_0;
+    for (adc_node_t nodo = ADC_MUX_BANCO_1;
          nodo < ADC_NODE_COUNT;
          nodo++)
     {
@@ -586,7 +582,7 @@ void CLI_Init(UART_HandleTypeDef *huart)
 
 void CLI_RxCallback(UART_HandleTypeDef *huart)
 {
-	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	//HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 	if (rx_ch == '\r' || rx_ch == '\n') {
 	  if (line_len > 0) {
 	    line_buf[line_len] = '\0';
@@ -604,13 +600,13 @@ void CLI_RxCallback(UART_HandleTypeDef *huart)
 }
 
 
-
+/*
 void CLI_ButtonReiniciarCallback(uint16_t gpio_pin)
 {
   if (gpio_pin != Boton_Reinciar_Pin) return;
 	Controlador_Reiniciar();
     cli_print("\r\nControlador Reiniciado\r\n> ");
-}
+}*/
 
 
 void CLI_Process(void)
