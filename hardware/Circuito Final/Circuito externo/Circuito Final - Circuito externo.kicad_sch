@@ -5922,10 +5922,6 @@
 		(uuid "56ed97bb-fc13-4e81-9a3b-277090c08b9f")
 	)
 	(no_connect
-		(at 25.4 55.88)
-		(uuid "587eac1b-cf2c-4add-987d-d06f4e9c1ece")
-	)
-	(no_connect
 		(at 38.1 78.74)
 		(uuid "5b458c96-e1ae-413e-9830-6165253a3086")
 	)
@@ -5936,10 +5932,6 @@
 	(no_connect
 		(at 38.1 38.1)
 		(uuid "602a7480-33cc-487e-97d4-e8ef2e7ca3ae")
-	)
-	(no_connect
-		(at 25.4 38.1)
-		(uuid "68497745-673f-454f-b168-6eaa2c7cbdb7")
 	)
 	(no_connect
 		(at 25.4 60.96)
@@ -5966,12 +5958,12 @@
 		(uuid "93c2492f-463d-4401-aa72-5c34b84811da")
 	)
 	(no_connect
-		(at 38.1 55.88)
-		(uuid "980cd109-0986-4de6-85b2-499e619e5f8d")
-	)
-	(no_connect
 		(at 74.93 45.72)
 		(uuid "9f6bb127-8b91-4096-9500-9eb85c134d29")
+	)
+	(no_connect
+		(at 38.1 53.34)
+		(uuid "9ff3b5eb-5011-468e-b609-2a57ec9bf55c")
 	)
 	(no_connect
 		(at 25.4 68.58)
@@ -5988,6 +5980,10 @@
 	(no_connect
 		(at 62.23 38.1)
 		(uuid "bcfc456a-1e51-4e55-b115-d5703a2da8ec")
+	)
+	(no_connect
+		(at 25.4 63.5)
+		(uuid "c3bd6024-d18e-4593-8197-568e0d217b0c")
 	)
 	(no_connect
 		(at 25.4 66.04)
@@ -6318,16 +6314,6 @@
 			(type default)
 		)
 		(uuid "2814dc7a-8a31-43d6-b9e3-4095c2362906")
-	)
-	(wire
-		(pts
-			(xy 127 30.48) (xy 125.73 30.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2d48a2fe-6e62-41fb-9c5d-cd7e08afedd3")
 	)
 	(wire
 		(pts
@@ -7531,16 +7517,6 @@
 	)
 	(wire
 		(pts
-			(xy 115.57 30.48) (xy 118.11 30.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cd40e5a6-31c3-4e36-97ac-17dca88299d2")
-	)
-	(wire
-		(pts
 			(xy 193.04 34.29) (xy 195.58 34.29)
 		)
 		(stroke
@@ -8200,16 +8176,6 @@
 		(uuid "27083d8e-1ea8-4aa8-ac7c-e6658b8f1485")
 	)
 	(label "GND"
-		(at 127 30.48 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "2af21077-4eaf-43ee-9069-3e1b2ce4249a")
-	)
-	(label "GND"
 		(at 140.97 49.53 180)
 		(effects
 			(font
@@ -8309,15 +8275,15 @@
 		)
 		(uuid "363ccced-ee99-4071-959d-13c80a41c237")
 	)
-	(label "Data_1"
-		(at 25.4 50.8 180)
+	(label "Data_2"
+		(at 25.4 55.88 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "3875ccc4-0b8a-4cb8-9b7a-bb6346b73ac6")
+		(uuid "392bb49b-1e5b-499c-8d37-2eb97343c34c")
 	)
 	(label "Data_1"
 		(at 41.91 190.5 0)
@@ -8750,14 +8716,14 @@
 		(uuid "774f76d4-6250-4699-a3be-7e0bc3b36619")
 	)
 	(label "Vcc_stm"
-		(at 38.1 53.34 0)
+		(at 38.1 55.88 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "78be2a4e-75bb-4a6e-910e-86d67808f5b7")
+		(uuid "7932bf6a-c657-4a0e-a185-d1b3142a32b8")
 	)
 	(label "Bit_0"
 		(at 41.91 175.26 0)
@@ -9018,6 +8984,16 @@
 			(justify right bottom)
 		)
 		(uuid "a46945ae-b73e-44ae-b3bf-a4840e8cd0c4")
+	)
+	(label "Data_1"
+		(at 25.4 38.1 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "a61ee27a-529e-4b0a-81c9-b4da8fe40826")
 	)
 	(label "bus_neg_1"
 		(at 180.34 39.37 180)
@@ -9389,16 +9365,6 @@
 		)
 		(uuid "df098b09-5768-468d-bdbe-34b05414c5d0")
 	)
-	(label "GND"
-		(at 115.57 30.48 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "e0d7dabe-a655-444a-8680-1b1d7254299a")
-	)
 	(label "llave_de_emergencia"
 		(at 127 107.95 90)
 		(effects
@@ -9538,16 +9504,6 @@
 			(justify right bottom)
 		)
 		(uuid "ff41e789-c363-4947-9bf9-bae253a799ad")
-	)
-	(label "Data_2"
-		(at 25.4 63.5 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "ff84596a-ca2e-4473-847f-594f3c46ab32")
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -16754,85 +16710,6 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "R11")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_US")
-		(at 121.92 30.48 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "9be42d23-19da-4257-a043-42e47e279ee8")
-		(property "Reference" "R53"
-			(at 122.174 28.702 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "0"
-			(at 122.174 30.988 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 122.174 29.464 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 121.92 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 121.92 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "7ba5d01a-d4e2-4349-b543-a0f5bc1535e0")
-		)
-		(pin "2"
-			(uuid "7b26e7af-e5c9-444f-a2a3-c38740c0b3bf")
-		)
-		(instances
-			(project "Circuito Final - Circuito externo"
-				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
-					(reference "R53")
 					(unit 1)
 				)
 			)
