@@ -1,0 +1,14 @@
+Fuente de prueba de V
+PRUEBA DE DESCARGA
+V_shunt :3.3mV
+Corriente fuente:60mA
+Corriente INA 63.2mV
+Corriente adc:60mV/58mV
+
+PRUEBA DE CARGA
+V_shunt :3.1mV
+Corriente fuente:60mA
+Corriente INA 63.2mV
+Corriente adc:64mV/59mV
+
+En ambos casos hubo una pequeña oscilación, pero puede deberse por la conexión de la prueba. Oscilación en corriente 16mA a 18mA por conectar la carga al circuito. Sin carga se sin observando los 11mA 

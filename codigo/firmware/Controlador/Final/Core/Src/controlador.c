@@ -7,7 +7,7 @@
 
 #include "controlador.h"
 #include "main.h"
-
+#include "llave.h"
 
 
 
@@ -55,7 +55,11 @@ void Controlador_init(void){
 
 		SR_Init(&sr_bancos[i],sr_data_puertos[i],sr_data_pines[i],CLK_GPIO_Port, CLK_Pin,LATCH_GPIO_Port, LATCH_Pin);
 
-		MUX_Init(&mux_bancos[i], S0_GPIO_Port, S0_Pin,S1_GPIO_Port, S1_Pin,S2_GPIO_Port,S2_Pin);
+		/* M74HC4051: A/bit0 = pin 11, B/bit1 = pin 10, C/bit2 = pin 9.
+		 * Cableado: PC6 (etiqueta S2) -> 11, PC8 (S1) -> 10, PC9 (S0) -> 9.
+		 */
+		MUX_Init(&mux_bancos[i], S2_GPIO_Port, S2_Pin,
+		         S1_GPIO_Port, S1_Pin, S0_GPIO_Port, S0_Pin);
 
 		adc_node_t nodo_medicion = ADC_MUX_BANCO_1;
 
@@ -71,7 +75,7 @@ void Controlador_init(void){
 	//apagar_banco
 
 	//Controlador_AplicarEstados();
-	HAL_GPIO_WritePin(llave_de_emergencia_GPIO_Port, llave_de_emergencia_Pin, GPIO_PIN_SET);
+	Llave_Habilitar();
 }
 
 
@@ -409,3 +413,6 @@ uint16_t Controlador_GetMedicion(adc_node_t nodo)
 
     return ctrl.mediciones[nodo];
 }
+
+
+

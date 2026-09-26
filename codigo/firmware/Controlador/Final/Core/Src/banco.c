@@ -340,6 +340,5 @@ void Banco_DetenerSwitchingCelda(banco_t *banco, uint8_t celda){
 
 
 void Banco_MedirCellNeg(banco_t *banco, uint8_t celda){
-	int pin = Banco_GetMuxPinCelda(celda);
-	MUX_Select(banco->mux,pin);
+	MUX_Select(banco->mux,celda);
 }

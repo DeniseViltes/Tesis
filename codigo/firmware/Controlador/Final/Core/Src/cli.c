@@ -39,7 +39,7 @@ void str_to_lower(char *s) {
         s++;
     }
 }
-
+/*
 static void cli_print_voltage(uint16_t voltage_mV)
 {
     char buffer[16];
@@ -51,7 +51,7 @@ static void cli_print_voltage(uint16_t voltage_mV)
 
     cli_print(buffer);
 }
-
+*/
 
 
 
@@ -97,15 +97,17 @@ static void cli_print_status(void)
 
 static const char *const adc_nombres[ADC_NODE_COUNT] =
 {
-    [ADC_MUX_BANCO_1] = "MUX banco 0",
-    [ADC_MUX_BANCO_2] = "MUX banco 1",
-    [ADC_MUX_BANCO_3] = "MUX banco 2",
-    [ADC_MUX_BANCO_4] = "MUX banco 3",
-    [ADC_BANCO_1]     = "Banco 0",
-    [ADC_BANCO_2]     = "Banco 1",
-    [ADC_BANCO_3]     = "Banco 2",
-    [ADC_BANCO_4]     = "Banco 3",
-    [ADC_CORRIENTE] = "corriente a la salida"
+    [ADC_MUX_BANCO_1] = "MUX banco 1",
+    [ADC_MUX_BANCO_2] = "MUX banco 2",
+    [ADC_MUX_BANCO_3] = "MUX banco 3",
+    [ADC_MUX_BANCO_4] = "MUX banco 4",
+    [ADC_BANCO_1]     = "Banco 1",
+    [ADC_BANCO_2]     = "Banco 2",
+    [ADC_BANCO_3]     = "Banco 3",
+    [ADC_BANCO_4]     = "Banco 4",
+    [ADC_CORRIENTE_DESCARGA] = "corriente de descarga a la salida",
+    [ADC_CORRIENTE_CARGA] = "corriente de carga a la salida"
+
 };
 
 
@@ -228,11 +230,12 @@ static void cli_handle_line(const char *line_in){
 	      {
 	          if (c_user < 1u || c_user > CELDAS_POR_BANCO)
 	          {
-	              cli_print("ERR: mux <banco> <celda>\r\n");
+	              cli_print("ERR: mux <celda 1..7>\r\n");
 	              return;
 	          }
 
 
+	          /* CLI: celdas 1..7; MUX_Select: indices 0..6. */
 	          uint8_t c = (uint8_t)(c_user - 1u);
 
 	          Controlador_SeleccionarCellNeg(c);

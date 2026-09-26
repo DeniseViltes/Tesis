@@ -50,14 +50,14 @@ void MUX_SetNodo (mux_t *mux,adc_node_t nodo){
 
 void MUX_Select(mux_t *mux, uint8_t cell)
 {
-    static const uint8_t mux_map[7] = {
-        6,  // cell 0 -> cell_neg1 -> A6
-        4,  // cell 1 -> cell_neg2 -> A4
-        7,  // cell 2 -> cell_neg3 -> A7
-        5,  // cell 3 -> cell_neg4 -> A5
-        2,  // cell 4 -> cell_neg5 -> A2
-        1,  // cell 5 -> cell_neg6 -> A1
-        0   // cell 6 -> cell_neg7 -> A0
+    static const uint8_t mux_map[7] = {  // Bits en orden S2 S1 S0
+        6,  // cell 0 -> cell_neg1 -> A6   110
+        4,  // cell 1 -> cell_neg2 -> A4   100
+        7,  // cell 2 -> cell_neg3 -> A7   111
+        5,  // cell 3 -> cell_neg4 -> A5   101
+        2,  // cell 4 -> cell_neg5 -> A2   010
+        1,  // cell 5 -> cell_neg6 -> A1   001
+        0   // cell 6 -> cell_neg7 -> A0   000
     };
 
     if (cell >= 7)

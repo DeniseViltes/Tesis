@@ -8,7 +8,7 @@
 #include "main.h"
 
 #define ADC_VREF_mV 3300u
-#define ADC_SETS   2u
+#define ADC_SETS   6u
 #define ADC_BUF_LEN (ADC_NODE_COUNT * ADC_SETS)
 
 
@@ -74,7 +74,7 @@ void adc_update(void)
 }
 
 
-uint16_t adc_get_raw(adc_node_t node)
+uint16_t adc_get_node_raw(adc_node_t node)
 {
     if ((uint32_t)node >= ADC_NODE_COUNT)
     {
@@ -126,10 +126,19 @@ uint8_t adc_is_dma_started(void)
 
 uint32_t cell_neg_voltage_divider(uint32_t adc_mV)
 {
+	if (adc_mV == 0) return adc_mV;
     return (adc_mV * (DIV_R1_OHM + DIV_R2_OHM)/ DIV_R2_OHM);
 }
 
 
+
+
+void adc_get_raw(uint16_t *buffer, uint16_t len){
+	 for (uint8_t i = 0; i < ADC_NODE_COUNT; i++)
+	    {
+		 buffer[i] = (uint16_t)(((uint32_t)g_adc_raw[i] * ADC_VREF_mV + 2047u) / 4095u);
+	    }
+}
 
 void adc_get_voltages_mV(uint16_t *buffer, uint16_t len)
 {
@@ -138,16 +147,33 @@ void adc_get_voltages_mV(uint16_t *buffer, uint16_t len)
         return;
     }
 
-    for (uint8_t i = 0; i < ADC_NODE_COUNT-1; i++)
+    for (uint8_t i = 0; i < ADC_CORRIENTE_DESCARGA; i++)
     { //DEJO TODOS LOS NODOS CON EL MISMO DIVISOR RESISTIVO
-        buffer[i] =(uint16_t) cell_neg_voltage_divider((((uint32_t)g_adc_raw[i] * ADC_VREF_mV) / 4095u));
+    	const uint64_t denominador = 4095ULL * DIV_R2_OHM;
+
+    	buffer[i] = (uint16_t)(
+    	    ((uint64_t)g_adc_raw[i] * ADC_VREF_mV
+    	     * (DIV_R1_OHM + DIV_R2_OHM)
+    	     + denominador / 2u) / denominador
+    	);
     }
-    buffer[ADC_CORRIENTE] = g_adc_raw[ADC_CORRIENTE];
+
+    buffer[ADC_CORRIENTE_DESCARGA] = (uint16_t)(
+        ((uint32_t)g_adc_raw[ADC_CORRIENTE_DESCARGA] * ADC_VREF_mV
+         + 2047u) / 4095u);
+
+    buffer[ADC_CORRIENTE_CARGA] = (uint16_t)(
+        ((uint32_t)g_adc_raw[ADC_CORRIENTE_CARGA] * ADC_VREF_mV
+         + 2047u) / 4095u
+    );
+
+
 }
 
 uint16_t adc_get_node_voltage_mV(adc_node_t node)
 {
-    uint16_t raw = adc_get_raw(node);
+    uint16_t raw = adc_get_node_raw(node);
+
 
     uint16_t medicion = (uint16_t)(
         ((uint32_t)raw * ADC_VREF_mV + 2047u) / 4095u
