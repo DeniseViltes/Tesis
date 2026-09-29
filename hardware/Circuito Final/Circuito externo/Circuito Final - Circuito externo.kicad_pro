@@ -40,8 +40,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 0.45,
-          "width": 1.425
+          "height": 0.6,
+          "width": 1.325
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -130,7 +130,7 @@
       },
       "rules": {
         "max_error": 0.005,
-        "min_clearance": 0.0,
+        "min_clearance": 0.5,
         "min_connection": 0.0,
         "min_copper_edge_clearance": 0.5,
         "min_groove_width": 0.0,
@@ -142,8 +142,8 @@
         "min_silk_clearance": 0.0,
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
-        "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.0,
+        "min_through_hole_diameter": 0.5,
+        "min_track_width": 0.4,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.5,
         "solder_mask_to_copper_clearance": 0.0,
@@ -511,20 +511,9 @@
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.4,
         "tuning_profile": "",
-        "via_diameter": 1.7,
+        "via_diameter": 1.2,
         "via_drill": 0.5,
         "wire_width": 6
-      },
-      {
-        "clearance": 0.5,
-        "name": "Buses",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 0,
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 1.5,
-        "tuning_profile": "",
-        "via_diameter": 2.5,
-        "via_drill": 1.5
       }
     ],
     "meta": {
@@ -534,16 +523,44 @@
     "netclass_assignments": null,
     "netclass_patterns": [
       {
-        "netclass": "Buses",
-        "pattern": "bus_pos"
+        "netclass": "Default",
+        "pattern": "/bus_neg_2"
       },
       {
-        "netclass": "Buses",
-        "pattern": "bus_neg"
+        "netclass": "Default",
+        "pattern": "/bus_pos_2"
       },
       {
-        "netclass": "Buses",
-        "pattern": "Vcc"
+        "netclass": "Default",
+        "pattern": "/bus_neg_1"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/bus_pos_1"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/bus_neg_3"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/bus_pos_3"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/bus_neg_4"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/bus_pos_4"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/bus_neg_salida"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/bus_pos_salida"
       }
     ]
   },
@@ -741,7 +758,7 @@
         "uuid": "f0782466-24b0-4466-90f1-cde2f15c75b0"
       }
     ],
-    "used_designators": "#PWR36-38,Q4-6,R7-10,R13,SW7",
+    "used_designators": "F1,TP5-11,Bornera3,SW7,JP1,R7,J6",
     "variants": []
   },
   "sheets": [

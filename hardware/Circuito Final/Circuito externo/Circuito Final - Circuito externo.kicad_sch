@@ -2926,6 +2926,158 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:Fuse"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "F"
+				(at 2.032 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Fuse"
+				(at -1.905 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Fuse"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "fuse"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "*Fuse*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Fuse_0_1"
+				(rectangle
+					(start -0.762 -2.54)
+					(end 0.762 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Fuse_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:Opamp_Quad"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -5539,7 +5691,7 @@
 	)
 	(text ""
 		(exclude_from_sim no)
-		(at 199.136 151.13 0)
+		(at 177.546 156.21 0)
 		(effects
 			(font
 				(size 5 5)
@@ -5784,7 +5936,7 @@
 		(uuid "d2b50dc0-d6b2-4f49-845e-1e08744f9117")
 	)
 	(junction
-		(at 138.43 107.95)
+		(at 148.59 106.68)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d60b4e84-e870-4253-ae6b-0c66feeb6344")
@@ -5844,6 +5996,10 @@
 	(no_connect
 		(at 62.23 71.12)
 		(uuid "0daeda5c-740c-4ebd-a6cb-ebcd1ebbae42")
+	)
+	(no_connect
+		(at 228.6 123.19)
+		(uuid "10eadf3e-8944-49fc-8ff4-a6fe45375a8d")
 	)
 	(no_connect
 		(at 25.4 50.8)
@@ -6071,7 +6227,7 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 107.95) (xy 140.97 107.95)
+			(xy 148.59 106.68) (xy 151.13 106.68)
 		)
 		(stroke
 			(width 0)
@@ -6171,7 +6327,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 120.65) (xy 184.15 124.46)
+			(xy 184.15 111.76) (xy 184.15 114.3)
 		)
 		(stroke
 			(width 0)
@@ -6211,7 +6367,17 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 91.44) (xy 148.59 91.44)
+			(xy 130.81 104.14) (xy 137.16 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "197a5034-2048-4b85-ab5f-b0ee14ecc07a")
+	)
+	(wire
+		(pts
+			(xy 157.48 90.17) (xy 158.75 90.17)
 		)
 		(stroke
 			(width 0)
@@ -6238,6 +6404,16 @@
 			(type default)
 		)
 		(uuid "1d575d0a-7404-478c-b8c6-cf8f779e4af1")
+	)
+	(wire
+		(pts
+			(xy 184.15 121.92) (xy 184.15 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e41b1f7-6531-42f3-94f0-ce98aee0a10a")
 	)
 	(wire
 		(pts
@@ -6671,7 +6847,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 113.03) (xy 148.59 114.3)
+			(xy 158.75 111.76) (xy 158.75 113.03)
 		)
 		(stroke
 			(width 0)
@@ -6791,7 +6967,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 107.95) (xy 129.54 107.95)
+			(xy 137.16 106.68) (xy 139.7 106.68)
 		)
 		(stroke
 			(width 0)
@@ -6831,7 +7007,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 91.44) (xy 148.59 93.98)
+			(xy 158.75 90.17) (xy 158.75 92.71)
 		)
 		(stroke
 			(width 0)
@@ -7151,7 +7327,7 @@
 	)
 	(wire
 		(pts
-			(xy 161.29 130.81) (xy 165.1 130.81)
+			(xy 142.24 130.81) (xy 149.634 130.81)
 		)
 		(stroke
 			(width 0)
@@ -7181,6 +7357,16 @@
 	)
 	(wire
 		(pts
+			(xy 137.16 104.14) (xy 137.16 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f8d472f-8b28-4148-8d60-236d389cafd5")
+	)
+	(wire
+		(pts
 			(xy 62.23 106.68) (xy 62.23 109.22)
 		)
 		(stroke
@@ -7188,6 +7374,16 @@
 			(type default)
 		)
 		(uuid "923481f9-f6ae-4cad-ad5a-e254d03f8bc0")
+	)
+	(wire
+		(pts
+			(xy 157.254 130.81) (xy 165.1 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94e4d1c8-91c8-4eaa-8503-bb85239242b4")
 	)
 	(wire
 		(pts
@@ -7261,7 +7457,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 101.6) (xy 148.59 102.87)
+			(xy 158.75 100.33) (xy 158.75 101.6)
 		)
 		(stroke
 			(width 0)
@@ -7481,7 +7677,7 @@
 	)
 	(wire
 		(pts
-			(xy 250.19 92.71) (xy 252.73 92.71)
+			(xy 250.19 92.71) (xy 254 92.71)
 		)
 		(stroke
 			(width 0)
@@ -7671,16 +7867,6 @@
 	)
 	(wire
 		(pts
-			(xy 260.35 92.71) (xy 265.43 92.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dc557491-2fe5-4c5b-8b9f-8ab45591591a")
-	)
-	(wire
-		(pts
 			(xy 123.19 69.85) (xy 123.19 68.58)
 		)
 		(stroke
@@ -7721,7 +7907,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 107.95) (xy 138.43 107.95)
+			(xy 147.32 106.68) (xy 148.59 106.68)
 		)
 		(stroke
 			(width 0)
@@ -8359,8 +8545,18 @@
 		)
 		(uuid "4655b303-0d04-4882-8f2c-d9f27c7105a0")
 	)
+	(label "llave_de_emergencia"
+		(at 130.81 101.6 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4687ccb2-f972-4837-828e-26362412bc85")
+	)
 	(label "gate"
-		(at 148.59 91.44 0)
+		(at 158.75 90.17 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8410,14 +8606,24 @@
 		(uuid "4da6fdf2-ad1c-43d0-ac61-27002db5d177")
 	)
 	(label "bus_pos_salida"
-		(at 184.15 120.65 90)
+		(at 184.15 111.76 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
 		(uuid "4e7965d2-e282-489c-a8bd-eb3711577492")
+	)
+	(label "medicion_corriente_de_carga"
+		(at 201.93 153.67 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "4f68fc6c-c110-4ba3-a38f-cbf684a2cf57")
 	)
 	(label "source"
 		(at 53.34 109.22 0)
@@ -8480,7 +8686,7 @@
 		(uuid "55ba9dbf-355f-457d-a3fb-68cc6ede4379")
 	)
 	(label "source"
-		(at 139.7 91.44 180)
+		(at 149.86 90.17 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8608,6 +8814,16 @@
 			(justify right bottom)
 		)
 		(uuid "6948d6c4-53b0-4ca8-8e9a-d0bbb076c846")
+	)
+	(label "medicion_corriente_de_descarga"
+		(at 176.53 158.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6b211d45-0694-4a37-a0b3-b5f4666b75a9")
 	)
 	(label "shunt"
 		(at 184.15 138.43 0)
@@ -8830,7 +9046,7 @@
 		(uuid "8b79a5a8-76c4-4f2f-8588-0b951dad1456")
 	)
 	(label "medicion_corriente_de_carga"
-		(at 161.29 130.81 180)
+		(at 142.24 130.81 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9030,7 +9246,7 @@
 		(uuid "ac7a9dc5-8305-4f6a-be05-2960f9f6f032")
 	)
 	(label "Vcc"
-		(at 265.43 92.71 0)
+		(at 254 92.71 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9369,15 +9585,15 @@
 		)
 		(uuid "df098b09-5768-468d-bdbe-34b05414c5d0")
 	)
-	(label "llave_de_emergencia"
-		(at 127 107.95 90)
+	(label "Vcc"
+		(at 130.81 106.68 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "e6713da2-5dae-4fac-8c57-d9ccaeba3e93")
+		(uuid "e4e37a8a-909a-451e-9425-f0d17244a219")
 	)
 	(label "salida_adc_1"
 		(at 38.1 68.58 0)
@@ -10226,7 +10442,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 143.51 91.44 270)
+		(at 153.67 90.17 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10236,7 +10452,7 @@
 		(dnp no)
 		(uuid "0f27d220-bdb8-4600-b4bd-c9d4d6db2122")
 		(property "Reference" "R3"
-			(at 143.764 91.44 90)
+			(at 153.924 90.17 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10246,7 +10462,7 @@
 			)
 		)
 		(property "Value" "22k"
-			(at 143.764 89.408 90)
+			(at 153.924 88.138 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10256,7 +10472,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 143.51 89.662 90)
+			(at 153.67 88.392 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10267,7 +10483,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 143.51 91.44 0)
+			(at 153.67 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10278,7 +10494,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 143.51 91.44 0)
+			(at 153.67 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10298,6 +10514,84 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "R3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 262.89 115.57 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "0f456e8e-bd95-4c98-8fd7-26556cbce2a7")
+		(property "Reference" "TP11"
+			(at 264.16 110.9979 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 265.43 113.5379 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5005-5009_Compact"
+			(at 267.97 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 267.97 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 262.89 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3baf57d5-fc7e-4bd7-b1ae-69ed1049411b")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "TP11")
 					(unit 1)
 				)
 			)
@@ -11321,7 +11615,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:MMBT2222A")
-		(at 146.05 107.95 0)
+		(at 156.21 106.68 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11329,10 +11623,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "25c2519d-36aa-4b6b-a4f8-c4bbeaeb41e4")
 		(property "Reference" "Q3"
-			(at 151.13 106.6799 0)
+			(at 161.29 105.4099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11343,7 +11636,7 @@
 			)
 		)
 		(property "Value" "MMBT2222A"
-			(at 151.13 109.2199 0)
+			(at 162.56 118.618 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11354,7 +11647,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 151.13 109.855 0)
+			(at 161.29 108.585 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11367,7 +11660,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/MMBT2222A.pdf"
-			(at 146.05 107.95 0)
+			(at 156.21 106.68 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11379,7 +11672,7 @@
 			)
 		)
 		(property "Description" "600mA Ic, 40V Vce, NPN Transistor, SOT-23"
-			(at 146.05 107.95 0)
+			(at 156.21 106.68 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11390,7 +11683,7 @@
 			)
 		)
 		(property "Sim.Device" "NPN"
-			(at 146.05 107.95 0)
+			(at 156.21 106.68 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11401,7 +11694,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=B 2=E 3=C"
-			(at 146.05 107.95 0)
+			(at 156.21 106.68 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11662,6 +11955,85 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "R51")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 153.444 130.81 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2935afd4-4865-4acc-9764-1b47add31ba5")
+		(property "Reference" "S1"
+			(at 153.698 127 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 153.698 128.778 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 153.444 129.032 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 153.444 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 153.444 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "23f9319b-c3d8-4650-8324-154f5f821344")
+		)
+		(pin "2"
+			(uuid "8f0e3bf0-7b8f-4f05-96cd-36ab2ff03466")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "S1")
 					(unit 1)
 				)
 			)
@@ -12196,6 +12568,84 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "SW3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 176.53 158.75 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "31a4843f-04a5-4e52-bca0-b45107427722")
+		(property "Reference" "TP6"
+			(at 177.8 154.1779 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 179.07 156.7179 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5005-5009_Compact"
+			(at 181.61 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 181.61 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 176.53 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "fa6d1247-1835-4c71-9ca7-ea6187f87001")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "TP6")
 					(unit 1)
 				)
 			)
@@ -12910,6 +13360,84 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 213.36 36.83 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "45847873-4dd5-4284-98af-3feee74b2e65")
+		(property "Reference" "TP10"
+			(at 214.63 32.2579 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 215.9 34.7979 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5005-5009_Compact"
+			(at 218.44 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 218.44 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 213.36 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b554e201-cdc5-4873-bbc7-76264bb5eb9c")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "TP10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Switch:SW_SPDT")
 		(at 107.95 113.03 0)
 		(mirror y)
@@ -13392,7 +13920,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 138.43 111.76 180)
+		(at 148.59 110.49 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -13402,7 +13930,7 @@
 		(dnp no)
 		(uuid "4cbf3156-54b1-4fc1-996a-32f1a7d29753")
 		(property "Reference" "R5"
-			(at 142.24 112.014 90)
+			(at 152.4 110.744 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13412,7 +13940,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 140.462 112.014 90)
+			(at 150.622 110.744 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13422,7 +13950,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 140.208 111.76 90)
+			(at 150.368 110.49 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13433,7 +13961,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 138.43 111.76 0)
+			(at 148.59 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13444,7 +13972,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 138.43 111.76 0)
+			(at 148.59 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13559,7 +14087,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 148.59 97.79 0)
+		(at 158.75 96.52 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -13569,7 +14097,7 @@
 		(dnp no)
 		(uuid "4e0ff5fe-b017-43b6-95b8-37a5f30e65c5")
 		(property "Reference" "R4"
-			(at 144.78 97.536 90)
+			(at 154.94 96.266 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13579,7 +14107,7 @@
 			)
 		)
 		(property "Value" "1k"
-			(at 146.558 97.536 90)
+			(at 156.718 96.266 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13589,7 +14117,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 146.812 97.79 90)
+			(at 156.972 96.52 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13600,7 +14128,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 148.59 97.79 0)
+			(at 158.75 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13611,7 +14139,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 148.59 97.79 0)
+			(at 158.75 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15209,7 +15737,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 133.35 107.95 270)
+		(at 143.51 106.68 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -15219,7 +15747,7 @@
 		(dnp no)
 		(uuid "776c6082-de66-48d1-9d2e-a63440e2a1e1")
 		(property "Reference" "R1"
-			(at 133.604 104.14 90)
+			(at 143.764 102.87 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -15229,7 +15757,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 133.604 105.918 90)
+			(at 143.764 104.648 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -15239,7 +15767,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 133.35 106.172 90)
+			(at 143.51 104.902 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15250,7 +15778,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 133.35 107.95 0)
+			(at 143.51 106.68 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15261,7 +15789,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 133.35 107.95 0)
+			(at 143.51 106.68 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15678,6 +16206,91 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "R50")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x03_Pin")
+		(at 125.73 104.14 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "89a2cffb-92fb-4ce8-a627-4ebfef4f70b0")
+		(property "Reference" "J6"
+			(at 126.365 96.52 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x03_Pin"
+			(at 126.365 99.06 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+			(at 125.73 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 125.73 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x03, script generated"
+			(at 125.73 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.254)
+					(bold yes)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e19541a7-c05e-47ae-b8a7-d2d8a774ae94")
+		)
+		(pin "2"
+			(uuid "fbf7fe67-9cb9-4e1d-b61f-0234dbc3bcbe")
+		)
+		(pin "3"
+			(uuid "878e23bf-87fb-4b6b-88bf-90363138b462")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "J6")
 					(unit 1)
 				)
 			)
@@ -16477,6 +17090,84 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 201.93 153.67 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9a0318dd-578f-442d-8311-c918f291d9b6")
+		(property "Reference" "TP5"
+			(at 203.2 149.0979 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 204.47 151.6379 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5005-5009_Compact"
+			(at 207.01 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 207.01 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 201.93 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b28be1c1-72e7-4aec-9e9e-ef9f0ebdc570")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "TP5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 92.71 115.57 270)
 		(unit 1)
@@ -16715,6 +17406,84 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "R11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 266.7 71.12 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9cb51d58-96f6-46d9-8c47-8ae83e1915dc")
+		(property "Reference" "TP7"
+			(at 267.97 66.5479 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 273.304 66.548 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5005-5009_Compact"
+			(at 271.78 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 271.78 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 266.7 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "fdf2cc91-468c-4919-a2b3-177611a22c56")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "TP7")
 					(unit 1)
 				)
 			)
@@ -17215,6 +17984,84 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 266.7 36.83 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ab2e2792-be3c-4f46-bb77-05b4a3878c9b")
+		(property "Reference" "TP9"
+			(at 267.97 32.2579 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 269.24 34.7979 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5005-5009_Compact"
+			(at 271.78 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 271.78 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 266.7 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "751079d9-f75e-40ad-9326-6ba99c11d6ea")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "TP9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:Opamp_Quad")
 		(at 203.2 36.83 0)
 		(unit 3)
@@ -17621,6 +18468,88 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:Fuse")
+		(at 184.15 118.11 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b72b877d-239a-4d6f-8177-13dc559823ba")
+		(property "Reference" "F1"
+			(at 186.69 116.8399 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Fuse"
+			(at 186.69 119.3799 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Fuse:Fuse_1206_3216Metric_Pad1.42x1.75mm_HandSolder"
+			(at 185.928 118.11 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 184.15 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Fuse"
+			(at 184.15 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8f93d30a-4f2f-44b2-b978-d43297ccd8a2")
+		)
+		(pin "2"
+			(uuid "3e8296b3-8c4c-42b7-b149-8221d6951cf6")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "F1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 102.87 185.42 270)
 		(unit 1)
@@ -17889,7 +18818,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 138.43 115.57 0)
+		(at 148.59 114.3 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -17900,7 +18829,7 @@
 		(fields_autoplaced yes)
 		(uuid "c47f13b6-e672-4475-bd98-f4db826bb124")
 		(property "Reference" "#PWR011"
-			(at 138.43 121.92 0)
+			(at 148.59 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17911,7 +18840,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 138.43 120.65 0)
+			(at 148.59 119.38 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -17921,7 +18850,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 138.43 115.57 0)
+			(at 148.59 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17932,7 +18861,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 138.43 115.57 0)
+			(at 148.59 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17943,7 +18872,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 138.43 115.57 0)
+			(at 148.59 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18841,7 +19770,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 148.59 114.3 0)
+		(at 158.75 113.03 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -18852,7 +19781,7 @@
 		(fields_autoplaced yes)
 		(uuid "dfb7573d-7939-4782-86e4-9a1e859d72d5")
 		(property "Reference" "#PWR06"
-			(at 148.59 120.65 0)
+			(at 158.75 119.38 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18863,7 +19792,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 148.59 119.38 0)
+			(at 158.75 118.11 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -18873,7 +19802,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 148.59 114.3 0)
+			(at 158.75 113.03 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18884,7 +19813,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 148.59 114.3 0)
+			(at 158.75 113.03 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18895,7 +19824,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 148.59 114.3 0)
+			(at 158.75 113.03 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19311,6 +20240,84 @@
 			(project "Circuito Final - Circuito externo"
 				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
 					(reference "R35")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 213.36 71.12 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ef1cb9ee-3a8f-4126-84ab-cfaa29098675")
+		(property "Reference" "TP8"
+			(at 214.63 66.5479 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 215.9 69.0879 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5005-5009_Compact"
+			(at 218.44 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 218.44 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 213.36 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "27c0795f-e0c3-4fd4-a498-6867df151def")
+		)
+		(instances
+			(project "Circuito Final - Circuito externo"
+				(path "/f0782466-24b0-4466-90f1-cde2f15c75b0"
+					(reference "TP8")
 					(unit 1)
 				)
 			)
