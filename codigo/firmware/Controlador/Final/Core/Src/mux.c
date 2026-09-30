@@ -64,6 +64,7 @@ void MUX_Select(mux_t *mux, uint8_t cell)
         return;
 
     uint8_t pin = mux_map[cell];
+    mux->canal_seleccionado = cell;
 
     HAL_GPIO_WritePin(
         mux->s0_port,
