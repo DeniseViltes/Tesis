@@ -8235,7 +8235,7 @@
 		)
 		(uuid "31ddf5f0-95c7-4a41-a3a1-79c469e12c1a")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 223.52 115.57 180)
 		(effects
 			(font
@@ -8505,7 +8505,7 @@
 		)
 		(uuid "59b2e49f-1f2f-4a45-bf5a-bcbe9a899dca")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 149.86 25.4 0)
 		(effects
 			(font
@@ -8815,7 +8815,7 @@
 		)
 		(uuid "8ad06669-0b17-44ca-8fe6-36ef9487b192")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 29.21 190.5 180)
 		(effects
 			(font
@@ -8835,7 +8835,7 @@
 		)
 		(uuid "92571b85-ae88-4272-8f53-0a8c0a9c9ffa")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 116.84 113.03 0)
 		(effects
 			(font
@@ -8885,7 +8885,7 @@
 		)
 		(uuid "969f8fff-1829-4024-88cb-2626b6a2a6d8")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 138.43 25.4 180)
 		(effects
 			(font
@@ -8905,7 +8905,7 @@
 		)
 		(uuid "9c0e2d36-fd0d-4111-8b9e-95d9f513aaef")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 139.7 190.5 180)
 		(effects
 			(font
@@ -8915,7 +8915,7 @@
 		)
 		(uuid "9d51bc3d-6c3c-4f65-b5e1-2b72fb4c58ed")
 	)
-	(label "Vcc"
+	(label "Vcc_general"
 		(at 22.86 106.68 180)
 		(effects
 			(font
@@ -8945,7 +8945,7 @@
 		)
 		(uuid "9f9976d5-7568-4389-87b5-c4e9e22b1de0")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 66.04 190.5 180)
 		(effects
 			(font
@@ -8965,7 +8965,7 @@
 		)
 		(uuid "a2eede72-a6ce-47ce-ba51-c6a8ac4ec53f")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 160.02 142.24 180)
 		(effects
 			(font
@@ -9035,7 +9035,7 @@
 		)
 		(uuid "ac7a9dc5-8305-4f6a-be05-2960f9f6f032")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 265.43 92.71 0)
 		(effects
 			(font
@@ -9055,7 +9055,7 @@
 		)
 		(uuid "acfa4c0a-1291-4e6d-abfa-aad240366299")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 149.86 45.72 0)
 		(effects
 			(font
@@ -9175,7 +9175,7 @@
 		)
 		(uuid "c0429ac8-36e6-41cd-95f3-aeef3e741d9f")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 102.87 190.5 180)
 		(effects
 			(font
@@ -9275,7 +9275,7 @@
 		)
 		(uuid "d18e2bbf-1a92-492c-a96e-6e3261b267a5")
 	)
-	(label "Vcc"
+	(label "Vcc_general"
 		(at 270.51 148.59 0)
 		(effects
 			(font
@@ -9315,7 +9315,7 @@
 		)
 		(uuid "d978b86c-b540-400c-81bd-5375c34668f1")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 138.43 45.72 180)
 		(effects
 			(font
@@ -9375,7 +9375,7 @@
 		)
 		(uuid "e6713da2-5dae-4fac-8c57-d9ccaeba3e93")
 	)
-	(label "Vcc_out"
+	(label "Vcc"
 		(at 194.31 110.49 180)
 		(effects
 			(font
@@ -19015,7 +19015,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "20m"
+		(property "Value" "50m"
 			(at 186.69 132.0799 0)
 			(show_name no)
 			(do_not_autoplace no)

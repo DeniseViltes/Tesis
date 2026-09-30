@@ -270,7 +270,7 @@ void Banco_SetModoCelda(banco_t *banco, uint8_t celda, celda_modo_t modo)
 
 void Banco_SetModo(banco_t *banco, celda_modo_t modo){
 
-	for (int i = 0; i < CELDAS_POR_BANCO; i++){
+	for (int i = 0; i < banco->cant_celdas; i++){
 		banco->celdas[i].modo = modo;
 	}
 }
@@ -340,5 +340,6 @@ void Banco_DetenerSwitchingCelda(banco_t *banco, uint8_t celda){
 
 
 void Banco_MedirCellNeg(banco_t *banco, uint8_t celda){
+    if (banco == NULL || celda >= banco->cant_celdas) return;
 	MUX_Select(banco->mux,celda);
 }
