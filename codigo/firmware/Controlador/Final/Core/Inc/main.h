@@ -99,12 +99,12 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define DATA1_Pin GPIO_PIN_15
-#define DATA1_GPIO_Port GPIOA
 #define CLK_Pin GPIO_PIN_10
 #define CLK_GPIO_Port GPIOC
 #define LATCH_Pin GPIO_PIN_11
 #define LATCH_GPIO_Port GPIOC
+#define DATA1_Pin GPIO_PIN_12
+#define DATA1_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 

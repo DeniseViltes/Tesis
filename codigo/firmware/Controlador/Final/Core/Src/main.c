@@ -375,29 +375,22 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, DATA2_Pin|S2_Pin|S1_Pin|S0_Pin
-                          |CLK_Pin|LATCH_Pin, GPIO_PIN_RESET);
+                          |CLK_Pin|LATCH_Pin|DATA1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, llave_de_emergencia_Pin|DATA3_Pin|DATA4_Pin|DATA1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, llave_de_emergencia_Pin|DATA3_Pin|DATA4_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : DATA2_Pin */
-  GPIO_InitStruct.Pin = DATA2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(DATA2_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : S2_Pin S1_Pin S0_Pin CLK_Pin
-                           LATCH_Pin */
-  GPIO_InitStruct.Pin = S2_Pin|S1_Pin|S0_Pin|CLK_Pin
-                          |LATCH_Pin;
+  /*Configure GPIO pins : DATA2_Pin S2_Pin S1_Pin S0_Pin
+                           CLK_Pin LATCH_Pin DATA1_Pin */
+  GPIO_InitStruct.Pin = DATA2_Pin|S2_Pin|S1_Pin|S0_Pin
+                          |CLK_Pin|LATCH_Pin|DATA1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : llave_de_emergencia_Pin DATA3_Pin DATA4_Pin DATA1_Pin */
-  GPIO_InitStruct.Pin = llave_de_emergencia_Pin|DATA3_Pin|DATA4_Pin|DATA1_Pin;
+  /*Configure GPIO pins : llave_de_emergencia_Pin DATA3_Pin DATA4_Pin */
+  GPIO_InitStruct.Pin = llave_de_emergencia_Pin|DATA3_Pin|DATA4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
