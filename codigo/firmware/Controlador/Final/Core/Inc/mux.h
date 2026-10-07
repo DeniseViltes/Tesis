@@ -35,17 +35,17 @@ typedef struct {
     uint16_t      s2_pin;
 
     uint8_t canal_seleccionado;
-    adc_node_t nodo;//VER OTRA ALTERNATIVA
+
 } mux_t;
 
 
 void MUX_Init(mux_t *mux, GPIO_TypeDef *s0_port, uint16_t s0_pin,
 			GPIO_TypeDef *s1_port, uint16_t s1_pin,
 			 GPIO_TypeDef *s2_port, uint16_t  s2_pin);
-/* cell: indice logico 0..6; la funcion lo convierte al canal fisico. */
-void MUX_Select(mux_t *mux, uint8_t cell);
 
-void MUX_SetNodo (mux_t *mux,adc_node_t nodo);
+
+/* Canal fisico 0..7; el banco realiza el mapeo desde la celda. */
+void MUX_Select(mux_t *mux, uint8_t pin);
 
 
 #endif /* INC_MUX_H_ */

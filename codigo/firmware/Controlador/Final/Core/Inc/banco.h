@@ -45,9 +45,6 @@ typedef struct {
 	SW_estado_t actual;
 	SW_estado_t prox;
 	uint8_t pin_sr;
-	//uint16_t contador;
-	//uint16_t periodo_ms;  //si es cero no switchea.
-	//uint8_t fase; //fase general del banco
 	adc_node_t canal_adc;
 } banco_t;
 
@@ -106,7 +103,7 @@ void Banco_SetModo(banco_t *banco, celda_modo_t modo);
 
 void Banco_SwichingCelda(banco_t *banco, uint8_t celda);
 
-
+void Banco_SeleccionarCeldaMux(banco_t *banco, uint8_t celda);
 
 
 

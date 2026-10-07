@@ -199,23 +199,7 @@ void Banco_AplicarEstadoPin(banco_t *banco, uint8_t pin){
 	return;
 }
 
-SW_estado_t Banco_GetEstadoPin(banco_t *banco, uint8_t pin)
-{
-	if (banco == NULL) {
-		return OFF;
-	}
 
-	if (pin == 0) {
-		return banco->prox;
-	}
-
-	uint8_t celda = pin - 1;
-	if (celda >= banco->cant_celdas) {
-		return OFF;
-	}
-
-	return banco->celdas[celda].prox;
-}
 
 SW_estado_t Banco_GetEstadoCelda(banco_t *banco, uint8_t celda){
 	return banco->celdas[celda].prox;
@@ -270,7 +254,7 @@ void Banco_SetModoCelda(banco_t *banco, uint8_t celda, celda_modo_t modo)
 
 void Banco_SetModo(banco_t *banco, celda_modo_t modo){
 
-	for (int i = 0; i < banco->cant_celdas; i++){
+	for (int i = 0; i < CELDAS_POR_BANCO; i++){
 		banco->celdas[i].modo = modo;
 	}
 }
@@ -339,7 +323,6 @@ void Banco_DetenerSwitchingCelda(banco_t *banco, uint8_t celda){
 //------------------------------MUX---------------------------------------
 
 
-void Banco_MedirCellNeg(banco_t *banco, uint8_t celda){
-    if (banco == NULL || celda >= banco->cant_celdas) return;
-	MUX_Select(banco->mux,celda);
+void Banco_SeleccionarCeldaMux(banco_t *banco, uint8_t celda){
+	MUX_Select(banco->mux,banco->celdas[celda].pin_mux);
 }

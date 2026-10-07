@@ -1,5 +1,12 @@
-#include "fallas.h"
+/*
+ * fallas.c
+ *
+ *  Created on: 7 oct 2026
+ *      Author: ---
+ */
 
+#include "fallas.h"
+/*
 falla_t Fallas_EvaluarDescargaRL(uint16_t tension_mV, uint16_t corriente_mA,
                                uint16_t resistencia_ohm)
 {
@@ -10,7 +17,7 @@ falla_t Fallas_EvaluarDescargaRL(uint16_t tension_mV, uint16_t corriente_mA,
     uint32_t tolerancia = TOLERANCIA_RL_MA +
         esperada_mA * TOLERANCIA_RL_PORCENTAJE / 100u;
     return diferencia > tolerancia ? FALLA_DESCARGA_RL : FALLA_NINGUNA;
-}
+}*/
 
 falla_t Fallas_EvaluarTensionCelda(uint16_t tension_mV)
 {
@@ -34,3 +41,4 @@ falla_t Fallas_EvaluarCorrientes(uint16_t corrienteDescarga_mA,
     }
     return FALLA_NINGUNA;
 }
+

@@ -22,49 +22,18 @@ void MUX_Init(mux_t *mux, GPIO_TypeDef *s0_port, uint16_t s0_pin,
 	mux->s2_port =s2_port;
 	mux->s2_pin = s2_pin;
 
-	mux->canal_seleccionado = 0;
+	MUX_Select(mux, 3);//gnd
+
+	mux->canal_seleccionado = 3;
 
 
 }
 
-void MUX_SetNodo (mux_t *mux,adc_node_t nodo){
-	mux->nodo = nodo;
-}
 
-
-
-
-/*
- * Celda lógica -> canal físico del MUX
- *
- * celda 0 (cell_neg1) -> A6
- * celda 1 (cell_neg2) -> A4
- * celda 2 (cell_neg3) -> A7
- * celda 3 (cell_neg4) -> A5
- * celda 4 (cell_neg5) -> A2
- * celda 5 (cell_neg6) -> A1
- * celda 6 (cell_neg7) -> A0
- *
- * A3 -> GND
- */
-
-void MUX_Select(mux_t *mux, uint8_t cell)
+void MUX_Select(mux_t *mux, uint8_t pin)
 {
-    static const uint8_t mux_map[7] = {  // Bits en orden S2 S1 S0
-        6,  // cell 0 -> cell_neg1 -> A6   110
-        4,  // cell 1 -> cell_neg2 -> A4   100
-        7,  // cell 2 -> cell_neg3 -> A7   111
-        5,  // cell 3 -> cell_neg4 -> A5   101
-        2,  // cell 4 -> cell_neg5 -> A2   010
-        1,  // cell 5 -> cell_neg6 -> A1   001
-        0   // cell 6 -> cell_neg7 -> A0   000
-    };
+	if (mux == NULL || pin > 7u) return;
 
-    if (cell >= 7)
-        return;
-
-    uint8_t pin = mux_map[cell];
-    mux->canal_seleccionado = cell;
 
     HAL_GPIO_WritePin(
         mux->s0_port,
@@ -83,4 +52,5 @@ void MUX_Select(mux_t *mux, uint8_t cell)
         mux->s2_pin,
         (pin & 0x04u) ? GPIO_PIN_SET : GPIO_PIN_RESET
     );
+    mux->canal_seleccionado = pin;
 }

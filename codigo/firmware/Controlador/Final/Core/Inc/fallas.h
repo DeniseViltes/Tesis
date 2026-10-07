@@ -1,3 +1,10 @@
+/*
+ * fallas.h
+ *
+ *  Created on: 7 oct 2026
+ *      Author: ---
+ */
+
 #ifndef INC_FALLAS_H_
 #define INC_FALLAS_H_
 
@@ -6,9 +13,7 @@
 /* Umbral nominal; validar tolerancias y tiempo de corte en hardware. */
 #define LIMITE_DESCARGA_MA 3000u
 #define LIMITE_CARGA_MA 1000u
-/* Valores provisionales para ensayos; ajustar con mediciones en placa. */
-#define TOLERANCIA_RL_PORCENTAJE 10u
-#define TOLERANCIA_RL_MA 50u
+
 
 /* Limites  LiFePO4; TODO confirmar con la celda.
  * Se considera falla al alcanzar cualquiera de los dos limites. */
@@ -21,7 +26,6 @@ typedef enum {
 	FALLA_SOBRECORRIENTE_CARGA,
     FALLA_SUBTENSION_CELDA,
     FALLA_SOBRETENSION_CELDA,
-    FALLA_DESCARGA_RL
 } falla_t;
 
 /* Requiere mediciones validas y recientes. No acciona la llave ni rearma.
@@ -33,8 +37,9 @@ falla_t Fallas_EvaluarCorrientes(uint16_t corrienteDescarga_mA,
  *
  */
 falla_t Fallas_EvaluarTensionCelda(uint16_t tension_mV);
-/* I[mA] = V[mV] / RL[ohm]. RL=0: comprobacion no configurada. */
+/*
 falla_t Fallas_EvaluarDescargaRL(uint16_t tension_mV, uint16_t corriente_mA,
                                uint16_t resistencia_ohm);
 
+*/
 #endif /* INC_FALLAS_H_ */

@@ -1,0 +1,4 @@
+Prueba de corriente máxima para el dip de 4 pines.
+
+Se llegó a probar hasta 3A durante 21 minutos y no hubieron signos de daño en el dispositivo, tampoco se sobrecalentó.
+El único detalle importante que se obtuvo (además de que se puede utilizar en la placa central sin quemarse), es que para 3A se observó una caida de tensión de 0,480mV, a tener en cuenta para futuras mediciones.

@@ -8,9 +8,6 @@
 
 // Pines definidos en CubeMX/main.h
 // Ejemplo:
-// #define SR_DATA_Pin GPIO_PIN_0
-// #define SR_DATA_GPIO_Port GPIOA
-
 
 /*
  * Outputs

@@ -1,6 +1,0 @@
-# Include the new module until CubeIDE refreshes its generated source list.
-# Once it appears in OBJS, let CubeIDE manage it without linking it twice.
-ifeq ($(filter ./Core/Src/diagnostico.o Core/Src/diagnostico.o,$(OBJS)),)
-USER_OBJS += ./Core/Src/diagnostico.o
--include ./Core/Src/diagnostico.d
-endif

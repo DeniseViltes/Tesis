@@ -1,0 +1,23 @@
+2 bancos 1 celda cada banco
+
+b1 on:
+en la bornera 3,06V
+bus_pos1-bus_neg1: 3.11V (conectores)
+
+bus_pos- bus_pos_salida = 42,7mV
+
+
+en el adc: 3132mV
+-----------------------------------------------
+
+b2 on:
+
+bus_pos->5.89V
+bus_neg->2,71V
+
+en la bornera: 2,43V
+en el adc: 3,151V
+en el conector: 3,17V
+cell_neg b1->448mV
+
+bus_neg1 -bus_pos1 = 772

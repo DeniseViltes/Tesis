@@ -18,6 +18,5 @@ void Llave_Habilitar(void);
 //Deshabilita la llave, la baja a LOW
 void Llave_DispararFalla(void);
 
-//Para rehabilitar
-//Llave_Rearmar();
+
 #endif /* INC_LLAVE_H_ */

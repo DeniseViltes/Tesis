@@ -101,7 +101,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-  /* El CLI inicializa el controlador con init <bancos> <celdas>. */
+  /* La matriz se configura desde el CLI con init <bancos> <celdas>. */
   CLI_Init(&huart2);
   adc_init();
 
@@ -115,17 +115,13 @@ int main(void)
   {
 
 	  //Controlador_EncenderCelda(0,0);
-	  adc_update();                    // Procesar muestras nuevas
+	   CLI_Process();
 
-	  if (flag_controlador_update) {
-	      flag_controlador_update = 0;
-	      Controlador_Update();        // Manejo de la matriz
-	  }
-
-	  Controlador_ActualizarBarrido();  // Avanzar mediciones sin bloquear
-	  CLI_Process();                   // Atender comandos
-	   // HAL_Delay(500);
-	   // Controlador_BypassBanco(0);
+	    if (flag_controlador_update) {
+	        flag_controlador_update = 0;
+	        Controlador_Update();
+	    }
+	    adc_update();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
