@@ -27,10 +27,10 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
-     showguides="true"
-     inkscape:zoom="0.88194444"
-     inkscape:cx="1291.4646"
-     inkscape:cy="677.48032"
+     showguides="false"
+     inkscape:zoom="0.44097223"
+     inkscape:cx="2645.2913"
+     inkscape:cy="529.5118"
      inkscape:window-width="1366"
      inkscape:window-height="697"
      inkscape:window-x="-8"
@@ -193,9 +193,8 @@
        inkscape:collect="always"
        preserveAspectRatio="xMidYMid">
       <path
-         transform="scale(0.7)"
-         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M -1.4,-2.8 6.3,0 -1.4,2.8 C 0,1.169 0,-1.162 -1.4,-2.8 Z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none;stroke-width:0.7"
          id="path59" />
     </marker>
     <marker
@@ -615,11 +614,29 @@
          style="fill:context-stroke;fill-rule:evenodd;stroke:none"
          id="path63-1" />
     </marker>
+    <symbol
+       id="FlowSymbols.svg:InputOutput">
+      <title
+         id="title3">Input/Output</title>
+      <desc
+         id="desc3">General input/output functions.</desc>
+      <path
+         d="m 35,35 h 100 l -20,80 H 15 Z"
+         style="stroke-width:2"
+         id="path3" />
+    </symbol>
   </defs>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="fill:#7a7bb4;fill-opacity:1;stroke:#000000;stroke-width:0.999996;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4"
+       width="121.84216"
+       height="228.72704"
+       x="617.6651"
+       y="11.250307" />
     <use
        xlink:href="#FlowSymbols.svg:Decision"
        style="fill:#ff8276;stroke:#000000;fill-opacity:1"
@@ -652,23 +669,23 @@
        transform="translate(-20.911581,-2.7866526)"><tspan
          x="126.6549"
          y="27.618752"
-         id="tspan42"><tspan
+         id="tspan48"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan39">Diseño del
+           id="tspan47">Diseño del
 </tspan></tspan><tspan
          x="126.6549"
          y="31.587502"
-         id="tspan45"><tspan
+         id="tspan51"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan43">esquemático</tspan><tspan
+           id="tspan49">esquemático</tspan><tspan
            style="fill:#000000;stroke:none"
-           id="tspan44">
+           id="tspan50">
 </tspan></tspan><tspan
          x="126.6549"
          y="35.556252"
-         id="tspan47"><tspan
+         id="tspan53"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan46">del módulo</tspan></tspan></text>
+           id="tspan52">del módulo</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="scale(0.26458333)"
@@ -1133,6 +1150,11 @@
        id="use1-79"
        transform="matrix(0.26458333,0,0,0.26458333,370.67622,6.4960051)" />
     <use
+       xlink:href="#FlowSymbols.svg:Process"
+       style="fill:#b6b7d6;fill-opacity:1;stroke:#000000"
+       id="use1-79-8"
+       transform="matrix(0.26458333,0,0,0.26458333,646.11787,16.389755)" />
+    <use
        xlink:href="#FlowSymbols.svg:Decision"
        style="fill:#ff8276;fill-opacity:1;stroke:#000000"
        id="use1-4-5"
@@ -1151,23 +1173,113 @@
        transform="translate(264.60839,-4.0656489)"><tspan
          x="126.6549"
          y="27.618752"
-         id="tspan49"><tspan
+         id="tspan55"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan48">Diseño del
+           id="tspan54">Diseño del
 </tspan></tspan><tspan
          x="126.6549"
          y="31.587502"
-         id="tspan52"><tspan
+         id="tspan58"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan50">esquemático</tspan><tspan
+           id="tspan56">esquemático</tspan><tspan
            style="fill:#000000;stroke:none"
-           id="tspan51">
+           id="tspan57">
 </tspan></tspan><tspan
          x="126.6549"
          y="35.556252"
-         id="tspan54"><tspan
+         id="tspan94"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan53">del módulo</tspan></tspan></text>
+           id="tspan85">del módulo</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;white-space:pre;inline-size:43.3098;display:inline;fill:#ffffff;stroke:#000000;stroke-width:0.254"
+       x="126.6549"
+       y="27.618752"
+       id="text2-3-1"
+       transform="translate(540.05004,5.8769357)"><tspan
+         x="126.6549"
+         y="27.618752"
+         id="tspan96"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan95">Identificación
+</tspan></tspan><tspan
+         x="126.6549"
+         y="31.587502"
+         id="tspan98"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan97">de bloques
+</tspan></tspan><tspan
+         x="126.6549"
+         y="35.556252"
+         id="tspan100"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan99">funcionales</tspan></tspan></text>
+    <use
+       xlink:href="#FlowSymbols.svg:Process"
+       style="fill:#b6b7d6;fill-opacity:1;stroke:#000000"
+       id="use1-79-8-7"
+       transform="matrix(0.26458333,0,0,0.26458333,646.11787,47.498128)" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;white-space:pre;inline-size:43.3098;display:inline;fill:#ffffff;stroke:#000000;stroke-width:0.254"
+       x="126.6549"
+       y="27.618752"
+       id="text2-3-1-6"
+       transform="translate(540.02601,36.734161)"><tspan
+         x="126.6549"
+         y="27.618752"
+         id="tspan102"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan101">Implementación
+</tspan></tspan><tspan
+         x="126.6549"
+         y="31.587502"
+         id="tspan104"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan103">de uno de
+</tspan></tspan><tspan
+         x="126.6549"
+         y="35.556252"
+         id="tspan106"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan105">los bloques</tspan></tspan></text>
+    <use
+       xlink:href="#FlowSymbols.svg:Process"
+       style="fill:#b6b7d6;fill-opacity:1;stroke:#000000"
+       id="use1-79-8-7-2"
+       transform="matrix(0.26458333,0,0,0.26458333,646.11787,78.606501)"
+       inkscape:connector-avoid="true" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;white-space:pre;inline-size:43.3098;display:inline;fill:#ffffff;stroke:#000000;stroke-width:0.254"
+       x="126.6549"
+       y="27.618752"
+       id="text2-3-1-6-1"
+       transform="translate(540.07949,67.749517)"><tspan
+         x="126.6549"
+         y="27.618752"
+         id="tspan109"><tspan
+           style="font-style:italic"
+           id="tspan107">Testeo </tspan><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan108">de
+</tspan></tspan><tspan
+         x="126.6549"
+         y="31.587502"
+         id="tspan111"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan110">funcionamiento
+</tspan></tspan><tspan
+         x="126.6549"
+         y="35.556252"
+         id="tspan113"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan112">del bloque</tspan></tspan></text>
+    <use
+       xlink:href="#FlowSymbols.svg:Process"
+       style="fill:#b6b7d6;fill-opacity:1;stroke:#000000"
+       id="use1-79-8-7-2-4"
+       transform="matrix(0.26458333,0,0,0.26458333,646.11787,172.14525)" />
     <text
        xml:space="preserve"
        style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#ffffff;stroke:#000000;stroke-width:0.254"
@@ -1211,8 +1323,8 @@
          y="88.852783"
          id="tspan16-8">se espera?</tspan></text>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.265873;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker69-4)"
-       d="m 359.15049,83.588526 0.2179,-55.731865"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.265858;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker69-4)"
+       d="m 359.1499,83.586508 0.21849,-55.574549"
        id="path18-7"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0" />
@@ -1498,16 +1610,10 @@
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.266514px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 327.04321,205.13285 -8.8056,0.10063"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.268408px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 327.0433,205.13288 -8.93656,0.10057"
        id="path54-6"
        inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264815px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 318.36842,235.55429 h 40.97479 V 26.338955"
-       id="path56-1"
-       inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
@@ -1575,5 +1681,344 @@
          style="stroke-width:0"
          x="321.47485"
          y="204.24303">No</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 318.23609,204.9996 v 0"
+       id="path1"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 318.2376,205.23348 h 41.10567 V 26.338781"
+       id="path2"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;writing-mode:lr-tb;direction:ltr;fill:#ff8276;stroke-width:0.265999"
+       x="664.20001"
+       y="36.233501"
+       id="text3"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         style="stroke-width:0.266" /></text>
+    <use
+       xlink:href="#FlowSymbols.svg:Decision"
+       style="fill:#ffaba3;fill-opacity:1;stroke:#000000"
+       id="use1-2-2-1"
+       transform="matrix(0.26458333,0,0,0.26458333,646.11787,109.76828)"
+       inkscape:export-filename="use1-2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       inkscape:connector-avoid="true" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+       x="665.96643"
+       y="125.68239"
+       id="text13-7-0-4-9"><tspan
+         sodipodi:role="line"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+         x="665.96643"
+         y="125.68239"
+         id="tspan32-0-3">¿El bloque</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+         x="665.96643"
+         y="129.21016"
+         id="tspan6">responde</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+         x="665.96643"
+         y="132.73795"
+         id="tspan7">correctamente?</tspan></text>
+    <use
+       xlink:href="#FlowSymbols.svg:Decision"
+       style="fill:#ffaba3;fill-opacity:1;stroke:#000000"
+       id="use1-2-2-1-5"
+       transform="matrix(0.26458333,0,0,0.26458333,646.11787,140.98347)"
+       inkscape:export-filename="use1-2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       inkscape:connector-avoid="true" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+       x="665.95679"
+       y="158.43288"
+       id="text13-7-0-4-9-0"><tspan
+         sodipodi:role="line"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+         x="665.95679"
+         y="158.43288"
+         id="tspan7-0">¿Es el último</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+         x="665.95679"
+         y="161.96065"
+         id="tspan18">bloque del</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+         x="665.95679"
+         y="165.48843"
+         id="tspan19">módulo?</tspan></text>
+    <use
+       xlink:href="#FlowSymbols.svg:Decision"
+       style="fill:#ffaba3;fill-opacity:1;stroke:#000000"
+       id="use1-2-2-1-5-8"
+       transform="matrix(0.26458333,0,0,0.26458333,646.42792,203.30703)"
+       inkscape:export-filename="use1-2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+       x="666.25171"
+       y="222.43764"
+       id="text13-7-0-4-9-0-2"><tspan
+         sodipodi:role="line"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+         x="666.25171"
+         y="222.43764"
+         id="tspan19-5">¿Las mediciones</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+         x="666.25171"
+         y="225.96541"
+         id="tspan45">son correctas?</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;white-space:pre;inline-size:43.3098;display:inline;fill:#ffffff;stroke:#000000;stroke-width:0.254"
+       x="126.6549"
+       y="27.618752"
+       id="text2-3-1-6-2"
+       transform="translate(540.026,177.12311)" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;writing-mode:lr-tb;direction:ltr;fill:none;fill-opacity:1;stroke:none;stroke-width:0.265999"
+       x="665.96161"
+       y="191.989"
+       id="text4"><tspan
+         sodipodi:role="line"
+         id="tspan3"
+         style="fill:none;fill-opacity:1;stroke:none;stroke-width:0.266"
+         x="665.96161"
+         y="191.989">Pruebas</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.265999"
+       x="665.96008"
+       y="186.91411"
+       id="text6"><tspan
+         sodipodi:role="line"
+         id="tspan4"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="665.96008"
+         y="186.91411">Pruebas de</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="665.96008"
+         y="190.88286"
+         id="tspan42">funcionamiento</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="665.96008"
+         y="194.85161"
+         id="tspan39">de todo el módulo</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="665.96008"
+         y="198.82036"
+         id="tspan43">en su conjunto</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 650.08661,160.82722 V 67.209584 h -19.20602"
+       id="path67"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.241571px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 665.96161,46.816838 v 8.287587"
+       id="path68"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.241571px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 665.96161,77.925209 v 8.28759"
+       id="path70"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.241018px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 665.96161,109.03358 v 8.29396"
+       id="path71"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.24113px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 665.96161,140.19536 v 8.34607"
+       id="path72"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.241682px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 665.96161,171.41055 v 8.33973"
+       id="path73"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.263361px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 665.89182,202.68252 h 0.37983 v 8.08339"
+       id="path74"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <use
+       xlink:href="#FlowSymbols.svg:InputOutput"
+       style="fill:#00bc92;stroke:#000000;fill-opacity:1"
+       id="use1-54"
+       transform="matrix(0.26458333,0,0,0.26458333,646.42792,237.82959)" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.265999"
+       x="665.73865"
+       y="254.97971"
+       id="text80"><tspan
+         sodipodi:role="line"
+         id="tspan80"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="665.73865"
+         y="254.97971">El módulo</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="665.73865"
+         y="258.94846"
+         id="tspan87">responde</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="665.73865"
+         y="262.91721"
+         id="tspan88">correctamente</tspan></text>
+    <use
+       xlink:href="#FlowSymbols.svg:InputOutput"
+       style="fill:#00bc92;fill-opacity:1;stroke:#000000"
+       id="use1-54-3"
+       transform="matrix(0.26458333,0,0,0.26458333,703.18454,237.82959)" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.265999"
+       x="722.95544"
+       y="256.96408"
+       id="text80-4"><tspan
+         sodipodi:role="line"
+         id="tspan80-1"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="722.95544"
+         y="256.96408">El módulo</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.266"
+         x="722.95544"
+         y="260.93283"
+         id="tspan88-3">falla</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.263889px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 682.15054,223.15068 40.47676,0.0121"
+       id="path91"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.254706px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 630.7483,67.209582 h 17.79885"
+       id="path94"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264834px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 681.82776,129.61888 h 42.48155 v 115.55454"
+       id="path4"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.88056px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+       x="678.7182"
+       y="16.659607"
+       id="text24-0-7"><tspan
+         sodipodi:role="line"
+         style="font-weight:bold;font-size:3.88056px;stroke-width:0.254"
+         x="678.7182"
+         y="16.659607"
+         id="tspan30-1">Implementación y mediciones de prueba del circuito</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;writing-mode:lr-tb;direction:ltr;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-opacity:1"
+       x="666.42902"
+       y="144.78011"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-opacity:1"
+         x="666.42902"
+         y="144.78011">Si</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;writing-mode:lr-tb;direction:ltr;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-opacity:1"
+       x="666.63831"
+       y="176.81792"
+       id="text1-8"><tspan
+         sodipodi:role="line"
+         id="tspan1-2"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-opacity:1"
+         x="666.63831"
+         y="176.81792">Si</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;writing-mode:lr-tb;direction:ltr;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-opacity:1"
+       x="667.04193"
+       y="237.07077"
+       id="text1-8-7"><tspan
+         sodipodi:role="line"
+         id="tspan1-2-1"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-opacity:1"
+         x="667.04193"
+         y="237.07077">Si</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker59)"
+       d="m 666.27165,233.81166 h 0.0283 v 11.45915"
+       id="path5"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;writing-mode:lr-tb;direction:ltr;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-opacity:1"
+       x="684.97437"
+       y="222.37572"
+       id="text44"><tspan
+         sodipodi:role="line"
+         id="tspan44"
+         style="stroke-width:0.265"
+         x="684.97437"
+         y="222.37572">No</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;writing-mode:lr-tb;direction:ltr;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-opacity:1"
+       x="644.65509"
+       y="159.81256"
+       id="text44-6"><tspan
+         sodipodi:role="line"
+         id="tspan44-1"
+         style="stroke-width:0.265"
+         x="644.65509"
+         y="159.81256">No</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;writing-mode:lr-tb;direction:ltr;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-opacity:1"
+       x="684.12036"
+       y="128.53561"
+       id="text44-2"><tspan
+         sodipodi:role="line"
+         id="tspan44-16"
+         style="stroke-width:0.265"
+         x="684.12036"
+         y="128.53561">No</tspan></text>
   </g>
 </svg>
