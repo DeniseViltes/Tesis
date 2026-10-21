@@ -1,0 +1,27 @@
+Pruba del circuito central con controlador con estados y modos:
+
+
+> init 2 1
+Procesando: [init 2 1]
+OK: matriz configurada
+BANCO 1: C1=OFF | BANCO_SW=OFF
+BANCO 2: C1=OFF | BANCO_SW=OFF
+> activar descarga 47
+OK: circuito activo en DESCARGA
+BANCO 1: C1=OFF | BANCO_SW=ON
+BANCO 2: C1=OFF | BANCO_SW=ON
+> medir
+Suma de tensión de los bancos: 0 mV
+Tensión en la salida por ley de ohm: 94 mV
+Banco 1: 8 mV
+Banco 2: 193 mV
+Corriente de descarga: 2 mA // MIRAR ACÁ--> EN LA SALIDA MIDO 200mV
+Corriente de carga: 0 mA
+
+
+
+En la salida estaba midiendo 2,4 y 2,1 con las celdas. Saco todo y testeo la placa central.
+
+
+Conecto la placa, sin bancos, y activo vcc, teengo 5V en el conector de vcc y 18mA.
+Conecto la placa, 1 bancos, sin celdas, hago init, y tengo 2,1V en vcc

@@ -1,0 +1,72 @@
+Luego de varias pruebas con distitas configuraciones de celdas y bancos se encuentra el problema.
+
+El 13/10 se retiro el opamp, sin resolver el problema.
+
+Se observa que al encender una celda, y luego activar la salida en los dip switches entra en corto vcc, aunque la celda funciona con normalidad.
+
+Se retiran ambos INAs uno por vez, y se encuentra que el que provocaba el corto era el INA de descarga, se coloca el otro INA en su lugar (el de carga), y desaparece el corto.
+
+
+Se vuelve a colocar el opamp y en reposo solo con vcc se miden 15mA en la fuente
+
+Medición  de dos bancos con una celda cada uno:
+B1 ON, B2 OFF: 62mA, 3.05V en la salida y 3,12V salida del banco.
+--------
+B1 OFF, B2 ON: 47mA, 2.37V en la salida y 3,13V salida del banco. El banco 1 presenta una salida de 707mV en apagado.
+Se observa esto en putty al medir:
+
+
+> b1 off
+Procesando: [b1 off]
+OK
+> b 2 on
+Procesando: [b 2 on]
+OK
+> medir
+Procesando: [medir]
+Suma de tensión de los bancos: 3106 mV
+Tensión en la salida por ley de ohm: 0 mV
+Banco 1: 0 mV
+Banco 2: 3106 mV
+Corriente de descarga: 47 mA
+Corriente de carga: 2 mA
+
+----------
+B1 ON, B2 ON: 125mV, 6.05V en la salida y 6.08 suma de tensiones de los bancos.
+
+
+
+se cambia el banco 1 y celda 1
+Obtengo,
+
+B1 ON B2 ON
+> medir
+Procesando: [medir]
+Suma de tensión de los bancos: 6096 mV
+Tensión en la salida por ley de ohm: 0 mV
+Banco 1: 3074 mV
+Banco 2: 3022 mV
+Corriente de descarga: 127 mA
+Corriente de carga: 3 mA
+Tensión medidda en la salida: 6.09V
+
+B1 off B2 ON
+Procesando: [medir]
+Suma de tensión de los bancos: 3102 mV
+Tensión en la salida por ley de ohm: 0 mV
+Banco 1: 0 mV
+Banco 2: 3102 mV
+Corriente de descarga: 61 mA
+Corriente de carga: 2 mA
+Tensión medidda en la salida: 3.05V
+
+B1 ON B2 oFF
+
+Procesando: [medir]
+Suma de tensión de los bancos: 3139 mV
+Tensión en la salida por ley de ohm: 0 mV
+Banco 1: 3139 mV
+Banco 2: 0 mV
+Corriente de descarga: 61 mA
+Corriente de carga: 2 mA
+Tensión medidda en la salida: 3.06V

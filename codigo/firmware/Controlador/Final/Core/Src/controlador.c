@@ -66,6 +66,7 @@ static int puede_operar(void){
 }
 
 
+
 int Controlador_init(uint8_t bancos, uint8_t celdas){
 
 	if (bancos == 0 || bancos > CANT_BANCOS ||
@@ -84,7 +85,7 @@ int Controlador_init(uint8_t bancos, uint8_t celdas){
 	MUX_Init(&mux_bancos, S2_GPIO_Port, S2_Pin,
 			         S1_GPIO_Port, S1_Pin, S0_GPIO_Port, S0_Pin);
 
-	for (uint8_t i = 0; i < CANT_BANCOS; i++){
+	for (uint8_t i = 0; i < ctrl.cant_bancos; i++){
 		ctrl.bancos[i].id=i;
 
 		SR_Init(&sr_bancos[i],sr_data_puertos[i],
@@ -144,15 +145,15 @@ int Controlador_ModoPrueba(void){
 	    }
 
 	Llave_Habilitar();
-		HAL_Delay(TURN_ON_DELAY);
-		Controlador_EnviarCeros();
+	HAL_Delay(TURN_ON_DELAY);
+	Controlador_EnviarCeros();
 
-		for (uint8_t b = 0; b < ctrl.cant_bancos; b++)
-		    Banco_EncenderSwitch(&ctrl.bancos[b]);
+	for (uint8_t b = 0; b < ctrl.cant_bancos; b++)
+		Banco_EncenderSwitch(&ctrl.bancos[b]);
 
-		Controlador_AplicarEstados();
-		ctrl.estado = PRUEBA;
-		ctrl.modo = MODO_SIN_ASIGNAR;
+	Controlador_AplicarEstados();
+	ctrl.estado = PRUEBA;
+	ctrl.modo = MODO_SIN_ASIGNAR;
 	return 0;
 }
 
@@ -183,6 +184,21 @@ int Controlador_EvaluarFallas(void){
     return 0;
 }
 
+
+int Controlador_Reiniciar(void){
+	if (ctrl.cant_bancos == 0) return 1;
+
+	periodo_ms = contador = fase = 0;
+	for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+		Banco_SetModo(&ctrl.bancos[b], FIJO);
+	}
+	Controlador_EnviarCeros();
+	ctrl.estado = REPOSO;
+	ctrl.rl = 0;
+	ctrl.modo = MODO_SIN_ASIGNAR;
+	return 0;
+}
+
 void Controlador_Update(void){
 	if (ctrl.estado == REPOSO || ctrl.estado == FALLA  ) return;
 
@@ -198,6 +214,18 @@ void Controlador_Update(void){
     Controlador_Tick1ms();
     Controlador_ActualizarEstados();
 
+}
+
+
+int Controlador_Apagar(void){
+	if (!puede_operar()) return 1;
+
+	periodo_ms = contador = fase = 0;
+	for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+		Banco_SetModo(&ctrl.bancos[b], FIJO);
+		if (Controlador_BypassBanco(b) != 0) return 1;
+	}
+	return 0;
 }
 
 status_contraldor_t Controlador_GetEstado(void){
@@ -571,7 +599,7 @@ uint16_t Controlador_GetMedicion(adc_node_t nodo)
     return ctrl.mediciones[nodo];
 }
 
-uint16_t Controlador_GetTensionSalida(void){
+uint16_t Controlador_GetTensionSalidaOpamp(void){
 	uint16_t total = 0;
 	for (int b = 0; b < ctrl.cant_bancos; b++){
 		if (ctrl.bancos[b].actual == ON ||
@@ -581,6 +609,12 @@ uint16_t Controlador_GetTensionSalida(void){
 	return total;
 }
 
+
+uint16_t Controlador_GetTensionSalida(void){
+	if(ctrl.rl == 0) return 0u;
+	uint16_t corriente = Controlador_GetCorrienteDescarga();
+	return ctrl.rl*corriente/1000;
+}
 
 uint16_t Controlador_GetTensionBanco(uint8_t banco)
 {

@@ -18,6 +18,8 @@
 //#define CELDAS_POR_BANCO 7
 #define PERIODO_DEFAULT 50
 #define TURN_ON_DELAY 2
+/* Valor inicial: ajustar al asentamiento medido del circuito analogico. */
+#define TENSION_ASENTAMIENTO_MS 2u
 
 typedef enum {
 	REPOSO,
@@ -60,7 +62,9 @@ uint16_t Controlador_GetResistenciaRL(void);
 int Controlador_BypassBanco(uint8_t banco);
 int Controlador_ActivarCeldasBanco(uint8_t banco);
 
-void Controlador_Reiniciar(void);
+/* 0 = aceptado, 1 = error. Reiniciar requiere init; apagar, ACTIVO o PRUEBA. */
+int Controlador_Reiniciar(void);
+int Controlador_Apagar(void);
 uint8_t Controlador_GetEstadoCelda(uint8_t banco, uint8_t celda);
 uint8_t Controlador_GetEstadoBanco(uint8_t banco);
 
@@ -100,7 +104,15 @@ uint16_t Controlador_MedirCellNeg(uint8_t banco);
 uint16_t Controlador_GetMedicion(adc_node_t nodo);
 void Controlador_CargarMediciones(void);
 
+/*
+ * Salida calculada a partir de la suma de los bancos activos;
+ */
+uint16_t Controlador_GetTensionSalidaOpamp(void);
 
+/*
+ * Salida calculada mendiante la ley de ohm
+ * Apartir del input de resistencia y la corriente medida
+ */
 uint16_t Controlador_GetTensionSalida(void);
 uint16_t Controlador_GetTensionBanco(uint8_t banco);
 uint16_t Controlador_GetCellNeg(uint8_t banco);

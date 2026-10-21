@@ -92,9 +92,14 @@ void cli_print_mediciones(void)
         return;
     }
 
-    snprintf(mensaje, sizeof(mensaje), "Tensión en la salida: %u mV\r\n",
-                 (unsigned)Controlador_GetTensionSalida());
+    snprintf(mensaje, sizeof(mensaje), "Suma de tensión de los bancos: %u mV\r\n",
+                 (unsigned)Controlador_GetTensionSalidaOpamp());
     cli_print(mensaje);
+
+    snprintf(mensaje, sizeof(mensaje), "Tensión en la salida por ley de ohm: %u mV\r\n",
+                     (unsigned)Controlador_GetTensionSalida());
+        cli_print(mensaje);
+
     for (uint8_t b = 0; b < Controlador_GetCantBancos(); b++) {
         snprintf(mensaje, sizeof(mensaje),
                  "Banco %u: %u mV \r\n",
@@ -120,7 +125,10 @@ static void cli_print_help(void)
         "  init <bancos 1..4> <celdas 1..7>\r\n"
         "      Configura celdas por banco, habilita Vcc y activa bypass.\r\n"
         "      Detiene switching y borra RL. Ejemplo: init 2 3\r\n"
-		"	   Reinicia el circuito \r\n"
+        "  apagar\r\n"
+        "      Deja todos los bancos en bypass.\r\n"
+        "  reiniciar\r\n"
+        "      Vuelve a REPOSO y borra RL y el modo asignado.\r\n"
 		"  activar carga\r\n"
 		"      Habilita el circuito para cargar la bateria.\r\n"
 		"  activar descarga <RL_ohm>\r\n"
@@ -232,6 +240,24 @@ static void cli_handle_line(const char *line_in){
 
     if (Controlador_GetCantBancos() == 0) {
         cli_print("ERR: primero use init <bancos> <celdas>\r\n");
+        return;
+    }
+
+    if (strcmp(line_copy, "apagar") == 0) {
+        if (Controlador_Apagar() != 0) {
+            cli_print("ERR: apagar requiere estado ACTIVO o PRUEBA\r\n");
+            return;
+        }
+        cli_print("OK: bancos en bypass\r\n");
+        return;
+    }
+
+    if (strcmp(line_copy, "reiniciar") == 0) {
+        if (Controlador_Reiniciar() != 0) {
+            cli_print("ERR: reiniciar requiere controlador inicializado\r\n");
+            return;
+        }
+        cli_print("OK: controlador en REPOSO, RL y modo borrados\r\n");
         return;
     }
 

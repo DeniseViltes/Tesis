@@ -27,6 +27,9 @@ static uint8_t g_adc_has_measurements = 0u;
 //para saber si se siguen actualizando las mediciones
 static uint32_t adc_processed_sequence = 0u;
 static uint32_t adc_processed_ms = 0u;
+static volatile uint32_t adc_completed_sequence = 0u;
+static volatile uint32_t adc_half_sequence = 0u;
+static volatile uint32_t adc_full_sequence = 0u;
 
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc);
 
@@ -62,14 +65,18 @@ void adc_update(void)
 {
     if (adc_half_ready)
     {
+        uint32_t sequence = adc_half_sequence;
         adc_half_ready = 0;
         adc_process_block((uint16_t*)&adc_dma_buf[0], ADC_BUF_LEN / 2);
+        adc_processed_sequence = sequence;
     }
 
     if (adc_full_ready)
     {
+        uint32_t sequence = adc_full_sequence;
         adc_full_ready = 0;
         adc_process_block((uint16_t*)&adc_dma_buf[ADC_BUF_LEN / 2], ADC_BUF_LEN / 2);
+        adc_processed_sequence = sequence;
     }
 }
 
@@ -109,7 +116,6 @@ static void adc_process_block(volatile uint16_t *p, uint16_t len)
         g_adc_raw[ch] = (uint16_t)(g_adc_accum[ch] / samples);
     }
 
-    adc_processed_sequence++;
     adc_processed_ms = HAL_GetTick();
     g_adc_has_measurements = 1u;
 }
@@ -125,6 +131,16 @@ uint8_t adc_has_measurements(void)
 {
     /* Indica al menos un bloque procesado*/
     return g_adc_has_measurements;
+}
+
+uint32_t adc_get_completed_sequence(void)
+{
+    return adc_completed_sequence;
+}
+
+uint32_t adc_get_processed_sequence(void)
+{
+    return adc_processed_sequence;
 }
 
 
@@ -155,14 +171,18 @@ uint16_t adc_get_node_raw(adc_node_t node)
 
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc)
 {
-    if (hadc->Instance == ADC1)
+    if (hadc->Instance == ADC1) {
+        adc_half_sequence = ++adc_completed_sequence;
         adc_half_ready = 1;
+    }
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
-    if (hadc->Instance == ADC1)
+    if (hadc->Instance == ADC1) {
+        adc_full_sequence = ++adc_completed_sequence;
         adc_full_ready = 1;
+    }
 }
 
 

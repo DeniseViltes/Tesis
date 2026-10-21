@@ -22,9 +22,9 @@ void MUX_Init(mux_t *mux, GPIO_TypeDef *s0_port, uint16_t s0_pin,
 	mux->s2_port =s2_port;
 	mux->s2_pin = s2_pin;
 
-	MUX_Select(mux, 3);//gnd
+	MUX_Select(mux, 0);//celda 7
 
-	mux->canal_seleccionado = 3;
+	mux->canal_seleccionado = 0;
 
 
 }

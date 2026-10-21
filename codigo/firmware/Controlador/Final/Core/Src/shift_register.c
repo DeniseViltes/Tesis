@@ -9,7 +9,9 @@ void SR_PulseClock(shift_register_t *sr)
     }
 
     sr->clk_port->BSRR = sr->clk_pin;                 // CLK = 1
-
+    for (volatile uint32_t i = 0; i < 100; i++) {
+        __NOP();
+    }
     sr->clk_port->BSRR = (uint32_t)sr->clk_pin << 16; // CLK = 0
 }
 

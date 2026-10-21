@@ -322,6 +322,186 @@ Se probó la corriente en la tierra considerando el peor caso posible: banco 1 a
 Buscar detalle sobre:
 Corriente en tierra, peor caso, banco 1 apagado, bancos 2 a 4 prendidos, Rbase 560 kΩ, cell_neg, SR, capacitores de 100 nF.
 
+04/09/2026 - Bitácora 09 - 04.txt
+Tema principal:
+Repetición de las mediciones del 20/08, agregando medición de corriente por banco a través de la caída de tensión en R3.
+
+Resumen:
+Se repitieron las mediciones del 20/08, pero esta vez también se midieron valores de corriente asociados a cada banco mediante la caída de tensión en R3, variando Rbase. El banco de medición fue de 4 bancos con 1 celda cada uno. Todos los bancos estaban prendidos salvo el primero apagado. Las celdas de bancos superiores fueron reemplazadas por fuentes, salvo la primera que era una celda real.
+
+Se compararon dos casos principales:
+- Caso 1: R2=100 kΩ, R3=10 kΩ, Rbase=0.
+  cell_neg1 = -0.53 V.
+  Las tensiones en R3 aumentaban fuertemente en bancos superiores: banco 2 = 4.98 V, banco 3 = 7.98 V, banco 4 = 11.00 V.
+
+- Caso 2: R2=560 kΩ, R3=56 kΩ, Rbase=560 kΩ.
+  cell_neg1 = -0.445 V.
+  Las tensiones en R3 fueron mucho menores: banco 2 = 0.923 V, banco 3 = 1.440 V, banco 4 = 1.948 V.
+
+Conclusión:
+La configuración R2=560 kΩ, R3=56 kΩ y Rbase=560 kΩ reduce significativamente la corriente asociada a la malla de control de los bancos superiores, aunque cell_neg1 sigue teniendo un valor negativo.
+
+Buscar detalle sobre:
+Medición de corriente por R3, Rbase, cell_neg1, bancos 2 a 4, comparación 100k/10k/0 contra 560k/56k/560k.
+
+
+16/09/2026 - Bitácora 09 - 16.txt
+Tema principal:
+Mediciones para evaluar si es necesario o no MOS_GND.
+
+Resumen:
+Se realizaron mediciones para analizar la necesidad del MOS_GND. El banco de medición fue de 4 bancos con 1 celda cada uno. Solo el banco 1 tenía módulo de banco. Para conectar la placa se usó el circuito central provisorio.
+
+La carga utilizada fue de 47 Ω en paralelo con 10 µF. Se agregaron dos resistencias shunt de 3 Ω:
+- Rshunt1 en la salida de la celda 1, entre el cable coco y el borne positivo del portapilas.
+- Rshunt2 en cell_neg1, entre GND y el borne negativo del portapilas.
+
+El banco 1 se alternó entre ON y OFF. Se planificaron mediciones con osciloscopio tomando ambos bornes de los shunts y la señal latch como referencia común. Las señales a medir fueron:
+- cell_pos1 y latch.
+- bus_pos1 y latch.
+- cell_neg1 y latch.
+- GND y latch.
+- salida positiva y latch.
+- salida negativa y latch.
+
+Conclusión:
+La bitácora documenta el banco de medición y la metodología para observar corrientes y tensiones asociadas al MOS_GND, especialmente durante el switcheo del banco 1.
+
+Buscar detalle sobre:
+MOS_GND, cell_neg1, shunts de 3 Ω, banco 1 alternando ON/OFF, osciloscopio, latch, circuito central provisorio.
+
+
+22/09/2026 - Bitácora 09 - 22.txt
+Tema principal:
+Montaje del circuito central, prueba de opamps e INA.
+
+Resumen:
+Se avanzó con el montaje del circuito central. Hasta ese momento estaban conectados y funcionando la llave maestra y el inversor de corriente. Luego se comenzaron a probar los opamps.
+
+Con solo esos bloques conectados, al encender Vcc se midió un consumo de 11 mA. Para probar los opamps se aplicó una fuente de prueba de 1 V, conectando el positivo en el bus más positivo y GND en el bus más negativo. Las mediciones obtenidas fueron:
+- banco1_med = 0.851 V.
+- banco2_med = 0.838 V.
+- banco3_med = 0.849 V.
+- banco4_med = 0.850 V.
+
+Después se probaron los INA:
+- Con un INA conectado, fuente de prueba de 3.17 V y carga de 47 Ω, se midió una caída en el shunt de 3.3 mV y salida del INA de 67.2 mV aproximadamente. No se observaron cambios en el consumo de Vcc.
+- Con dos INA conectados, se repitió la prueba. En modo carga se midieron 66.7 mV en el INA de carga y 2.4 mV en el INA de descarga.
+
+Conclusión:
+La placa central comenzó a validarse por bloques. Los opamps entregaron valores coherentes cercanos a 0.85 V para una entrada de prueba de 1 V. Los INA respondieron correctamente para una corriente de prueba cercana a 60-67 mA.
+
+Buscar detalle sobre:
+Placa central, llave maestra, inversor de corriente, opamps, banco1_med, banco2_med, INA, shunt, carga de 47 Ω, consumo de Vcc.
+
+
+25/09/2026 - Bitácora 09 - 25.txt
+Tema principal:
+Prueba de descarga y carga con fuente de prueba, INA y ADC.
+
+Resumen:
+Se realizaron pruebas de corriente en descarga y carga usando una fuente de prueba.
+
+Prueba de descarga:
+- V_shunt = 3.3 mV.
+- Corriente de fuente = 60 mA.
+- Salida INA = 63.2 mV.
+- Lectura ADC = 60 mV / 58 mV.
+
+Prueba de carga:
+- V_shunt = 3.1 mV.
+- Corriente de fuente = 60 mA.
+- Salida INA = 63.2 mV.
+- Lectura ADC = 64 mV / 59 mV.
+
+En ambos casos se observó una pequeña oscilación. Se indicó que podría deberse a la conexión de prueba. La corriente oscilaba de 16 mA a 18 mA al conectar la carga al circuito. Sin carga se seguían observando los 11 mA.
+
+Conclusión:
+Tanto el INA como el ADC entregaron valores coherentes para una corriente de prueba de aproximadamente 60 mA. La diferencia y oscilación observada parece estar asociada al montaje o conexión de prueba, no necesariamente al circuito principal.
+
+Buscar detalle sobre:
+INA, ADC, corriente de descarga, corriente de carga, V_shunt, oscilaciones, consumo sin carga, fuente de prueba.
+
+
+02/10/2026 - Bitácora 10 - 02.txt
+Tema principal:
+Prueba de corriente máxima para DIP de 4 pines.
+
+Resumen:
+Se probó la corriente máxima que puede soportar el DIP de 4 pines. La prueba llegó hasta 3 A durante 21 minutos. No se observaron signos de daño ni sobrecalentamiento en el dispositivo.
+
+A 3 A se midió una caída de tensión de 0.480 mV, valor a tener en cuenta para futuras mediciones.
+
+Conclusión:
+El DIP de 4 pines puede utilizarse en la placa central para corrientes de hasta 3 A sin quemarse ni sobrecalentarse, al menos bajo la condición de prueba realizada durante 21 minutos.
+
+Buscar detalle sobre:
+DIP de 4 pines, corriente máxima, prueba a 3 A, caída de tensión, placa central.
+
+
+05/10/2026 - Bitácora 10 - 05.txt
+Tema principal:
+Mediciones con 2 bancos, 1 celda por banco.
+
+Resumen:
+Se realizaron mediciones con 2 bancos y 1 celda en cada banco.
+
+Con banco 1 encendido:
+- En bornera se midieron 3.06 V.
+- bus_pos1 - bus_neg1 = 3.11 V en conectores.
+- bus_pos - bus_pos_salida = 42.7 mV.
+- En el ADC se midieron 3132 mV.
+
+Con banco 2 encendido:
+- bus_pos = 5.89 V.
+- bus_neg = 2.71 V.
+- En bornera se midieron 2.43 V.
+- En ADC se midieron 3.151 V.
+- En conector se midieron 3.17 V.
+- cell_neg b1 = 448 mV.
+- bus_neg1 - bus_pos1 = 772 mV.
+
+Conclusión:
+Se compararon las mediciones reales de salida, conectores y ADC para una configuración de 2 bancos. Las mediciones muestran diferencias importantes entre puntos de medición, especialmente en banco 2, por lo que esta bitácora sirve para rastrear caídas, referencias y diferencias entre bornera, conector y lectura ADC.
+
+Buscar detalle sobre:
+2 bancos, 1 celda por banco, banco 1 ON, banco 2 ON, bornera, ADC, bus_pos, bus_neg, cell_neg b1, caídas de tensión.
+
+
+07/10/2026 - Bitácora 10 - 07.txt
+Tema principal:
+Prueba del circuito central con controlador con estados y modos.
+
+Resumen:
+Se probó el circuito central usando el controlador con estados y modos.
+
+Secuencia registrada:
+- init 2 1
+  La matriz se configuró correctamente.
+  Banco 1: C1=OFF, BANCO_SW=OFF.
+  Banco 2: C1=OFF, BANCO_SW=OFF.
+
+- activar descarga 47
+  El circuito quedó activo en modo DESCARGA.
+  Banco 1: C1=OFF, BANCO_SW=ON.
+  Banco 2: C1=OFF, BANCO_SW=ON.
+
+- medir
+  Suma de tensión de los bancos: 0 mV.
+  Tensión en la salida por ley de Ohm: 94 mV.
+  Banco 1: 8 mV.
+  Banco 2: 193 mV.
+  Corriente de descarga: 2 mA.
+  Corriente de carga: 0 mA.
+
+Se anotó que en la salida se medían alrededor de 200 mV, aunque el controlador informaba 2 mA de descarga. Luego se retiraron los bancos y se testeó la placa central. Con la placa sin bancos y Vcc activado, se midieron 5 V en el conector de Vcc y 18 mA de consumo. Al conectar un banco sin celdas y hacer init, Vcc cayó a 2.1 V.
+
+Conclusión:
+La prueba muestra que el controlador con estados y modos ejecuta la secuencia lógica, pero aparece un problema eléctrico al conectar un banco sin celdas: Vcc cae a 2.1 V. Esta bitácora es clave para investigar el problema actual de Vcc/corto/consumo en la placa central o en la conexión con los bancos.
+
+Buscar detalle sobre:
+Controlador con estados, init, activar descarga, medición por CLI, Vcc, consumo de 18 mA, caída de Vcc a 2.1 V, placa central, banco sin celdas.
+
 
 ========================
 ÍNDICE POR TEMA
@@ -353,7 +533,7 @@ Primera celda v2.1, validación de celda 2, problemas de tierra, diseño de celd
 
 R2, R3 y Rbase:
 Buscar en:
-14/05, 22/06, 24/06, 26/06, 07/07, 08/07, 17/07, 29/07, 19/08, 20/08.
+14/05, 22/06, 24/06, 26/06, 07/07, 08/07, 17/07, 29/07, 19/08, 20/08, 04/09.
 
 Conclusión importante:
 La configuración recomendada al final es:
@@ -361,21 +541,39 @@ R2 = 560 kΩ
 R3 = 56 kΩ
 Rbase = 560 kΩ
 
+La bitácora del 04/09 refuerza esta conclusión, ya que muestra que esa configuración reduce mucho las tensiones/corrientes asociadas a R3 en bancos superiores frente a la configuración 100 kΩ, 10 kΩ, sin Rbase.
+
 
 Tierra virtual / cell_neg / corrientes de fuga:
 Buscar en:
-11/06, 17/06, 19/06, 22/06, 24/06, 26/06, 29/06, 24/07, 29/07, 19/08, 20/08.
+11/06, 17/06, 19/06, 22/06, 24/06, 26/06, 29/06, 24/07, 29/07, 19/08, 20/08, 04/09, 16/09.
 
 Incluye:
-Falta de referencia de las celdas sin MOS de tierra, cell_neg del banco 1 con valores negativos, corrientes de fuga de los drivers y efecto de R2/R3/Rbase sobre esas fugas.
+Falta de referencia de las celdas sin MOS de tierra, cell_neg del banco 1 con valores negativos, corrientes de fuga de los drivers, efecto de R2/R3/Rbase sobre esas fugas y mediciones específicas para evaluar la necesidad del MOS_GND.
+
+
+MOS_GND / evaluación de necesidad:
+Buscar en:
+11/06, 17/06, 22/06, 16/09.
+
+Incluye:
+Necesidad de referencia de tierra para que las celdas apaguen correctamente, comportamiento de cell_neg1, mediciones con shunts de 3 Ω y osciloscopio durante el switcheo del banco 1.
 
 
 Opamps / medición diferencial / acondicionamiento ADC:
 Buscar en:
-17/06, 19/06, 22/06, 24/06.
+17/06, 19/06, 22/06, 24/06, 22/09.
 
 Incluye:
-Problema de opamps con alimentación simple, necesidad de fuente partida o desplazamiento de señal, uso de opamp restador, TL084, ICL7660 y adaptación al rango seguro del ADC.
+Problema de opamps con alimentación simple, necesidad de fuente partida o desplazamiento de señal, uso de opamp restador, TL084, ICL7660, adaptación al rango seguro del ADC y prueba real de opamps en placa central.
+
+
+INA / medición de corriente / ADC:
+Buscar en:
+22/09, 25/09, 07/10.
+
+Incluye:
+Pruebas de INA de carga y descarga, shunt, corriente de fuente cercana a 60 mA, salida INA cercana a 63 mV, lectura ADC cercana a 58-64 mV, y discrepancias entre medición real y lectura reportada por controlador.
 
 
 Código de switcheo / delays / BSRR:
@@ -386,12 +584,36 @@ Incluye:
 Sincronización data/clock/latch, coordinación de bancos, valle de salida de 50 ms, eliminación de delays, uso de BSRR y reducción del tiempo muerto a menos de 1 ms.
 
 
-Placa central / placa externa de pruebas:
+Controlador con estados y modos:
 Buscar en:
-17/07, 22/07, 24/07, 27/07, 29/07.
+07/10.
 
 Incluye:
-Diseño del circuito externo base de pruebas, placa central, plaquita provisoria para simplificar cableado y pruebas de conexionado.
+Comandos init, activar descarga y medir; estados de bancos; banco_sw; mediciones por CLI; y diagnóstico de caída de Vcc al conectar banco sin celdas.
+
+
+Placa central / placa externa de pruebas:
+Buscar en:
+17/07, 22/07, 24/07, 27/07, 29/07, 22/09, 25/09, 02/10, 05/10, 07/10.
+
+Incluye:
+Diseño del circuito externo base de pruebas, placa central, plaquita provisoria para simplificar cableado, montaje de placa central, llave maestra, inversor de corriente, opamps, INA, ADC, DIP de 4 pines, mediciones con bancos conectados y prueba del controlador con estados.
+
+
+DIP / llaves / corriente máxima:
+Buscar en:
+02/10.
+
+Incluye:
+Prueba de DIP de 4 pines a 3 A durante 21 minutos, sin daño ni sobrecalentamiento, y caída de tensión medida de 0.480 mV.
+
+
+Diagnóstico de Vcc / posible corto:
+Buscar en:
+22/09, 05/10, 07/10.
+
+Incluye:
+Consumo de 11 mA con bloques iniciales de placa central, consumo de 18 mA sin bancos con Vcc activo, caída de Vcc a 2.1 V al conectar un banco sin celdas, y diferencias entre mediciones en bornera, conector y ADC.
 
 
 Inversor CMOS / MOSFETs quemados:
@@ -414,4 +636,18 @@ A partir del 24/06, el trabajo se enfocó en reducir esas fugas y mejorar el apa
 
 En paralelo se trabajó sobre la medición diferencial y el acondicionamiento para el ADC, evaluando el uso de opamps, TL084 e ICL7660. También se avanzó en la placa central y placas externas de prueba para simplificar el conexionado.
 
-Finalmente, a nivel de firmware, se mejoró el switcheo entre bancos. El tiempo muerto de salida era de unos 50 ms, pero al eliminar delays y reemplazar HAL_GPIO_WritePin por escritura directa mediante BSRR, se redujo a menos de 1 ms. Con un capacitor de 470 µF, el valle de salida prácticamente desapareció.
+A nivel de firmware, se mejoró el switcheo entre bancos. El tiempo muerto de salida era de unos 50 ms, pero al eliminar delays y reemplazar HAL_GPIO_WritePin por escritura directa mediante BSRR, se redujo a menos de 1 ms. Con un capacitor de 470 µF, el valle de salida prácticamente desapareció.
+
+Después de las pruebas de agosto, el trabajo avanzó hacia la validación de la placa central y la medición integrada del sistema. El 04/09 se reforzó la comparación entre configuraciones de R2, R3 y Rbase, mostrando que la configuración 560 kΩ, 56 kΩ y 560 kΩ reduce significativamente la corriente asociada a R3 en bancos superiores.
+
+El 16/09 se preparó una metodología de medición con shunts y osciloscopio para analizar si el MOS_GND es necesario y cómo se comportan cell_pos1, bus_pos1, cell_neg1, GND y las salidas durante el switcheo del banco 1.
+
+El 22/09 comenzó la validación por bloques de la placa central. Se probaron la llave maestra, el inversor de corriente, los opamps y los INA. Los opamps entregaron valores cercanos a 0.85 V para una fuente de prueba de 1 V, y los INA midieron corrientes coherentes con una carga de 47 Ω.
+
+El 25/09 se validaron mediciones de carga y descarga con INA y ADC, observando valores coherentes alrededor de 60 mA, aunque con pequeñas oscilaciones probablemente debidas al conexionado de prueba.
+
+El 02/10 se probó el DIP de 4 pines hasta 3 A durante 21 minutos sin signos de daño ni sobrecalentamiento, por lo que se consideró apto para la placa central.
+
+El 05/10 se realizaron mediciones con dos bancos y una celda por banco, comparando valores en bornera, conectores y ADC. Esta bitácora ayuda a ubicar diferencias de tensión y referencias entre puntos del sistema.
+
+El 07/10 se probó el circuito central con el controlador usando estados y modos. La lógica de comandos funcionó, pero apareció un problema eléctrico importante: con la placa sin bancos y Vcc activo se midieron 5 V y 18 mA, pero al conectar un banco sin celdas e inicializar, Vcc cayó a 2.1 V. Esta bitácora es clave para el diagnóstico actual de Vcc, consumo elevado o posible corto asociado a banco/placa central.

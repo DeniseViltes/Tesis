@@ -49,6 +49,9 @@
 void adc_init(void);
 void adc_update(void);
 uint8_t adc_has_measurements(void);
+uint8_t adc_is_dma_started(void);
+uint32_t adc_get_completed_sequence(void);
+uint32_t adc_get_processed_sequence(void);
 uint16_t adc_get_node_raw(adc_node_t node);
 void adc_get_raw(uint16_t *buffer, uint16_t len);
 #endif /* INC_ADC_H_ */
