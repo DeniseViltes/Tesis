@@ -324,10 +324,7 @@ int Controlador_EncenderCelda(uint8_t banco, uint8_t celda)
 		Banco_ApagarSwitch(&ctrl.bancos[banco]); // sw banco apagado
 		Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
 
-
-
     }
-
 
     // Paso 2: prendo la celda.
     Banco_EncenderCelda(&ctrl.bancos[banco], celda);
@@ -613,7 +610,7 @@ uint16_t Controlador_GetTensionSalidaOpamp(void){
 uint16_t Controlador_GetTensionSalida(void){
 	if(ctrl.rl == 0) return 0u;
 	uint16_t corriente = Controlador_GetCorrienteDescarga();
-	return ctrl.rl*corriente/1000;
+	return ctrl.rl*corriente;
 }
 
 uint16_t Controlador_GetTensionBanco(uint8_t banco)

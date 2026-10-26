@@ -113,7 +113,6 @@ int main(void)
 
   while (1)
   {
-
 	  //Controlador_EncenderCelda(0,0);
 	   CLI_Process();
 	   adc_update();

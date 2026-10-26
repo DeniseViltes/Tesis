@@ -9,7 +9,7 @@ void SR_PulseClock(shift_register_t *sr)
     }
 
     sr->clk_port->BSRR = sr->clk_pin;                 // CLK = 1
-    for (volatile uint32_t i = 0; i < 100; i++) {
+    for (volatile uint32_t i = 0; i < 500; i++) {
         __NOP();
     }
     sr->clk_port->BSRR = (uint32_t)sr->clk_pin << 16; // CLK = 0
@@ -25,7 +25,9 @@ void SR_PulseLatch(shift_register_t *sr)
     }
 
     sr->latch_port->BSRR = sr->latch_pin;                 // latch = 1
-   //HAL_Delay(1);
+    for (volatile uint32_t i = 0; i < 500; i++) {
+        __NOP();
+    }
     sr->latch_port->BSRR = (uint32_t)sr->latch_pin << 16; // latch = 0
 }
 
