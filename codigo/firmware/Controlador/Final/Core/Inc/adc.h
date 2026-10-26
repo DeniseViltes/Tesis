@@ -52,6 +52,10 @@ uint8_t adc_has_measurements(void);
 uint8_t adc_is_dma_started(void);
 uint32_t adc_get_completed_sequence(void);
 uint32_t adc_get_processed_sequence(void);
+/* HAL_GetTick() al procesar el ultimo bloque (ms desde el arranque).
+ * Consultar adc_has_measurements(): 0 tambien puede ser un instante valido.
+ * No representa el instante de adquisicion ni conserva un historial. */
+uint32_t adc_get_processed_ms(void);
 uint16_t adc_get_node_raw(adc_node_t node);
 void adc_get_raw(uint16_t *buffer, uint16_t len);
 #endif /* INC_ADC_H_ */

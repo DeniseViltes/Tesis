@@ -10,6 +10,7 @@
 #include "llave.h"
 #include "procesar_adc.h"
 #include "fallas.h"
+#include "barrido_cell_neg.h"
 
 static controlador_t ctrl;
 
@@ -107,6 +108,7 @@ int Controlador_init(uint8_t bancos, uint8_t celdas){
     ctrl.estado = REPOSO;
     ctrl.rl = 0;
     ctrl.modo = MODO_SIN_ASIGNAR;
+    BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
 	return 0;
 }
 
@@ -125,6 +127,7 @@ int Controlador_ActivarCircuito(controlador_modo_t modo){
     }
     ctrl.estado = ACTIVO;
     ctrl.modo = modo;
+	BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
 	Llave_Habilitar();
 	HAL_Delay(TURN_ON_DELAY);
 	Controlador_EnviarCeros();
@@ -133,6 +136,7 @@ int Controlador_ActivarCircuito(controlador_modo_t modo){
 	    Banco_EncenderSwitch(&ctrl.bancos[b]);
 
 	Controlador_AplicarEstados();
+
 
 	return 0;
 }
@@ -154,6 +158,7 @@ int Controlador_ModoPrueba(void){
 	Controlador_AplicarEstados();
 	ctrl.estado = PRUEBA;
 	ctrl.modo = MODO_SIN_ASIGNAR;
+
 	return 0;
 }
 
@@ -196,6 +201,7 @@ int Controlador_Reiniciar(void){
 	ctrl.estado = REPOSO;
 	ctrl.rl = 0;
 	ctrl.modo = MODO_SIN_ASIGNAR;
+	BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
 	return 0;
 }
 
@@ -208,11 +214,13 @@ void Controlador_Update(void){
 	    Controlador_EnviarCeros();
 	    Llave_DispararFalla();
 	    ctrl.estado = FALLA;
+	    BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
 	    return;
 	}
 
     Controlador_Tick1ms();
     Controlador_ActualizarEstados();
+    BarridoCellNeg_Update();
 
 }
 
@@ -569,6 +577,7 @@ int Controlador_IniciarSwitchingBanco(uint8_t banco){
 
 
 int Controlador_SeleccionarMux(uint8_t celda){
+	if (BarridoCellNeg_Ocupado()) return 1;
 	if (!puede_operar() || celda >= Controlador_GetCantCeldas()) {
 	        return 1;
 	    }
@@ -638,4 +647,19 @@ uint16_t Controlador_GetCorrienteCarga(void)
 }
 
 
+int Controlador_GetCellNegBarrido(uint8_t banco, uint8_t celda, uint16_t *valor_mV)
+{
+    if (!verificar_banco(banco) || celda >= ctrl.bancos[banco].cant_celdas)
+        return 0;
+    return BarridoCellNeg_GetMedicion(banco, celda, valor_mV);
+}
 
+uint32_t Controlador_GetAntiguedadBarridoMs(void)
+{
+    return HAL_GetTick() - BarridoCellNeg_GetActualizacionMs();
+}
+
+uint8_t Controlador_HayMediciones(void)
+{
+    return adc_has_measurements();
+}

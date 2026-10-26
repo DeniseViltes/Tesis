@@ -116,6 +116,12 @@ uint16_t Controlador_GetTensionSalidaOpamp(void);
 uint16_t Controlador_GetTensionSalida(void);
 uint16_t Controlador_GetTensionBanco(uint8_t banco);
 uint16_t Controlador_GetCellNeg(uint8_t banco);
+/* Ultimo barrido completo. Indices desde cero; 1 = dato disponible.
+ * Si devuelve 0, no modifica *valor_mV. */
+int Controlador_GetCellNegBarrido(uint8_t banco, uint8_t celda, uint16_t *valor_mV);
+/* Consultar primero la disponibilidad del barrido. */
+uint32_t Controlador_GetAntiguedadBarridoMs(void);
+uint8_t Controlador_HayMediciones(void);
 uint16_t Controlador_GetCorrienteDescarga(void);
 uint16_t Controlador_GetCorrienteCarga(void);
 

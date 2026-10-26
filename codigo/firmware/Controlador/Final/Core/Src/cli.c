@@ -81,13 +81,11 @@ static void cli_print_status(void)
 
 
 
-
-
 void cli_print_mediciones(void)
 {
     char mensaje[96];
 
-    if (!adc_has_measurements()) {
+    if (!Controlador_HayMediciones()) {
         cli_print("El ADC todavía no recopilo suficientes datos\r\n");
         return;
     }
@@ -114,6 +112,28 @@ void cli_print_mediciones(void)
     snprintf(mensaje, sizeof(mensaje), "Corriente de carga: %u mA\r\n",
              (unsigned)Controlador_GetCorrienteCarga());
     cli_print(mensaje);
+
+    uint16_t cell_neg_mV;
+    if (!Controlador_GetCellNegBarrido(0u, 0u, &cell_neg_mV)) {
+        cli_print("Barrido CELL_NEG: sin barrido completo disponible\r\n");
+        return;
+    }
+    snprintf(mensaje, sizeof(mensaje),
+             "Barrido CELL_NEG: ultimo completo, hace %lu ms\r\n",
+             (unsigned long)Controlador_GetAntiguedadBarridoMs());
+    cli_print(mensaje);
+    for (uint8_t b = 0; b < Controlador_GetCantBancos(); b++) {
+        for (uint8_t c = 0; c < Controlador_GetCantCeldas(); c++) {
+            if (Controlador_GetCellNegBarrido(b, c, &cell_neg_mV)) {
+                snprintf(mensaje, sizeof(mensaje),
+                         "Banco %u, celda %u: CELL_NEG = %u mV\r\n",
+                         (unsigned)(b + 1u), (unsigned)(c + 1u),
+                         (unsigned)cell_neg_mV);
+                cli_print(mensaje);
+            }
+        }
+    }
+
 }
 
 static void cli_print_help(void)
@@ -342,7 +362,8 @@ static void cli_handle_line(const char *line_in){
 	          uint8_t c = (uint8_t)(c_user - 1u);
 
 	          if (Controlador_SeleccionarMux(c) == 1){
-	        	  cli_print("ERR: activar la plataforma\r\n");
+                  cli_print("ERR: plataforma inactiva o barrido en curso\r\n");
+                  return;
 	          }
 
 	          cli_print("MUX seleccionado\r\n");

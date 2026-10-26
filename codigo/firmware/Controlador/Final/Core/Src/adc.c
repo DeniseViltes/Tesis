@@ -143,6 +143,11 @@ uint32_t adc_get_processed_sequence(void)
     return adc_processed_sequence;
 }
 
+uint32_t adc_get_processed_ms(void)
+{
+    return adc_processed_ms;
+}
+
 
 
 void adc_get_raw(uint16_t *buffer, uint16_t len){

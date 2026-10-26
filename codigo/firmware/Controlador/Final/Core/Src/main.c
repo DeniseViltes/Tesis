@@ -91,6 +91,7 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
+
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -101,7 +102,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-  /* La matriz se configura desde el CLI con init <bancos> <celdas>. */
+
   CLI_Init(&huart2);
   adc_init();
 
