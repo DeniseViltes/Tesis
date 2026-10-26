@@ -1,4 +1,54 @@
 - Prueba de funcionamiento con y sin MOS GND:
 
-Banco de pruebas: 4 bancos de 1 celda cada uno -> Bancos 2 a 4 usan celdas reales, Banco 1 usa fuente de pruebas y resistor de 2.73ohm para medir su corriente.
+Banco de pruebas: 4 bancos de 1 celda cada uno -> Bancos 2 a 4 usan celdas reales, Banco 1 usa fuente de pruebas y resistor de 2.73ohm para medir su corriente. Todas las celdas salvo la del banco 1 (v2.1) son v2.2. Carga de 47ohm
+
+LA CELDA 1 1 TIENE N-MOSFET DE GND
+
 Para medir la corriente en la celda se usa un resistor de 2.73ohm entre borne negativo de la celda y drain de NMOS
+
+Primera prueba: Solamente banco 1 prendido, lo demás apagado
+Segunda prueba: Banco 1 apagado, los demás prendidos
+En la segunda prueba se ve lo que se esperaba: la corriente en la celda 1 1 es 0A cuando está apagada. Esto es correcto porque es una configuración conocida que funciona. De igual forma se ven -550mV en cell_neg1, lo cual ya se conocía pero debería evitarse.
+Por esto es que se repite el experimento pero reemplazando la celda 1 1 por una sin NMOS de GND y en su lugar solo un corto entre cell_neg1 y GND.
+(El resto del funcionamiento del sistema es correcto)
+
+Con los 4 bancos prendidos: OUT: 11.48V y 0.246A pero la medición por opamps da 11.8V a la salida
+Valores dados por el controlador:
+Suma de tensión de los bancos: 11794 mV
+Tensión en la salida por ley de ohm: 11609 mV
+Banco 1: 2945 mV
+Banco 2: 2765 mV
+Banco 3: 3097 mV
+Banco 4: 2987 mV
+Corriente de descarga: 247 mA
+Corriente de carga: 0 mA
+Barrido CELL_NEG: ultimo completo, hace 421 ms
+Banco 1, celda 1: CELL_NEG = 0 mV
+Banco 2, celda 1: CELL_NEG = 2932 mV
+Banco 3, celda 1: CELL_NEG = 5722 mV
+Banco 4, celda 1: CELL_NEG = 8715 mV
+
+Analizando por qué tenemos pérdidas de potencia: se lee la salida del banco 4 vs la que llega a la placa central: perdemos muchísima potencia en los cables: 3.17V en el banco vs 3.05V.
+11.9V es por opamps y 11.53V por tester a la salida. De las celdas tenemos: 3.22V, 3.26V, 3.17V y 3.24V = 12.89V
+De esta forma tenemos 89.4% de eficiencia tomando la salida real del tester y 92.3% tomando la tensión leída por el opamp.
+
+
+
+NUEVA PRUEBA PERO AHORA CON LA CELDA 1 1 CON EL CORTO CON TIERRA:
+
+Se reemplaza el resistor para medir la corriente por uno de 1ohm
+
+La celda 1 1 apaga sin problemas (no hay corriente por la celda cuando se le da señal de apagado) por lo que se decide eliminar los MOS de GND de todas las celdas de banco 1 y reemplazarlos por un cortocircuito entre cell_neg1 y GND.
+No hay diferencias significativas que demuestren que tener el MOS GND es mejor.
+
+
+
+NUEVA PRUEBA DE DOBLE O SIMPLE PMOS EN EL SWITCH DE BANCO:
+
+Ahora se prueba si es necesario tener dos PMOS en los switch de bancos. Para eso se arma un banco de trabajo de 3 bancos con 1 celda cada uno. La celda del banco 1 es una sin MOS de GND ahora que se probó que la mejor opción.
+
+La configuración es: B1 prendido - B2 y B3 apagados, y se cambió el B3 por uno con 1 PMOS y uno con 2.
+El resultado fue ligeramente favorable a favor del PMOS individual. A la salida se vieron unos 2.99V vs 2.92V. Sutil pero mejor con solo un transistor.
+
+DISEÑO FINALMENTE TERMINADO:
+Lo último que queda es retirar el segundo PMOS del banco que lo tenía y retirar los NMOS de GND de las celdas que lo tengan.
