@@ -1,0 +1,4 @@
+- Prueba de funcionamiento con y sin MOS GND:
+
+Banco de pruebas: 4 bancos de 1 celda cada uno -> Bancos 2 a 4 usan celdas reales, Banco 1 usa fuente de pruebas y resistor de 2.73ohm para medir su corriente.
+Para medir la corriente en la celda se usa un resistor de 2.73ohm entre borne negativo de la celda y drain de NMOS
