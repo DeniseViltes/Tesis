@@ -1,0 +1,32 @@
+MEDICIONES FINALES DE FUNCIONAMIENTO:
+
+Celdas con carga inicial de 3.295V
+
+A) Matriz 4x1 - Carga 46.8ohm - 4 bancos prendidos cte
+Vcc = 4.98V - Icc = 29mA - Salida medida 12.2V
+
+status:
+BANCO 1: C1=ON | BANCO_SW=OFF
+BANCO 2: C1=ON | BANCO_SW=OFF
+BANCO 3: C1=ON | BANCO_SW=OFF
+BANCO 4: C1=ON | BANCO_SW=OFF
+
+Suma de tensión de los bancos: 12162 mV
+Tensión en la salida por ley de ohm: 12173 mV
+Banco 1: 3072 mV
+Banco 2: 3034 mV
+Banco 3: 3098 mV
+Banco 4: 2958 mV
+Corriente de descarga: 259 mA
+Corriente de carga: 0 mA
+Barrido CELL_NEG: ultimo barrido realizado hace 802 ms
+Banco 1, celda 1: CELL_NEG = 0 mV
+Banco 2, celda 1: CELL_NEG = 3054 mV
+Banco 3, celda 1: CELL_NEG = 6120 mV
+Banco 4, celda 1: CELL_NEG = 9077 mV
+
+
+
+NUEVA MEDICIÓN:
+
+B) Igual banco de trabajo que antes, B2 y B4 en sincronizados, B1 y B3 en complementarios
