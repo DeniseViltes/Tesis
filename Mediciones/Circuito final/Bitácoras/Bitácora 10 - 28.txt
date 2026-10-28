@@ -1,0 +1,117 @@
+PRUEBA DE DOBLE PMOS EN BANCO:
+
+Primero se hace una prueba con los PMOS simples en cada banco con una matriz de 4x1. Se enciende únicamente el primer banco y todos los demás apagados para ver la caída de tensión en 3 etapas de switches de banco.
+
+Carga: 46.85ohm
+Banco 4 con celda real de 3.295V
+
+Medición con 3 fuentes de laboratorio, 1 celda real y osciloscopio.
+Configuración de las fuentes:
+- Banco 1: 3.17V
+- Banco 2: 3.24V
+- Banco 3: 3.21V
+- Banco 4: 3.295V (celda)
+
+Salida: 2.964V --> 3.17V - 2.964V ~ 200mV
+
+Caída en cada banco:
+- Banco 2: 48.8mV
+- Banco 3: 46mV
+- Banco 4: 48mV
+Pérdidas en los 3 bancos: 142.8mV
+
+
+
+Probando con Banco 1, 2, 3 OFF y Banco 4 ON:
+Salida: 3.065V => 3.295V - 3.065V = 230mV
+
+Caída en cada banco:
+- Banco 1: 45mV
+- Banco 2: 50mV
+- Banco 3: 48mV
+Pérdidas en los 3 bancos: 143mV
+
+
+
+Probando con Banco 1, 3, 4 OFF y Banco 2 ON:
+Salida: 3.03V => 3.24V - 3.03V = 210mV
+
+Caída en cada banco:
+- Banco 1: 44.7mV
+- Banco 3: 46mV
+- Banco 4: 45.5mV
+Pérdidas en los 3 bancos: 136.2mV
+
+
+
+Probando con Banco 1, 2, 4 OFF y Banco 3 ON:
+Salida: 2.99V => 3.21V - 2.99V = 220mV
+
+Caída en cada banco:
+- Banco 1: 44mV
+- Banco 2: 55mV
+- Banco 4: 45mV
+Pérdidas en los 3 bancos: 144mV
+
+
+Mientras más bancos prendidos hay, más caída hay en cada MOSFET, lo cual es lógico porque aumenta la corriente circulando.
+Prueba con Banco 1 OFF y Bancos 2, 3, 4 ON:
+- Salida: 8.97V
+- Caída en el Banco 1: 131mV
+
+Al prender 3 bancos vs 1, hay el triple de tensión a la salida, por ende el triple de corriente. Coincide con que la caída de tensión en el Banco 1 es también exactamente el triple.
+
+
+
+
+AHORA HACEMOS LAS PRUEBAS CON P-MOSFETS DOBLES EN CADA BANCO
+
+El sistema es el mismo: matriz 4x1, 3 bancos con fuentes y el 4to con celda. Carga de 46.85ohm
+
+
+Probando con Banco 2, 3, 4 OFF y Banco 1 ON:
+Salida: 2.95V --> 3.17V - 2.95V = 220mV
+
+Caída en cada banco:
+- Banco 2: 63mV
+- Banco 3: 55mV
+- Banco 4: 40.6mV
+Pérdidas en los 3 bancos: 158mV
+
+
+
+Probando con Banco 1, 3, 4 OFF y Banco 2 ON:
+Salida: 3.01V => 3.24V - 3.01V = 230mV
+
+Caída en cada banco:
+- Banco 1: 38mV
+- Banco 3: 67mV
+- Banco 4: 40mV
+Pérdidas en los 3 bancos: 145mV
+
+
+
+Probando con Banco 1, 2, 4 OFF y Banco 3 ON:
+Salida: 2.99V => 3.21V - 2.99V = 250mV
+
+Caída en cada banco:
+- Banco 1: 37.8mV
+- Banco 2: 61mV
+- Banco 4: 40mV
+Pérdidas en los 3 bancos: 139mV
+
+
+
+Probando con Banco 1, 2, 3 OFF y Banco 4 ON:
+Salida: 3.04V => 3.295V - 3.04V = 255mV
+
+Caída en cada banco:
+- Banco 1: 38.6mV
+- Banco 2: 58.6mV
+- Banco 3: 68.7mV
+Pérdidas en los 3 bancos: 166mV
+
+
+
+RESULTADOS: EL DOBLE P-MOSFET EMPEORA LA SITUACIÓN, HAY MÁS CAÍDA.
+VEREDICTO: NOS QUEDAMOS CON EL P-MOSFET SIMPLE
