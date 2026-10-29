@@ -10,6 +10,7 @@
 
 #include "stm32f1xx_hal.h"
 #include <ctype.h>
+#include "fallas.h"
 
 
 //Me copio del CLI del Prototipo
@@ -19,7 +20,7 @@ void CLI_Init(UART_HandleTypeDef *huart);
 
 /* Debe llamarse desde HAL_UART_RxCpltCallback */
 void CLI_RxCallback(UART_HandleTypeDef *huart);
-
+void CLI_ImprimirFalla(falla_t falla);
 
 void CLI_Process(void);
 

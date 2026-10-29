@@ -9,8 +9,9 @@
 #include "main.h"
 #include "llave.h"
 #include "procesar_adc.h"
-#include "fallas.h"
 #include "barrido_cell_neg.h"
+#include "algoritmos.h"
+
 
 static controlador_t ctrl;
 
@@ -25,6 +26,8 @@ static mux_t mux_bancos;
 static uint16_t periodo_ms = 0;
 static uint16_t contador = 0;
 static uint8_t fase = 0;
+
+
 
 
 //por ahora solo tengo el banco 1
@@ -108,14 +111,15 @@ int Controlador_init(uint8_t bancos, uint8_t celdas){
     ctrl.estado = REPOSO;
     ctrl.rl = 0;
     ctrl.modo = MODO_SIN_ASIGNAR;
+    ctrl.control = CONTROL_MANUAL;
+    ctrl.tension_objetivo = 0;
+    ctrl.falla = FALLA_NINGUNA;
     BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
 	return 0;
 }
 
 
 int Controlador_ActivarCircuito(controlador_modo_t modo){
-
-
     if (ctrl.cant_bancos == 0 || ctrl.estado != REPOSO) {
         return 1;
     }
@@ -143,7 +147,6 @@ int Controlador_ActivarCircuito(controlador_modo_t modo){
 
 
 int Controlador_ModoPrueba(void){
-
 	if (ctrl.cant_bancos == 0 || ctrl.estado != REPOSO) {
 	        return 1;
 	    }
@@ -170,25 +173,32 @@ int Controlador_EvaluarFallas(void){
 	if (!puede_operar()) return 1;
 	if (!adc_is_dma_started() || !adc_has_measurements()) return 0; //TODO
 
-    if (Fallas_EvaluarCorrientes(
-        Controlador_GetCorrienteDescarga(),
-        Controlador_GetCorrienteCarga()
-    ) != FALLA_NINGUNA) return 1;
+	falla_t falla_corriente = Fallas_EvaluarCorrientes(
+	        Controlador_GetCorrienteDescarga(),
+	        Controlador_GetCorrienteCarga());
+    if ( falla_corriente != FALLA_NINGUNA){
+    	ctrl.falla = falla_corriente;
+    	return 1;
+    }
 
 
     for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
             if (ctrl.bancos[b].actual == ON ||
                 !Banco_HayCeldasActualON(&ctrl.bancos[b])) continue;
 
-            /* Aproximacion por tension del banco activo, no un diagnostico
-             * de una celda individual. */
-            if (Fallas_EvaluarTensionCelda(Controlador_GetTensionBanco(b))
-                != FALLA_NINGUNA) return 1;
+            falla_t falla_tension =Fallas_EvaluarTensionCelda(Controlador_GetTensionBanco(b));
+            if (falla_tension!= FALLA_NINGUNA){
+            	ctrl.falla = falla_tension;
+            	return 1;
+            }
         }
-
     return 0;
 }
 
+
+falla_t Controlador_GetFalla(void){
+	return ctrl.falla;
+}
 
 int Controlador_Reiniciar(void){
 	if (ctrl.cant_bancos == 0) return 1;
@@ -202,11 +212,13 @@ int Controlador_Reiniciar(void){
 	ctrl.rl = 0;
 	ctrl.modo = MODO_SIN_ASIGNAR;
 	BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
+	ctrl.control = CONTROL_MANUAL;
+	ctrl.falla = FALLA_NINGUNA;
 	return 0;
 }
 
-void Controlador_Update(void){
-	if (ctrl.estado == REPOSO || ctrl.estado == FALLA  ) return;
+int Controlador_Update(void){
+	if (ctrl.estado == REPOSO || ctrl.estado == FALLA  ) return 1;
 
 
 	if (Controlador_EvaluarFallas()) {
@@ -215,13 +227,18 @@ void Controlador_Update(void){
 	    Llave_DispararFalla();
 	    ctrl.estado = FALLA;
 	    BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
-	    return;
+	    return -1;
+	}
+	int resultado_automatico = 0;
+	if (ctrl.control == CONTROL_AUTOMATICO){
+		resultado_automatico =
+			Controlador_EncenderBancosAutomatico(ctrl.tension_objetivo);
 	}
 
     Controlador_Tick1ms();
     Controlador_ActualizarEstados();
     BarridoCellNeg_Update();
-
+    return resultado_automatico;
 }
 
 
@@ -233,10 +250,11 @@ int Controlador_Apagar(void){
 		Banco_SetModo(&ctrl.bancos[b], FIJO);
 		if (Controlador_BypassBanco(b) != 0) return 1;
 	}
+	ctrl.tension_objetivo=0;
 	return 0;
 }
 
-status_contraldor_t Controlador_GetEstado(void){
+controlador_status_t  Controlador_GetEstado(void){
 	return ctrl.estado;
 }
 uint8_t Controlador_GetCantBancos(void){
@@ -291,7 +309,6 @@ void Controlador_AplicarEstados(void){
 	        return;
 	    }
 
-
 	for (int8_t  pin = CANT_PINES_SR-1; pin >=0; pin--){
 			for (uint8_t sr = 0; sr< CANT_BANCOS; sr++){
 				Banco_AplicarEstadoPin(&ctrl.bancos[sr], pin);
@@ -326,17 +343,11 @@ int Controlador_EncenderCelda(uint8_t banco, uint8_t celda)
     if (!puede_operar() || !verificar_banco(banco) || celda >= ctrl.bancos[banco].cant_celdas) return 1;
 
 
-    // Paso 1: solo modifico el banco objetivo.
-    // Los otros bancos quedan con su prox intacto.
-    if (Banco_GetEstadoActual (&ctrl.bancos[banco]) == ON){
-		Banco_ApagarSwitch(&ctrl.bancos[banco]); // sw banco apagado
-		Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
+    Banco_SetModoCelda(&ctrl.bancos[banco], celda,FIJO);
 
-    }
+	Banco_ApagarSwitch(&ctrl.bancos[banco]); // sw banco apagad
 
-    // Paso 2: prendo la celda.
     Banco_EncenderCelda(&ctrl.bancos[banco], celda);
-    Controlador_AplicarEstados(); // otra vez frame completo + latch comun
     return 0;
 }
 
@@ -346,23 +357,15 @@ int Controlador_ApagarCelda(uint8_t banco, uint8_t celda)
 {
     if (!puede_operar() || !verificar_banco(banco) || celda >= ctrl.bancos[banco].cant_celdas) return 1;
 
+    Banco_SetModoCelda(&ctrl.bancos[banco], celda,FIJO);
 
-
-    //Paso 1: Apago la celda
     Banco_ApagarCelda(&ctrl.bancos[banco],celda);
-    Controlador_AplicarEstados(); // escribe TODOS los bancos y hace latch comun
 
-
-
-    if (!Banco_HayCeldasProxON(&ctrl.bancos[banco])){ //no quedan celdas en ON->enciendo el banco
-
-
-
-    	// Paso 2: prendo la celda.
+    if (!Banco_HayCeldasProxON(&ctrl.bancos[banco])){
+    	//no quedan celdas en ON->enciendo el banco
     	Banco_EncenderSwitch(&ctrl.bancos[banco]);
-    	Controlador_AplicarEstados(); // otra vez frame completo + latch comun
-
     }
+
     return 0;
 }
 
@@ -379,27 +382,22 @@ int verificar_banco(uint8_t banco){
 int Controlador_BypassBanco(uint8_t banco){
 	if (!puede_operar() || !verificar_banco(banco)) return 1;
 
-	Banco_ApagarSwitch(&ctrl.bancos[banco]);//solo or si acaso
-	Banco_ApagarCeldas(&ctrl.bancos[banco]);
-	Controlador_AplicarEstados();
+	Banco_SetModo(&ctrl.bancos[banco], FIJO);
 
+	Banco_ApagarCeldas(&ctrl.bancos[banco]);
 
 
 	Banco_EncenderSwitch(&ctrl.bancos[banco]);
-    Controlador_AplicarEstados();
+
     return 0;
 }
 
 int Controlador_ActivarCeldasBanco(uint8_t banco){
 	if (!puede_operar() || !verificar_banco(banco)) return 1;
+	Banco_SetModo(&ctrl.bancos[banco], FIJO);
 
 	Banco_ApagarSwitch(&ctrl.bancos[banco]);
-	Controlador_AplicarEstados();
-
-
-
 	Banco_EncenderCeldas(&ctrl.bancos[banco]);
-	Controlador_AplicarEstados();
     return 0;
 }
 
@@ -555,12 +553,9 @@ int Controlador_PararSwitchingCelda(uint8_t banco, uint8_t celda){
 }
 
 
-int Controlador_DetenerSwitchingBancoBypass(uint8_t banco)
+controlador_control_t Controlador_GetControl(void)
 {
-    if (!puede_operar() || !verificar_banco(banco)) return 1;
-
-    Banco_SetModo(&ctrl.bancos[banco], FIJO);
-    return 0;
+    return ctrl.control;
 }
 
 int Controlador_IniciarSwitchingBanco(uint8_t banco){
@@ -573,8 +568,114 @@ int Controlador_IniciarSwitchingBanco(uint8_t banco){
 }
 
 
+//---------------CONTROL AUTOMATICO-----------------
 
 
+
+
+int Controlador_CalcularCantidadEncendidos(uint16_t tension_objetivo, uint8_t *orden, uint16_t *tension_lograda){
+	if (orden == NULL ||
+	    ctrl.cant_bancos == 0u ||
+	    ctrl.cant_bancos > CANT_BANCOS)
+	    return -1;
+	if (tension_objetivo == 0u) return 0;
+	if (!Controlador_HayMediciones())
+		return -1;
+	if (tension_lograda == NULL)
+	    return -1;
+	Controlador_CargarMediciones();
+
+	if (Algoritmos_OrdenarBancosPorTension(
+		ctrl.bancos, ctrl.cant_bancos, orden) != 0)
+		return -1;
+
+	 uint32_t tension_acumulada = 0u;
+
+	 for (uint8_t i = 0; i < ctrl.cant_bancos; i++) {
+		 tension_acumulada += ctrl.bancos[orden[i]].tension_mV;
+
+	         if (tension_acumulada >= tension_objetivo){
+	        	 *tension_lograda = tension_acumulada;
+	        	 return i + 1;
+	         }
+
+	     }
+	*tension_lograda = tension_acumulada;
+	return ctrl.cant_bancos; //si no llego a la salida prendo todos los bancos
+}
+
+int Controlador_IniciarModoAutomatico(void){
+	if (Controlador_Apagar()==1){
+		return 1;
+	}
+	ctrl.control = CONTROL_AUTOMATICO;
+	return 0;
+}
+
+int Controlador_EncenderBancosAutomatico(uint16_t tension_objetivo){
+
+	if (ctrl.control != CONTROL_AUTOMATICO)return 1;
+	if (!puede_operar()) return 1;
+	if (tension_objetivo == 0u) return Controlador_Apagar();
+
+	uint8_t orden[CANT_BANCOS]={0};
+	uint16_t tension_lograda = 0;
+
+	int bancos_encendidos = Controlador_CalcularCantidadEncendidos(tension_objetivo, orden, &tension_lograda);
+	if (bancos_encendidos< 0) return 1;
+
+
+	uint32_t tension_actual_mV = Controlador_GetTensionSalidaOpamp();
+
+	if (!Decision_por_umbral(tension_actual_mV,tension_lograda, UMBRAL_CAMBIO)) return 0;
+
+
+	for (int b= bancos_encendidos; b< ctrl.cant_bancos;b++){
+		if(Controlador_BypassBanco(orden[b])==1) return 1;
+	}
+
+	for(int b = 0; b < bancos_encendidos; b++){
+		if (Controlador_ActivarCeldasBanco(orden[b]) != 0) return 1;
+	}
+
+	return 0;
+
+}
+
+
+int Controlador_ApagarModoAutomatico(void){
+	if (Controlador_Apagar()==1){
+		return 1;
+	}
+	ctrl.control = CONTROL_MANUAL;
+	return 0;
+
+}
+
+int Controlador_SetTensionObjetivo(uint16_t tension)
+{
+    ctrl.tension_objetivo = tension;
+    return 0;
+}
+
+int Controlador_DebeIntercambiarBanco(
+    uint8_t banco_nuevo,
+    uint8_t banco_actual)
+{
+    uint16_t v_nuevo = Tension_de_la_celda(
+        ctrl.bancos[banco_nuevo].tension_mV,
+        Controlador_GetCellNeg(banco_nuevo)
+    );
+
+    uint16_t v_actual = Tension_de_la_celda(
+        ctrl.bancos[banco_actual].tension_mV,
+        Controlador_GetCellNeg(banco_actual)
+    );
+
+    return aplicar_histeresis(v_nuevo, v_actual);
+}
+
+//---------------------------------------------------------------
 
 int Controlador_SeleccionarMux(uint8_t celda){
 	if (BarridoCellNeg_Ocupado()) return 1;
@@ -593,6 +694,10 @@ void Controlador_CargarMediciones(void){
 		ctrl.mediciones_anteriores[i] = ctrl.mediciones[i];
 	}
 	adc_get_voltages_mV(ctrl.mediciones,ADC_NODE_COUNT);
+
+	for (uint8_t b = 0; b < ctrl.cant_bancos; b++){
+		Banco_CargarMedicion(&ctrl.bancos[b], ctrl.mediciones[ADC_BANCO_1 + b]);
+	}
 }
 
 uint16_t Controlador_GetMedicion(adc_node_t nodo)

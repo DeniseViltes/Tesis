@@ -119,7 +119,7 @@ void cli_print_mediciones(void)
         return;
     }
     snprintf(mensaje, sizeof(mensaje),
-             "Barrido CELL_NEG: ultimo completo, hace %lu ms\r\n",
+             "Barrido CELL_NEG: ultimo barrido realizado hace %lu ms\r\n",
              (unsigned long)Controlador_GetAntiguedadBarridoMs());
     cli_print(mensaje);
     for (uint8_t b = 0; b < Controlador_GetCantBancos(); b++) {
@@ -162,6 +162,14 @@ static void cli_print_help(void)
 	    "  status\r\n"
 	    "      Muestra el estado de bancos y celdas.\r\n"
 	    "\r\n"
+	    "Control automatico:\r\n"
+	    "  auto [<mV>]\r\n"
+	    "      Sin argumento inicia en 0 mV. Ejemplo: auto\r\n"
+	    "      Con argumento fija el objetivo. Ejemplo: auto 6500\r\n"
+	    "      auto 0 solicita bypass y mantiene automatico.\r\n"
+	    "  manual\r\n"
+	    "      Sale del automatico y solicita bancos en bypass.\r\n"
+	    "\r\n"
 	    "Control manual:\r\n"
 	    "  c <banco> <celda> on|off\r\n"
 	    "      Ejemplo: c 1 3 on\r\n"
@@ -188,10 +196,9 @@ static void cli_print_help(void)
 	    "      Inicia una celda y cambia el periodo global.\r\n"
 	    "      Ejemplo: sw 1 3 500 s\r\n"
 	    "\r\n"
-	    "  sw <banco> [<celda>] off\r\n"
-	    "      Sin celda: detiene todo el banco.\r\n"
-	    "      Con celda: detiene solamente esa celda.\r\n"
-	    "      Ejemplos: sw 1 off | sw 1 3 off\r\n"
+	    "  sw <banco> <celda> off\r\n"
+	    "      Detiene solamente esa celda. Ejemplo: sw 1 3 off\r\n"
+	    "      Para bypass de todo el banco: b <banco> off\r\n"
 	    "\r\n"
 	    "Modos:\r\n"
 	    "  s : sincrono; fase 0 ON, fase 1 OFF.\r\n"
@@ -263,6 +270,52 @@ static void cli_handle_line(const char *line_in){
         return;
     }
 
+    if (strcmp(line_copy, "manual") == 0) {
+        if (Controlador_ApagarModoAutomatico() != 0) {
+            cli_print("ERR: manual requiere estado ACTIVO o PRUEBA\r\n");
+            return;
+        }
+        cli_print("OK: modo manual, bypass solicitado\r\n");
+        return;
+    }
+
+    if (strncmp(line_copy, "auto", 4) == 0 &&
+        (line_copy[4] == '\0' || isspace((unsigned char)line_copy[4]))) {
+        const char *argumento = line_copy + 4;
+        while (isspace((unsigned char)*argumento)) argumento++;
+        unsigned long objetivo = 0u;
+
+        if (*argumento != '\0') {
+        /* Limitar a cinco digitos antes de convertir evita desbordamientos. */
+        const char *fin = argumento;
+        while (isdigit((unsigned char)*fin)) fin++;
+        size_t digitos = (size_t)(fin - argumento);
+        while (isspace((unsigned char)*fin)) fin++;
+
+        if (digitos == 0u || digitos > 5u || *fin != '\0') {
+            cli_print("ERR: use auto [<0..65535 mV>]\r\n");
+            return;
+        }
+
+        objetivo = strtoul(argumento, NULL, 10);
+        if (objetivo > UINT16_MAX) {
+            cli_print("ERR: use auto [<0..65535 mV>]\r\n");
+            return;
+        }
+        }
+
+        if (Controlador_IniciarModoAutomatico() != 0) {
+            cli_print("ERR: auto requiere estado ACTIVO o PRUEBA\r\n");
+            return;
+        }
+        if (Controlador_SetTensionObjetivo((uint16_t)objetivo) != 0) {
+            cli_print("ERR: no se pudo fijar el objetivo\r\n");
+            return;
+        }
+        cli_print("OK: automatico solicitado, objetivo en mV registrado\r\n");
+        return;
+    }
+
     if (strcmp(line_copy, "apagar") == 0) {
         if (Controlador_Apagar() != 0) {
             cli_print("ERR: apagar requiere estado ACTIVO o PRUEBA\r\n");
@@ -290,7 +343,7 @@ static void cli_handle_line(const char *line_in){
 
         if (sscanf(line_copy, "activar %15s %u %c",
                    modo, &rl, &extra) == 2 &&
-            strcmp(modo, "descarga") == 0) {
+            strcmp(modo, "d") == 0) {
 
             if (rl == 0 || rl > UINT16_MAX) {
                 cli_print("ERR: RL debe ser 1..65535 ohm\r\n");
@@ -385,6 +438,12 @@ static void cli_handle_line(const char *line_in){
 	      }
 	  }
 
+	  /* Los comandos restantes modifican celdas, bancos o switching. */
+	  if (Controlador_GetControl() == CONTROL_AUTOMATICO) {
+	      cli_print("ERR: use manual antes de controlar bancos, celdas o switching\r\n");
+	      return;
+	  }
+
 	  // CELDA <bank 1-3> <cell 1-2> on|off
 	  {
 		  unsigned int b_user, c_user;
@@ -471,7 +530,7 @@ static void cli_handle_line(const char *line_in){
 	   * sw <banco> <periodo> <modo>
 	   * sw <banco> <celda> <modo>
 	   * sw <banco> <celda> <periodo> <modo>
-	   * sw <banco> [<celda>] off
+	   * sw <banco> <celda> off
 	   */
 	  {
 	      unsigned int banco_user;
@@ -714,31 +773,6 @@ static void cli_handle_line(const char *line_in){
 	      }
 
 
-	      /* CASO 5: sw <banco> off */
-	      if (sscanf(line_copy,
-	                 "sw %u off %c",
-	                 &banco_user,
-	                 &extra) == 1) {
-
-	          if (banco_user < 1 ||
-	              banco_user > Controlador_GetCantBancos()) {
-
-	              cli_print("ERR: banco fuera de rango\r\n");
-	              return;
-	          }
-
-	          banco = (uint8_t)(banco_user - 1);
-
-	          if (Controlador_DetenerSwitchingBancoBypass(
-	              banco
-	          ) == 1) {
-                  cli_print("ERR: operacion no permitida o parametros invalidos\r\n");
-                  return;
-              }
-
-	          cli_print("OK\r\n");
-	          return;
-	      }
 	  }
 	  cli_print(
 	      "ERR: comando invalido. Use help\r\n"
@@ -791,6 +825,28 @@ void CLI_Process(void)
 
     cli_handle_line(cli_cmd_buf);
     cli_print("> ");
+}
+
+
+void CLI_ImprimirFalla(falla_t falla)
+{
+    switch (falla) {
+    case FALLA_SOBRECORRIENTE_DESCARGA:
+        cli_print("FALLA: sobrecorriente de descarga\r\n");
+        break;
+    case FALLA_SOBRECORRIENTE_CARGA:
+        cli_print("FALLA: sobrecorriente de carga\r\n");
+        break;
+    case FALLA_SUBTENSION_CELDA:
+        cli_print("FALLA: subtension de celda\r\n");
+        break;
+    case FALLA_SOBRETENSION_CELDA:
+        cli_print("FALLA: sobretension de celda\r\n");
+        break;
+    default:
+        cli_print("FALLA: causa desconocida\r\n");
+        break;
+    }
 }
 
 

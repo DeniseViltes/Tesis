@@ -10,6 +10,7 @@
 
 
 #include "banco.h"
+#include "fallas.h"
 #include "shift_register.h"
 #include "mux.h"
 
@@ -20,13 +21,15 @@
 #define TURN_ON_DELAY 2
 /* Valor inicial: ajustar al asentamiento medido del circuito analogico. */
 #define TENSION_ASENTAMIENTO_MS 2u
+#define UMBRAL_CAMBIO 20
+
 
 typedef enum {
 	REPOSO,
 	ACTIVO,
 	PRUEBA,
 	FALLA
-}status_contraldor_t;
+}controlador_status_t;
 
 
 typedef enum {
@@ -36,23 +39,33 @@ typedef enum {
 } controlador_modo_t;
 
 
+typedef enum {
+    CONTROL_MANUAL = 0,
+    CONTROL_AUTOMATICO
+} controlador_control_t;
+
 typedef struct {
 	banco_t bancos[CANT_BANCOS];
 	uint8_t cant_bancos;
 	uint16_t rl;
 	uint16_t mediciones[ADC_NODE_COUNT];
 	uint16_t mediciones_anteriores[ADC_NODE_COUNT];
-	status_contraldor_t estado;
+	controlador_status_t estado;
 	controlador_modo_t modo;
+	controlador_control_t control;
+	uint16_t tension_objetivo;
+	falla_t falla;
 }controlador_t;
 
 int Controlador_init(uint8_t bancos, uint8_t celdas);
 int Controlador_ActivarCircuito(controlador_modo_t modo);
 int Controlador_ModoPrueba(void);
-void Controlador_Update(void);
+int Controlador_Update(void);
+falla_t Controlador_GetFalla(void);
+
 void Controlador_AplicarEstados(void);
 
-status_contraldor_t Controlador_GetEstado(void);
+controlador_status_t Controlador_GetEstado(void);
 uint8_t Controlador_GetCantBancos(void);
 uint8_t Controlador_GetCantCeldas(void);
 int Controlador_SetResistenciaRL(uint16_t resistencia);
@@ -88,7 +101,7 @@ int Controlador_IniciarSwitchingBanco(uint8_t banco);
 void Controlador_ActualizarEstados(void);
 
 
-int Controlador_DetenerSwitchingBancoBypass(uint8_t banco);
+controlador_control_t Controlador_GetControl(void);
 int Controlador_PararSwitchingCelda(uint8_t banco, uint8_t celda);
 
 
@@ -124,5 +137,14 @@ uint32_t Controlador_GetAntiguedadBarridoMs(void);
 uint8_t Controlador_HayMediciones(void);
 uint16_t Controlador_GetCorrienteDescarga(void);
 uint16_t Controlador_GetCorrienteCarga(void);
+
+
+
+int Controlador_IniciarModoAutomatico(void);
+int Controlador_ApagarModoAutomatico(void);
+int Controlador_CalcularCantidadEncendidos(uint16_t tension_objetivo, uint8_t *orden, uint16_t *tension_lograda);
+
+int Controlador_EncenderBancosAutomatico(uint16_t tension_objetivo);
+int Controlador_SetTensionObjetivo(uint16_t tension);
 
 #endif /* INC_CONTROLADOR_H_ */

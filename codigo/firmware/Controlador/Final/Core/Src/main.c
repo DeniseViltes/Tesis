@@ -25,6 +25,7 @@
 #include "controlador.h"
 #include "cli.h"
 #include "adc.h"
+#include "Llave.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,7 +92,6 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -103,6 +103,7 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 
+  Llave_Init();
   CLI_Init(&huart2);
   adc_init();
 
@@ -119,7 +120,9 @@ int main(void)
 	   adc_update();
 	    if (flag_controlador_update) {
 	        flag_controlador_update = 0;
-	        Controlador_Update();
+	        if (Controlador_Update() == -1){
+	        	CLI_ImprimirFalla(Controlador_GetFalla());
+	        }
 	    }
 
     /* USER CODE END WHILE */
@@ -376,6 +379,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, llave_de_emergencia_Pin|DATA3_Pin|DATA4_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_SET);
+
   /*Configure GPIO pins : DATA2_Pin S2_Pin S1_Pin S0_Pin
                            CLK_Pin LATCH_Pin DATA1_Pin */
   GPIO_InitStruct.Pin = DATA2_Pin|S2_Pin|S1_Pin|S0_Pin
@@ -392,7 +398,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : BUZZER_Pin */
+  GPIO_InitStruct.Pin = BUZZER_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(BUZZER_GPIO_Port, &GPIO_InitStruct);
+
   /* USER CODE BEGIN MX_GPIO_Init_2 */
+  /* Modulo low level trigger: PA15 en HIGH mantiene el buzzer apagado. */
+  HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_SET);
+  GPIO_InitStruct.Pin = BUZZER_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(BUZZER_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE END MX_GPIO_Init_2 */
 }

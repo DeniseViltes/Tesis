@@ -52,7 +52,6 @@ void BarridoCellNeg_Init(banco_t *configurados, uint8_t cantidad)
 
 static void seleccionar_celda(void)
 {
-
     for (uint8_t b = 0; b < barrido.cantidad_bancos; b++) {
         if (barrido.celda_actual < barrido.bancos[b].cant_celdas) {
             Banco_SeleccionarCeldaMux(&barrido.bancos[b], barrido.celda_actual);

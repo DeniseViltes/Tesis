@@ -46,6 +46,7 @@ typedef struct {
 	SW_estado_t prox;
 	uint8_t pin_sr;
 	adc_node_t canal_adc;
+	uint16_t tension_mV;
 } banco_t;
 
 
@@ -117,6 +118,7 @@ SW_estado_t Banco_GetEstadoPin(banco_t *banco, uint8_t celda);
 uint8_t Banco_CalcularPatron(banco_t *banco, uint8_t fase);
 void Banco_SetPatronCeldas(banco_t *banco, uint8_t patron);
 
+void Banco_CargarMedicion(banco_t *banco, uint16_t medicion);
 
 
 /*

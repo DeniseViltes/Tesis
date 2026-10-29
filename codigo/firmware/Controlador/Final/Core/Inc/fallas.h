@@ -17,7 +17,7 @@
 
 /* Limites  LiFePO4; TODO confirmar con la celda.
  * Se considera falla al alcanzar cualquiera de los dos limites. */
-#define LIMITE_SUBTENSION_CELDA_MV 2500u
+#define LIMITE_SUBTENSION_CELDA_MV 2300u
 #define LIMITE_SOBRETENSION_CELDA_MV 3600u
 
 typedef enum {

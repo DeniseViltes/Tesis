@@ -115,9 +115,7 @@ void Banco_ApagarCeldas(banco_t *banco){
 void Banco_EncenderCeldas(banco_t *banco){
     for (uint8_t i = 0; i < banco->cant_celdas; i++) {
     	banco->celdas[i].prox = ON;
-    	//banco->celdas[i].modo = FIJO;
     }
-
 }
 
 void Banco_EncenderCelda(banco_t *banco, uint8_t celda){
@@ -320,9 +318,16 @@ void Banco_DetenerSwitchingCelda(banco_t *banco, uint8_t celda){
 }
 
 
+
+void Banco_CargarMedicion(banco_t *banco, uint16_t medicion){
+	banco->tension_mV = medicion;
+}
+
 //------------------------------MUX---------------------------------------
 
 
 void Banco_SeleccionarCeldaMux(banco_t *banco, uint8_t celda){
 	MUX_Select(banco->mux,banco->celdas[celda].pin_mux);
 }
+
+
