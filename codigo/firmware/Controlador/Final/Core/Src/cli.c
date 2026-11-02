@@ -171,6 +171,9 @@ static void cli_print_help(void)
 	    "      Objetivo positivo espera ADC y selecciona bancos completos.\r\n"
 	    "  manual\r\n"
 	    "      Sale del automatico y solicita bypass; habilita c, b y sw.\r\n"
+	    "  objetivo <0..65535 mV>\r\n"
+	    "      Cambia el objetivo en automatico sin reiniciar estimaciones.\r\n"
+	    "      Ejemplo: objetivo 6500; objetivo 0 solicita bypass.\r\n"
 	    "\r\n"
 	    "Control manual:\r\n"
 	    "  medir pin\r\n"
@@ -340,6 +343,41 @@ static void cli_handle_line(const char *line_in){
             return;
         }
         cli_print("OK: automatico solicitado, objetivo en mV registrado\r\n");
+        return;
+    }
+
+    if (strncmp(line_copy, "objetivo", 8) == 0 &&
+        (line_copy[8] == '\0' || isspace((unsigned char)line_copy[8]))) {
+        const char *argumento = line_copy + 8;
+        while (isspace((unsigned char)*argumento)) argumento++;
+        const char *fin = argumento;
+        while (isdigit((unsigned char)*fin)) fin++;
+        size_t digitos = (size_t)(fin - argumento);
+        while (isspace((unsigned char)*fin)) fin++;
+
+        if (digitos == 0u || digitos > 5u || *fin != '\0') {
+            cli_print("ERR: use objetivo <0..65535 mV>\r\n");
+            return;
+        }
+        unsigned long objetivo = strtoul(argumento, NULL, 10);
+        if (objetivo > UINT16_MAX) {
+            cli_print("ERR: use objetivo <0..65535 mV>\r\n");
+            return;
+        }
+        if (Controlador_GetControl() != CONTROL_AUTOMATICO ||
+            (Controlador_GetEstado() != ACTIVO &&
+             Controlador_GetEstado() != PRUEBA)) {
+            cli_print("ERR: objetivo requiere automatico en ACTIVO o PRUEBA\r\n");
+            return;
+        }
+        if (Controlador_SetTensionObjetivo((uint16_t)objetivo) != 0) {
+            cli_print("ERR: no se pudo fijar el objetivo\r\n");
+            return;
+        }
+        char mensaje[64];
+        snprintf(mensaje, sizeof(mensaje), "OK: objetivo %u mV\r\n",
+                 (unsigned)objetivo);
+        cli_print(mensaje);
         return;
     }
 

@@ -20,8 +20,9 @@
 #define PERIODO_DEFAULT 50
 #define TURN_ON_DELAY 2
 /* Valor inicial: ajustar al asentamiento medido del circuito analogico. */
-#define TENSION_ASENTAMIENTO_MS 2u
+#define TENSION_ASENTAMIENTO 2u
 #define UMBRAL_CAMBIO 0
+#define TENSION_NOMINAL_CELDA    3200u
 
 
 typedef enum {

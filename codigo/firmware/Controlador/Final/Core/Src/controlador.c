@@ -13,6 +13,8 @@
 #include "algoritmos.h"
 
 
+
+
 static controlador_t ctrl;
 
 extern volatile uint8_t flag_controlador_update;
@@ -26,6 +28,10 @@ static mux_t mux_bancos;
 static uint16_t periodo_ms = 0;
 static uint16_t contador = 0;
 static uint8_t fase = 0;
+static uint16_t tension_estimada[CANT_BANCOS];
+static uint16_t tension_ultima_iteracion[CANT_BANCOS];
+static uint16_t objetivo_ultima_iteracion;
+static uint8_t iteracion_pendiente;
 
 
 
@@ -48,6 +54,12 @@ static uint16_t sr_data_pines[CANT_BANCOS] = {
 
 
 static int verificar_banco(uint8_t banco);
+static uint8_t Controlador_DebeRecalcularTension(void);
+static void Controlador_ActualizarTensionesEstimadas(void);
+static void Controlador_InicializarEstimaciones(void);
+static void Controlador_RegistrarRecalculo(void);
+
+
 
 static void Controlador_EnviarCeros(void){
     for (uint8_t b = 0; b < CANT_BANCOS; b++) {
@@ -230,9 +242,18 @@ int Controlador_Update(void){
 	    return -1;
 	}
 	int resultado_automatico = 0;
-	if (ctrl.control == CONTROL_AUTOMATICO){
-		resultado_automatico =
-			Controlador_EncenderBancosAutomatico(ctrl.tension_objetivo);
+
+	if (ctrl.control == CONTROL_AUTOMATICO) {
+	    Controlador_ActualizarTensionesEstimadas();
+
+	    if (Controlador_DebeRecalcularTension()) {
+	        resultado_automatico =
+	            Controlador_EncenderBancosAutomatico(
+	                ctrl.tension_objetivo);
+
+	        if (resultado_automatico == 0)
+	            Controlador_RegistrarRecalculo();
+	    }
 	}
 
     Controlador_Tick1ms();
@@ -572,42 +593,142 @@ int Controlador_IniciarSwitchingBanco(uint8_t banco){
 
 
 
+static void Controlador_InicializarEstimaciones(void)
+{
+    for (uint8_t b = 0; b < CANT_BANCOS; b++) {
+        tension_estimada[b] = TENSION_NOMINAL_CELDA;
+        tension_ultima_iteracion[b] = TENSION_NOMINAL_CELDA;
+    }
 
-int Controlador_CalcularCantidadEncendidos(uint16_t tension_objetivo, uint8_t *orden, uint16_t *tension_lograda){
-	if (orden == NULL ||
-	    ctrl.cant_bancos == 0u ||
-	    ctrl.cant_bancos > CANT_BANCOS)
-	    return -1;
-	if (tension_objetivo == 0u) return 0;
-	if (!Controlador_HayMediciones())
-		return -1;
-	if (tension_lograda == NULL)
-	    return -1;
-	Controlador_CargarMediciones();
+    objetivo_ultima_iteracion = 0u;
+    iteracion_pendiente = 1u;
+}
 
-	if (Algoritmos_OrdenarBancosPorTension(
-		ctrl.bancos, ctrl.cant_bancos, orden) != 0)
-		return -1;
+static void Controlador_ActualizarTensionesEstimadas(void)
+{
+    if (!Controlador_HayMediciones())
+        return;
 
-	 uint32_t tension_acumulada = 0u;
+    for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+        /* Banco en bypass: conserva su ultima tension. */
+        if (ctrl.bancos[b].actual == ON)
+            continue;
 
-	 for (uint8_t i = 0; i < ctrl.cant_bancos; i++) {
-		 tension_acumulada += ctrl.bancos[orden[i]].tension_mV;
+        tension_estimada[b] = Controlador_GetTensionBanco(b);
+    }
+}
 
-	         if (tension_acumulada >= tension_objetivo){
-	        	 *tension_lograda = tension_acumulada;
-	        	 return i + 1;
-	         }
 
-	     }
-	*tension_lograda = tension_acumulada;
-	return ctrl.cant_bancos; //si no llego a la salida prendo todos los bancos
+//TODO: VER BIEN SI PUEDO SIMPLIFICAR ESTA FUNCION
+static uint8_t Controlador_DebeRecalcularTension(void)
+{
+    if (iteracion_pendiente ||
+        ctrl.tension_objetivo != objetivo_ultima_iteracion)
+        return 1u;
+
+    for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+        uint16_t actual = tension_estimada[b];
+        uint16_t anterior = tension_ultima_iteracion[b];
+
+        uint16_t diferencia = actual >= anterior? actual - anterior: anterior - actual;
+
+        if (diferencia != 0u &&
+            diferencia >= UMBRAL_CAMBIO)
+            return 1u;
+    }
+
+    return 0u;
+}
+
+
+
+static void Controlador_RegistrarRecalculo(void)
+{
+    for (uint8_t b = 0; b < ctrl.cant_bancos; b++)
+        tension_ultima_iteracion[b] = tension_estimada[b];
+
+    objetivo_ultima_iteracion = ctrl.tension_objetivo;
+    iteracion_pendiente = 0u;
+}
+
+
+
+
+
+
+
+int Controlador_CalcularCantidadEncendidos(
+    uint16_t tension_objetivo,
+    uint8_t *orden,
+    uint16_t *tension_lograda)
+{
+    if (orden == NULL || tension_lograda == NULL ||
+        ctrl.cant_bancos == 0u ||
+        ctrl.cant_bancos > CANT_BANCOS) {
+        return -1;
+    }
+
+    *tension_lograda = 0u;
+
+    for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+        orden[b] = b;
+    }
+
+    if (tension_objetivo == 0u) {
+        return 0;
+    }
+
+    /* Ordenar indices de mayor a menor tension estimada.
+     * En empates conserva el orden original. */
+    for (uint8_t i = 1; i < ctrl.cant_bancos; i++) {
+        uint8_t banco = orden[i];
+        uint8_t j = i;
+
+        while (j > 0u &&
+               tension_estimada[orden[j - 1u]] <
+               tension_estimada[banco]) {
+            orden[j] = orden[j - 1u];
+            j--;
+        }
+
+        orden[j] = banco;
+    }
+
+    uint32_t suma = 0u;
+    uint32_t mejor_suma = 0u;
+
+
+    uint32_t menor_error = tension_objetivo;
+    uint8_t mejor_cantidad = 0u;
+
+    for (uint8_t i = 0; i < ctrl.cant_bancos; i++) {
+        suma += tension_estimada[orden[i]];
+
+        uint32_t error = suma >= tension_objetivo
+                       ? suma - tension_objetivo
+                       : tension_objetivo - suma;
+
+        if (error < menor_error) {
+            menor_error = error;
+            mejor_suma = suma;
+            mejor_cantidad = i + 1u;
+        }
+    }
+
+    *tension_lograda = mejor_suma > UINT16_MAX
+                    ? UINT16_MAX
+                    : (uint16_t)mejor_suma;
+
+    return mejor_cantidad;
 }
 
 int Controlador_IniciarModoAutomatico(void){
 	if (Controlador_Apagar()==1){
 		return 1;
 	}
+	if (ctrl.control == CONTROL_AUTOMATICO)
+	        return 0;
+	Controlador_InicializarEstimaciones();
 	ctrl.control = CONTROL_AUTOMATICO;
 	return 0;
 }
