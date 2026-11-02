@@ -190,6 +190,12 @@ static void cli_print_help(void)
 	    "      Ejemplo: b 1 off\r\n"
 	    "\r\n"
 	    "Switching:\r\n"
+        "  frecuencia <ms>\r\n"
+        "      Cambia el periodo global sin cambiar modos ni iniciar bancos.\r\n"
+        "      Manual en ACTIVO o PRUEBA. Rango: 1..65535 ms enteros.\r\n"
+        "      Ejemplo: frecuencia 250 (250 ms por fase).\r\n"
+        "      El ciclo completo dura dos fases.\r\n"
+	    "\r\n"
 	    "  sw <banco> <modo>\r\n"
 	    "      Inicia todo el banco con el periodo actual.\r\n"
 	    "      Ejemplo: sw 1 s\r\n"
@@ -217,7 +223,7 @@ static void cli_print_help(void)
 	    "Rangos:\r\n"
 	    "  Bancos : 1 hasta la cantidad configurada\r\n"
 	    "  Celdas : 1 hasta la cantidad configurada\r\n"
-	    "  Periodo minimo: 50 ms\r\n"
+	    "  Periodo minimo: 1 ms\r\n"
 	    "\r\n"
 	    "Bancos intercalados:\r\n"
 	    "  sw 1 500 s\r\n"
@@ -510,6 +516,38 @@ static void cli_handle_line(const char *line_in){
 	  }
 
 	  // CELDA <bank 1-3> <cell 1-2> on|off
+    if (strncmp(line_copy, "frecuencia", 10) == 0 &&
+        (line_copy[10] == '\0' || isspace((unsigned char)line_copy[10]))) {
+        const char *argumento = line_copy + 10;
+        while (isspace((unsigned char)*argumento)) argumento++;
+        const char *fin = argumento;
+        while (isdigit((unsigned char)*fin)) fin++;
+        size_t digitos = (size_t)(fin - argumento);
+        while (isspace((unsigned char)*fin)) fin++;
+
+        if (digitos == 0u || digitos > 5u || *fin != '\0') {
+            cli_print("ERR: use frecuencia <ms>, rango 1..65535 ms enteros\r\n");
+            return;
+        }
+
+        /* Un ciclo completo tiene dos fases de periodo_ms cada una. */
+        unsigned long periodo = strtoul(argumento, NULL, 10);
+        if (periodo < PERIODO_DEFAULT || periodo > UINT16_MAX) {
+            cli_print("ERR: use frecuencia <ms>, rango 1..65535 ms enteros\r\n");
+            return;
+        }
+        if (Controlador_ModificarPeriodo((uint16_t)periodo) != 0) {
+            cli_print("ERR: frecuencia requiere estado ACTIVO o PRUEBA\r\n");
+            return;
+        }
+        char mensaje[96];
+        snprintf(mensaje, sizeof(mensaje),
+                 "OK: periodo global actualizado, fase %u ms, ciclo %lu ms\r\n",
+                 (unsigned)periodo, (unsigned long)periodo * 2u);
+        cli_print(mensaje);
+        return;
+    }
+
 	  {
 		  unsigned int b_user, c_user;
 		  char st[8];
@@ -634,7 +672,7 @@ static void cli_handle_line(const char *line_in){
 	          }
 
 	          if (periodo < PERIODO_DEFAULT || periodo > UINT16_MAX) {
-	              cli_print("ERR: periodo minimo 50 ms\r\n");
+	              cli_print("ERR: periodo minimo 1 ms\r\n");
 	              return;
 	          }
 
@@ -754,7 +792,7 @@ static void cli_handle_line(const char *line_in){
 	          }
 
 	          cli_print(
-	              "ERR: celda invalida o periodo menor a 50 ms\r\n"
+	              "ERR: celda invalida o periodo menor a 1 ms\r\n"
 	          );
 	          return;
 	      }
