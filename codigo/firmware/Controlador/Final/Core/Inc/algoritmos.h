@@ -31,8 +31,4 @@ uint16_t Tension_de_la_celda(
 
 uint8_t Decision_por_umbral(uint32_t tension_actual_mV, uint32_t tension_nueva_mV, uint32_t umbral_mV);
 
-uint8_t Algoritmos_DebeCambiarBancos(uint32_t actual,uint32_t nueva,
-		uint32_t objetivo,uint32_t error_entrada,uint32_t error_salida,
-		uint32_t umbral_cambio,histeresis_t *estado){
-
-}
+#endif /* INC_ALGORITMOS_H_ */

@@ -14,6 +14,7 @@
 #include "main.h"
 #include "cli.h"
 #include "controlador.h"
+#include "procesar_adc.h"
 
 /* ===================== CONFIG ===================== */
 #define CLI_BUF_LEN 64
@@ -143,7 +144,7 @@ static void cli_print_help(void)
 	    "\r\n"
 	    "Comandos generales:\r\n"
         "  init <bancos 1..4> <celdas 1..7>\r\n"
-        "      Configura celdas por banco, habilita Vcc y activa bypass.\r\n"
+        "      Configura celdas por banco y queda en REPOSO.\r\n"
         "      Detiene switching y borra RL. Ejemplo: init 2 3\r\n"
         "  apagar\r\n"
         "      Deja todos los bancos en bypass.\r\n"
@@ -152,7 +153,7 @@ static void cli_print_help(void)
 		"  activar carga\r\n"
 		"      Habilita el circuito para cargar la bateria.\r\n"
 		"  activar descarga <RL_ohm>\r\n"
-		"      RL obligatoria: 1..65535 ohm enteros. Ejemplo: activar descarga 10\r\n"
+		"      RL obligatoria: 1..1000 ohm enteros. Ejemplo: activar descarga 10\r\n"
 		"  prueba\r\n"
 		"      Habilita switches sin chequeos electricos.\r\n"
 		"  Para cambiar de modo, ejecutar init nuevamente.\r\n"
@@ -163,14 +164,20 @@ static void cli_print_help(void)
 	    "      Muestra el estado de bancos y celdas.\r\n"
 	    "\r\n"
 	    "Control automatico:\r\n"
-	    "  auto [<mV>]\r\n"
-	    "      Sin argumento inicia en 0 mV. Ejemplo: auto\r\n"
-	    "      Con argumento fija el objetivo. Ejemplo: auto 6500\r\n"
+	    "  auto [<0..65535 mV>]\r\n"
+	    "      Requiere activar o prueba. Sin argumento inicia en 0 mV.\r\n"
+	    "      Fija o cambia el objetivo. Ejemplo: auto 6500\r\n"
 	    "      auto 0 solicita bypass y mantiene automatico.\r\n"
+	    "      Objetivo positivo espera ADC y selecciona bancos completos.\r\n"
 	    "  manual\r\n"
-	    "      Sale del automatico y solicita bancos en bypass.\r\n"
+	    "      Sale del automatico y solicita bypass; habilita c, b y sw.\r\n"
 	    "\r\n"
 	    "Control manual:\r\n"
+	    "  medir pin\r\n"
+	    "      Muestra mV en los pines ADC, sin escalas del circuito.\r\n"
+	    "      Disponible tambien sin init y durante automatico.\r\n"
+	    "  medir\r\n"
+	    "      Muestra las mediciones escaladas del circuito.\r\n"
 	    "  c <banco> <celda> on|off\r\n"
 	    "      Ejemplo: c 1 3 on\r\n"
 	    "\r\n"
@@ -238,6 +245,26 @@ static void cli_handle_line(const char *line_in){
 	  }
 
 
+    if (strcmp(line_copy, "medir pin") == 0) {
+        static const char *const nombres[ADC_NODE_COUNT] = {
+            "MUX_BANCO_1 PA0", "MUX_BANCO_2 PC2",
+            "MUX_BANCO_3 PC4", "MUX_BANCO_4 PC5",
+            "BANCO_1 PA1", "BANCO_2 PC3",
+            "BANCO_3 PA7", "BANCO_4 PA5",
+            "CORRIENTE_DESCARGA PA6", "CORRIENTE_CARGA PC0"
+        };
+        if (!adc_has_measurements()) {
+            cli_print("ADC: sin mediciones disponibles\r\n");
+            return;
+        }
+        char mensaje[96];
+        for (unsigned i = 0; i < ADC_NODE_COUNT; i++) {
+            snprintf(mensaje, sizeof(mensaje), "%s: %u mV (pin ADC)\r\n",
+                     nombres[i], (unsigned)adc_get_pin_voltage_mV((adc_node_t)i));
+            cli_print(mensaje);
+        }
+        return;
+    }
 	unsigned bancos, celdas;
 	char extra;
 
@@ -343,10 +370,10 @@ static void cli_handle_line(const char *line_in){
 
         if (sscanf(line_copy, "activar %15s %u %c",
                    modo, &rl, &extra) == 2 &&
-            strcmp(modo, "d") == 0) {
+            (strcmp(modo, "descarga") == 0 || strcmp(modo, "d") == 0)) {
 
-            if (rl == 0 || rl > UINT16_MAX) {
-                cli_print("ERR: RL debe ser 1..65535 ohm\r\n");
+            if (rl == 0 || rl > 1000u) {
+                cli_print("ERR: RL debe ser 1..1000 ohm\r\n");
                 return;
             }
 

@@ -10,7 +10,6 @@
 
 
 #define VDS 27
-#define HISTERESIS 50
 /*
  * Mediciones VDS:
  * b1:25mv
@@ -100,13 +99,18 @@ uint16_t Tension_de_la_celda( uint16_t tension_banco, uint16_t cell_neg)
 uint8_t Algoritmos_DebeCambiarBancos(uint32_t actual,uint32_t nueva,
 		uint32_t objetivo,uint32_t error_entrada,uint32_t error_salida,
 		uint32_t umbral_cambio,histeresis_t *estado){
-
+    if (estado == NULL || error_salida > error_entrada) return 0u;
+    uint32_t error_actual = actual >= objetivo ? actual - objetivo : objetivo - actual;
+    uint32_t error_nuevo = nueva >= objetivo ? nueva - objetivo : objetivo - nueva;
+    if (error_actual <= error_salida) {
+        estado->corrigiendo = 0u;
+        return 0u;
+    }
+    if (error_actual > error_entrada) estado->corrigiendo = 1u;
+    return estado->corrigiendo && error_nuevo < error_actual &&
+           Decision_por_umbral(actual, nueva, umbral_cambio);
 }
 
-static uint32_t diferencia_absoluta(uint32_t a, uint32_t b)
-{
-    return a >= b ? a - b : b - a;
-}
 
 
 

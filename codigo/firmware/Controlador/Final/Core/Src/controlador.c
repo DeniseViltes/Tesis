@@ -662,6 +662,7 @@ int Controlador_DebeIntercambiarBanco(
     uint8_t banco_nuevo,
     uint8_t banco_actual)
 {
+    if (!verificar_banco(banco_nuevo) || !verificar_banco(banco_actual)) return 0;
     uint16_t v_nuevo = Tension_de_la_celda(
         ctrl.bancos[banco_nuevo].tension_mV,
         Controlador_GetCellNeg(banco_nuevo)
@@ -672,7 +673,8 @@ int Controlador_DebeIntercambiarBanco(
         Controlador_GetCellNeg(banco_actual)
     );
 
-    return aplicar_histeresis(v_nuevo, v_actual);
+    /* Intercambiar solo si la tension nueva mejora al menos 50 mV. */
+    return v_nuevo > v_actual && Decision_por_umbral(v_actual, v_nuevo, 50u);
 }
 
 //---------------------------------------------------------------

@@ -21,7 +21,7 @@
 #define TURN_ON_DELAY 2
 /* Valor inicial: ajustar al asentamiento medido del circuito analogico. */
 #define TENSION_ASENTAMIENTO_MS 2u
-#define UMBRAL_CAMBIO 20
+#define UMBRAL_CAMBIO 0
 
 
 typedef enum {
@@ -146,5 +146,6 @@ int Controlador_CalcularCantidadEncendidos(uint16_t tension_objetivo, uint8_t *o
 
 int Controlador_EncenderBancosAutomatico(uint16_t tension_objetivo);
 int Controlador_SetTensionObjetivo(uint16_t tension);
+int Controlador_DebeIntercambiarBanco(uint8_t banco_nuevo, uint8_t banco_actual);
 
 #endif /* INC_CONTROLADOR_H_ */
