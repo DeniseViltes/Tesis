@@ -3291,6 +3291,12 @@
 		)
 	)
 	(junction
+		(at 222.25 123.19)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0f4d69d5-1c2c-421d-b3bc-9acfb7d9d299")
+	)
+	(junction
 		(at 87.63 60.96)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3309,10 +3315,28 @@
 		(uuid "29d4bbe8-ace2-41da-81bc-7c309e912a2f")
 	)
 	(junction
+		(at 247.65 60.96)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2eaed473-671e-4a4d-9a6a-1e4d4416bade")
+	)
+	(junction
 		(at 102.87 60.96)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "364941f2-774f-4e93-a299-0291d1db39bc")
+	)
+	(junction
+		(at 247.65 96.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "39c7e2c9-4ab7-41ea-b8b4-3837edcb813c")
+	)
+	(junction
+		(at 247.65 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3ed562c1-14e0-4ac5-a070-52a96ef44247")
 	)
 	(junction
 		(at 222.25 30.48)
@@ -3345,22 +3369,10 @@
 		(uuid "752e1738-2dbc-4a7a-93cb-adbf1a5cd17f")
 	)
 	(junction
-		(at 247.65 80.01)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "900580ea-fb57-41da-ac5c-4c73bfa9b1a2")
-	)
-	(junction
 		(at 228.747 60.96)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "97f5010b-9612-46d4-b786-f0eccc7b848f")
-	)
-	(junction
-		(at 247.65 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9b24646d-f992-4cb5-a4ba-c40ccfe2af2b")
 	)
 	(junction
 		(at 87.63 96.52)
@@ -3381,6 +3393,12 @@
 		(uuid "b334504a-2e47-4c30-8d1e-03d408b0ed78")
 	)
 	(junction
+		(at 247.65 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bb81afb0-d80c-4d25-8092-04c485cc00f1")
+	)
+	(junction
 		(at 163.83 96.52)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3397,12 +3415,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cda9f50b-5442-4885-a9ae-2bc19ebcd934")
-	)
-	(junction
-		(at 247.65 60.96)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "d61dd397-726a-4fc6-b327-373f7a2d76ce")
 	)
 	(junction
 		(at 157.48 127)
@@ -3423,12 +3435,6 @@
 		(uuid "e21ec862-4377-47f2-b6fc-cadb3773903a")
 	)
 	(junction
-		(at 247.65 82.55)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f16cbff3-17e4-412d-860e-e54b36453f2a")
-	)
-	(junction
 		(at 163.83 123.19)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3439,12 +3445,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f2c07a31-d3ea-4d68-b2c3-96bfb0755050")
-	)
-	(junction
-		(at 222.25 123.19)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "fdd162c6-feea-4fd3-b89b-5d3e11367714")
 	)
 	(wire
 		(pts
@@ -3918,16 +3918,6 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 82.55) (xy 247.65 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "670f0de3-bc37-40d0-b12f-52fa976a2172")
-	)
-	(wire
-		(pts
 			(xy 41.91 39.37) (xy 41.91 48.26)
 		)
 		(stroke
@@ -3938,13 +3928,13 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 96.52) (xy 247.65 123.19)
+			(xy 247.65 96.52) (xy 247.65 111.76)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6afe12c1-4980-4946-a2cf-beeffa202ba5")
+		(uuid "6ac56a12-29e0-447d-bff3-2638fbbe28e0")
 	)
 	(wire
 		(pts
@@ -3995,6 +3985,26 @@
 			(type default)
 		)
 		(uuid "6f72749f-7ad7-46ee-8051-8484dc7f0604")
+	)
+	(wire
+		(pts
+			(xy 247.65 60.96) (xy 247.65 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6ffaaad6-819b-4d5b-b9fc-b6561fc26dd0")
+	)
+	(wire
+		(pts
+			(xy 247.65 114.3) (xy 247.65 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75a35d8b-175e-40f4-953a-55e32fa82498")
 	)
 	(wire
 		(pts
@@ -4275,16 +4285,6 @@
 			(type solid)
 		)
 		(uuid "b3fac46e-bcd4-4515-a238-78874d18cdb8")
-	)
-	(wire
-		(pts
-			(xy 247.65 60.96) (xy 247.65 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b4cdd679-50a0-4a13-ab0b-b81661ac3d13")
 	)
 	(wire
 		(pts
@@ -5824,7 +5824,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Socket")
-		(at 252.73 80.01 0)
+		(at 252.73 111.76 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5835,7 +5835,7 @@
 		(fields_autoplaced yes)
 		(uuid "1ec39cb8-048a-4ac1-ae04-24b347188944")
 		(property "Reference" "OUT1"
-			(at 254 80.0099 0)
+			(at 254 111.7599 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5846,7 +5846,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Socket"
-			(at 254 82.5499 0)
+			(at 254 114.2999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5857,7 +5857,7 @@
 			)
 		)
 		(property "Footprint" "Huellas:TerminalBlock_bornier-2_P5.08mm"
-			(at 252.73 80.01 0)
+			(at 252.73 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5868,7 +5868,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 252.73 80.01 0)
+			(at 252.73 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5879,7 +5879,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 252.73 80.01 0)
+			(at 252.73 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6611,7 +6611,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 242.57 80.01 0)
+		(at 242.57 111.76 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6621,7 +6621,7 @@
 		(dnp no)
 		(uuid "679ebb52-efa9-4ef2-ac59-c21351849a75")
 		(property "Reference" "J_B3"
-			(at 243.205 74.93 0)
+			(at 243.205 106.68 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6631,7 +6631,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 239.268 77.216 0)
+			(at 239.268 108.966 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6641,7 +6641,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 242.57 80.01 0)
+			(at 242.57 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6652,7 +6652,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 242.57 80.01 0)
+			(at 242.57 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6663,7 +6663,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 242.57 80.01 0)
+			(at 242.57 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
