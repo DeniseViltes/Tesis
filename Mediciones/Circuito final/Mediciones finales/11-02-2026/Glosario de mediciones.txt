@@ -1,0 +1,109 @@
+MEDICIONES FINALES DE FUNCIONAMIENTO:
+
+Celdas con carga inicial de 3.27V, 3.29V, 3.29V, 3.29V (en orden)
+
+A) Matriz 4x1 - Carga 46.8ohm - 4 bancos prendidos cte
+
+------------------IMPORTANTE------------------
+Vcc = 4.99V - Icc = 32mA
+Icc = 18.5mA con todos los LEDs apagados --> Aumentan mucho el consumo de Vcc
+----------------------------------------------
+
+Salida medida por tester 12.16V
+
+Suma de tensión de los bancos: 12163 mV
+Tensión en la salida por ley de ohm: 12079 mV
+Banco 1: 3052 mV
+Banco 2: 3018 mV
+Banco 3: 3117 mV
+Banco 4: 2976 mV
+Corriente de descarga: 257 mA
+Corriente de carga: 0 mA
+Barrido CELL_NEG: ultimo barrido realizado hace 857 ms
+Banco 1, celda 1: CELL_NEG = 0 mV
+Banco 2, celda 1: CELL_NEG = 3013 mV
+Banco 3, celda 1: CELL_NEG = 6128 mV
+Banco 4, celda 1: CELL_NEG = 9012 mV
+
+
+
+
+B) NUEVA MEDICIÓN, PRENDIENDO DE A UN BANCO SOLO POR VEZ (alternando cuál de los 4):
+
+MEDIDO POR MEDIANTE TESTER A LA SALIDA DE A UN BANCO PRENDIDO A LA VEZ:
+Banco 1: 3.03 V
+Banco 2: 3.07 V
+Banco 3: 3.07 V
+Banco 4: 3.07 V
+
+MEDIDO POR EL CONTROLADOR DE A UN BANCO PRENDIDO A LA VEZ:
+Banco 1: 3.228 V - 62 mA
+Banco 2: 3.201 V - 62 mA
+Banco 3: 3.275 V - 63 mA
+Banco 4: 3.218 V - 57 mA
+
+
+
+NUEVA MEDICIÓN:
+C) Switcheando bancos impares sincronizados y bancos pares complementarios
+
+
+
+
+NUEVA MEDICIÓN:
+D) Banco 1 switcheando S - Bancos 2 y 3 ON - Banco 4 switcheando C
+
+
+NUEVA MEDICIÓN:
+E) Bancos 1 y 4 ON - Banco 2 switcheando S - Banco 3 switcheando C
+
+
+NUEVA MEDICIÓN:
+F) Bancos 1 y 2 ON - Banco 3 switchenado S - Banco 4 switcheando C
+
+
+NUEVA MEDICIÓN:
+G) Banco 1 switchenado S - Banco 2 switcheando C - Bancos 3 y 4 ON
+
+PARA TODOS EL PERÍODO DE SWITCHEO ES 500 ms
+
+
+
+NUEVA MEDICIÓN:
+
+Todos los bancos switcheando a la par - Objetivo: encontrar la máxima frecuencia a la que funciona el sistema
+
+H-500) T = 500ms - f = 2Hz
+
+OTROS VALORES PROBADOS Y QUE FUNCIONAN BIEN:
+- T = 250ms - f = 4Hz
+- T = 100ms - f = 10Hz
+- T = 70ms - f = 14.3Hz
+- T = 50ms - f = 20Hz
+- T = 30ms - f = 33.3Hz
+- T = 15ms - f = 66.7Hz
+- T = 10ms - f = 100Hz
+- T = 5ms - f = 200Hz
+- T = 3ms - f = 333.3Hz
+
+H-1) T = 1ms - f = 1kHz
+
+TODOS FUNCIONARON BIEN - Se aprecia un efecto similar a una señal PWM. Con 1kHz tenemos una tensión en continua a la salida prácticamente constante en 3.3V
+
+
+
+
+NUEVA MEDICIÓN:
+
+Bancos 1 y 2 switcheando C - Bancos 3 y 4 switcheando S
+Probando valores de capacitores en paralelo con la salida. Buscamos ver cuál es la menor capacitancia conectarle que elimine los picos.
+- Con 100uF se sigue viendo el valle
+- Con 470uF se sigue viendo el valle pero mucho más chico -----> MEDICIÓN I-470)
+- Con 570uF no hay cambios respecto a con 470uF
+- Con 1000uF se percibe el valle ligeramente más chico que con 470uF -----> Medición I-1000)
+
+EL VALOR ÓPTIMO DE CAPACITANCIA ES C = 470uF
+
+
+
+CON LAS 12 CELDAS ENCENDIDAS TENEMOS UNOS 50mA DE Icc
