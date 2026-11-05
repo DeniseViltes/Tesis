@@ -148,6 +148,8 @@ static void cli_print_help(void)
         "      Detiene switching y borra RL. Ejemplo: init 2 3\r\n"
         "  apagar\r\n"
         "      Deja todos los bancos en bypass.\r\n"
+		"  encender\r\n"
+		"		Deja todos los bancos con sus celdas encendidas.\r\n"
         "  reiniciar\r\n"
         "      Vuelve a REPOSO y borra RL y el modo asignado.\r\n"
 		"  activar carga\r\n"
@@ -388,13 +390,22 @@ static void cli_handle_line(const char *line_in){
     }
 
     if (strcmp(line_copy, "apagar") == 0) {
-        if (Controlador_Apagar() != 0) {
+        if (Controlador_ApagarTodo() != 0) {
             cli_print("ERR: apagar requiere estado ACTIVO o PRUEBA\r\n");
             return;
         }
         cli_print("OK: bancos en bypass\r\n");
         return;
     }
+
+    if (strcmp(line_copy, "encender") == 0) {
+            if (Controlador_EncenderTodo() != 0) {
+                cli_print("ERR: encender requiere estado ACTIVO o PRUEBA\r\n");
+                return;
+            }
+            cli_print("OK: bancos en encendidos\r\n");
+            return;
+        }
 
     if (strcmp(line_copy, "reiniciar") == 0) {
         if (Controlador_Reiniciar() != 0) {

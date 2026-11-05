@@ -22,11 +22,6 @@ H	CELDA_7
            HGFE DCBA
 */
 
-#define BANCO_OFF 0x01
-#define BANCO_ON 0xFE
-#define RESET 0x00
-
-
 
 
 int Banco_HayCeldasProxON(banco_t *banco);

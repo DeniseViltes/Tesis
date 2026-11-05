@@ -89,10 +89,10 @@ int Controlador_init(uint8_t bancos, uint8_t celdas){
 	    celdas == 0 || celdas > CELDAS_POR_BANCO) {
 	    return 1;
 	}
-	if (ctrl.cant_bancos != 0 &&
-	    (ctrl.estado == ACTIVO || ctrl.estado == PRUEBA)) {
+	if (ctrl.cant_bancos != 0) {
 	    Controlador_EnviarCeros();
 	}
+	if ((ctrl.estado == ACTIVO || ctrl.estado == PRUEBA)) return 1;
     Llave_Init();
     periodo_ms = contador = fase = 0;
     ctrl = (controlador_t){0};
@@ -125,7 +125,7 @@ int Controlador_init(uint8_t bancos, uint8_t celdas){
     ctrl.modo = MODO_SIN_ASIGNAR;
     ctrl.control = CONTROL_MANUAL;
     ctrl.tension_objetivo = 0;
-    ctrl.falla = FALLA_NINGUNA;
+    ctrl.falla_detectada = FALLA_NINGUNA;
     BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
 	return 0;
 }
@@ -189,7 +189,7 @@ int Controlador_EvaluarFallas(void){
 	        Controlador_GetCorrienteDescarga(),
 	        Controlador_GetCorrienteCarga());
     if ( falla_corriente != FALLA_NINGUNA){
-    	ctrl.falla = falla_corriente;
+    	ctrl.falla_detectada = falla_corriente;
     	return 1;
     }
 
@@ -200,7 +200,7 @@ int Controlador_EvaluarFallas(void){
 
             falla_t falla_tension =Fallas_EvaluarTensionCelda(Controlador_GetTensionBanco(b));
             if (falla_tension!= FALLA_NINGUNA){
-            	ctrl.falla = falla_tension;
+            	ctrl.falla_detectada = falla_tension;
             	return 1;
             }
         }
@@ -209,11 +209,13 @@ int Controlador_EvaluarFallas(void){
 
 
 falla_t Controlador_GetFalla(void){
-	return ctrl.falla;
+	return ctrl.falla_detectada;
 }
 
 int Controlador_Reiniciar(void){
 	if (ctrl.cant_bancos == 0) return 1;
+	if (ctrl.estado == FALLA) return 1;
+	if(ctrl.estado == REPOSO) return 0;
 
 	periodo_ms = contador = fase = 0;
 	for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
@@ -225,7 +227,7 @@ int Controlador_Reiniciar(void){
 	ctrl.modo = MODO_SIN_ASIGNAR;
 	BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
 	ctrl.control = CONTROL_MANUAL;
-	ctrl.falla = FALLA_NINGUNA;
+	ctrl.falla_detectada = FALLA_NINGUNA;
 	return 0;
 }
 
@@ -263,7 +265,7 @@ int Controlador_Update(void){
 }
 
 
-int Controlador_Apagar(void){
+int Controlador_ApagarTodo(void){
 	if (!puede_operar()) return 1;
 
 	periodo_ms = contador = fase = 0;
@@ -274,6 +276,22 @@ int Controlador_Apagar(void){
 	ctrl.tension_objetivo=0;
 	return 0;
 }
+
+
+
+int Controlador_EncenderTodo(void){
+	if (!puede_operar()) return 1;
+
+	periodo_ms = contador = fase = 0;
+	for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+		Banco_SetModo(&ctrl.bancos[b], FIJO);
+		if (Controlador_ActivarCeldasBanco(b) != 0) return 1;
+	}
+	ctrl.tension_objetivo=0;
+	return 0;
+}
+
+
 
 controlador_status_t  Controlador_GetEstado(void){
 	return ctrl.estado;
@@ -566,9 +584,6 @@ int Controlador_ModificarPeriodo(uint16_t periodo)
 int Controlador_PararSwitchingCelda(uint8_t banco, uint8_t celda){
     if (!puede_operar() || !verificar_banco(banco) || celda >= ctrl.bancos[banco].cant_celdas) return 1;
 
-
-
-
 	 Banco_DetenerSwitchingCelda(&ctrl.bancos[banco], celda);
     return 0;
 }
@@ -723,7 +738,7 @@ int Controlador_CalcularCantidadEncendidos(
 }
 
 int Controlador_IniciarModoAutomatico(void){
-	if (Controlador_Apagar()==1){
+	if (Controlador_ApagarTodo()==1){
 		return 1;
 	}
 	if (ctrl.control == CONTROL_AUTOMATICO)
@@ -737,7 +752,7 @@ int Controlador_EncenderBancosAutomatico(uint16_t tension_objetivo){
 
 	if (ctrl.control != CONTROL_AUTOMATICO)return 1;
 	if (!puede_operar()) return 1;
-	if (tension_objetivo == 0u) return Controlador_Apagar();
+	if (tension_objetivo == 0u) return Controlador_ApagarTodo();
 
 	uint8_t orden[CANT_BANCOS]={0};
 	uint16_t tension_lograda = 0;
@@ -765,7 +780,7 @@ int Controlador_EncenderBancosAutomatico(uint16_t tension_objetivo){
 
 
 int Controlador_ApagarModoAutomatico(void){
-	if (Controlador_Apagar()==1){
+	if (Controlador_ApagarTodo()==1){
 		return 1;
 	}
 	ctrl.control = CONTROL_MANUAL;

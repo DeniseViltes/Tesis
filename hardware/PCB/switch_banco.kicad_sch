@@ -128,6 +128,169 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:D_Zener"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "D_Zener"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Zener diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "D_Zener_0_1"
+				(polyline
+					(pts
+						(xy -1.27 -1.27) (xy -1.27 1.27) (xy -0.762 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "D_Zener_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:Fuse"
 			(pin_numbers
 				(hide yes)
@@ -481,6 +644,201 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:Q_NJFET_DSG"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "Q"
+				(at 5.08 1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "Q_NJFET_DSG"
+				(at 5.08 -1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "N-JFET transistor, drain/source/gate"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "transistor NJFET N-JFET"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Q_NJFET_DSG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy -1.016 0.381) (xy -1.016 -0.381) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 1.905) (xy 0.254 -1.905) (xy 0.254 -1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 1.27 0)
+					(radius 2.8194)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 2.54) (xy 2.54 1.397) (xy 0.254 1.397)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.54) (xy 2.54 -1.27) (xy 0.254 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Q_NJFET_DSG_1_1"
+				(pin passive line
+					(at 2.54 5.08 270)
+					(length 2.54)
+					(name "D"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -5.08 90)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -5.08 0 0)
+					(length 5.334)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "FDMS6681Z:FDMS6681Z"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -781,234 +1139,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "ltspice:njf"
-			(pin_numbers
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "njf_0_0"
-				(polyline
-					(pts
-						(xy 0.3302 -5.08) (xy 0 -5.08)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.3302 -5.4102) (xy 0.3302 -4.7752)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -5.08) (xy 0.3302 -4.7752)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -5.08) (xy 0.3302 -5.4102)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -6.35) (xy 1.27 -1.27)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 0) (xy 3.81 -1.905)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 -1.905) (xy 1.27 -1.905)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 -5.715) (xy 1.27 -5.715)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 -7.62) (xy 3.81 -5.715)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at 3.81 0 0)
-					(length 0.0005)
-					(name "D"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -5.08 0)
-					(length 0.0005)
-					(name "G"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 3.81 -7.62 0)
-					(length 0.0005)
-					(name "S"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "ltspice:res"
 			(pin_numbers
 				(hide yes)
@@ -1181,204 +1311,6 @@
 						(effects
 							(font
 								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "ltspice:zener"
-			(pin_numbers
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "zener_0_0"
-				(polyline
-					(pts
-						(xy -0.3302 -3.81) (xy 0 -3.5052)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -1.6002) (xy 1.27 0)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -3.5052) (xy 0 -1.6002)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -3.5052) (xy 2.54 -1.6002)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -5.08) (xy 1.27 -3.5052)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 -1.6002) (xy 0 -1.6002)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 -3.5052) (xy 0 -3.5052)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.8702 -3.175) (xy 2.54 -3.5052)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at 1.27 0 0)
-					(length 0.0005)
-					(name "+"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 1.27 -5.08 0)
-					(length 0.0005)
-					(name "-"
-						(effects
-							(font
-								(size 0 0)
 							)
 						)
 					)
@@ -1741,13 +1673,7 @@
 		(at 113.03 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "108c3a54-ec02-44b5-b3f5-148bd064abd7")
-	)
-	(junction
-		(at 113.03 90.17)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1db98b38-0b98-4fdc-aaf0-2209a12eff83")
+		(uuid "2b7cf009-483b-4619-9e7a-b6a731f5ea25")
 	)
 	(junction
 		(at 125.73 101.6)
@@ -1766,12 +1692,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "840457e2-544a-4c02-88a4-c3518a695d24")
-	)
-	(junction
-		(at 142.24 53.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9ecca339-da6a-4b19-9d31-3235673352ea")
 	)
 	(junction
 		(at 63.5 95.25)
@@ -1804,16 +1724,38 @@
 		(uuid "bb089ae4-b42f-4e35-89d4-3462cd4c2aea")
 	)
 	(junction
+		(at 113.03 90.17)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "daa0802f-fb74-4b43-942c-62addeb73aff")
+	)
+	(junction
 		(at 101.6 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "de50c695-a53f-4855-bdbe-ef79c573cf46")
 	)
 	(junction
+		(at 142.24 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e7b8c196-0bc2-44d5-8571-dbd1537803e1")
+	)
+	(junction
 		(at 125.73 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f370b3f4-7d4c-4edf-b5cb-5d6d8c9ad250")
+	)
+	(wire
+		(pts
+			(xy 142.24 76.2) (xy 142.24 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ae81406-4f2e-4749-b0dc-382b8dc30cdc")
 	)
 	(wire
 		(pts
@@ -1844,16 +1786,6 @@
 			(type solid)
 		)
 		(uuid "2dfd028d-c39d-4bc1-a7e4-65b148afb82b")
-	)
-	(wire
-		(pts
-			(xy 138.43 71.12) (xy 134.62 71.12)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "2e30a96b-317e-4c2d-8ce4-7497ddbfe239")
 	)
 	(wire
 		(pts
@@ -1897,7 +1829,7 @@
 	)
 	(wire
 		(pts
-			(xy 142.24 90.17) (xy 142.24 73.66)
+			(xy 142.24 90.17) (xy 142.24 78.74)
 		)
 		(stroke
 			(width 0.1524)
@@ -1924,16 +1856,6 @@
 			(type solid)
 		)
 		(uuid "3ca5a44d-66f3-40f9-b5c6-c732697cc462")
-	)
-	(wire
-		(pts
-			(xy 125.73 90.17) (xy 113.03 90.17)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "49e93d87-1a13-453b-a4a4-b5a8e77098b9")
 	)
 	(wire
 		(pts
@@ -1977,7 +1899,7 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 90.17) (xy 113.03 74.93)
+			(xy 113.03 90.17) (xy 113.03 76.2)
 		)
 		(stroke
 			(width 0.1524)
@@ -2007,7 +1929,7 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 69.85) (xy 113.03 53.34)
+			(xy 113.03 53.34) (xy 113.03 67.31)
 		)
 		(stroke
 			(width 0.1524)
@@ -2227,6 +2149,16 @@
 	)
 	(wire
 		(pts
+			(xy 113.03 67.31) (xy 113.03 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e8a48be0-78a1-4c2f-a798-06ead4bab102")
+	)
+	(wire
+		(pts
 			(xy 142.24 53.34) (xy 125.73 53.34)
 		)
 		(stroke
@@ -2237,13 +2169,23 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 90.17) (xy 101.6 90.17)
+			(xy 101.6 90.17) (xy 113.03 90.17)
 		)
 		(stroke
 			(width 0.1524)
 			(type solid)
 		)
 		(uuid "f0bf193a-d877-4a9e-b4f0-a268307fc558")
+	)
+	(wire
+		(pts
+			(xy 113.03 90.17) (xy 125.73 90.17)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "f68d685b-f922-46d9-9f39-742242d2446e")
 	)
 	(wire
 		(pts
@@ -2341,7 +2283,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0426228e-a618-40c0-a712-d165de13fb65")
-		(property "Reference" "QLED1"
+		(property "Reference" "QLED3"
 			(at 178.435 90.17 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2428,6 +2370,12 @@
 			(uuid "438686be-81cb-42c6-9c8e-a2d77545476f")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "QLED3")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "QLED3")
@@ -2455,7 +2403,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0cec9dae-97ef-4284-9c2a-d469ebe84fa4")
-		(property "Reference" "R1_8"
+		(property "Reference" "R3_8"
 			(at 127.3302 94.615 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2539,6 +2487,12 @@
 			(uuid "ee7f1476-8bca-4243-a16e-b0401fce6740")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "R3_8")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "R3_8")
@@ -2566,7 +2520,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "35d4f177-95ae-4807-81ab-d20b2cbd3589")
-		(property "Reference" "Q1_1"
+		(property "Reference" "Q3_1"
 			(at 125.095 106.68 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2653,6 +2607,12 @@
 			(uuid "b337988b-7f42-41b1-8414-5d52ef2bfbcb")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "Q3_1")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "Q3_1")
@@ -2670,8 +2630,8 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:njf")
-		(at 138.43 66.04 0)
+		(lib_id "Device:Q_NJFET_DSG")
+		(at 139.7 71.12 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2680,8 +2640,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4ae6ff94-4ed2-4b9b-ba64-61bbe3700c5c")
-		(property "Reference" "Q1_2"
-			(at 142.875 68.58 0)
+		(property "Reference" "Q3_2"
+			(at 144.145 73.66 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2692,7 +2652,7 @@
 			)
 		)
 		(property "Value" "MMBFJ201"
-			(at 142.875 71.755 0)
+			(at 144.145 76.835 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2703,7 +2663,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-3"
-			(at 138.43 66.04 0)
+			(at 144.78 68.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2714,7 +2674,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 138.43 66.04 0)
+			(at 139.7 71.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2724,8 +2684,8 @@
 				)
 			)
 		)
-		(property "Description" ""
-			(at 138.43 66.04 0)
+		(property "Description" "N-JFET transistor, drain/source/gate"
+			(at 139.7 71.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2736,7 +2696,7 @@
 			)
 		)
 		(property "Sim.Device" "SPICE"
-			(at 138.43 66.04 0)
+			(at 139.7 71.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2747,7 +2707,7 @@
 			)
 		)
 		(property "Sim.Params" "model=\"MMBFJ201\""
-			(at 138.43 66.04 0)
+			(at 139.7 71.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2767,6 +2727,12 @@
 			(uuid "a841ec04-29f2-436d-b5a4-3950057b6193")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "Q3_2")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "Q3_2")
@@ -2794,7 +2760,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4baa5de4-09a7-4ebe-be71-5cefee0cd80f")
-		(property "Reference" "R1_9"
+		(property "Reference" "R3_9"
 			(at 111.125 106.68 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2878,6 +2844,12 @@
 			(uuid "cb5de8f5-d2c2-4f40-a187-ad4995811483")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "R3_9")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "R3_9")
@@ -2905,7 +2877,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6fcfb247-0e5f-4ea2-a510-360a9f1a5b97")
-		(property "Reference" "F1"
+		(property "Reference" "F3"
 			(at 66.04 104.1399 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2967,6 +2939,12 @@
 			(uuid "52801712-7378-4709-9930-ce08ab47d868")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "F3")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "F3")
@@ -2995,7 +2973,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "77b451b8-a786-41f9-9775-3b058e8557ee")
-		(property "Reference" "DLED1"
+		(property "Reference" "DLED3"
 			(at 182.88 71.4374 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3068,6 +3046,12 @@
 			(uuid "ba88a4fa-4241-49d4-970a-0a7208b51a2a")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "DLED3")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "DLED3")
@@ -3095,7 +3079,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7aa323d2-96e9-4223-b564-df99d1e69964")
-		(property "Reference" "R1_7"
+		(property "Reference" "R3_7"
 			(at 127.3302 67.945 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3179,6 +3163,12 @@
 			(uuid "ebb4d9c3-8e19-422d-ab28-ffe336d7e984")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "R3_7")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "R3_7")
@@ -3206,7 +3196,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8164757f-451c-469b-8f66-ab173fc40da2")
-		(property "Reference" "RLED1_1"
+		(property "Reference" "RLED3_1"
 			(at 164.465 90.17 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3290,6 +3280,12 @@
 			(uuid "82fe1aba-5df0-4ee1-b51d-c85bad60e8bb")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "RLED3_1")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "RLED3_1")
@@ -3307,8 +3303,8 @@
 		)
 	)
 	(symbol
-		(lib_id "ltspice:zener")
-		(at 114.3 74.93 180)
+		(lib_id "Device:D_Zener")
+		(at 113.03 72.39 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3317,8 +3313,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8b946e89-8b2c-4e9c-9e99-80140f90aab9")
-		(property "Reference" "D1"
-			(at 112.395 69.85 0)
+		(property "Reference" "D3"
+			(at 108.966 72.136 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3329,7 +3325,7 @@
 			)
 		)
 		(property "Value" "1N4736A"
-			(at 112.395 74.93 0)
+			(at 104.648 68.58 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3340,7 +3336,7 @@
 			)
 		)
 		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal"
-			(at 114.3 74.93 0)
+			(at 113.03 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3351,7 +3347,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 114.3 74.93 0)
+			(at 113.03 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3361,8 +3357,8 @@
 				)
 			)
 		)
-		(property "Description" ""
-			(at 114.3 74.93 0)
+		(property "Description" "Zener diode"
+			(at 113.03 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3373,7 +3369,7 @@
 			)
 		)
 		(property "Sim.Library" "C:\\Users\\---\\AppData\\Local\\LTspice\\lib\\sub\\1N4736A.sub"
-			(at 114.3 74.93 0)
+			(at 113.03 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3384,7 +3380,7 @@
 			)
 		)
 		(property "Sim.Device" "SUBCKT"
-			(at 114.3 74.93 0)
+			(at 113.03 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3395,7 +3391,7 @@
 			)
 		)
 		(property "Sim.Params" "model=\"1N4736A\""
-			(at 114.3 74.93 0)
+			(at 113.03 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3412,6 +3408,12 @@
 			(uuid "d93c1ad1-f546-4232-a403-6e2867d4e6ef")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "D3")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "D3")
@@ -3439,7 +3441,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "99893cc5-6d83-4d66-abc1-44acae726e81")
-		(property "Reference" "#GND010"
+		(property "Reference" "#GND015"
 			(at 125.73 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -3498,6 +3500,12 @@
 			(uuid "0733bd46-1e9a-46df-88af-02e3ab31ccdd")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "#GND015")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "#GND015")
@@ -3525,7 +3533,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "acd5697e-ecb2-4fdf-80eb-7793a66a1201")
-		(property "Reference" "RLED1_2"
+		(property "Reference" "RLED3_2"
 			(at 177.8 79.375 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3609,6 +3617,12 @@
 			(uuid "12428da0-d2f6-4f47-905b-747f5e8e4745")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "RLED3_2")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "RLED3_2")
@@ -3637,7 +3651,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bd5c601a-ff0c-4685-a26a-88af5bc82e5d")
-		(property "Reference" "TPG1"
+		(property "Reference" "TPG3"
 			(at 104.14 85.5979 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3696,6 +3710,12 @@
 			(uuid "8724f46f-1547-4c79-a76d-3bd34b8188b8")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "TPG3")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "TPG3")
@@ -3724,7 +3744,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d7c0596f-28bb-427a-95dc-70ae771919d1")
-		(property "Reference" "S1"
+		(property "Reference" "S3"
 			(at 76.2 80.01 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3867,6 +3887,12 @@
 			(uuid "feb674b7-0cd0-4d0a-a068-3e604d67fe35")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "S3")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "S3")
@@ -3894,7 +3920,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "de99b4be-db90-4992-99b6-3123eaf69b0b")
-		(property "Reference" "#GND029"
+		(property "Reference" "#GND031"
 			(at 179.07 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -3953,6 +3979,12 @@
 			(uuid "2f4d23f5-4c4c-4371-82a7-643e5cb2dfd7")
 		)
 		(instances
+			(project "switch_banco"
+				(path "/0fd10cd0-d995-44a8-a5b1-fe75af1603d3"
+					(reference "#GND031")
+					(unit 1)
+				)
+			)
 			(project "prototipo"
 				(path "/c9225433-a7fd-41e8-8162-e91e829dcb79/69120eb2-13db-48bd-9e77-f62722c18bbc"
 					(reference "#GND031")
@@ -3969,4 +4001,10 @@
 			)
 		)
 	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
 )

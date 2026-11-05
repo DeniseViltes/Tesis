@@ -20,7 +20,7 @@
 #define PERIODO_DEFAULT 1
 #define TURN_ON_DELAY 2
 #define TENSION_ASENTAMIENTO 2u
-#define UMBRAL_CAMBIO 20
+#define UMBRAL_CAMBIO 0
 #define TENSION_NOMINAL_CELDA    3200u
 
 
@@ -54,7 +54,7 @@ typedef struct {
 	controlador_modo_t modo;
 	controlador_control_t control;
 	uint16_t tension_objetivo;
-	falla_t falla;
+	falla_t falla_detectada;
 }controlador_t;
 
 int Controlador_init(uint8_t bancos, uint8_t celdas);
@@ -77,7 +77,8 @@ int Controlador_ActivarCeldasBanco(uint8_t banco);
 
 /* 0 = aceptado, 1 = error. Reiniciar requiere init; apagar, ACTIVO o PRUEBA. */
 int Controlador_Reiniciar(void);
-int Controlador_Apagar(void);
+int Controlador_ApagarTodo(void);
+int Controlador_EncenderTodo(void);
 uint8_t Controlador_GetEstadoCelda(uint8_t banco, uint8_t celda);
 uint8_t Controlador_GetEstadoBanco(uint8_t banco);
 

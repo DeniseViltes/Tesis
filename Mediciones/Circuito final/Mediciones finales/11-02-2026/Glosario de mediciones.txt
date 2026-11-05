@@ -107,3 +107,13 @@ EL VALOR ÓPTIMO DE CAPACITANCIA ES C = 470uF
 
 
 CON LAS 12 CELDAS ENCENDIDAS TENEMOS UNOS 50mA DE Icc
+
+
+
+J) PRUEBAS DE SW ENTRE CELDAS 
+Sistema completo instalado: 4 bancos, 12 celdas
+Resistencia de 47 ohm, sin capacitor externo.
+
+J1- sw 1 3 500 s y sw 1 2 500 c, el resto en off  (se obtiene una constante)
+
+J2- sumo a J1: sw 4 2 s,  sw 3 1 c, sw 2 2 s, sw 2 3 c. (se ve el efecto de la falta de capacitor en la salida, el swicheo entre celdas no es notorio a la salida, pero si el swicheo de bancos.)

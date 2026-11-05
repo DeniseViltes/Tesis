@@ -1,0 +1,35 @@
+A)switche entre bancos manteniendo 3,3V
+
+B) vgs pmos al encender una celda
+C) vgs pmos al encender el bypass
+
+D) vgs nmos al encender una celda
+E) vgs nmos al encender el bypas
+
+ch1 : g pmos / buspos
+ch2 : g nmos / cell neg
+enciendo el bypass
+F) gpos y gnmos
+G) buspos y cell neg
+
+
+
+ch1 : g pmos / buspos
+ch2 : g nmos / cell neg
+enciendo la celda
+H) gpos y gnmos
+I) buspos y cell neg
+
+
+JA)Latch  y gNmos en apagado de celda
+JE) Latch  y gNmos en encendido de celda
+
+KA)Latch  y gPmos en apagado de celda
+KE) Latch  y gPmos en encendido de celda
+
+
+MA) Latch y cell neg apagado celda
+ME) Latch y cell neg encendido celda
+
+NA) Latch y buspos apagado celda
+NE) Latch y bus pos encendido celda
