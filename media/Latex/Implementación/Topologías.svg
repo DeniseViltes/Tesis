@@ -8,7 +8,10 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
-   sodipodi:docname="Topología tren.svg"
+   sodipodi:docname="Topologías.svg"
+   inkscape:export-filename="C:\Users\Sebas\Desktop\Celda torre.png"
+   inkscape:export-xdpi="2000"
+   inkscape:export-ydpi="2000"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -26,8 +29,8 @@
      inkscape:document-units="mm"
      showguides="false"
      inkscape:zoom="2"
-     inkscape:cx="334.25"
-     inkscape:cy="800.25"
+     inkscape:cx="349.25"
+     inkscape:cy="802.75"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
@@ -58,12 +61,12 @@
      id="layer1">
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#00cb9f;fill-opacity:1;stroke:#000000"
+       style="fill:#00edba;fill-opacity:1;stroke:#000000"
        id="use1-3"
        transform="matrix(0.26458333,0,0,0.26458333,87.853357,47.226135)"
-       inkscape:export-filename="Celda tren.png"
-       inkscape:export-xdpi="200"
-       inkscape:export-ydpi="200" />
+       inkscape:export-filename="C:\Users\Sebas\Desktop\Celda tren.png"
+       inkscape:export-xdpi="2000"
+       inkscape:export-ydpi="2000" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.665;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="m 91.731002,67.460055 v -0.12559 h -9.342237"
@@ -102,7 +105,7 @@
        inkscape:connector-curvature="0" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#5a5b9f;fill-opacity:1;stroke:#000000"
+       style="fill:#7b7cb3;fill-opacity:1;stroke:#000000"
        id="use1-1"
        transform="matrix(0.1482161,0,0,0.06264359,96.601493,56.141085)" />
     <text
@@ -150,9 +153,9 @@
        id="path1-1-1-7"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="Celda torre.png"
-       inkscape:export-xdpi="200"
-       inkscape:export-ydpi="200" />
+       inkscape:export-filename="C:\Users\Sebas\Desktop\Celda torre.png"
+       inkscape:export-xdpi="2000"
+       inkscape:export-ydpi="2000" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.665;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="m 94.691336,135.04724 v 9.34224 h -0.12559"
@@ -319,7 +322,7 @@
          y="61.990444">Circuito</tspan></text>
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#5a5b9f;fill-opacity:1;stroke:#000000"
+       style="fill:#7b7cb3;fill-opacity:1;stroke:#000000"
        id="use1-1-8"
        transform="matrix(0.1482161,0,0,0.06264359,102.37582,137.75936)" />
     <text
@@ -361,12 +364,12 @@
        id="path12" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#00cb9f;fill-opacity:1;stroke:#000000"
+       style="fill:#00edba;fill-opacity:1;stroke:#000000"
        id="use1-3-1"
        transform="matrix(0.26458333,0,0,0.26458333,37.633666,82.351211)"
-       inkscape:export-filename="Ejemplo tres celdas tren.png"
-       inkscape:export-xdpi="200"
-       inkscape:export-ydpi="200" />
+       inkscape:export-filename="C:\Users\Sebas\Desktop\Ejemplo tres celdas tren.png"
+       inkscape:export-xdpi="2000"
+       inkscape:export-ydpi="2000" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.665;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="m 41.511311,102.58513 v -0.12559 h -9.342237"
@@ -405,7 +408,7 @@
        inkscape:connector-curvature="0" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#5a5b9f;fill-opacity:1;stroke:#000000"
+       style="fill:#7b7cb3;fill-opacity:1;stroke:#000000"
        id="use1-1-6"
        transform="matrix(0.1482161,0,0,0.06264359,46.381802,91.266161)" />
     <text
@@ -548,7 +551,7 @@
        id="path12-6" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#00cb9f;fill-opacity:1;stroke:#000000"
+       style="fill:#00edba;fill-opacity:1;stroke:#000000"
        id="use1-3-1-7"
        transform="matrix(0.26458333,0,0,0.26458333,88.117949,82.086631)" />
     <path
@@ -589,7 +592,7 @@
        inkscape:connector-curvature="0" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#5a5b9f;fill-opacity:1;stroke:#000000"
+       style="fill:#7b7cb3;fill-opacity:1;stroke:#000000"
        id="use1-1-6-9"
        transform="matrix(0.1482161,0,0,0.06264359,96.866078,91.001581)" />
     <text
@@ -631,7 +634,7 @@
        id="path12-6-6" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#00cb9f;fill-opacity:1;stroke:#000000"
+       style="fill:#00edba;fill-opacity:1;stroke:#000000"
        id="use1-3-1-7-1"
        transform="matrix(0.26458333,0,0,0.26458333,138.65393,81.822051)" />
     <path
@@ -672,7 +675,7 @@
        inkscape:connector-curvature="0" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#5a5b9f;fill-opacity:1;stroke:#000000"
+       style="fill:#7b7cb3;fill-opacity:1;stroke:#000000"
        id="use1-1-6-9-5"
        transform="matrix(0.1482161,0,0,0.06264359,147.40205,90.737001)" />
     <text
@@ -746,7 +749,7 @@
          x="132.65904"
          y="107.38913">-</tspan></text>
     <rect
-       style="fill:#00cb9f;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1"
+       style="fill:#00edba;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1"
        id="rect1"
        width="32.279167"
        height="6.3773007"
@@ -782,9 +785,9 @@
        id="path1-1-1-7-4"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="Ejemplo tres celdas torre.png"
-       inkscape:export-xdpi="200"
-       inkscape:export-ydpi="200" />
+       inkscape:export-filename="C:\Users\Sebas\Desktop\Ejemplo tres celdas torre.png"
+       inkscape:export-xdpi="2000"
+       inkscape:export-ydpi="2000" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.665;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="m 94.691334,222.74656 v 9.34224 h -0.12559"
@@ -859,7 +862,7 @@
    id="tspan2-5-2-6">3</tspan></tspan></text>
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#5a5b9f;fill-opacity:1;stroke:#000000"
+       style="fill:#7b7cb3;fill-opacity:1;stroke:#000000"
        id="use1-1-8-7"
        transform="matrix(0.1482161,0,0,0.06264359,102.37582,225.45868)" />
     <text
@@ -874,7 +877,7 @@
          x="105.9266"
          y="231.30804">Circuito 1</tspan></text>
     <rect
-       style="fill:#00cb9f;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1"
+       style="fill:#00edba;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1"
        id="rect1-2"
        width="32.279167"
        height="6.3773007"
@@ -936,7 +939,7 @@
        inkscape:connector-curvature="0" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#5a5b9f;fill-opacity:1;stroke:#000000"
+       style="fill:#7b7cb3;fill-opacity:1;stroke:#000000"
        id="use1-1-8-0"
        transform="matrix(0.1482161,0,0,0.06264359,102.37583,209.06676)" />
     <text
@@ -951,7 +954,7 @@
          x="105.86072"
          y="214.91922">Circuito 2</tspan></text>
     <rect
-       style="fill:#00cb9f;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1"
+       style="fill:#00edba;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1"
        id="rect1-7"
        width="32.279167"
        height="6.3773007"
@@ -1013,7 +1016,7 @@
        inkscape:connector-curvature="0" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
-       style="fill:#5a5b9f;fill-opacity:1;stroke:#000000"
+       style="fill:#7b7cb3;fill-opacity:1;stroke:#000000"
        id="use1-1-8-8"
        transform="matrix(0.1482161,0,0,0.06264359,102.37582,192.6571)" />
     <text
@@ -1028,7 +1031,7 @@
          x="105.85838"
          y="198.40637">Circuito 3</tspan></text>
     <rect
-       style="fill:#00cb9f;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1"
+       style="fill:#00edba;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1"
        id="rect1-1"
        width="32.279167"
        height="6.3773007"
