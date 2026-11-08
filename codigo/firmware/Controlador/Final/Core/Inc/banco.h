@@ -22,8 +22,8 @@ typedef enum {
 
 typedef enum {
   FIJO = 0,
-  SYNCHRO,
-  COMPLEMENTARY
+  SINCRO,
+  COMPLEMENTARIO
 } celda_modo_t;
 
 

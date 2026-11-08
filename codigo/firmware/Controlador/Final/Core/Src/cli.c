@@ -297,7 +297,7 @@ static void cli_handle_line(const char *line_in){
 	    }
 
 	    cli_print("OK: matriz configurada\r\n");
-	    cli_print_status();
+	    //cli_print_status();
 	    return;
 	}
 
@@ -901,7 +901,7 @@ void CLI_Init(UART_HandleTypeDef *huart)
   cli_huart = huart;
   line_len = 0;
 
-  cli_print("\r\nCell Controller ready\r\n> ");
+  cli_print("\r\nBalanceitor conectado\r\n> ");
   HAL_UART_Receive_IT(cli_huart, &rx_ch, 1);
 }
 

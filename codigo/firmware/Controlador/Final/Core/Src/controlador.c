@@ -98,8 +98,8 @@ int Controlador_init(uint8_t bancos, uint8_t celdas){
     ctrl = (controlador_t){0};
 	ctrl.cant_bancos = bancos;
 
-	MUX_Init(&mux_bancos, S2_GPIO_Port, S2_Pin,
-			         S1_GPIO_Port, S1_Pin, S0_GPIO_Port, S0_Pin);
+	MUX_Init(&mux_bancos, S0_GPIO_Port, S0_Pin,
+			         S1_GPIO_Port, S1_Pin, S2_GPIO_Port, S2_Pin);
 
 	for (uint8_t i = 0; i < ctrl.cant_bancos; i++){
 		ctrl.bancos[i].id=i;
@@ -234,6 +234,7 @@ int Controlador_Reiniciar(void){
 int Controlador_Update(void){
 	if (ctrl.estado == REPOSO || ctrl.estado == FALLA  ) return 1;
 
+	Controlador_CargarMediciones();
 
 	if (Controlador_EvaluarFallas()) {
 	    periodo_ms = contador = fase = 0;
@@ -531,8 +532,8 @@ void Controlador_Tick1ms(void)
 static uint8_t Controlador_GetModoCelda(char modo)
 {
 	switch (modo) {
-	case 's': return SYNCHRO;
-	case 'c': return COMPLEMENTARY;
+	case 's': return SINCRO;
+	case 'c': return COMPLEMENTARIO;
 	default: return FIJO;
 	}
 }
@@ -548,7 +549,7 @@ int Controlador_IniciarSwitchingCelda(uint8_t banco, uint8_t celda){
 		fase = 0;
 	}
 
-	Banco_SetModoCelda(&ctrl.bancos[banco], celda, SYNCHRO);
+	Banco_SetModoCelda(&ctrl.bancos[banco], celda, SINCRO);
     return 0;
 }
 
@@ -598,7 +599,7 @@ int Controlador_IniciarSwitchingBanco(uint8_t banco){
     if (!puede_operar() || !verificar_banco(banco)) return 1;
 
 	for (uint8_t c = 0; c < ctrl.bancos[banco].cant_celdas; c++){
-		Banco_SetModoCelda(&ctrl.bancos[banco], c, SYNCHRO);
+		Banco_SetModoCelda(&ctrl.bancos[banco], c, SINCRO);
 	}
     return 0;
 }

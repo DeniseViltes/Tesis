@@ -1,0 +1,143 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="6lFY2jDCz2UN4O-xL6YM">
+    <mxGraphModel dx="1036" dy="536" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="light-dark(#ffffff, #121212)" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;labelBorderColor=none;fillStyle=solid;fillColor=#5A5B9F;strokeColor=default;opacity=70;opacityGroup=1;" value="Selección de modo automático y tensión objetivo" vertex="1">
+          <mxGeometry height="60" width="160" x="555" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-57" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="Estimación inicial de tensiones" vertex="1">
+          <mxGeometry height="60" width="160" x="557" y="385" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#5A5B9F;opacity=70;opacityGroup=1;" value="Barrido de mediciones" vertex="1">
+          <mxGeometry height="60" width="160" x="555" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-59" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;opacityGroup=1;fillColor=#5A5B9F;" value="Evaluación de fallas" vertex="1">
+          <mxGeometry height="60" width="160" x="557" y="175" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-60" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-7" value="SI">
+          <mxGeometry relative="1" x="0.0039" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-5" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;rounded=0;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#D94F70;opacityGroup=1;" value="¿Detección de una falla?" vertex="1">
+          <mxGeometry height="80" width="160" x="557" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-53" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="Disparar llave de emergencia y desactivar todos los bancos y celdas" vertex="1">
+          <mxGeometry height="60" width="160" x="140" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="Pasar a modo FALLA" vertex="1">
+          <mxGeometry height="60" width="160" x="140" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-56" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-62" connectable="0" parent="dee-cjRRjFO3AtNsFJaJ-56" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;defaultLabelBackgroundColor=page;" value="SI" vertex="1">
+          <mxGeometry relative="1" x="-0.2013" y="3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-58" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-61" connectable="0" parent="dee-cjRRjFO3AtNsFJaJ-58" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;defaultLabelBackgroundColor=page;" value="NO" vertex="1">
+          <mxGeometry relative="1" x="-0.7278" y="2" as="geometry">
+            <mxPoint x="-42" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-9" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=0;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;rounded=0;opacity=70;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#D94F70;opacityGroup=1;" value="&lt;pre dir=&quot;ltr&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;pre dir=&quot;ltr&quot;&gt;&lt;code&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;font-size: 10px;&quot;&gt;¿&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;font-size: 11px;&quot;&gt;Primera iteración, &lt;br&gt;cambio de objetivo&lt;br&gt; o de tensiones?&lt;/font&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/pre&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="557" y="477" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-44" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="Ordenar los bancos por mayor tensión" vertex="1">
+          <mxGeometry height="50" width="160" x="320" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-46" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="Calcular la cantidad de bancos encendidos" vertex="1">
+          <mxGeometry height="60" width="160" x="320" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-51" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="dee-cjRRjFO3AtNsFJaJ-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;fontStyle=0;" value="&lt;pre dir=&quot;ltr&quot;&gt;Cambiar la seleccion &lt;br&gt;de bancos&lt;br&gt;&lt;br&gt;&lt;/pre&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="320" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="Aplicar cambios y esperar a la proxima selección" vertex="1">
+          <mxGeometry height="60" width="160" x="557" y="1025" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-15" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-1" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="dee-cjRRjFO3AtNsFJaJ-3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="540" y="130" as="sourcePoint" />
+            <mxPoint x="590" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-16" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="634.5" y="155" as="sourcePoint" />
+            <mxPoint x="634.5" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-18" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-5" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;align=center;" target="dee-cjRRjFO3AtNsFJaJ-2" value="NO">
+          <mxGeometry height="50" relative="1" width="50" x="0.0222" as="geometry">
+            <Array as="points">
+              <mxPoint x="637" y="358.6" />
+            </Array>
+            <mxPoint x="600" y="420" as="sourcePoint" />
+            <mxPoint x="650" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-49" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-63" connectable="0" parent="dee-cjRRjFO3AtNsFJaJ-49" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;defaultLabelBackgroundColor=page;" value="SI" vertex="1">
+          <mxGeometry relative="1" x="-0.2404" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-22" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=0;align=center;labelPosition=center;verticalLabelPosition=middle;verticalAlign=middle;rounded=0;opacity=70;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#D94F70;opacityGroup=1;" value="&lt;pre dir=&quot;ltr&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;pre dir=&quot;ltr&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;¿La tensión objetivo &lt;br&gt;es igual a cero?&lt;/span&gt;&lt;/font&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/pre&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="557" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-52" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-42" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="Mantener la selección de bancos" vertex="1">
+          <mxGeometry height="60" width="160" x="60" y="825" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-50" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-48" parent="1" style="rounded=0;whiteSpace=wrap;html=1;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="Activar el bypass de todos los bancos" vertex="1">
+          <mxGeometry height="50" width="160" x="557" y="751" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-65" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.001;entryY=0.414;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-10" value="NO">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-68" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-13" value="SI">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-66" parent="1" style="rhombus;whiteSpace=wrap;shapeInside=0;rounded=0;opacity=70;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;fillColor=#5A5B9F;opacityGroup=1;" value="&#xa;¿El error con la &#xa;tensión actual es mayor que &#xa;la tolerancia?&#xa;" vertex="1">
+          <mxGeometry height="80" width="160" x="320" y="805" as="geometry" />
+        </mxCell>
+        <mxCell id="dee-cjRRjFO3AtNsFJaJ-69" edge="1" parent="1" source="dee-cjRRjFO3AtNsFJaJ-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.011;entryY=0.336;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=page;" target="dee-cjRRjFO3AtNsFJaJ-42" value="NO">
+          <mxGeometry relative="1" x="-0.0114" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

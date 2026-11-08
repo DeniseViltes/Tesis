@@ -259,9 +259,9 @@ static SW_estado_t Banco_CalcularEstadoSwitching(celda_t *celda, uint8_t fase){
 	switch (modo) {
 		case FIJO:
 			return celda->prox;
-	    case SYNCHRO:
+	    case SINCRO:
 	    	return fase ? OFF : ON;
-	    case COMPLEMENTARY:
+	    case COMPLEMENTARIO:
 	    	return fase ? ON : OFF;
 	    default:
 	    	return OFF;

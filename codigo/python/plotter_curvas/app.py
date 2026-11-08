@@ -24,6 +24,9 @@ from ltspice_io import read_ltspice_table, read_ltspice_steps
 from plot_tools import THEMES, SCALE_MAP, pick_auto_scale, apply_layout, theme_curve_colors, use_theme_style
 from probe_tools import nearest_line_snap
 
+DEFAULT_X_LABEL = "Tiempo [ms]"
+DEFAULT_Y1_LABEL = "Tensión [V]"
+
 
 class FloatingCoords(QFrame):
     def __init__(self, parent=None):
@@ -213,7 +216,12 @@ class MainWindow(QMainWindow):
 
         self.cmb_legend = QComboBox()
         self.cmb_legend.addItems(
-            ["Auto (best)", "Afuera derecha", "Afuera abajo", "Arriba derecha", "Arriba izquierda", "Abajo derecha", "Abajo izquierda"]
+            [
+                "Auto (best)", "Afuera derecha", "Afuera abajo",
+                "Arriba derecha", "Arriba centro", "Arriba izquierda",
+                "Centro derecha", "Centro", "Centro izquierda",
+                "Abajo derecha", "Abajo centro", "Abajo izquierda",
+            ]
         )
         self.cmb_legend.currentTextChanged.connect(self._replot_if_data_loaded)
 
@@ -228,8 +236,8 @@ class MainWindow(QMainWindow):
         self.chk_usetex.stateChanged.connect(self._on_text_rendering_changed)
 
         self.tit = QLineEdit("LTspice plot")
-        self.xlab = QLineEdit("time")
-        self.y1lab = QLineEdit("Y1")
+        self.xlab = QLineEdit(DEFAULT_X_LABEL)
+        self.y1lab = QLineEdit(DEFAULT_Y1_LABEL)
 
         # Nombres de curvas (independientes de los labels de ejes)
         self.c1name = QLineEdit("Curva 1")
@@ -456,9 +464,6 @@ class MainWindow(QMainWindow):
         return arr[:, index]
 
     def _on_x_signal_changed(self, *_):
-        name = self.cmb_x_signal.currentData()
-        if self.colnames1:
-            self.xlab.setText(name if name is not None else self.colnames1[0])
         self.reset_probes()
         self._replot_if_data_loaded()
 
@@ -663,7 +668,6 @@ class MainWindow(QMainWindow):
         self.y1 = base[:, col_idx]
 
         if len(self.colnames1) > col_idx:
-            self.y1lab.setText(self.colnames1[col_idx])
             if self.c1name.text().strip() in ("", "Curva 1"):
                 self.c1name.setText(self.colnames1[col_idx])
 
@@ -1179,9 +1183,6 @@ class MainWindow(QMainWindow):
             self._populate_column_combo(self.cmb_file1, self.colnames1)
             self._on_file1_column_changed()
 
-            if self.colnames1:
-                self.xlab.setText(self.colnames1[0])
-
             if len(self.datasets) == 1:
                 self.l1.setText(f"Archivo: {self.datasets[0]['name']}")
             else:
@@ -1220,8 +1221,6 @@ class MainWindow(QMainWindow):
         self._refresh_x_signal_combo()
         self._populate_column_combo(self.cmb_file1, self.colnames1)
         self._on_file1_column_changed()
-        if self.colnames1:
-            self.xlab.setText(self.colnames1[0])
         if len(self.datasets) == 1:
             self.l1.setText(f"Archivo: {first['name']}")
         else:
@@ -1401,8 +1400,8 @@ class MainWindow(QMainWindow):
             self._on_file1_column_changed()
             self.tit.setText(controls.get("title", "LTspice plot"))
             self.ed_subplot_titles.setText(controls.get("subplot_titles", ""))
-            self.xlab.setText(controls.get("x_label", "time"))
-            self.y1lab.setText(controls.get("y_label", "Y1"))
+            self.xlab.setText(controls.get("x_label", DEFAULT_X_LABEL))
+            self.y1lab.setText(controls.get("y_label", DEFAULT_Y1_LABEL))
             self.y2lab.setText(controls.get("y2_label", "Y2"))
             self.c1name.setText(controls.get("single_curve_name", "Curva 1"))
             self._signal_names = {
@@ -1476,8 +1475,13 @@ class MainWindow(QMainWindow):
         else:
             loc = {
                 "Arriba derecha": "upper right",
+                "Arriba centro": "upper center",
                 "Arriba izquierda": "upper left",
+                "Centro derecha": "center right",
+                "Centro": "center",
+                "Centro izquierda": "center left",
                 "Abajo derecha": "lower right",
+                "Abajo centro": "lower center",
                 "Abajo izquierda": "lower left",
             }[mode]
             leg = ax.legend(handles, labels, loc=loc) if handles else ax.legend(loc=loc)

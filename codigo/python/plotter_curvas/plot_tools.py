@@ -17,34 +17,7 @@ THEMES = {
     "pitayasmoothie-light": Theme(str(_STYLE_DIR / "pitayasmoothie-light.mplstyle")),
 
     # estilos incluidos en matplotlib
-    "Solarize_Light2": Theme("Solarize_Light2"),
-    "_classic_test_patch": Theme("_classic_test_patch"),
-    "_mpl-gallery": Theme("_mpl-gallery"),
-    "_mpl-gallery-nogrid": Theme("_mpl-gallery-nogrid"),
-    "bmh": Theme("bmh"),
-    "classic": Theme("classic"),
-    "dark_background": Theme("dark_background"),
-    "fast": Theme("fast"),
-    "fivethirtyeight": Theme("fivethirtyeight"),
-    "ggplot": Theme("ggplot"),
-    "grayscale": Theme("grayscale"),
-    "seaborn": Theme("seaborn"),
-    "seaborn-bright": Theme("seaborn-bright"),
-    "seaborn-colorblind": Theme("seaborn-colorblind"),
-    "seaborn-dark": Theme("seaborn-dark"),
-    "seaborn-dark-palette": Theme("seaborn-dark-palette"),
-    "seaborn-darkgrid": Theme("seaborn-darkgrid"),
-    "seaborn-deep": Theme("seaborn-deep"),
-    "seaborn-muted": Theme("seaborn-muted"),
-    "seaborn-notebook": Theme("seaborn-notebook"),
-    "seaborn-paper": Theme("seaborn-paper"),
-    "seaborn-pastel": Theme("seaborn-pastel"),
-    "seaborn-poster": Theme("seaborn-poster"),
-    "seaborn-talk": Theme("seaborn-talk"),
-    "seaborn-ticks": Theme("seaborn-ticks"),
-    "seaborn-white": Theme("seaborn-white"),
-    "seaborn-whitegrid": Theme("seaborn-whitegrid"),
-    "tableau-colorblind10": Theme("tableau-colorblind10"),
+
 }
 
 SCALE_MAP = {"x1":1.0, "x1e3":1e3, "x1e-3":1e-3, "x1e6":1e6, "x1e-6":1e-6}
