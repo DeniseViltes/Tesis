@@ -1,0 +1,13 @@
+A) zom en la conmutación (sin sw)
+A sin zoom) swuitiching a 3,3V
+
+
+BE)Vgs Pmosfet encendido celda
+BA)Vgs Pmosfet encendido celda
+
+CA) Vgs nmosfet encendido celda
+Ce)Vgs Nmosfet encendido celda
+
+Cap) salida sw con capacitor de 100u
+
+D) pruebas de sw en frecuencia
