@@ -64,6 +64,21 @@ en el driver original; el manual indica que USB no requiere parametrización.
 
 No se validó con un instrumento físico conectado.
 
+## Ver la medición en vivo
+
+```powershell
+python medir_hmc8012.py --en-vivo --ventana 30 --unidad V
+```
+
+La ventana muestra los últimos 30 segundos de la captura por defecto.
+`--ventana 15` muestra los últimos 15 segundos y `--unidad` cambia la etiqueta
+del eje vertical. Se grafica el primer valor de cada respuesta y las lecturas
+fuera de rango dejan huecos. El CSV sigue guardando todas las lecturas.
+
+Para detener la captura, cerrá la ventana. Si indicás `--muestras`, el gráfico
+queda visible al terminar hasta que lo cierres. Podés combinar el modo en vivo
+con `--puerto`, `--intervalo` y `--salida`.
+
 ## Graficar una captura
 
 Instalar las dependencias actualizadas y abrir el gráfico del CSV:

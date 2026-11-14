@@ -27,12 +27,14 @@ class Panel(W.QMainWindow):
         self.port = None
         self.pending = None
         self.queue = deque()
+        self.matrix_waiting = False
         self.buffer = b''
         self.last_rx = 0
         self.last_measurement = 0
         self.last_poll = 0
+        self.initialized = False
         self.confirmed_mode = 'Desconocido'
-        self.setWindowTitle('Controlador · Laboratorio de baterías')
+        self.setWindowTitle('Controlador  de celdas de Litio')
         self.resize(1240, 880)
         root = W.QWidget()
         scroll = W.QScrollArea()
@@ -41,7 +43,7 @@ class Panel(W.QMainWindow):
         self.setCentralWidget(scroll)
         layout = W.QVBoxLayout(root)
         layout.setContentsMargins(24, 20, 24, 20)
-        title = W.QLabel('CONTROLADOR  /  LABORATORIO DE BATERÍAS')
+        title = W.QLabel('CONTROLADOR  DE CELDAS')
         title.setObjectName('title')
         layout.addWidget(title)
         layout.addWidget(W.QLabel('Supervisión y control de bancos · STM32'))
@@ -57,7 +59,7 @@ class Panel(W.QMainWindow):
         self.link = W.QLabel('DESCONECTADO')
         row.addWidget(self.link)
         layout.addLayout(row)
-        self.alert = W.QLabel('Sin información de fallas. La llave física no tiene telemetría en esta CLI.')
+        self.alert = W.QLabel('Sin información de fallas.')
         self.alert.setObjectName('alert')
         self.alert.setWordWrap(True)
         layout.addWidget(self.alert)
@@ -86,9 +88,10 @@ class Panel(W.QMainWindow):
         self.button(r, 'Inicializar', lambda: self.send(f'init{self.banks.value()}{self.cells.value()}'))
         config.addLayout(r)
         r = W.QHBoxLayout()
-        self.resistance = self.spin(r, 'RL (Ω)', 1, 1000, 10)
+        self.resistance = self.spin(r, 'RL (Ω)', 1, 1000, 47)
         self.button(r, 'Activar descarga', lambda: self.send(f'activar descarga {self.resistance.value()}'))
         self.button(r, 'Activar carga', lambda: self.send('activar carga'))
+        self.button(r, 'PRUEBA (sin chequeos eléctricos)', lambda: self.send('prueba'))
         config.addLayout(r)
         r = W.QHBoxLayout()
         self.button(r, 'Manual', lambda: self.send('manual'))
@@ -98,41 +101,31 @@ class Panel(W.QMainWindow):
         config.addLayout(r)
         self.mode = W.QLabel('Modo confirmado: desconocido')
         config.addWidget(self.mode)
+        self.controller_state = W.QLabel('Estado del controlador: desconocido')
+        config.addWidget(self.controller_state)
         r = W.QHBoxLayout()
         self.button(r, 'Reiniciar / reposo', lambda: self.send('reiniciar'))
         self.button(r, 'Solicitar bypass', self.bypass, 'danger')
         config.addLayout(r)
-        note = W.QLabel('Inicializar deja el equipo en reposo. Activar carga/descarga antes de controlar.\nEl bypass es una solicitud por serie; el corte de protección depende del STM32.')
+        note = W.QLabel('Inicializar deja el equipo en reposo. Activar carga, descarga o PRUEBA antes de controlar.\nEl bypass es una solicitud por serie; el corte de protección depende del STM32.')
         note.setWordWrap(True)
         config.addWidget(note)
         middle.addWidget(setup, 3)
 
-        manual = W.QGroupBox('Control manual')
-        man = W.QVBoxLayout(manual)
-        r = W.QHBoxLayout()
-        self.bank = self.spin(r, 'Banco', 1, 4, 1)
-        self.cell = self.spin(r, 'Celda', 1, 7, 1)
-        man.addLayout(r)
-        self.manual_buttons = []
-        for prefix, label in [('c', 'Celda'), ('b', 'Banco')]:
-            r = W.QHBoxLayout()
-            for state, caption in [('on', 'Encender'), ('off', 'Bypass')]:
-                btn = self.button(r, f'{label}: {caption}', lambda _, p=prefix, s=state: self.send(
-                    f'c {self.bank.value()} {self.cell.value()} {s}' if p == 'c' else f'b {self.bank.value()} {s}'))
-                self.manual_buttons.append(btn)
-            man.addLayout(r)
-        r = W.QHBoxLayout()
-        self.period = self.spin(r, 'Fase (ms)', 1, 65535, 500)
-        self.phase = W.QComboBox()
-        self.phase.addItems(['Síncrono (s)', 'Complementario (c)'])
-        r.addWidget(self.phase)
-        man.addLayout(r)
-        r = W.QHBoxLayout()
-        self.manual_buttons.append(self.button(r, 'Switching celda', lambda: self.send(
-            f'sw {self.bank.value()} {self.cell.value()} {self.period.value()} {"s" if self.phase.currentIndex() == 0 else "c"}')))
-        self.manual_buttons.append(self.button(r, 'Detener switching', lambda: self.send(f'sw {self.bank.value()} {self.cell.value()} off')))
-        man.addLayout(r)
-        middle.addWidget(manual, 2)
+        group = W.QGroupBox('Mediciones y estados · CELL_NEG (mV)')
+        grid = W.QVBoxLayout(group)
+        self.table = W.QTableWidget(4, 9)
+        self.table.setHorizontalHeaderLabels(['Banco', 'Tensión', *[f'C{i}' for i in range(1, 8)]])
+        self.table.verticalHeader().hide()
+        self.table.horizontalHeader().setSectionResizeMode(W.QHeaderView.ResizeMode.Stretch)
+        self.table.setEditTriggers(W.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.table.setMinimumHeight(165)
+        self.table.setMaximumHeight(190)
+        grid.addWidget(self.table)
+        self.scan = W.QLabel('Barrido: sin datos · CELL_NEG no equivale necesariamente a tensión individual de celda.')
+        self.scan.setWordWrap(True)
+        grid.addWidget(self.scan)
+        middle.addWidget(group, 4)
         layout.addLayout(middle)
 
         matrix = W.QGroupBox('Control manual · matriz de botones')
@@ -147,6 +140,7 @@ class Panel(W.QMainWindow):
             buttons.addWidget(W.QLabel(f'Celda {c}'), 0, c)
         for b in range(1, 5):
             bank_button = W.QPushButton(f'Banco {b} · —')
+            bank_button.setMinimumWidth(bank_button.fontMetrics().horizontalAdvance('Banco 4 · PARCIAL') + 30)
             bank_button.clicked.connect(lambda _, bank=b: self.toggle_matrix(bank))
             buttons.addWidget(bank_button, b, 0)
             self.bank_buttons[b] = bank_button
@@ -160,20 +154,6 @@ class Panel(W.QMainWindow):
         self.matrix_hint = W.QLabel('Conectá, solicitá modo Manual y consultá Estado para habilitar los botones.')
         matrix_layout.addWidget(self.matrix_hint)
         layout.addWidget(matrix)
-
-        group = W.QGroupBox('Matriz de bancos y celdas · valores CELL_NEG del último barrido (mV)')
-        grid = W.QVBoxLayout(group)
-        self.table = W.QTableWidget(4, 9)
-        self.table.setHorizontalHeaderLabels(['Banco', 'Tensión', *[f'C{i}' for i in range(1, 8)]])
-        self.table.verticalHeader().hide()
-        self.table.horizontalHeader().setSectionResizeMode(W.QHeaderView.ResizeMode.Stretch)
-        self.table.setEditTriggers(W.QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.table.setMinimumHeight(165)
-        self.table.setMaximumHeight(190)
-        grid.addWidget(self.table)
-        self.scan = W.QLabel('Barrido: sin datos · CELL_NEG no equivale necesariamente a tensión individual de celda.')
-        grid.addWidget(self.scan)
-        layout.addWidget(group)
 
         console_group = W.QGroupBox('Consola serie')
         console_layout = W.QVBoxLayout(console_group)
@@ -198,7 +178,7 @@ class Panel(W.QMainWindow):
         self.live = W.QCheckBox('Actualizar mediciones y estados')
         self.live.setChecked(True)
         r.addWidget(self.live)
-        self.interval = self.spin(r, 'Consulta (ms)', 500, 60000, 1000)
+        r.addWidget(W.QLabel('Cada 500 ms tras inicializar'))
         r.addStretch()
         r.addWidget(W.QLabel('DEMO · datos ficticios' if demo else 'Los estados se actualizan con las respuestas de la placa'))
         layout.addLayout(r)
@@ -248,6 +228,7 @@ class Panel(W.QMainWindow):
         self.last_measurement = 0
         self.confirmed_mode = 'Desconocido'
         self.mode.setText('Modo confirmado: desconocido')
+        self.controller_state.setText('Estado del controlador: desconocido')
         self.scan.setText('Barrido: sin datos · valores CELL_NEG (no tensión individual de celda)')
         for key, value in self.values.items():
             value.setText('— ' + ('A' if key in ('charge', 'discharge') else 'V'))
@@ -292,8 +273,10 @@ class Panel(W.QMainWindow):
             self.port.close()
         self.port = None
         self.queue.clear()
+        self.matrix_waiting = False
         self.pending = None
         self.buffer = b''
+        self.initialized = False
         self.connect_button.setText('Conectar')
         self.ports.setEnabled(True)
         self.link.setText('DESCONECTADO')
@@ -328,12 +311,12 @@ class Panel(W.QMainWindow):
 
     def update_matrix(self):
         enabled = (bool(self.port) or self.demo) and self.confirmed_mode == 'Manual'
-        busy = bool(self.queue) or self.pending is not None
+        busy = self.matrix_busy()
         for (bank, cell), button in self.cell_buttons.items():
             state = self.cell_states.get((bank, cell))
             button.setText('—' if state is None else ('ON' if state else 'OFF'))
             button.setEnabled(enabled and not busy and state is not None)
-            button.setStyleSheet('background: #176b59; border-color: #50ddc4; color: white;' if state else '')
+            self.color_matrix_button(button, state)
             button.setToolTip(f'Banco {bank}, celda {cell}: ' + ('sin estado recibido' if state is None else ('apagar' if state else 'encender')))
         for bank, button in self.bank_buttons.items():
             states = [state for (b, _), state in self.cell_states.items() if b == bank]
@@ -341,14 +324,26 @@ class Panel(W.QMainWindow):
             label = '—' if not states else ('ON' if all_on else ('PARCIAL' if any(states) else 'OFF'))
             button.setText(f'Banco {bank} · {label}')
             button.setEnabled(enabled and not busy and bool(states))
-            button.setStyleSheet('background: #176b59; border-color: #50ddc4; color: white;' if all_on else '')
+            self.color_matrix_button(button, all_on)
             button.setToolTip('Apagar todas las celdas' if all_on else 'Encender todas las celdas')
         self.matrix_hint.setText('Esperando respuesta y actualización de estados…' if busy else
                                 ('Verde: ON confirmado · OFF: apagado · —: sin estado / no configurada' if enabled else
                                  'Conectá y solicitá modo Manual para habilitar la matriz.'))
 
+    def matrix_busy(self):
+        read_only = {'medir', 'status'}
+        return (self.matrix_waiting
+                or (self.pending is not None and self.pending[0] not in read_only)
+                or any(command not in read_only for command in self.queue))
+
+    @staticmethod
+    def color_matrix_button(button, active):
+        style = 'background: #176b59; border-color: #50ddc4; color: white;' if active else ''
+        if button.styleSheet() != style:
+            button.setStyleSheet(style)
+
     def toggle_matrix(self, bank, cell=None):
-        if not (self.port or self.demo) or self.confirmed_mode != 'Manual' or self.pending or self.queue:
+        if not (self.port or self.demo) or self.confirmed_mode != 'Manual' or self.matrix_busy():
             return
         if cell is not None:
             state = self.cell_states.get((bank, cell))
@@ -360,13 +355,22 @@ class Panel(W.QMainWindow):
             if not states:
                 return
             command = f'b {bank} {"off" if all(states) else "on"}'
+        # Conservar el comando en curso, pero reemplazar las lecturas en cola
+        # por la acción y una lectura de estado posterior.
+        self.queue.clear()
+        self.matrix_waiting = True
         self.send(command)
         self.send('status')
         self.update_matrix()
 
     def parse_line(self, line):
         text = normalized(line.strip())
+        if text in ('balanceitor conectado', 'cell controller ready'):
+            self.initialized = False
+            self.reset_values()
         if text.startswith('falla:'):
+            self.controller_state.setText('Estado del controlador: FALLA')
+            self.confirmed_mode = 'Desconocido'
             self.alert.setText(line)
             self.alert.setStyleSheet('background: #762c3b; color: white; padding: 9px;')
         if 'ok: modo manual' in text:
@@ -376,7 +380,15 @@ class Panel(W.QMainWindow):
         elif 'ok: matriz configurada' in text or 'ok: controlador en reposo' in text:
             self.reset_values()
             self.confirmed_mode = 'Reposo'
+            self.controller_state.setText('Estado del controlador: REPOSO')
+            if text.startswith('ok: matriz configurada'):
+                self.initialized = True
+                self.last_poll = time.monotonic()
+        elif text.startswith('ok: modo prueba'):
+            self.controller_state.setText('Estado del controlador: PRUEBA')
+            self.confirmed_mode = 'Manual'
         elif 'ok: circuito activo' in text:
+            self.controller_state.setText('Estado del controlador: ACTIVO')
             self.confirmed_mode = 'Activo · solicitar Manual o Automático'
         self.mode.setText('Modo confirmado: ' + self.confirmed_mode)
         patterns = [('sum', r'suma de tension de los bancos: (\d+) mv'),
@@ -410,7 +422,6 @@ class Panel(W.QMainWindow):
                 item.setForeground(QtGui.QColor('#50ddc4' if state == 'on' else '#90a9bc'))
         if text.startswith('barrido cell_neg:'):
             self.scan.setText(line + ' · antigüedad informada por STM32 al consultar')
-        self.update_matrix()
 
     def consume(self, data):
         self.buffer += data
@@ -428,11 +439,8 @@ class Panel(W.QMainWindow):
             self.pending = None
 
     def tick(self):
-        self.update_matrix()
         now = time.monotonic()
         connected = bool(self.port) or self.demo
-        for button in self.manual_buttons:
-            button.setEnabled(connected and self.confirmed_mode == 'Manual')
         age = now - self.last_measurement if self.last_measurement else None
         self.age.setText('Mediciones: sin datos' if age is None else f'Última medición recibida hace {age:.1f} s' + (' · DATOS ANTIGUOS' if age > 3 else ''))
         try:
@@ -447,7 +455,10 @@ class Panel(W.QMainWindow):
                 return
             if self.port and now - self.last_rx > 3:
                 self.link.setText('CONECTADO · sin datos recientes')
-            if connected and not self.pending and not self.queue and self.live.isChecked() and now - self.last_poll >= self.interval.value() / 1000:
+            if not self.pending and not self.queue:
+                self.matrix_waiting = False
+            if (connected and self.initialized and self.live.isChecked()
+                    and not self.pending and not self.queue and now - self.last_poll >= 0.5):
                 self.last_poll = now
                 self.queue.extend(['medir', 'status'])
             if connected and not self.pending and self.queue:
@@ -462,6 +473,7 @@ class Panel(W.QMainWindow):
         except Exception as exc:
             self.log(f'Error de comunicación: {exc}')
             self.disconnect()
+        self.update_matrix()
 
     def simulate(self, command, now):
         if command == 'medir':
@@ -486,6 +498,8 @@ class Panel(W.QMainWindow):
             lines = ['OK']
         elif command.startswith('init'):
             lines = ['OK: matriz configurada']
+        elif command == 'prueba':
+            lines = ['OK: modo PRUEBA, sin chequeos electricos']
         elif command == 'manual':
             lines = ['OK: modo manual, bypass solicitado']
         elif command.startswith('auto '):

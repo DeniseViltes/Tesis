@@ -32,8 +32,18 @@ static uint16_t tension_estimada[CANT_BANCOS];
 static uint16_t tension_ultima_iteracion[CANT_BANCOS];
 static uint16_t objetivo_ultima_iteracion;
 static uint8_t iteracion_pendiente;
+static uint32_t ultimo_cambio_automatico_ms;
+static uint8_t hubo_cambio_automatico;
+static uint8_t cambio_automatico_pendiente;
+static uint8_t evento_automatico_listo;
+static uint32_t numero_cambio_automatico;
+static uint32_t latch_cambio_automatico_ms;
+static uint8_t mascara_cambio_automatico;
 
-
+static struct {
+    uint32_t secuencia_latch;
+    uint8_t pendiente;
+} subtension[CANT_BANCOS];
 
 
 //por ahora solo tengo el banco 1
@@ -63,6 +73,7 @@ static void Controlador_RegistrarRecalculo(void);
 
 static void Controlador_EnviarCeros(void){
     for (uint8_t b = 0; b < CANT_BANCOS; b++) {
+        subtension[b].pendiente = 0u;
         ctrl.bancos[b].prox = OFF;
         for (uint8_t c = 0; c < CELDAS_POR_BANCO; c++)
             ctrl.bancos[b].celdas[c].prox = OFF;
@@ -198,7 +209,17 @@ int Controlador_EvaluarFallas(void){
             if (ctrl.bancos[b].actual == ON ||
                 !Banco_HayCeldasActualON(&ctrl.bancos[b])) continue;
 
+            if (subtension[b].pendiente) {
+                /* El primer bloque puede mezclar muestras de ambos estados. */
+                uint32_t avance = adc_get_processed_sequence() -
+                                  subtension[b].secuencia_latch;
+                if (avance >= 2u && avance < 0x80000000u)
+                    subtension[b].pendiente = 0u;
+            }
+
             falla_t falla_tension =Fallas_EvaluarTensionCelda(Controlador_GetTensionBanco(b));
+            if (falla_tension == FALLA_SUBTENSION_CELDA && subtension[b].pendiente)
+                continue;
             if (falla_tension!= FALLA_NINGUNA){
             	ctrl.falla_detectada = falla_tension;
             	return 1;
@@ -236,14 +257,15 @@ int Controlador_Update(void){
 
 	Controlador_CargarMediciones();
 
-	if (Controlador_EvaluarFallas()) {
-	    periodo_ms = contador = fase = 0;
-	    Controlador_EnviarCeros();
-	    Llave_DispararFalla();
-	    ctrl.estado = FALLA;
-	    BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
-	    return -1;
-	}
+    if (Controlador_EvaluarFallas()) {
+        periodo_ms = contador = fase = 0;
+        Controlador_EnviarCeros();
+        Llave_DispararFalla();
+        ctrl.estado = FALLA;
+        BarridoCellNeg_Init(ctrl.bancos, ctrl.cant_bancos);
+        return -1;
+    }
+
 	int resultado_automatico = 0;
 
 	if (ctrl.control == CONTROL_AUTOMATICO) {
@@ -261,7 +283,19 @@ int Controlador_Update(void){
 
     Controlador_Tick1ms();
     Controlador_ActualizarEstados();
+    if (cambio_automatico_pendiente) {
+        cambio_automatico_pendiente = 0u;
+        mascara_cambio_automatico = 0u;
+        for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+            if (ctrl.bancos[b].actual == OFF && Banco_HayCeldasActualON(&ctrl.bancos[b]))
+                mascara_cambio_automatico |= 1u << b;
+        }
+        numero_cambio_automatico++;
+        evento_automatico_listo = 1u;
+    }
     BarridoCellNeg_Update();
+
+
     return resultado_automatico;
 }
 
@@ -327,6 +361,19 @@ static void Controlador_ClockPulse(void){
 
 static void Controlador_LatchPulse(void){
 	Banco_LatchPulse(&ctrl.bancos[0]);
+    if (cambio_automatico_pendiente)
+        latch_cambio_automatico_ms = HAL_GetTick();
+}
+
+uint8_t Controlador_TomarCambioAutomatico(uint32_t *numero, uint32_t *ms,
+                                          uint8_t *bancos_activos)
+{
+    if (!evento_automatico_listo) return 0u;
+    *numero = numero_cambio_automatico;
+    *ms = latch_cambio_automatico_ms;
+    *bancos_activos = mascara_cambio_automatico;
+    evento_automatico_listo = 0u;
+    return 1u;
 }
 
 
@@ -345,9 +392,12 @@ uint8_t Controlador_GetEstadoCelda(uint8_t banco, uint8_t celda){
 
 void Controlador_AplicarEstados(void){
 	//Envio 1 bit a la vez de todos los sr y luego clockeo
-	if (!Controlador_HayCambios()) {
-	        return;
-	    }
+    if (!Controlador_HayCambios()) return;
+
+    uint8_t cambio[CANT_BANCOS] = {0};
+    for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+        cambio[b] = Banco_HayCambios(&ctrl.bancos[b]);
+    }
 
 	for (int8_t  pin = CANT_PINES_SR-1; pin >=0; pin--){
 			for (uint8_t sr = 0; sr< CANT_BANCOS; sr++){
@@ -357,6 +407,13 @@ void Controlador_AplicarEstados(void){
 
 	}
 	Controlador_LatchPulse();
+    uint32_t secuencia_latch = adc_get_completed_sequence();
+    for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+        if (!cambio[b]) continue;
+        subtension[b].secuencia_latch = secuencia_latch;
+        subtension[b].pendiente = ctrl.bancos[b].actual == OFF &&
+                                  Banco_HayCeldasActualON(&ctrl.bancos[b]);
+    }
 }
 
 
@@ -611,6 +668,8 @@ int Controlador_IniciarSwitchingBanco(uint8_t banco){
 
 static void Controlador_InicializarEstimaciones(void)
 {
+    hubo_cambio_automatico = 0u;
+    ultimo_cambio_automatico_ms = 0u;
     for (uint8_t b = 0; b < CANT_BANCOS; b++) {
         tension_estimada[b] = TENSION_NOMINAL_CELDA;
         tension_ultima_iteracion[b] = TENSION_NOMINAL_CELDA;
@@ -634,6 +693,11 @@ static void Controlador_ActualizarTensionesEstimadas(void)
     }
 }
 
+uint16_t Controlador_GetTensionEstimadaBanco(uint8_t banco)
+{
+    return verificar_banco(banco) ? tension_estimada[banco] : 0u;
+}
+
 
 //TODO: VER BIEN SI PUEDO SIMPLIFICAR ESTA FUNCION
 static uint8_t Controlador_DebeRecalcularTension(void)
@@ -649,7 +713,7 @@ static uint8_t Controlador_DebeRecalcularTension(void)
         uint16_t diferencia = actual >= anterior? actual - anterior: anterior - actual;
 
         if (diferencia != 0u &&
-            diferencia >= UMBRAL_CAMBIO)
+            diferencia >= UMBRAL_BALANCEO)
             return 1u;
     }
 
@@ -694,15 +758,18 @@ int Controlador_CalcularCantidadEncendidos(
         return 0;
     }
 
-    /* Ordenar indices de mayor a menor tension estimada.
+    /* Carga: menor tension primero; descarga: mayor tension primero.
      * En empates conserva el orden original. */
     for (uint8_t i = 1; i < ctrl.cant_bancos; i++) {
         uint8_t banco = orden[i];
         uint8_t j = i;
 
-        while (j > 0u &&
-               tension_estimada[orden[j - 1u]] <
-               tension_estimada[banco]) {
+        while (j > 0u) {
+            uint16_t anterior = tension_estimada[orden[j - 1u]];
+            uint16_t nueva = tension_estimada[banco];
+            uint8_t desplazar = ctrl.modo == MODO_CARGA
+                ? anterior > nueva : anterior < nueva;
+            if (!desplazar) break;
             orden[j] = orden[j - 1u];
             j--;
         }
@@ -764,7 +831,50 @@ int Controlador_EncenderBancosAutomatico(uint16_t tension_objetivo){
 
 	uint32_t tension_actual_mV = Controlador_GetTensionSalidaOpamp();
 
-	if (!Decision_por_umbral(tension_actual_mV,tension_lograda, UMBRAL_CAMBIO)) return 0;
+    uint8_t seleccion[CANT_BANCOS] = {0};
+    uint8_t cantidad_actual = 0u;
+    uint8_t hay_cambio = 0u;
+    uint16_t menor_entrada = UINT16_MAX, mayor_entrada = 0u;
+    uint16_t menor_salida = UINT16_MAX, mayor_salida = 0u;
+    for (int i = 0; i < bancos_encendidos; i++) seleccion[orden[i]] = 1u;
+
+    for (uint8_t b = 0; b < ctrl.cant_bancos; b++) {
+        uint8_t activo = ctrl.bancos[b].actual == OFF &&
+                         Banco_HayCeldasActualON(&ctrl.bancos[b]);
+        cantidad_actual += activo;
+        if (activo == seleccion[b]) continue;
+        hay_cambio = 1u;
+        uint16_t v = tension_estimada[b];
+        if (seleccion[b]) {
+            if (v < menor_entrada) menor_entrada = v;
+            if (v > mayor_entrada) mayor_entrada = v;
+        } else {
+            if (v < menor_salida) menor_salida = v;
+            if (v > mayor_salida) mayor_salida = v;
+        }
+    }
+    if (!hay_cambio) return 0;
+
+    if (cantidad_actual == bancos_encendidos) {
+        /* Misma cantidad: cada banco entrante debe mejorar al saliente
+         * al menos el margen de balanceo, aunque la suma no cambie. */
+        uint16_t preferida = ctrl.modo == MODO_CARGA
+            ? menor_salida : menor_entrada;
+        uint16_t relegada = ctrl.modo == MODO_CARGA
+            ? mayor_entrada : mayor_salida;
+        if (preferida <= relegada ||
+            (uint32_t)(preferida - relegada) < UMBRAL_BALANCEO) return 0;
+    } else if (!Decision_por_umbral(tension_actual_mV, tension_lograda,
+                                    UMBRAL_BALANCEO)) {
+        return 0;
+    }
+
+    if (hubo_cambio_automatico &&
+        (uint32_t)(HAL_GetTick() - ultimo_cambio_automatico_ms) <
+            INTERVALO_CAMBIO_AUTOMATICO_MS) {
+        /* No registrar esta iteracion: reintentar aunque no varie el ADC. */
+        return 1;
+    }
 
 
 	for (int b= bancos_encendidos; b< ctrl.cant_bancos;b++){
@@ -774,6 +884,10 @@ int Controlador_EncenderBancosAutomatico(uint16_t tension_objetivo){
 	for(int b = 0; b < bancos_encendidos; b++){
 		if (Controlador_ActivarCeldasBanco(orden[b]) != 0) return 1;
 	}
+
+    ultimo_cambio_automatico_ms = HAL_GetTick();
+    hubo_cambio_automatico = 1u;
+    cambio_automatico_pendiente = 1u;
 
 	return 0;
 

@@ -117,14 +117,19 @@ int main(void)
   {
 	  //Controlador_EncenderCelda(0,0);
 	   CLI_Process();
-	   adc_update();
+
 	    if (flag_controlador_update) {
 	        flag_controlador_update = 0;
 	        if (Controlador_Update() == -1){
 	        	CLI_ImprimirFalla(Controlador_GetFalla());
 	        }
+            uint32_t numero_cambio, instante_cambio;
+            uint8_t bancos_activos;
+            if (Controlador_TomarCambioAutomatico(&numero_cambio, &instante_cambio,
+                                                  &bancos_activos))
+                CLI_ImprimirCambioAutomatico(numero_cambio, instante_cambio, bancos_activos);
 	    }
-
+	    adc_update();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -21,6 +21,7 @@ void CLI_Init(UART_HandleTypeDef *huart);
 /* Debe llamarse desde HAL_UART_RxCpltCallback */
 void CLI_RxCallback(UART_HandleTypeDef *huart);
 void CLI_ImprimirFalla(falla_t falla);
+void CLI_ImprimirCambioAutomatico(uint32_t numero, uint32_t ms, uint8_t bancos_activos);
 
 void CLI_Process(void);
 

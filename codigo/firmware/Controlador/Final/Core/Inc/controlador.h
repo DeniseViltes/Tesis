@@ -20,7 +20,9 @@
 #define PERIODO_DEFAULT 1
 #define TURN_ON_DELAY 2
 #define TENSION_ASENTAMIENTO 2u
-#define UMBRAL_CAMBIO 0
+/* Valores iniciales para ajustar mediante ensayos del circuito. */
+#define UMBRAL_BALANCEO 0u
+#define INTERVALO_CAMBIO_AUTOMATICO_MS 1000u
 #define TENSION_NOMINAL_CELDA    3200u
 
 
@@ -62,6 +64,8 @@ int Controlador_ActivarCircuito(controlador_modo_t modo);
 int Controlador_ModoPrueba(void);
 int Controlador_Update(void);
 falla_t Controlador_GetFalla(void);
+uint8_t Controlador_TomarCambioAutomatico(uint32_t *numero, uint32_t *ms,
+                                          uint8_t *bancos_activos);
 
 void Controlador_AplicarEstados(void);
 
@@ -147,6 +151,7 @@ int Controlador_CalcularCantidadEncendidos(uint16_t tension_objetivo, uint8_t *o
 
 int Controlador_EncenderBancosAutomatico(uint16_t tension_objetivo);
 int Controlador_SetTensionObjetivo(uint16_t tension);
+uint16_t Controlador_GetTensionEstimadaBanco(uint8_t banco);
 int Controlador_DebeIntercambiarBanco(uint8_t banco_nuevo, uint8_t banco_actual);
 
 #endif /* INC_CONTROLADOR_H_ */

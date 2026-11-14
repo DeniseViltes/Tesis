@@ -28,13 +28,14 @@ los comandos sobre celdas. No abre puertos serie.
 3. Elegir bancos y celdas y pulsar Inicializar. Se envía `init47`, por ejemplo,
    porque el parser actual usa `init%1u%1u%c` y no acepta los espacios que indica
    la ayuda. La aplicación no cambia el firmware.
-4. Activar carga o descarga (con RL en ohm). Solicitar Manual o Automático.
-5. En manual, usar los controles de banco, celda y switching. En automático,
+4. Activar carga, descarga o PRUEBA. RL inicia en 47 Ω. PRUEBA opera sin
+   chequeos eléctricos del firmware. Solicitar Manual o Automático según corresponda.
+5. En manual, usar la matriz de botones para controlar bancos y celdas. En automático,
    indicar objetivo en mV. Todos los comandos y respuestas quedan en consola.
 
-La consulta periódica alterna `medir` y `status`, esperando el prompt `>` antes
-de enviar el siguiente comando. El intervalo es configurable: el firmware no
-publica por sí solo un flujo continuo de mediciones. No se envían comandos de
+Tras la confirmación de inicialización, la interfaz solicita `medir` y `status`
+cada 500 ms. Espera el prompt `>` entre comandos y no acumula consultas si
+la comunicación está ocupada. La casilla permite pausar las consultas. No se envían comandos de
 activación automáticamente al conectar. Un timeout de 4 s cierra la conexión,
 vacía la cola y pausa las consultas; reconectar manualmente.
 

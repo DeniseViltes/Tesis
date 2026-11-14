@@ -34,6 +34,14 @@ static void cli_print(const char *s)
   HAL_UART_Transmit(cli_huart, (uint8_t *)s, (uint16_t)strlen(s), HAL_MAX_DELAY);
 }
 
+void CLI_ImprimirCambioAutomatico(uint32_t numero, uint32_t ms, uint8_t bancos_activos)
+{
+    char mensaje[48];
+    snprintf(mensaje, sizeof(mensaje), "EVT AUTO %lu %lu 0x%02X\r\n",
+             (unsigned long)numero, (unsigned long)ms, (unsigned)bancos_activos);
+    cli_print(mensaje);
+}
+
 void str_to_lower(char *s) {
     while (*s) {
         *s = tolower((unsigned char)*s);
@@ -113,6 +121,15 @@ void cli_print_mediciones(void)
     snprintf(mensaje, sizeof(mensaje), "Corriente de carga: %u mA\r\n",
              (unsigned)Controlador_GetCorrienteCarga());
     cli_print(mensaje);
+
+    if (Controlador_GetControl() == CONTROL_AUTOMATICO) {
+        for (uint8_t b = 0; b < Controlador_GetCantBancos(); b++) {
+            snprintf(mensaje, sizeof(mensaje), "Estimacion automatica banco %u: %u mV\r\n",
+                     (unsigned)(b + 1u),
+                     (unsigned)Controlador_GetTensionEstimadaBanco(b));
+            cli_print(mensaje);
+        }
+    }
 
     uint16_t cell_neg_mV;
     if (!Controlador_GetCellNegBarrido(0u, 0u, &cell_neg_mV)) {

@@ -63,6 +63,23 @@ def main():
 
         fig, ax = plt.subplots(figsize=(10, 5), layout="constrained")
         ax.plot(tiempos, valores, marker=".", markersize=4, linewidth=1)
+        eventos = args.csv.with_name(f"{args.csv.stem}_eventos.csv")
+        if eventos.is_file():
+            with eventos.open(newline="", encoding="utf-8-sig") as archivo:
+                lector = csv.DictReader(archivo, delimiter=";")
+                if "tiempo_s" not in (lector.fieldnames or []):
+                    raise ValueError(f"{eventos.name} requiere la columna tiempo_s.")
+                for indice, evento in enumerate(lector):
+                    try:
+                        instante = float(evento["tiempo_s"])
+                        if not math.isfinite(instante) or instante < 0:
+                            raise ValueError("tiempo inválido")
+                    except (TypeError, ValueError) as exc:
+                        raise ValueError(f"{eventos.name}, fila {indice + 2}: tiempo inválido.") from exc
+                    ax.axvline(instante, color="tab:orange", linestyle="--", alpha=0.7,
+                               label="Cambio automático" if indice == 0 else None)
+                if ax.get_legend_handles_labels()[1]:
+                    ax.legend()
         ax.set(xlabel="Tiempo transcurrido [s]",
                ylabel=f"Medición [{args.unidad}]" if args.unidad else "Medición",
                title=args.titulo)
