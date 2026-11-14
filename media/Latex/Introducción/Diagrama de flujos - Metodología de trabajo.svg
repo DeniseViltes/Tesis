@@ -28,9 +28,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
      showguides="false"
-     inkscape:zoom="0.44097223"
-     inkscape:cx="2645.2913"
-     inkscape:cy="529.5118"
+     inkscape:zoom="0.44167308"
+     inkscape:cx="263.76975"
+     inkscape:cy="605.65158"
      inkscape:window-width="1366"
      inkscape:window-height="697"
      inkscape:window-x="-8"
@@ -642,9 +642,9 @@
        style="fill:#ff8276;stroke:#000000;fill-opacity:1"
        id="use1-2"
        transform="matrix(0.26458333,0,0,0.26458333,85.15625,216.75556)"
-       inkscape:export-filename="use1-2.png"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
+       inkscape:export-filename="Diagrama de flujos global - Metodología de trabajo.png"
+       inkscape:export-xdpi="1000"
+       inkscape:export-ydpi="1000" />
     <use
        xlink:href="#FlowSymbols.svg:Process"
        style="fill:#7a7bb4;stroke:#000000;fill-opacity:1"
@@ -669,23 +669,23 @@
        transform="translate(-20.911581,-2.7866526)"><tspan
          x="126.6549"
          y="27.618752"
-         id="tspan48"><tspan
+         id="tspan81"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan47">Diseño del
+           id="tspan79">Diseño del
 </tspan></tspan><tspan
          x="126.6549"
          y="31.587502"
-         id="tspan51"><tspan
+         id="tspan84"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan49">esquemático</tspan><tspan
+           id="tspan82">esquemático</tspan><tspan
            style="fill:#000000;stroke:none"
-           id="tspan50">
+           id="tspan83">
 </tspan></tspan><tspan
          x="126.6549"
          y="35.556252"
-         id="tspan53"><tspan
+         id="tspan86"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan52">del módulo</tspan></tspan></text>
+           id="tspan85">del módulo</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="scale(0.26458333)"
@@ -994,16 +994,14 @@
        id="text36"><tspan
          sodipodi:role="line"
          id="tspan36"
-         style="stroke-width:0.254"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';stroke-width:0.254"
          x="57.488045"
-         y="205.39046"><tspan
-   style="font-style:italic"
-   id="tspan38">Debuggeo</tspan> del</tspan><tspan
+         y="205.39046">Troubleshooting</tspan><tspan
          sodipodi:role="line"
          style="stroke-width:0.254"
          x="57.488045"
          y="209.35921"
-         id="tspan37">circuito</tspan></text>
+         id="tspan37">del circuito</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.23976px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker45)"
        d="m 105,125.82337 v 7.49974"
@@ -1173,23 +1171,23 @@
        transform="translate(264.60839,-4.0656489)"><tspan
          x="126.6549"
          y="27.618752"
-         id="tspan55"><tspan
+         id="tspan90"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan54">Diseño del
+           id="tspan89">Diseño del
 </tspan></tspan><tspan
          x="126.6549"
          y="31.587502"
-         id="tspan58"><tspan
+         id="tspan93"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan56">esquemático</tspan><tspan
+           id="tspan91">esquemático</tspan><tspan
            style="fill:#000000;stroke:none"
-           id="tspan57">
+           id="tspan92">
 </tspan></tspan><tspan
          x="126.6549"
          y="35.556252"
-         id="tspan94"><tspan
+         id="tspan95"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan85">del módulo</tspan></tspan></text>
+           id="tspan94">del módulo</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-size:3.175px;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;white-space:pre;inline-size:43.3098;display:inline;fill:#ffffff;stroke:#000000;stroke-width:0.254"
@@ -1199,21 +1197,21 @@
        transform="translate(540.05004,5.8769357)"><tspan
          x="126.6549"
          y="27.618752"
-         id="tspan96"><tspan
+         id="tspan97"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan95">Identificación
+           id="tspan96">Identificación
 </tspan></tspan><tspan
          x="126.6549"
          y="31.587502"
-         id="tspan98"><tspan
+         id="tspan99"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan97">de bloques
+           id="tspan98">de bloques
 </tspan></tspan><tspan
          x="126.6549"
          y="35.556252"
-         id="tspan100"><tspan
+         id="tspan101"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan99">funcionales</tspan></tspan></text>
+           id="tspan100">funcionales</tspan></tspan></text>
     <use
        xlink:href="#FlowSymbols.svg:Process"
        style="fill:#b6b7d6;fill-opacity:1;stroke:#000000"
@@ -1228,21 +1226,21 @@
        transform="translate(540.02601,36.734161)"><tspan
          x="126.6549"
          y="27.618752"
-         id="tspan102"><tspan
+         id="tspan103"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan101">Implementación
+           id="tspan102">Implementación
 </tspan></tspan><tspan
          x="126.6549"
          y="31.587502"
-         id="tspan104"><tspan
+         id="tspan105"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan103">de uno de
+           id="tspan104">de uno de
 </tspan></tspan><tspan
          x="126.6549"
          y="35.556252"
-         id="tspan106"><tspan
+         id="tspan107"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan105">los bloques</tspan></tspan></text>
+           id="tspan106">los bloques</tspan></tspan></text>
     <use
        xlink:href="#FlowSymbols.svg:Process"
        style="fill:#b6b7d6;fill-opacity:1;stroke:#000000"
@@ -1258,23 +1256,23 @@
        transform="translate(540.07949,67.749517)"><tspan
          x="126.6549"
          y="27.618752"
-         id="tspan109"><tspan
+         id="tspan110"><tspan
            style="font-style:italic"
-           id="tspan107">Testeo </tspan><tspan
+           id="tspan108">Testeo </tspan><tspan
            style="fill:#000000;stroke:none"
-           id="tspan108">de
+           id="tspan109">de
 </tspan></tspan><tspan
          x="126.6549"
          y="31.587502"
-         id="tspan111"><tspan
+         id="tspan112"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan110">funcionamiento
+           id="tspan111">funcionamiento
 </tspan></tspan><tspan
          x="126.6549"
          y="35.556252"
-         id="tspan113"><tspan
+         id="tspan114"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan112">del bloque</tspan></tspan></text>
+           id="tspan113">del bloque</tspan></tspan></text>
     <use
        xlink:href="#FlowSymbols.svg:Process"
        style="fill:#b6b7d6;fill-opacity:1;stroke:#000000"
