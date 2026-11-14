@@ -18,13 +18,13 @@ El diseño se divide en tres módulos: conmutación de celda, *bypass* de banco 
 
 | Carpeta | Contenido |
 | --- | --- |
-| [Documentación y referencias](docs/) | [Fuentes LaTeX del informe final](docs/informe/Informe_Final/), [artículos de referencia](docs/Papers/), [hojas de datos](docs/datasheets/) y [material de IEEE URUCON 2026](docs/Urocon/). |
+| [Documentación y referencias](docs/) | [artículos de referencia](docs/Papers/), [hojas de datos](docs/datasheets/) y [material de IEEE URUCON 2026](docs/Urocon/). |
 | [Diseño electrónico y PCB](hardware/) | [Proyectos KiCad de los módulos finales](hardware/Circuito%20Final/), esquemas y diseños de placas. |
 | [Simulaciones](Ltspice/) | [Proyectos LTspice](Ltspice/proyectos/) de distintas configuraciones de la matriz, etapas de conmutación y pruebas del modo de carga. |
 | [Firmware](codigo/firmware/) | [Proyecto del controlador final](codigo/firmware/Controlador/Final/), firmware del prototipo y código de la interfaz. |
-| [Herramientas de análisis](codigo/python/) | Scripts y notebooks para leer datos de instrumentos, graficar curvas y simular configuraciones de la matriz. |
+| [Herramientas de análisis](codigo/python/) | Scripts para leer datos de instrumentos, graficar curvas y simular configuraciones de la matriz. |
 | [Modelos 3D](Soporte%203D/) | Modelos editables en FreeCAD y archivos 3MF para imprimir las piezas de soporte del montaje. |
-| [Mediciones experimentales](Mediciones/) | Registros del prototipo y del circuito final, con datos de instrumentos, bitácoras y gráficos. Los ensayos de caracterización se encuentran en [Mediciones finales](Mediciones/Circuito%20final/Mediciones%20finales/). |
+| [Mediciones experimentales](Mediciones/) | Registros del prototipo y del circuito final, con datos de instrumentos, bitácoras y gráficos.  |
 | [Figuras e imágenes](media/) | Esquemas, curvas e imágenes de las placas y del montaje que acompañan la documentación. |
 
 
